@@ -34,9 +34,13 @@ from parameter import *
 
 class SocietyFactory:
   
-  def __init__(self, fileName):
+	# if 'source' is a string assume it is a filename
+	# otherwise, assume it is a stream
+  def __init__(self, source):
     global dom
-    dom = PyExpat.Reader().fromStream(file(fileName))
+    if (type(source) is type("")):
+		  source = file(source)
+    dom = PyExpat.Reader().fromStream(source)
 
   def parse(self):
     society = Society(dom.documentElement.getAttribute('name')) #  new society

@@ -172,7 +172,8 @@ class Component:
     script = script + indent + "c.classname = '" + self.klass + "'\n"
     script = script + indent + "c.priority = '" + self.priority + "'\n"
     script = script + indent + "c.insertionpoint = '" + self.insertionpoint + "'\n"
-    script = script + indent + "c.order = '" + self.order + "'\n"
+    if self.order and len(self.order) > 0:
+      script = script + indent + "c.order = '" + self.order + "'\n"
     for a in self.arguments:
       script = script + a.to_ruby(numTabs)
     indent = "  " * (numTabs - 1)

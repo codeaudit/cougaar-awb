@@ -119,6 +119,7 @@ class SocietyFactory:
         self.populateAgentElements(newAgent, xmlNode.childNodes)
       elif xmlNode.nodeName == 'component':
         compAttrs = self.attributeDict(xmlNode)
+        #~ component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'], compAttrs['order'])
         component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
         thisNode.add_component(component)
         #~ print 'NODE COMPONENT:', component 
@@ -134,6 +135,7 @@ class SocietyFactory:
         compAttrs = self.attributeDict(xmlNode)
         #~ print "component name :", compAttrs['name'], " class :",  compAttrs['class'], " priority :",  compAttrs['priority'], " ip:",  compAttrs['insertionpoint']
         component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
+        #~ component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'], compAttrs['order'])
         thisAgent.add_component(component)
         if xmlNode.hasChildNodes():
           argNodes = xmlNode.childNodes

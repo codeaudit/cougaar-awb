@@ -98,7 +98,8 @@ class SocietyFactory:
       elif xmlNode.nodeName == 'agent':
         agentDict = self.attributeDict(xmlNode)
         newAgent = thisNode.add_agent(agentDict['name'])
-        newAgent.klass = agentDict['class']
+        if agentDict.has_key('class'):
+          newAgent.klass = agentDict['class']
         #~ print 'AGENT:', newAgent 
         self.populateAgentElements(newAgent, xmlNode.childNodes)
       elif xmlNode.nodeName == 'component':

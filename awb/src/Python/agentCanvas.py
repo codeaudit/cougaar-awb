@@ -35,7 +35,6 @@ class AgentCanvas(ogl.ShapeCanvas):
         self.shapeDict = {}
         self.shapes = []
         self.save_gdi = []
-        #~ self.TheSociety = mySociety() # create the society
 
         #~ self.CreateSociety()
         #~ self.OrganizeAgents()
@@ -48,7 +47,6 @@ class AgentCanvas(ogl.ShapeCanvas):
         #~ EVT_RIGHT_UP(self, self.OnRightClick)
 
     def MySocietyInit(self):
-        self.TheSociety.hideAll()         # Hide all the old nodes
         self.OrganizeAgents()              # Redraw the nodes hidden
         self.shapeDict.clear()             # Clear dictionary list
         del self.shapes[0:]                # Delete the shapes list
@@ -57,7 +55,6 @@ class AgentCanvas(ogl.ShapeCanvas):
         self.SetDiagram(self.diagram)
         self.diagram.SetCanvas(self)
         # Reset the society
-        self.TheSociety.resetSociety()
         self.status = "inactive"
     def getSocietyStatus(self):
         return self.status
@@ -67,6 +64,8 @@ class AgentCanvas(ogl.ShapeCanvas):
             boxWidth= z.viewLevelData[2]["BOXWIDTH"],
             boxHeight=z.viewLevelData[2]["BOXHEIGHT"],
             ):
+        self.diagram.RemoveAllShapes()
+
         self.agentList = agentList
         leList = self.AutoLayout()
         i = 0
@@ -110,7 +109,6 @@ class AgentCanvas(ogl.ShapeCanvas):
         evthandler.SetShape(shape)
         evthandler.SetPreviousHandler(shape.GetEventHandler())
         shape.SetEventHandler(evthandler)
-
         self.shapes.append(shape)
         self.shapeDict[text] = shape
         #~ return shape
@@ -126,13 +124,13 @@ class AgentCanvas(ogl.ShapeCanvas):
         heightspacing= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["HEIGHTSPACING"],
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
         newfont = wx.Font(fontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
+        self.Refresh(True) 
         for shape in self.shapes:
             shape.SetFont(newfont)
             shape.SetWidth(boxWidth)
             shape.SetHeight(boxHeight)
         dc = wx.ClientDC(self)
         self.PrepareDC(dc)
-        self.Redraw(dc)
         self.CreateConnections(dc)
 
     def AutoLayout(self,):
@@ -156,7 +154,6 @@ class AgentCanvas(ogl.ShapeCanvas):
 
                 for that in those:
                         toShape = self.shapeDict[that]
-
                         line = ogl.LineShape()
                         line.SetCanvas(self)
                         line.SetPen(wx.BLACK_PEN)
@@ -168,20 +165,6 @@ class AgentCanvas(ogl.ShapeCanvas):
                         line.Show(True)
                         fromShape.Move(dc, fromShape.GetX(), fromShape.GetY())
         self.Redraw(dc)
-
-    def UpdateAgentInformation(self):
-        #~ self.AgentInfoDict = SocietyQuery('http://sm056:8800/agents?suffix=.', mutex)
-        pass
-    def RedrawAll(self, shapesToShow):
-        #~ print "RedrawAll"
-        shapeNames = []
-        for name in shapesToShow:
-            shapeNames.append(name.myFacetName)
-        for i in self.diagram.GetShapeList():
-            i.Show(False)
-            if i.GetRegionName(0) in shapeNames:
-                i.Show(True)
-
 
     def OnDestroy(self, evt):
         # Do some cleanup
@@ -204,6 +187,7 @@ class AgentCanvas(ogl.ShapeCanvas):
     def OnEndDragLeft(self, x, y, keys):
         self.log.write("OnEndDragLeft: %s, %s, %s\n" % (x, y, keys))
 
+    
 
 
 class MyEvtHandler(ogl.ShapeEvtHandler):

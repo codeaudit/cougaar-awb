@@ -68,8 +68,6 @@ class AgentControllerViewer(wx.Panel):
         self.ctrlSocietyButton.SetForegroundColour("WHITE")
         #~ self.viewSocietyButton.SetDefault()
         subbox.Add(self.ctrlSocietyButton , flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
-
-
         # ------
         self.viewSocietyButton = wx.Button(self, GLOBAL_WIDGET_ID_BASE+2, "View Agents")
         wx.EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+2, self.OnViewSociety)
@@ -77,13 +75,8 @@ class AgentControllerViewer(wx.Panel):
         self.viewSocietyButton.SetForegroundColour("YELLOW")
         #~ self.viewSocietyButton.SetDefault()
         subbox.Add(self.viewSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
-
-
         # ------
-
         self.Bind(EVT_AGENT_TASK_COUNT, self.AgentTaskCountUpdate)
-
-        # ------
         # ------
         self.ZoomPlusButton = wx.Button(self, GLOBAL_WIDGET_ID_BASE+3, "+")
         wx.EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+3, self.OnZoomPlus)

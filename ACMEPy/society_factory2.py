@@ -38,11 +38,14 @@ import types
 
 class SocietyFactory:
   
-  def __init__(self, source):
+  def __init__(self, uri=None, xmlString=None):
     global doc
-    doc = NonvalidatingReader.parseUri(source)
-      
-    
+    if uri is not None:
+      doc = NonvalidatingReader.parseUri(uri)
+    elif xmlString is not None:
+      uri = 'file:bogusFile.txt' # Required by Domlette or it issues a warning.
+      doc = NonvalidatingReader.parseString(xmlString, uri)
+  
   def parse(self):
     societyElement = doc.childNodes[0]
     society = Society(societyElement.getAttributeNS(None, "name"))
@@ -50,24 +53,24 @@ class SocietyFactory:
     if societyElement.hasChildNodes():
       hosts = societyElement.childNodes
       for host in hosts:
-	if host.nodeType == minidom.Node.ELEMENT_NODE:
-	  newHost = Host(str(host.getAttributeNS(None, "name")))
-	  society_host = society.add_host(newHost)
-	  #~ print "Host Name: ", society_host.name
-	  if host.hasChildNodes():
-	    hostElements = host.childNodes
-	    # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
-	    for xmlNode in hostElements:
-	      if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
-		#~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
-		if xmlNode.nodeName == 'facet':
-		  newHost.add_facet(self.attributeDict(xmlNode))
-		elif xmlNode.nodeName == 'node':
-		  #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
-		  newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
-		  if xmlNode.hasChildNodes():
-		    nodeElements = xmlNode.childNodes
-		    self.populateNodeElements(newNode, nodeElements)
+        if host.nodeType == minidom.Node.ELEMENT_NODE:
+          newHost = Host(str(host.getAttributeNS(None, "name")))
+          society_host = society.add_host(newHost)
+          #~ print "Host Name: ", society_host.name
+          if host.hasChildNodes():
+            hostElements = host.childNodes
+            # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
+            for xmlNode in hostElements:
+              if xmlNode.nodeType == minidom.Node.ELEMENT_NODE: 
+                #~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
+                if xmlNode.nodeName == 'facet':
+                  newHost.add_facet(self.attributeDict(xmlNode))
+                elif xmlNode.nodeName == 'node':
+                  #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
+                  newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
+                  if xmlNode.hasChildNodes():
+                    nodeElements = xmlNode.childNodes
+                    self.populateNodeElements(newNode, nodeElements)
     return society
 
 
@@ -143,11 +146,11 @@ class TransformationRule:
     self.rule = None
     self.fired = False
     self.society = None
-    self.isRubyRule = False
+    #~ self.isRubyRule = False
 
   def set_rule(self, ruleText):
     self.rule = str(ruleText.rule)
-    self.isRubyRule = ruleText.isRubyRule
+    #~ self.isRubyRule = ruleText.isRubyRule
     
   def fire(self):
     self.fire_count = self.fire_count + 1

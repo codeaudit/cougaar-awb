@@ -192,8 +192,29 @@ class Host:
       fac = Facet(facet)
       self.add_facet(fac, rule)
   
+  ##
+  # Adds the list of facets passed in as the argument to this
+  # host's list of facets.
+  #
+  # facetList:: [List] a list of facets
+  # 
+  def add_facets(self, facetList):
+    if facetList is not None and len(facetList) > 0:
+      self.facets.extend(facetList)
+  
+  ##
+  # Returns the facet obj specified by index in the argument
+  #
+  # index:: [integer] the facet list index of the desired facet obj
+  #
   def get_facet(self, index):
     return self.facets[index]
+  
+  ##
+  # Returns the list of facets on this host.
+  #
+  def get_facets(self):
+    return self.facets
   
   ##
   # Returns a list containing all the values for the specified key

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: insertion_dialog.py,v 1.2 2004-11-01 21:52:34 jnilsson Exp $
+# RCS-ID:       $Id: insertion_dialog.py,v 1.3 2004-11-01 21:53:38 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -37,6 +37,7 @@ from ACMEPy.component import Component
 from ACMEPy.argument import Argument
 from ACMEPy.parameter import *
 import wx
+CONVERTED2DOT5 = True
 
 #---------------------------------------------------------------------------
 

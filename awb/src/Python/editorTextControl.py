@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: editorTextControl.py,v 1.4 2004-11-01 21:52:34 jnilsson Exp $
+# RCS-ID:       $Id: editorTextControl.py,v 1.5 2004-11-01 21:53:38 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -31,6 +31,7 @@ from wxPython.stc import *
 from wxPython.lib.anchors import LayoutAnchors
 
 import keyword
+CONVERTED2DOT5 = True
 
 if wx.Platform == '__WXMSW__':
     faces = { 'times': 'Times New Roman',

@@ -7,6 +7,7 @@ from societyVisualModel import *
 import wx
 import wx.lib.ogl as ogl
 
+CONVERTED2DOT5 = True
 class FacetProperties(wx.Dialog):
     def __init__(self, facetinfo, parent, ID, title, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE):
         #~ TheSociety.getFacetDepth(facetinfo.GetClientData())

@@ -16,6 +16,7 @@ import images
 import zoomer as z
 import wx
 import wx.lib.ogl as ogl
+CONVERTED2DOT5 = True
 
 #----------------------------------------------------------------------
 class InformationPanel(ogl.DividedShape):

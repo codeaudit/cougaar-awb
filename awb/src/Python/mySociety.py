@@ -2,6 +2,8 @@ import sys
 import os
 from wxPython.wx import *
 from wx.lib.ogl import *
+
+CONVERTED2DOT5 = True
 #---------------------------------------------------------------------------
 # The class which is a representation of the Facets in the society
 class myFacet:

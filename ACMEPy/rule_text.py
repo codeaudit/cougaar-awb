@@ -56,6 +56,6 @@ class RuleText:
     filenameOnly = os.path.basename(filename)
     filenameElements = os.path.splitext(filenameOnly)
     self.description = filenameElements[0] + " Ruby " + filenameElements[1][1:]
-    self.isRubyRule = true
+    self.isRubyRule = True
   
 

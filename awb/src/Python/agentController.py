@@ -31,8 +31,6 @@ from servletProperties import ServletProperties
 from globalConstants import *
 import images
 
-import zoomer as z
-
 
 #---------------------------------------------------------------------
 #~ GLOBAL VARS

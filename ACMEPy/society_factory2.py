@@ -49,21 +49,20 @@ class SocietyFactory:
   def parse(self):
     societyElement = doc.childNodes[0]
     society = Society(societyElement.getAttributeNS(None, "name"))
-    print 'Society==>', society.name
+    #~ print 'Society==>', society.name
     if societyElement.hasChildNodes():
-      #~ hosts = societyElement.childNodes
       societyElements = societyElement.childNodes
       for societyElem in societyElements:
         if societyElem.nodeType == minidom.Node.ELEMENT_NODE:
           print societyElem.nodeName, societyElem.nodeValue, societyElem.nodeType
           if societyElem.nodeName == 'facet':
-            print "Facet value ==>", self.attributeDict(societyElem)  # prg debug
+            #~ print "Facet value ==>", self.attributeDict(societyElem)
             society.add_facet(self.attributeDict(societyElem))
           elif societyElem.nodeName == 'host':
             newHost = Host(str(societyElem.getAttributeNS(None, "name")))
             society_host = society.add_host(newHost)
             newHost.parent = society
-            print "Host Name: ", society_host.name
+            #~ print "Host Name: ", society_host.name
             if societyElem.hasChildNodes():
               hostElements = societyElem.childNodes
               # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
@@ -73,41 +72,12 @@ class SocietyFactory:
                   if xmlNode.nodeName == 'facet':
                     newHost.add_facet(self.attributeDict(xmlNode))
                   elif xmlNode.nodeName == 'node':
-                    print "Node name ==>", xmlNode.getAttributeNS(None, "name")
+                    #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
                     newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
                     if xmlNode.hasChildNodes():
                       nodeElements = xmlNode.childNodes
                       self.populateNodeElements(newNode, nodeElements)
     return society
-
-  def parse_old(self):
-    societyElement = doc.childNodes[0]
-    society = Society(societyElement.getAttributeNS(None, "name"))
-    #~ print 'Society==>', society.name
-    if societyElement.hasChildNodes():
-      hosts = societyElement.childNodes
-      for host in hosts:
-        if host.nodeType == minidom.Node.ELEMENT_NODE:
-          newHost = Host(str(host.getAttributeNS(None, "name")))
-          society_host = society.add_host(newHost)
-          newHost.parent = society
-          #~ print "Host Name: ", society_host.name
-          if host.hasChildNodes():
-            hostElements = host.childNodes
-            # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
-            for xmlNode in hostElements:
-              if xmlNode.nodeType == minidom.Node.ELEMENT_NODE: 
-                #~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
-                if xmlNode.nodeName == 'facet':
-                  newHost.add_facet(self.attributeDict(xmlNode))
-                elif xmlNode.nodeName == 'node':
-                  #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
-                  newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
-                  if xmlNode.hasChildNodes():
-                    nodeElements = xmlNode.childNodes
-                    self.populateNodeElements(newNode, nodeElements)
-    return society
-
 
   def attributeDict(self, this):
     d = {}

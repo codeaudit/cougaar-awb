@@ -309,9 +309,11 @@ class Node:
       script = script + self.agents[agent].to_python()  
     return script
 
-  def each_agent(self):
+  def each_agent(self, inclNodeAgent=False):
     for agent in self.agentlist: # only for testing iterators
-      yield agent
-
+      if inclNodeAgent: 
+        yield agent
+      elif agent != self.nodeAgent:
+        yield agent
 
 

@@ -88,16 +88,16 @@ class Society:
       for node in host.each_node():
         yield node
 
-  def each_agent(self):
+  def each_agent(self, inclNodeAgent=False):
     for host in self.each_host():
       for node in host.each_node():
-        for agent in node.each_agent():
+        for agent in node.each_agent(inclNodeAgent):
           yield agent
 
-  def each_component(self):
+  def each_component(self, inclNodeAgent=False):
     for host in self.each_host():
       for node in host.each_node():
-        for agent in node.each_agent():
+        for agent in node.each_agent(inclNodeAgent):
           for component in agent.each_component():
             yield component
 

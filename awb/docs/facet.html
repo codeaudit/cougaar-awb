@@ -1,0 +1,164 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module facet</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>facet</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/python23/lib/site-packages/csmodel/facet.py">c:\python23\lib\site-packages\csmodel\facet.py</a></font></td></tr></table>
+    <p><tt>#facet.py<br>
+#<br>
+#&nbsp;Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+#&nbsp;Purpose:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+#<br>
+#&nbsp;Author:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ISAT&nbsp;(D.&nbsp;Moore/M.&nbsp;Barger/P.&nbsp;Gardella)<br>
+#<br>
+#&nbsp;RCS-ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Id: facet.html,v 1.1 2004-12-09 16:41:14 damoore Exp $<br>
+#<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="types.html">types</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="facet.html#Facet">Facet</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Facet">class <strong>Facet</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Facet-__init__"><strong>__init__</strong></a>(self, aFacet, rule<font color="#909090">='BASE'</font>)</dt></dl>
+
+<dl><dt><a name="Facet-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facet-add_entry"><strong>add_entry</strong></a>(self, keyValueString)</dt><dd><tt>##<br>
+#&nbsp;Adds&nbsp;a&nbsp;single&nbsp;key=value&nbsp;entry&nbsp;to&nbsp;the&nbsp;dictionary&nbsp;contained<br>
+#&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a>.<br>
+#<br>
+#&nbsp;keyValueString::&nbsp;[String]&nbsp;the&nbsp;entry&nbsp;to&nbsp;be&nbsp;added,&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-add_facet_element"><strong>add_facet_element</strong></a>(self, key, value)</dt><dd><tt>#&nbsp;#<br>
+#&nbsp;Adds&nbsp;a&nbsp;key/value&nbsp;pair&nbsp;to&nbsp;the&nbsp;Dictionary&nbsp;'facets'<br>
+#<br>
+#&nbsp;key::&nbsp;[Object]&nbsp;to&nbsp;be&nbsp;used&nbsp;as&nbsp;the&nbsp;key<br>
+#&nbsp;value::&nbsp;[Object]&nbsp;to&nbsp;be&nbsp;used&nbsp;as&nbsp;the&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="Facet-clone"><strong>clone</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facet-contains_entry"><strong>contains_entry</strong></a>(self, keyValueString)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;True&nbsp;if&nbsp;the&nbsp;dictionary&nbsp;contained&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a>&nbsp;obj&nbsp;contains<br>
+#&nbsp;the&nbsp;specified&nbsp;entry&nbsp;(i.e.,&nbsp;key-value&nbsp;pair);&nbsp;else,&nbsp;returns&nbsp;False<br>
+#<br>
+#&nbsp;keyValueString::&nbsp;[String]&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-delete_entity"><strong>delete_entity</strong></a>(self, key<font color="#909090">=None</font>)</dt><dd><tt>##<br>
+#&nbsp;If&nbsp;the&nbsp;'key'&nbsp;argument&nbsp;is&nbsp;not&nbsp;provided,&nbsp;this&nbsp;entire&nbsp;<a href="#Facet">Facet</a>&nbsp;<br>
+#&nbsp;obj&nbsp;deletes&nbsp;itself&nbsp;from&nbsp;its&nbsp;parent.&nbsp;&nbsp;If&nbsp;a&nbsp;key&nbsp;is&nbsp;provided,<br>
+#&nbsp;this&nbsp;method&nbsp;removes&nbsp;a&nbsp;single&nbsp;key=value&nbsp;entry&nbsp;from&nbsp;the&nbsp;<br>
+#&nbsp;dictionary&nbsp;contained&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a>.&nbsp;&nbsp;If&nbsp;removal&nbsp;of&nbsp;this&nbsp;<br>
+#&nbsp;entry&nbsp;leaves&nbsp;the&nbsp;dictionary&nbsp;empty,&nbsp;then&nbsp;this&nbsp;method<br>
+#&nbsp;calls&nbsp;itself&nbsp;without&nbsp;a&nbsp;'key'&nbsp;argument,&nbsp;thus&nbsp;causing&nbsp;this<br>
+#&nbsp;<a href="#Facet">Facet</a>&nbsp;to&nbsp;be&nbsp;deleted&nbsp;from&nbsp;its&nbsp;parent.<br>
+#<br>
+#&nbsp;keyValueString::&nbsp;[String]&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-each_facet_pair"><strong>each_facet_pair</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Iteratively&nbsp;returns&nbsp;each&nbsp;key/value&nbsp;pair&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a>&nbsp;instance&nbsp;as&nbsp;a&nbsp;<br>
+#&nbsp;String&nbsp;in&nbsp;"key=value"&nbsp;format.</tt></dd></dl>
+
+<dl><dt><a name="Facet-get"><strong>get</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="Facet-has_key"><strong>has_key</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="Facet-keys"><strong>keys</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facet-remove_entry"><strong>remove_entry</strong></a>(self, keyValueString)</dt><dd><tt>##<br>
+#&nbsp;Removes&nbsp;a&nbsp;single&nbsp;key=value&nbsp;entry&nbsp;from&nbsp;the&nbsp;dictionary<br>
+#&nbsp;contained&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a>.&nbsp;&nbsp;If&nbsp;removal&nbsp;of&nbsp;this&nbsp;entry<br>
+#&nbsp;leaves&nbsp;the&nbsp;dictionary&nbsp;empty,&nbsp;then&nbsp;this&nbsp;method<br>
+#&nbsp;causing&nbsp;this&nbsp;<a href="#Facet">Facet</a>&nbsp;to&nbsp;be&nbsp;deleted&nbsp;from&nbsp;its&nbsp;parent.<br>
+#&nbsp;Provides&nbsp;identical&nbsp;functionality&nbsp;as&nbsp;<a href="#Facet-delete_entity">delete_entity</a>(key),<br>
+#&nbsp;but&nbsp;allows&nbsp;for&nbsp;a&nbsp;key-value&nbsp;string&nbsp;argument.<br>
+#<br>
+#&nbsp;keyValueString::&nbsp;[String]&nbsp;the&nbsp;entry&nbsp;to&nbsp;be&nbsp;removed,&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-replace_entry"><strong>replace_entry</strong></a>(self, oldEntry, newEntry)</dt><dd><tt>##<br>
+#&nbsp;Replaces&nbsp;one&nbsp;entry&nbsp;in&nbsp;the&nbsp;dictionary&nbsp;contained&nbsp;in&nbsp;this&nbsp;<a href="#Facet">Facet</a><br>
+#&nbsp;with&nbsp;another.<br>
+#<br>
+#&nbsp;oldEntry::&nbsp;[String]&nbsp;the&nbsp;existing&nbsp;entry&nbsp;to&nbsp;be&nbsp;replaced,&nbsp;in&nbsp;"key=value"&nbsp;format<br>
+#&nbsp;newEntry::&nbsp;[String]&nbsp;the&nbsp;new&nbsp;entry&nbsp;to&nbsp;be&nbsp;added,&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-set_attribute"><strong>set_attribute</strong></a>(self, attribute, value)</dt></dl>
+
+<dl><dt><a name="Facet-set_rule"><strong>set_rule</strong></a>(self, newRule)</dt></dl>
+
+<dl><dt><a name="Facet-split_entry"><strong>split_entry</strong></a>(self, keyValueString)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;two-tuple&nbsp;containing&nbsp;the&nbsp;(key,&nbsp;value)&nbsp;from&nbsp;the&nbsp;input&nbsp;string<br>
+#<br>
+#&nbsp;keyValueString::&nbsp;[String]&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-to_dictionary"><strong>to_dictionary</strong></a>(self, aString)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;Dictionary&nbsp;obj&nbsp;containing&nbsp;a&nbsp;single&nbsp;key/value&nbsp;pair<br>
+#<br>
+#&nbsp;aString::&nbsp;[String]&nbsp;in&nbsp;"key=value"&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Facet-to_python"><strong>to_python</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Facet-to_ruby"><strong>to_ruby</strong></a>(self, numTabs)</dt></dl>
+
+<dl><dt><a name="Facet-to_xml"><strong>to_xml</strong></a>(self, numIndents<font color="#909090">=1</font>)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-unitTest"><strong>unitTest</strong></a>()</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>generators</strong> = _Feature((2, 2, 0, 'alpha', 1), (2, 3, 0, 'final', 0), 4096)</td></tr></table>
+</body></html>

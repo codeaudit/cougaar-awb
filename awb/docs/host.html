@@ -1,0 +1,165 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module host</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>host</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/python23/lib/site-packages/csmodel/host.py">c:\python23\lib\site-packages\csmodel\host.py</a></font></td></tr></table>
+    <p><tt>#<a href="#Host">Host</a>.py<br>
+#<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="types.html">types</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="host.html#Host">Host</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Host">class <strong>Host</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Host-__init__"><strong>__init__</strong></a>(self, name<font color="#909090">=None</font>, rule<font color="#909090">='BASE'</font>)</dt><dd><tt>Constructs&nbsp;a&nbsp;host&nbsp;with&nbsp;the&nbsp;optional&nbsp;name</tt></dd></dl>
+
+<dl><dt><a name="Host-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-add_entity"><strong>add_entity</strong></a>(self, entity, orderAfterObj<font color="#909090">=None</font>, isCopyOperation<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-add_facet"><strong>add_facet</strong></a>(self, facet, rule<font color="#909090">='BASE'</font>)</dt></dl>
+
+<dl><dt><a name="Host-add_facets"><strong>add_facets</strong></a>(self, facetList)</dt><dd><tt>##<br>
+#&nbsp;Adds&nbsp;the&nbsp;list&nbsp;of&nbsp;facets&nbsp;passed&nbsp;in&nbsp;as&nbsp;the&nbsp;argument&nbsp;to&nbsp;this<br>
+#&nbsp;host's&nbsp;list&nbsp;of&nbsp;facets.&nbsp;&nbsp;Dupes&nbsp;are&nbsp;ignored;&nbsp;i.e.,&nbsp;not&nbsp;added.<br>
+#<br>
+#&nbsp;facetList::&nbsp;[List]&nbsp;a&nbsp;list&nbsp;of&nbsp;Facets&nbsp;or&nbsp;Strings</tt></dd></dl>
+
+<dl><dt><a name="Host-add_node"><strong>add_node</strong></a>(self, node, orderAfterObj<font color="#909090">=None</font>, reorder<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-add_nodes"><strong>add_nodes</strong></a>(self, nodes)</dt></dl>
+
+<dl><dt><a name="Host-clone"><strong>clone</strong></a>(self, inclComponents<font color="#909090">=True</font>, parent<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Host-countAgents"><strong>countAgents</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>, inclNodeAgent<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-countNodes"><strong>countNodes</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-delete_entity"><strong>delete_entity</strong></a>(self, saveAgents<font color="#909090">=False</font>)</dt><dd><tt>Deletes&nbsp;itself&nbsp;from&nbsp;its&nbsp;parent&nbsp;society</tt></dd></dl>
+
+<dl><dt><a name="Host-delete_facet"><strong>delete_facet</strong></a>(self, facet)</dt></dl>
+
+<dl><dt><a name="Host-delete_from_prev_parent"><strong>delete_from_prev_parent</strong></a>(self, saveAgents<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-delete_node"><strong>delete_node</strong></a>(self, node, saveAgents<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-each_facet"><strong>each_facet</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Iteratively&nbsp;returns&nbsp;each&nbsp;facet&nbsp;on&nbsp;this&nbsp;<a href="#Host">Host</a>&nbsp;instance&nbsp;as&nbsp;a&nbsp;Dictionary</tt></dd></dl>
+
+<dl><dt><a name="Host-each_node"><strong>each_node</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-getType"><strong>getType</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-get_facet"><strong>get_facet</strong></a>(self, index)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;the&nbsp;facet&nbsp;obj&nbsp;specified&nbsp;by&nbsp;index&nbsp;in&nbsp;the&nbsp;argument<br>
+#<br>
+#&nbsp;index::&nbsp;[integer]&nbsp;the&nbsp;facet&nbsp;list&nbsp;index&nbsp;of&nbsp;the&nbsp;desired&nbsp;facet&nbsp;obj</tt></dd></dl>
+
+<dl><dt><a name="Host-get_facet_keys"><strong>get_facet_keys</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;facet&nbsp;keys&nbsp;used&nbsp;in&nbsp;this&nbsp;host<br>
+#&nbsp;(minus&nbsp;duplicates).</tt></dd></dl>
+
+<dl><dt><a name="Host-get_facet_values"><strong>get_facet_values</strong></a>(self, key)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;values&nbsp;used&nbsp;in&nbsp;this&nbsp;host<br>
+#&nbsp;for&nbsp;the&nbsp;specified&nbsp;key.</tt></dd></dl>
+
+<dl><dt><a name="Host-get_facets"><strong>get_facets</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;the&nbsp;list&nbsp;of&nbsp;facets&nbsp;on&nbsp;this&nbsp;host.</tt></dd></dl>
+
+<dl><dt><a name="Host-get_node"><strong>get_node</strong></a>(self, index)</dt></dl>
+
+<dl><dt><a name="Host-get_node_by_name"><strong>get_node_by_name</strong></a>(self, nodeName)</dt></dl>
+
+<dl><dt><a name="Host-get_nodes"><strong>get_nodes</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Host-has_changed_parent"><strong>has_changed_parent</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-has_facet"><strong>has_facet</strong></a>(self, keyValuePair)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;True&nbsp;if&nbsp;this&nbsp;host&nbsp;has&nbsp;a&nbsp;facet&nbsp;matching&nbsp;the&nbsp;facet&nbsp;value<br>
+#&nbsp;specified&nbsp;in&nbsp;the&nbsp;argument;&nbsp;otherwise,&nbsp;returns&nbsp;False.<br>
+#<br>
+#&nbsp;keyValuePair::&nbsp;[String]&nbsp;Facet&nbsp;in&nbsp;'key=value'&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Host-has_node"><strong>has_node</strong></a>(self, nodeName)</dt></dl>
+
+<dl><dt><a name="Host-remove_all_facets"><strong>remove_all_facets</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-remove_entity"><strong>remove_entity</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-remove_facet"><strong>remove_facet</strong></a>(self, keyValueString)</dt></dl>
+
+<dl><dt><a name="Host-remove_node"><strong>remove_node</strong></a>(self, node)</dt></dl>
+
+<dl><dt><a name="Host-rename"><strong>rename</strong></a>(self, newName)</dt><dd><tt>##<br>
+#&nbsp;Renames&nbsp;this&nbsp;host&nbsp;if&nbsp;the&nbsp;new&nbsp;name&nbsp;is&nbsp;not&nbsp;already&nbsp;taken&nbsp;by&nbsp;another&nbsp;host.<br>
+#&nbsp;Returns&nbsp;the&nbsp;host's&nbsp;name;&nbsp;will&nbsp;be&nbsp;the&nbsp;old&nbsp;name&nbsp;if&nbsp;the&nbsp;newName&nbsp;was&nbsp;&nbsp;<br>
+#&nbsp;already&nbsp;taken,&nbsp;or&nbsp;the&nbsp;newName&nbsp;if&nbsp;the&nbsp;rename&nbsp;was&nbsp;successful.<br>
+#<br>
+#&nbsp;newName::&nbsp;[String]&nbsp;the&nbsp;new&nbsp;name&nbsp;for&nbsp;this&nbsp;host</tt></dd></dl>
+
+<dl><dt><a name="Host-replace_facet"><strong>replace_facet</strong></a>(self, oldEntry, newEntry)</dt></dl>
+
+<dl><dt><a name="Host-set_parent"><strong>set_parent</strong></a>(self, society)</dt></dl>
+
+<dl><dt><a name="Host-set_rule"><strong>set_rule</strong></a>(self, newRule)</dt></dl>
+
+<dl><dt><a name="Host-to_python"><strong>to_python</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-to_ruby"><strong>to_ruby</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Host-to_xml"><strong>to_xml</strong></a>(self, hnaOnly<font color="#909090">=False</font>, isNameserver<font color="#909090">=False</font>)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>generators</strong> = _Feature((2, 2, 0, 'alpha', 1), (2, 3, 0, 'final', 0), 4096)</td></tr></table>
+</body></html>

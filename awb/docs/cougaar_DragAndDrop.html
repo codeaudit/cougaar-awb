@@ -1,0 +1,127 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module cougaar_DragAndDrop</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>cougaar_DragAndDrop</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/projects/pydev-eclipse/awb/src/python/cougaar_draganddrop.py">c:\projects\pydev-eclipse\awb\src\python\cougaar_draganddrop.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Name:<br>
+#&nbsp;Purpose:<br>
+#<br>
+#&nbsp;Author:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.&nbsp;Moore<br>
+#<br>
+#&nbsp;RCS-ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Id: cougaar_DragAndDrop.html,v 1.1 2004-12-09 16:41:14 damoore Exp $<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="cPickle.html">cPickle</a><br>
+</td><td width="25%" valign=top><a href="wx.html">wx</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="wx._misc.html#DropTarget">wx._misc.DropTarget</a>(<a href="__builtin__.html#object">__builtin__.object</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="cougaar_DragAndDrop.html#CougaarDropTarget">CougaarDropTarget</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CougaarDropTarget">class <strong>CougaarDropTarget</strong></a>(<a href="wx._misc.html#DropTarget">wx._misc.DropTarget</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="cougaar_DragAndDrop.html#CougaarDropTarget">CougaarDropTarget</a></dd>
+<dd><a href="wx._misc.html#DropTarget">wx._misc.DropTarget</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="CougaarDropTarget-OnData"><strong>OnData</strong></a>(self, x, y, d)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-OnDragOver"><strong>OnDragOver</strong></a>(self, x, y, d)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-OnDrop"><strong>OnDrop</strong></a>(self, x, y)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-OnEnter"><strong>OnEnter</strong></a>(self, x, y, d)</dt><dd><tt>#&nbsp;some&nbsp;virtual&nbsp;methods&nbsp;that&nbsp;track&nbsp;the&nbsp;progress&nbsp;of&nbsp;the&nbsp;drag</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-OnLeave"><strong>OnLeave</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-__init__"><strong>__init__</strong></a>(self, window, log, frame, inclComponents<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-bringAgents"><strong>bringAgents</strong></a>(self, nodeItem, node)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-bringArguments"><strong>bringArguments</strong></a>(self, compItem, component)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-bringComponents"><strong>bringComponents</strong></a>(self, agentItem, agent)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-bringNodes"><strong>bringNodes</strong></a>(self, hostItem, host)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-updateFacetDisplay"><strong>updateFacetDisplay</strong></a>(self, entityType, droppedItemsList)</dt><dd><tt>#&nbsp;Reshows&nbsp;facets&nbsp;that&nbsp;were&nbsp;showing&nbsp;before&nbsp;the&nbsp;drag/drop<br>
+#<br>
+#&nbsp;entityType::&nbsp;[String]&nbsp;&nbsp;One&nbsp;of&nbsp;[society&nbsp;|&nbsp;host&nbsp;|&nbsp;node&nbsp;|&nbsp;agent]&nbsp;&nbsp;<br>
+#&nbsp;droppedItemsList::&nbsp;[List]&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;wxTreeItemIds&nbsp;of&nbsp;the&nbsp;tree&nbsp;items&nbsp;that&nbsp;were&nbsp;dropped&nbsp;on&nbsp;the&nbsp;drop&nbsp;target</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="wx._misc.html#DropTarget">wx._misc.DropTarget</a>:<br>
+<dl><dt><a name="CougaarDropTarget-GetData"><strong>GetData</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-GetData">GetData</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-GetDataObject"><strong>GetDataObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-GetDataObject">GetDataObject</a>(self)&nbsp;-&gt;&nbsp;DataObject</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-SetDataObject"><strong>SetDataObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-SetDataObject">SetDataObject</a>(self,&nbsp;DataObject&nbsp;dataObject)</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-__del__"><strong>__del__</strong></a>(self, destroy<font color="#909090">=&lt;built-in function delete_DropTarget&gt;</font>)</dt><dd><tt><a href="#CougaarDropTarget-__del__">__del__</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="CougaarDropTarget-base_OnDragOver"><strong>base_OnDragOver</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-base_OnDragOver">base_OnDragOver</a>(self,&nbsp;int&nbsp;x,&nbsp;int&nbsp;y,&nbsp;int&nbsp;def)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-base_OnDrop"><strong>base_OnDrop</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-base_OnDrop">base_OnDrop</a>(self,&nbsp;int&nbsp;x,&nbsp;int&nbsp;y)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-base_OnEnter"><strong>base_OnEnter</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-base_OnEnter">base_OnEnter</a>(self,&nbsp;int&nbsp;x,&nbsp;int&nbsp;y,&nbsp;int&nbsp;def)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="CougaarDropTarget-base_OnLeave"><strong>base_OnLeave</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#CougaarDropTarget-base_OnLeave">base_OnLeave</a>(self)</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="wx._misc.html#DropTarget">wx._misc.DropTarget</a>:<br>
+<dl><dt><strong>__dict__</strong> = &lt;dictproxy object at 0x01972F30&gt;<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dl>
+
+<dl><dt><strong>__weakref__</strong> = &lt;attribute '__weakref__' of 'DropTarget' objects&gt;<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

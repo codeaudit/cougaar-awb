@@ -1,0 +1,219 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module society</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>society</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/python23/lib/site-packages/csmodel/society.py">c:\python23\lib\site-packages\csmodel\society.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;<a href="#Society">Society</a>.py<br>
+#<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="types.html">types</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="society.html#Society">Society</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Society">class <strong>Society</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Society-__init__"><strong>__init__</strong></a>(self, name, rule<font color="#909090">='BASE'</font>)</dt></dl>
+
+<dl><dt><a name="Society-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-active_hosts"><strong>active_hosts</strong></a>()</dt></dl>
+
+<dl><dt><a name="Society-add_entity"><strong>add_entity</strong></a>(self, host, orderAfterObj<font color="#909090">=None</font>, isCopyOperation<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-add_facet"><strong>add_facet</strong></a>(self, facet, rule<font color="#909090">='BASE'</font>)</dt></dl>
+
+<dl><dt><a name="Society-add_facets"><strong>add_facets</strong></a>(self, facetList)</dt><dd><tt>##<br>
+#&nbsp;Adds&nbsp;the&nbsp;list&nbsp;of&nbsp;facets&nbsp;passed&nbsp;in&nbsp;as&nbsp;the&nbsp;argument&nbsp;to&nbsp;this<br>
+#&nbsp;society's&nbsp;list&nbsp;of&nbsp;facets.&nbsp;&nbsp;Dupes&nbsp;are&nbsp;ignored;&nbsp;i.e.,&nbsp;not&nbsp;added.<br>
+#<br>
+#&nbsp;facetList::&nbsp;[List]&nbsp;a&nbsp;list&nbsp;of&nbsp;facets</tt></dd></dl>
+
+<dl><dt><a name="Society-add_host"><strong>add_host</strong></a>(self, host, orderAfterObj<font color="#909090">=None</font>, reorder<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-adjustAgentCount"><strong>adjustAgentCount</strong></a>(self, isIncrement<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="Society-clone"><strong>clone</strong></a>(self, inclComponents<font color="#909090">=True</font>)</dt></dl>
+
+<dl><dt><a name="Society-close"><strong>close</strong></a>(self, saveAgents<font color="#909090">=False</font>)</dt><dd><tt>#&nbsp;Causes&nbsp;a&nbsp;society&nbsp;to&nbsp;delete&nbsp;references&nbsp;to&nbsp;all&nbsp;its&nbsp;components&nbsp;(hosts,&nbsp;nodes,&nbsp;agents,&nbsp;etc.).<br>
+#&nbsp;Note&nbsp;that&nbsp;if&nbsp;we're&nbsp;closing&nbsp;a&nbsp;laydown&nbsp;mapping&nbsp;society,&nbsp;we&nbsp;may&nbsp;not&nbsp;want&nbsp;to&nbsp;delete&nbsp;the&nbsp;<br>
+#&nbsp;agents&nbsp;because&nbsp;that&nbsp;would&nbsp;also&nbsp;kill&nbsp;them&nbsp;from&nbsp;the&nbsp;original&nbsp;society&nbsp;from&nbsp;which&nbsp;we<br>
+#&nbsp;got&nbsp;them,&nbsp;hence&nbsp;the&nbsp;"saveAgents"&nbsp;parameter.</tt></dd></dl>
+
+<dl><dt><a name="Society-countAgents"><strong>countAgents</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>, inclNodeAgent<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-countHosts"><strong>countHosts</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-countNodes"><strong>countNodes</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-delete_facet"><strong>delete_facet</strong></a>(self, facet)</dt></dl>
+
+<dl><dt><a name="Society-delete_host"><strong>delete_host</strong></a>(self, host, saveAgents<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-each_agent"><strong>each_agent</strong></a>(self, inclNodeAgent<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-each_component"><strong>each_component</strong></a>(self, inclNodeAgent<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-each_entity"><strong>each_entity</strong></a>(self, entityType)</dt></dl>
+
+<dl><dt><a name="Society-each_facet"><strong>each_facet</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Iteratively&nbsp;returns&nbsp;each&nbsp;facet&nbsp;on&nbsp;this&nbsp;Host&nbsp;instance&nbsp;as&nbsp;a&nbsp;Dictionary</tt></dd></dl>
+
+<dl><dt><a name="Society-each_host"><strong>each_host</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-each_node"><strong>each_node</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-fromPrettyFormat"><strong>fromPrettyFormat</strong></a>(self, text)</dt></dl>
+
+<dl><dt><a name="Society-getAllFacetKeys"><strong>getAllFacetKeys</strong></a>(self, entityType)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;facet&nbsp;keys&nbsp;used&nbsp;by&nbsp;the&nbsp;specified<br>
+#&nbsp;entity&nbsp;type&nbsp;(i.e.,&nbsp;society,&nbsp;host,&nbsp;node,&nbsp;or&nbsp;agent)&nbsp;in&nbsp;the&nbsp;entire<br>
+#&nbsp;society&nbsp;(includes&nbsp;child&nbsp;host,&nbsp;node,&nbsp;and&nbsp;agent&nbsp;facet&nbsp;keys).<br>
+#<br>
+#&nbsp;entityType::&nbsp;[String]&nbsp;either&nbsp;'society',&nbsp;'host',&nbsp;'node',&nbsp;or&nbsp;'agent'</tt></dd></dl>
+
+<dl><dt><a name="Society-getAllFacetValues"><strong>getAllFacetValues</strong></a>(self, key, entityType)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;facet&nbsp;values&nbsp;used&nbsp;by&nbsp;the&nbsp;specified<br>
+#&nbsp;entity&nbsp;type&nbsp;(i.e.,&nbsp;society,&nbsp;host,&nbsp;node,&nbsp;or&nbsp;agent)&nbsp;in&nbsp;the&nbsp;entire<br>
+#&nbsp;society&nbsp;for&nbsp;the&nbsp;specified&nbsp;key.</tt></dd></dl>
+
+<dl><dt><a name="Society-getType"><strong>getType</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-get_agent"><strong>get_agent</strong></a>(self, agentName)</dt></dl>
+
+<dl><dt><a name="Society-get_agent_list"><strong>get_agent_list</strong></a>(self, inclNodeAgent<font color="#909090">=False</font>, onlyIfIncluded<font color="#909090">=False</font>, namesOnly<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-get_facet"><strong>get_facet</strong></a>(self, index)</dt></dl>
+
+<dl><dt><a name="Society-get_facet_keys"><strong>get_facet_keys</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;facet&nbsp;keys&nbsp;used&nbsp;in&nbsp;this&nbsp;society<br>
+#&nbsp;(minus&nbsp;duplicates).</tt></dd></dl>
+
+<dl><dt><a name="Society-get_facet_values"><strong>get_facet_values</strong></a>(self, key)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;a&nbsp;list&nbsp;containing&nbsp;all&nbsp;the&nbsp;values&nbsp;for&nbsp;the&nbsp;specified&nbsp;key</tt></dd></dl>
+
+<dl><dt><a name="Society-get_facets"><strong>get_facets</strong></a>(self)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;the&nbsp;list&nbsp;of&nbsp;facets&nbsp;on&nbsp;this&nbsp;host.</tt></dd></dl>
+
+<dl><dt><a name="Society-get_host"><strong>get_host</strong></a>(self, index)</dt></dl>
+
+<dl><dt><a name="Society-get_host_by_name"><strong>get_host_by_name</strong></a>(self, hostName)</dt></dl>
+
+<dl><dt><a name="Society-get_hosts"><strong>get_hosts</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-get_longest_hostname"><strong>get_longest_hostname</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-get_nameserver"><strong>get_nameserver</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-get_node"><strong>get_node</strong></a>(self, nodeName)</dt></dl>
+
+<dl><dt><a name="Society-get_node_list"><strong>get_node_list</strong></a>(self, onlyIfIncluded<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-has_agent"><strong>has_agent</strong></a>(self, agentName)</dt></dl>
+
+<dl><dt><a name="Society-has_facet"><strong>has_facet</strong></a>(self, keyValuePair)</dt><dd><tt>##<br>
+#&nbsp;Returns&nbsp;True&nbsp;if&nbsp;this&nbsp;society&nbsp;has&nbsp;a&nbsp;facet&nbsp;matching&nbsp;the&nbsp;facet&nbsp;value<br>
+#&nbsp;specified&nbsp;in&nbsp;the&nbsp;argument;&nbsp;otherwise,&nbsp;returns&nbsp;False.<br>
+#<br>
+#&nbsp;keyValuePair::&nbsp;[String]&nbsp;Facet&nbsp;in&nbsp;'key=value'&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Society-has_host"><strong>has_host</strong></a>(self, hostName)</dt></dl>
+
+<dl><dt><a name="Society-has_node"><strong>has_node</strong></a>(self, nodeName)</dt></dl>
+
+<dl><dt><a name="Society-isDupeName"><strong>isDupeName</strong></a>(self, entityType, name)</dt></dl>
+
+<dl><dt><a name="Society-prettyFormat"><strong>prettyFormat</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-prettyPrint"><strong>prettyPrint</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-prettyPrintNamesOnly"><strong>prettyPrintNamesOnly</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-remove_agent"><strong>remove_agent</strong></a>(self, agent)</dt></dl>
+
+<dl><dt><a name="Society-remove_all_facets"><strong>remove_all_facets</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-remove_facet"><strong>remove_facet</strong></a>(self, keyValueString)</dt></dl>
+
+<dl><dt><a name="Society-remove_host"><strong>remove_host</strong></a>(self, host)</dt></dl>
+
+<dl><dt><a name="Society-remove_node"><strong>remove_node</strong></a>(self, node)</dt></dl>
+
+<dl><dt><a name="Society-rename"><strong>rename</strong></a>(self, newName)</dt></dl>
+
+<dl><dt><a name="Society-replace_facet"><strong>replace_facet</strong></a>(self, oldEntry, newEntry)</dt></dl>
+
+<dl><dt><a name="Society-set_nameserver"><strong>set_nameserver</strong></a>(self, nameserver)</dt></dl>
+
+<dl><dt><a name="Society-set_nameserver_host"><strong>set_nameserver_host</strong></a>(self, hostname)</dt></dl>
+
+<dl><dt><a name="Society-set_rule"><strong>set_rule</strong></a>(self, newRule)</dt></dl>
+
+<dl><dt><a name="Society-toString"><strong>toString</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-to_python"><strong>to_python</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-to_ruby"><strong>to_ruby</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Society-to_xml"><strong>to_xml</strong></a>(self, hnaOnly<font color="#909090">=False</font>)</dt></dl>
+
+<dl><dt><a name="Society-to_xml_agentNameList_only"><strong>to_xml_agentNameList_only</strong></a>(self, hnaOnly<font color="#909090">=False</font>)</dt><dd><tt>##<br>
+#&nbsp;A&nbsp;standby&nbsp;method&nbsp;for&nbsp;printing&nbsp;a&nbsp;simple&nbsp;list&nbsp;of&nbsp;agent&nbsp;names&nbsp;in&nbsp;the&nbsp;society.&nbsp;&nbsp;May&nbsp;be<br>
+#&nbsp;added&nbsp;into&nbsp;the&nbsp;program&nbsp;in&nbsp;the&nbsp;future.&nbsp;&nbsp;For&nbsp;now,&nbsp;it's&nbsp;used&nbsp;only&nbsp;as-needed.&nbsp;&nbsp;When<br>
+#&nbsp;user&nbsp;needs&nbsp;a&nbsp;list&nbsp;of&nbsp;agent&nbsp;names,&nbsp;rename&nbsp;this&nbsp;method&nbsp;to&nbsp;'<a href="#Society-to_xml">to_xml</a>()'&nbsp;and&nbsp;rename<br>
+#&nbsp;'to_xml'&nbsp;to&nbsp;'to_xml_real'.&nbsp;&nbsp;Then&nbsp;just&nbsp;'save'&nbsp;the&nbsp;society;&nbsp;it&nbsp;will&nbsp;produce&nbsp;a&nbsp;text<br>
+#&nbsp;file&nbsp;consisting&nbsp;of&nbsp;a&nbsp;list&nbsp;of&nbsp;agent&nbsp;names.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>StringTypes</strong> = (&lt;type 'str'&gt;, &lt;type 'unicode'&gt;)<br>
+<strong>generators</strong> = _Feature((2, 2, 0, 'alpha', 1), (2, 3, 0, 'final', 0), 4096)</td></tr></table>
+</body></html>

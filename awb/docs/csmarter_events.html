@@ -1,0 +1,309 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module csmarter_events</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>csmarter_events</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/projects/pydev-eclipse/awb/src/python/csmarter_events.py">c:\projects\pydev-eclipse\awb\src\python\csmarter_events.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Name:<br>
+#&nbsp;Purpose:<br>
+#<br>
+#&nbsp;Author:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.&nbsp;Moore<br>
+#<br>
+#&nbsp;RCS-ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Id: csmarter_events.html,v 1.1 2004-12-09 16:41:14 damoore Exp $<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="wx.html">wx</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="wx._core.html#PyEvent">wx._core.PyEvent</a>(<a href="wx._core.html#Event">wx._core.Event</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="csmarter_events.html#AgentTaskCountEvent">AgentTaskCountEvent</a>
+</font></dt><dt><font face="helvetica, arial"><a href="csmarter_events.html#SocietyControllerEvent">SocietyControllerEvent</a>
+</font></dt><dt><font face="helvetica, arial"><a href="csmarter_events.html#UpdateSocietyEvent">UpdateSocietyEvent</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AgentTaskCountEvent">class <strong>AgentTaskCountEvent</strong></a>(<a href="wx._core.html#PyEvent">wx._core.PyEvent</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#----------------------------------------------------------------------<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="csmarter_events.html#AgentTaskCountEvent">AgentTaskCountEvent</a></dd>
+<dd><a href="wx._core.html#PyEvent">wx._core.PyEvent</a></dd>
+<dd><a href="wx._core.html#Event">wx._core.Event</a></dd>
+<dd><a href="wx._core.html#Object">wx._core.Object</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="AgentTaskCountEvent-__init__"><strong>__init__</strong></a>(self, msg)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#PyEvent">wx._core.PyEvent</a>:<br>
+<dl><dt><a name="AgentTaskCountEvent-GetSelf"><strong>GetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetSelf">GetSelf</a>(self)&nbsp;-&gt;&nbsp;PyObject</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-SetSelf"><strong>SetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-SetSelf">SetSelf</a>(self,&nbsp;PyObject&nbsp;self)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-__del__"><strong>__del__</strong></a>(self, destroy<font color="#909090">=&lt;built-in function delete_PyEvent&gt;</font>)</dt><dd><tt><a href="#AgentTaskCountEvent-__del__">__del__</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Event">wx._core.Event</a>:<br>
+<dl><dt><a name="AgentTaskCountEvent-Clone"><strong>Clone</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-Clone">Clone</a>(self)&nbsp;-&gt;&nbsp;Event</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetEventObject"><strong>GetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetEventObject">GetEventObject</a>(self)&nbsp;-&gt;&nbsp;Object</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetEventType"><strong>GetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetEventType">GetEventType</a>(self)&nbsp;-&gt;&nbsp;wxEventType</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetId"><strong>GetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetId">GetId</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetSkipped"><strong>GetSkipped</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetSkipped">GetSkipped</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetTimestamp"><strong>GetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetTimestamp">GetTimestamp</a>(self)&nbsp;-&gt;&nbsp;long</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-IsCommandEvent"><strong>IsCommandEvent</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-IsCommandEvent">IsCommandEvent</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-ResumePropagation"><strong>ResumePropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-ResumePropagation">ResumePropagation</a>(self,&nbsp;int&nbsp;propagationLevel)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-SetEventObject"><strong>SetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-SetEventObject">SetEventObject</a>(self,&nbsp;Object&nbsp;obj)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-SetEventType"><strong>SetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-SetEventType">SetEventType</a>(self,&nbsp;wxEventType&nbsp;typ)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-SetId"><strong>SetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-SetId">SetId</a>(self,&nbsp;int&nbsp;Id)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-SetTimestamp"><strong>SetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-SetTimestamp">SetTimestamp</a>(self,&nbsp;long&nbsp;ts=0)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-ShouldPropagate"><strong>ShouldPropagate</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-ShouldPropagate">ShouldPropagate</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-Skip"><strong>Skip</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-Skip">Skip</a>(self,&nbsp;bool&nbsp;skip=True)</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-StopPropagation"><strong>StopPropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-StopPropagation">StopPropagation</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><a name="AgentTaskCountEvent-Destroy"><strong>Destroy</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-Destroy">Destroy</a>(self)<br>
+&nbsp;<br>
+Deletes&nbsp;the&nbsp;C++&nbsp;object&nbsp;this&nbsp;Python&nbsp;object&nbsp;is&nbsp;a&nbsp;proxy&nbsp;for.</tt></dd></dl>
+
+<dl><dt><a name="AgentTaskCountEvent-GetClassName"><strong>GetClassName</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#AgentTaskCountEvent-GetClassName">GetClassName</a>(self)&nbsp;-&gt;&nbsp;String<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;class&nbsp;name&nbsp;of&nbsp;the&nbsp;C++&nbsp;class&nbsp;using&nbsp;wxRTTI.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><strong>__dict__</strong> = &lt;dictproxy object at 0x00E7FD90&gt;<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dl>
+
+<dl><dt><strong>__weakref__</strong> = &lt;attribute '__weakref__' of 'Object' objects&gt;<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SocietyControllerEvent">class <strong>SocietyControllerEvent</strong></a>(<a href="wx._core.html#PyEvent">wx._core.PyEvent</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#----------------------------------------------------------------------<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="csmarter_events.html#SocietyControllerEvent">SocietyControllerEvent</a></dd>
+<dd><a href="wx._core.html#PyEvent">wx._core.PyEvent</a></dd>
+<dd><a href="wx._core.html#Event">wx._core.Event</a></dd>
+<dd><a href="wx._core.html#Object">wx._core.Object</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="SocietyControllerEvent-__init__"><strong>__init__</strong></a>(self, msg)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#PyEvent">wx._core.PyEvent</a>:<br>
+<dl><dt><a name="SocietyControllerEvent-GetSelf"><strong>GetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetSelf">GetSelf</a>(self)&nbsp;-&gt;&nbsp;PyObject</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-SetSelf"><strong>SetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-SetSelf">SetSelf</a>(self,&nbsp;PyObject&nbsp;self)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-__del__"><strong>__del__</strong></a>(self, destroy<font color="#909090">=&lt;built-in function delete_PyEvent&gt;</font>)</dt><dd><tt><a href="#SocietyControllerEvent-__del__">__del__</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Event">wx._core.Event</a>:<br>
+<dl><dt><a name="SocietyControllerEvent-Clone"><strong>Clone</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-Clone">Clone</a>(self)&nbsp;-&gt;&nbsp;Event</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetEventObject"><strong>GetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetEventObject">GetEventObject</a>(self)&nbsp;-&gt;&nbsp;Object</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetEventType"><strong>GetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetEventType">GetEventType</a>(self)&nbsp;-&gt;&nbsp;wxEventType</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetId"><strong>GetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetId">GetId</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetSkipped"><strong>GetSkipped</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetSkipped">GetSkipped</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetTimestamp"><strong>GetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetTimestamp">GetTimestamp</a>(self)&nbsp;-&gt;&nbsp;long</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-IsCommandEvent"><strong>IsCommandEvent</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-IsCommandEvent">IsCommandEvent</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-ResumePropagation"><strong>ResumePropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-ResumePropagation">ResumePropagation</a>(self,&nbsp;int&nbsp;propagationLevel)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-SetEventObject"><strong>SetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-SetEventObject">SetEventObject</a>(self,&nbsp;Object&nbsp;obj)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-SetEventType"><strong>SetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-SetEventType">SetEventType</a>(self,&nbsp;wxEventType&nbsp;typ)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-SetId"><strong>SetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-SetId">SetId</a>(self,&nbsp;int&nbsp;Id)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-SetTimestamp"><strong>SetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-SetTimestamp">SetTimestamp</a>(self,&nbsp;long&nbsp;ts=0)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-ShouldPropagate"><strong>ShouldPropagate</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-ShouldPropagate">ShouldPropagate</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-Skip"><strong>Skip</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-Skip">Skip</a>(self,&nbsp;bool&nbsp;skip=True)</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-StopPropagation"><strong>StopPropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-StopPropagation">StopPropagation</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><a name="SocietyControllerEvent-Destroy"><strong>Destroy</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-Destroy">Destroy</a>(self)<br>
+&nbsp;<br>
+Deletes&nbsp;the&nbsp;C++&nbsp;object&nbsp;this&nbsp;Python&nbsp;object&nbsp;is&nbsp;a&nbsp;proxy&nbsp;for.</tt></dd></dl>
+
+<dl><dt><a name="SocietyControllerEvent-GetClassName"><strong>GetClassName</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#SocietyControllerEvent-GetClassName">GetClassName</a>(self)&nbsp;-&gt;&nbsp;String<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;class&nbsp;name&nbsp;of&nbsp;the&nbsp;C++&nbsp;class&nbsp;using&nbsp;wxRTTI.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><strong>__dict__</strong> = &lt;dictproxy object at 0x00E7FE90&gt;<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dl>
+
+<dl><dt><strong>__weakref__</strong> = &lt;attribute '__weakref__' of 'Object' objects&gt;<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UpdateSocietyEvent">class <strong>UpdateSocietyEvent</strong></a>(<a href="wx._core.html#PyEvent">wx._core.PyEvent</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>#----------------------------------------------------------------------<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="csmarter_events.html#UpdateSocietyEvent">UpdateSocietyEvent</a></dd>
+<dd><a href="wx._core.html#PyEvent">wx._core.PyEvent</a></dd>
+<dd><a href="wx._core.html#Event">wx._core.Event</a></dd>
+<dd><a href="wx._core.html#Object">wx._core.Object</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UpdateSocietyEvent-__init__"><strong>__init__</strong></a>(self, msg)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#PyEvent">wx._core.PyEvent</a>:<br>
+<dl><dt><a name="UpdateSocietyEvent-GetSelf"><strong>GetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetSelf">GetSelf</a>(self)&nbsp;-&gt;&nbsp;PyObject</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-SetSelf"><strong>SetSelf</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-SetSelf">SetSelf</a>(self,&nbsp;PyObject&nbsp;self)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-__del__"><strong>__del__</strong></a>(self, destroy<font color="#909090">=&lt;built-in function delete_PyEvent&gt;</font>)</dt><dd><tt><a href="#UpdateSocietyEvent-__del__">__del__</a>(self)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Event">wx._core.Event</a>:<br>
+<dl><dt><a name="UpdateSocietyEvent-Clone"><strong>Clone</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-Clone">Clone</a>(self)&nbsp;-&gt;&nbsp;Event</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetEventObject"><strong>GetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetEventObject">GetEventObject</a>(self)&nbsp;-&gt;&nbsp;Object</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetEventType"><strong>GetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetEventType">GetEventType</a>(self)&nbsp;-&gt;&nbsp;wxEventType</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetId"><strong>GetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetId">GetId</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetSkipped"><strong>GetSkipped</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetSkipped">GetSkipped</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetTimestamp"><strong>GetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetTimestamp">GetTimestamp</a>(self)&nbsp;-&gt;&nbsp;long</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-IsCommandEvent"><strong>IsCommandEvent</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-IsCommandEvent">IsCommandEvent</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-ResumePropagation"><strong>ResumePropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-ResumePropagation">ResumePropagation</a>(self,&nbsp;int&nbsp;propagationLevel)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-SetEventObject"><strong>SetEventObject</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-SetEventObject">SetEventObject</a>(self,&nbsp;Object&nbsp;obj)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-SetEventType"><strong>SetEventType</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-SetEventType">SetEventType</a>(self,&nbsp;wxEventType&nbsp;typ)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-SetId"><strong>SetId</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-SetId">SetId</a>(self,&nbsp;int&nbsp;Id)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-SetTimestamp"><strong>SetTimestamp</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-SetTimestamp">SetTimestamp</a>(self,&nbsp;long&nbsp;ts=0)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-ShouldPropagate"><strong>ShouldPropagate</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-ShouldPropagate">ShouldPropagate</a>(self)&nbsp;-&gt;&nbsp;bool</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-Skip"><strong>Skip</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-Skip">Skip</a>(self,&nbsp;bool&nbsp;skip=True)</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-StopPropagation"><strong>StopPropagation</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-StopPropagation">StopPropagation</a>(self)&nbsp;-&gt;&nbsp;int</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><a name="UpdateSocietyEvent-Destroy"><strong>Destroy</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-Destroy">Destroy</a>(self)<br>
+&nbsp;<br>
+Deletes&nbsp;the&nbsp;C++&nbsp;object&nbsp;this&nbsp;Python&nbsp;object&nbsp;is&nbsp;a&nbsp;proxy&nbsp;for.</tt></dd></dl>
+
+<dl><dt><a name="UpdateSocietyEvent-GetClassName"><strong>GetClassName</strong></a>(*args, **kwargs)</dt><dd><tt><a href="#UpdateSocietyEvent-GetClassName">GetClassName</a>(self)&nbsp;-&gt;&nbsp;String<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;class&nbsp;name&nbsp;of&nbsp;the&nbsp;C++&nbsp;class&nbsp;using&nbsp;wxRTTI.</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="wx._core.html#Object">wx._core.Object</a>:<br>
+<dl><dt><strong>__dict__</strong> = &lt;dictproxy object at 0x00E7FC50&gt;<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dl>
+
+<dl><dt><strong>__weakref__</strong> = &lt;attribute '__weakref__' of 'Object' objects&gt;<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>EVT_AGENT_TASK_COUNT</strong> = &lt;wx._core.PyEventBinder object at 0x008F1690&gt;<br>
+<strong>EVT_SOCIETYCONTROLLER_TEST</strong> = &lt;wx._core.PyEventBinder object at 0x008F1750&gt;<br>
+<strong>EVT_UPDATE_SOCIETY</strong> = &lt;wx._core.PyEventBinder object at 0x00A07350&gt;<br>
+<strong>wxEVT_AGENT_TASK_COUNT</strong> = 10225<br>
+<strong>wxEVT_SOCIETYCONTROLLER_TEST</strong> = 10224<br>
+<strong>wxEVT_UPDATE_SOCIETY</strong> = 10223</td></tr></table>
+</body></html>

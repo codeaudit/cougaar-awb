@@ -1,0 +1,491 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module screenScraper</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>screenScraper</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:///C|/projects/pydev-eclipse/awb/src/python/screenscraper.py">c:\projects\pydev-eclipse\awb\src\python\screenscraper.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Name:<br>
+#&nbsp;Purpose:<br>
+#<br>
+#&nbsp;Author:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D.&nbsp;Moore<br>
+#<br>
+#&nbsp;RCS-ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$Id: screenScraper.html,v 1.1 2004-12-09 16:41:14 damoore Exp $<br>
+#&nbsp;&nbsp;&lt;copyright&gt;<br>
+#&nbsp;&nbsp;Copyright&nbsp;2002&nbsp;BBN&nbsp;Technologies,&nbsp;LLC<br>
+#&nbsp;&nbsp;under&nbsp;sponsorship&nbsp;of&nbsp;the&nbsp;Defense&nbsp;Advanced&nbsp;Research&nbsp;Projects&nbsp;Agency&nbsp;(DARPA).<br>
+#<br>
+#&nbsp;&nbsp;This&nbsp;program&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+#&nbsp;&nbsp;it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+#&nbsp;&nbsp;DARPA&nbsp;on&nbsp;the&nbsp;Cougaar&nbsp;Open&nbsp;Source&nbsp;Website&nbsp;(www.cougaar.org).<br>
+#<br>
+#&nbsp;&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE&nbsp;AND&nbsp;ANY&nbsp;DERIVATIVE&nbsp;SUPPLIED&nbsp;BY&nbsp;LICENSOR&nbsp;IS<br>
+#&nbsp;&nbsp;PROVIDED&nbsp;'AS&nbsp;IS'&nbsp;WITHOUT&nbsp;WARRANTIES&nbsp;OF&nbsp;ANY&nbsp;KIND,&nbsp;WHETHER&nbsp;EXPRESS&nbsp;OR<br>
+#&nbsp;&nbsp;IMPLIED,&nbsp;INCLUDING&nbsp;(BUT&nbsp;NOT&nbsp;LIMITED&nbsp;TO)&nbsp;ALL&nbsp;IMPLIED&nbsp;WARRANTIES&nbsp;OF<br>
+#&nbsp;&nbsp;MERCHANTABILITY&nbsp;AND&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE,&nbsp;AND&nbsp;WITHOUT<br>
+#&nbsp;&nbsp;ANY&nbsp;WARRANTIES&nbsp;AS&nbsp;TO&nbsp;NON-INFRINGEMENT.&nbsp;&nbsp;IN&nbsp;NO&nbsp;EVENT&nbsp;SHALL&nbsp;COPYRIGHT<br>
+#&nbsp;&nbsp;HOLDER&nbsp;BE&nbsp;LIABLE&nbsp;FOR&nbsp;ANY&nbsp;DIRECT,&nbsp;SPECIAL,&nbsp;INDIRECT&nbsp;OR&nbsp;CONSEQUENTIAL<br>
+#&nbsp;&nbsp;DAMAGES&nbsp;WHATSOEVER&nbsp;RESULTING&nbsp;FROM&nbsp;LOSS&nbsp;OF&nbsp;USE&nbsp;OF&nbsp;DATA&nbsp;OR&nbsp;PROFITS,<br>
+#&nbsp;&nbsp;TORTIOUS&nbsp;CONDUCT,&nbsp;ARISING&nbsp;OUT&nbsp;OF&nbsp;OR&nbsp;IN&nbsp;CONNECTION&nbsp;WITH&nbsp;THE&nbsp;USE&nbsp;OR<br>
+#&nbsp;&nbsp;PERFORMANCE&nbsp;OF&nbsp;THE&nbsp;COUGAAR&nbsp;SOFTWARE.<br>
+#&nbsp;&lt;/copyright&gt;<br>
+#</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="types.html">types</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#PageElement">PageElement</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#NavigableText">NavigableText</a>
+</font></dt><dt><font face="helvetica, arial"><a href="screenScraper.html#Tag">Tag</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a>(<a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>, <a href="screenScraper.html#Tag">Tag</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#BeautifulStoneSoup">BeautifulStoneSoup</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>(<a href="markupbase.html#ParserBase">markupbase.ParserBase</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a>(<a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>, <a href="screenScraper.html#Tag">Tag</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="screenScraper.html#BeautifulStoneSoup">BeautifulStoneSoup</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BeautifulSoup">class <strong>BeautifulSoup</strong></a>(<a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>, <a href="screenScraper.html#Tag">Tag</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;actual&nbsp;parser.&nbsp;It&nbsp;knows&nbsp;the&nbsp;following&nbsp;facts&nbsp;about&nbsp;HTML,&nbsp;and<br>
+not&nbsp;much&nbsp;else:<br>
+&nbsp;<br>
+*&nbsp;Some&nbsp;tags&nbsp;have&nbsp;no&nbsp;closing&nbsp;tag&nbsp;and&nbsp;should&nbsp;be&nbsp;interpreted&nbsp;as&nbsp;being<br>
+&nbsp;&nbsp;closed&nbsp;as&nbsp;soon&nbsp;as&nbsp;they&nbsp;are&nbsp;encountered.<br>
+&nbsp;<br>
+*&nbsp;Most&nbsp;tags&nbsp;can't&nbsp;be&nbsp;nested;&nbsp;encountering&nbsp;an&nbsp;open&nbsp;tag&nbsp;when&nbsp;there's<br>
+&nbsp;&nbsp;already&nbsp;an&nbsp;open&nbsp;tag&nbsp;of&nbsp;that&nbsp;type&nbsp;in&nbsp;the&nbsp;stack&nbsp;means&nbsp;that&nbsp;the<br>
+&nbsp;&nbsp;previous&nbsp;tag&nbsp;of&nbsp;that&nbsp;type&nbsp;should&nbsp;be&nbsp;implicitly&nbsp;closed.&nbsp;However,<br>
+&nbsp;&nbsp;some&nbsp;tags&nbsp;can&nbsp;be&nbsp;nested.&nbsp;When&nbsp;a&nbsp;nestable&nbsp;tag&nbsp;is&nbsp;encountered,<br>
+&nbsp;&nbsp;it's&nbsp;okay&nbsp;to&nbsp;close&nbsp;all&nbsp;unclosed&nbsp;tags&nbsp;up&nbsp;to&nbsp;the&nbsp;last&nbsp;nestable<br>
+&nbsp;&nbsp;tag.&nbsp;It&nbsp;might&nbsp;not&nbsp;be&nbsp;safe&nbsp;to&nbsp;close&nbsp;any&nbsp;more,&nbsp;so&nbsp;that's&nbsp;all&nbsp;it<br>
+&nbsp;&nbsp;closes.<br>
+&nbsp;<br>
+*&nbsp;The&nbsp;text&nbsp;inside&nbsp;some&nbsp;tags&nbsp;(ie.&nbsp;'script')&nbsp;may&nbsp;contain&nbsp;tags&nbsp;which<br>
+&nbsp;&nbsp;are&nbsp;not&nbsp;really&nbsp;part&nbsp;of&nbsp;the&nbsp;document&nbsp;and&nbsp;which&nbsp;should&nbsp;be&nbsp;parsed<br>
+&nbsp;&nbsp;as&nbsp;text,&nbsp;not&nbsp;tags.&nbsp;If&nbsp;you&nbsp;want&nbsp;to&nbsp;parse&nbsp;the&nbsp;text&nbsp;as&nbsp;tags,&nbsp;you&nbsp;can<br>
+&nbsp;&nbsp;always&nbsp;get&nbsp;it&nbsp;and&nbsp;parse&nbsp;it&nbsp;explicitly.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a></dd>
+<dd><a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a></dd>
+<dd><a href="markupbase.html#ParserBase">markupbase.ParserBase</a></dd>
+<dd><a href="screenScraper.html#Tag">Tag</a></dd>
+<dd><a href="screenScraper.html#PageElement">PageElement</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BeautifulSoup-__init__"><strong>__init__</strong></a>(self, text<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-endData"><strong>endData</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-feed"><strong>feed</strong></a>(self, text)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_charref"><strong>handle_charref</strong></a>(self, ref)</dt><dd><tt>Propagate&nbsp;char&nbsp;refs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_comment"><strong>handle_comment</strong></a>(self, text)</dt><dd><tt>Propagate&nbsp;comments&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_data"><strong>handle_data</strong></a>(self, data)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_decl"><strong>handle_decl</strong></a>(self, data)</dt><dd><tt>Propagate&nbsp;DOCTYPEs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_entityref"><strong>handle_entityref</strong></a>(self, ref)</dt><dd><tt>Propagate&nbsp;entity&nbsp;refs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-popTag"><strong>popTag</strong></a>(self, closedTagName<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-pushTag"><strong>pushTag</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-reset"><strong>reset</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-unknown_endtag"><strong>unknown_endtag</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-unknown_starttag"><strong>unknown_starttag</strong></a>(self, name, attrs)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>IMPLICITLY_CLOSE_TAGS</strong> = 1</dl>
+
+<dl><dt><strong>NESTABLE_TAGS</strong> = ['font', 'table', 'tr', 'td', 'th', 'tbody', 'p']</dl>
+
+<dl><dt><strong>QUOTE_TAGS</strong> = ['script']</dl>
+
+<dl><dt><strong>SELF_CLOSING_TAGS</strong> = ['br', 'hr', 'input', 'img', 'meta', 'spacer']</dl>
+
+<hr>
+Methods inherited from <a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>:<br>
+<dl><dt><a name="BeautifulSoup-close"><strong>close</strong></a>(self)</dt><dd><tt>Handle&nbsp;the&nbsp;remaining&nbsp;data.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-error"><strong>error</strong></a>(self, message)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-finish_endtag"><strong>finish_endtag</strong></a>(self, tag)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;processing&nbsp;of&nbsp;end&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-finish_shorttag"><strong>finish_shorttag</strong></a>(self, tag, data)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;parsing&nbsp;of&nbsp;&lt;tag/data/&nbsp;(same&nbsp;as&nbsp;&lt;tag&gt;data&lt;/tag&gt;)</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-finish_starttag"><strong>finish_starttag</strong></a>(self, tag, attrs)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;processing&nbsp;of&nbsp;start&nbsp;tag<br>
+#&nbsp;Return&nbsp;-1&nbsp;for&nbsp;unknown&nbsp;tag,&nbsp;0&nbsp;for&nbsp;open-only&nbsp;tag,&nbsp;1&nbsp;for&nbsp;balanced&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-get_starttag_text"><strong>get_starttag_text</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-goahead"><strong>goahead</strong></a>(self, end)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;handle&nbsp;data&nbsp;as&nbsp;far&nbsp;as&nbsp;reasonable.&nbsp;&nbsp;May&nbsp;leave&nbsp;state<br>
+#&nbsp;and&nbsp;data&nbsp;to&nbsp;be&nbsp;processed&nbsp;by&nbsp;a&nbsp;subsequent&nbsp;call.&nbsp;&nbsp;If&nbsp;'end'&nbsp;is<br>
+#&nbsp;true,&nbsp;force&nbsp;handling&nbsp;all&nbsp;data&nbsp;as&nbsp;if&nbsp;followed&nbsp;by&nbsp;EOF&nbsp;marker.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_endtag"><strong>handle_endtag</strong></a>(self, tag, method)</dt><dd><tt>#&nbsp;Overridable&nbsp;--&nbsp;handle&nbsp;end&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_pi"><strong>handle_pi</strong></a>(self, data)</dt><dd><tt>#&nbsp;Example&nbsp;--&nbsp;handle&nbsp;processing&nbsp;instruction,&nbsp;could&nbsp;be&nbsp;overridden</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_starttag"><strong>handle_starttag</strong></a>(self, tag, method, attrs)</dt><dd><tt>#&nbsp;Overridable&nbsp;--&nbsp;handle&nbsp;start&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_endtag"><strong>parse_endtag</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;endtag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_pi"><strong>parse_pi</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;processing&nbsp;instr,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_starttag"><strong>parse_starttag</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;handle&nbsp;starttag,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-report_unbalanced"><strong>report_unbalanced</strong></a>(self, tag)</dt><dd><tt>#&nbsp;Example&nbsp;--&nbsp;report&nbsp;an&nbsp;unbalanced&nbsp;&lt;/...&gt;&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-setliteral"><strong>setliteral</strong></a>(self, *args)</dt><dd><tt>Enter&nbsp;literal&nbsp;mode&nbsp;(CDATA).<br>
+&nbsp;<br>
+Intended&nbsp;for&nbsp;derived&nbsp;classes&nbsp;only.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-setnomoretags"><strong>setnomoretags</strong></a>(self)</dt><dd><tt>Enter&nbsp;literal&nbsp;mode&nbsp;(CDATA)&nbsp;till&nbsp;EOF.<br>
+&nbsp;<br>
+Intended&nbsp;for&nbsp;derived&nbsp;classes&nbsp;only.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-unknown_charref"><strong>unknown_charref</strong></a>(self, ref)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-unknown_entityref"><strong>unknown_entityref</strong></a>(self, ref)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>:<br>
+<dl><dt><strong>entitydefs</strong> = {'amp': '&amp;', 'apos': "'", 'gt': '&gt;', 'lt': '&lt;', 'quot': '"'}</dl>
+
+<hr>
+Methods inherited from <a href="markupbase.html#ParserBase">markupbase.ParserBase</a>:<br>
+<dl><dt><a name="BeautifulSoup-getpos"><strong>getpos</strong></a>(self)</dt><dd><tt>Return&nbsp;current&nbsp;line&nbsp;number&nbsp;and&nbsp;offset.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_comment"><strong>parse_comment</strong></a>(self, i, report<font color="#909090">=1</font>)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;comment,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_declaration"><strong>parse_declaration</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;declaration&nbsp;(for&nbsp;use&nbsp;by&nbsp;subclasses).</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-parse_marked_section"><strong>parse_marked_section</strong></a>(self, i, report<font color="#909090">=1</font>)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;a&nbsp;marked&nbsp;section<br>
+#&nbsp;Override&nbsp;this&nbsp;to&nbsp;handle&nbsp;MS-word&nbsp;extension&nbsp;syntax&nbsp;&lt;![if&nbsp;word]&gt;content&lt;![endif]&gt;</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-unknown_decl"><strong>unknown_decl</strong></a>(self, data)</dt><dd><tt>#&nbsp;To&nbsp;be&nbsp;overridden&nbsp;--&nbsp;handlers&nbsp;for&nbsp;unknown&nbsp;objects</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-updatepos"><strong>updatepos</strong></a>(self, i, j)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;update&nbsp;line&nbsp;number&nbsp;and&nbsp;offset.&nbsp;&nbsp;This&nbsp;should&nbsp;be<br>
+#&nbsp;called&nbsp;for&nbsp;each&nbsp;piece&nbsp;of&nbsp;data&nbsp;exactly&nbsp;once,&nbsp;in&nbsp;order&nbsp;--&nbsp;in&nbsp;other<br>
+#&nbsp;words&nbsp;the&nbsp;concatenation&nbsp;of&nbsp;all&nbsp;the&nbsp;input&nbsp;strings&nbsp;to&nbsp;this<br>
+#&nbsp;function&nbsp;should&nbsp;be&nbsp;exactly&nbsp;the&nbsp;entire&nbsp;input.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="screenScraper.html#Tag">Tag</a>:<br>
+<dl><dt><a name="BeautifulSoup-__call__"><strong>__call__</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__getitem__"><strong>__getitem__</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__ne__"><strong>__ne__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__setitem__"><strong>__setitem__</strong></a>(self, key, value)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-append"><strong>append</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-fetch"><strong>fetch</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt><dd><tt>Extracts&nbsp;<a href="#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria.&nbsp;&nbsp;You<br>
+can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="#Tag">Tag</a>,&nbsp;any&nbsp;attributes&nbsp;you&nbsp;want&nbsp;the<br>
+<a href="#Tag">Tag</a>&nbsp;to&nbsp;have,&nbsp;and&nbsp;what&nbsp;text&nbsp;and&nbsp;Tags&nbsp;you&nbsp;want&nbsp;to&nbsp;see&nbsp;inside&nbsp;the<br>
+<a href="#Tag">Tag</a>.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-first"><strong>first</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-get"><strong>get</strong></a>(self, key, default<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-isSelfClosing"><strong>isSelfClosing</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-renderContents"><strong>renderContents</strong></a>(self)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BeautifulStoneSoup">class <strong>BeautifulStoneSoup</strong></a>(<a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;version&nbsp;of&nbsp;<a href="#BeautifulSoup">BeautifulSoup</a>&nbsp;that&nbsp;doesn't&nbsp;know&nbsp;anything&nbsp;at&nbsp;all<br>
+about&nbsp;what&nbsp;HTML&nbsp;tags&nbsp;have&nbsp;special&nbsp;behavior.&nbsp;Useful&nbsp;for&nbsp;parsing<br>
+things&nbsp;that&nbsp;aren't&nbsp;HTML,&nbsp;or&nbsp;when&nbsp;<a href="#BeautifulSoup">BeautifulSoup</a>&nbsp;makes&nbsp;an&nbsp;assumption<br>
+counter&nbsp;to&nbsp;what&nbsp;you&nbsp;were&nbsp;expecting.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="screenScraper.html#BeautifulStoneSoup">BeautifulStoneSoup</a></dd>
+<dd><a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a></dd>
+<dd><a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a></dd>
+<dd><a href="markupbase.html#ParserBase">markupbase.ParserBase</a></dd>
+<dd><a href="screenScraper.html#Tag">Tag</a></dd>
+<dd><a href="screenScraper.html#PageElement">PageElement</a></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>IMPLICITLY_CLOSE_TAGS</strong> = 0</dl>
+
+<dl><dt><strong>NESTABLE_TAGS</strong> = []</dl>
+
+<dl><dt><strong>QUOTE_TAGS</strong> = []</dl>
+
+<dl><dt><strong>SELF_CLOSING_TAGS</strong> = []</dl>
+
+<hr>
+Methods inherited from <a href="screenScraper.html#BeautifulSoup">BeautifulSoup</a>:<br>
+<dl><dt><a name="BeautifulStoneSoup-__init__"><strong>__init__</strong></a>(self, text<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-endData"><strong>endData</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-feed"><strong>feed</strong></a>(self, text)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_charref"><strong>handle_charref</strong></a>(self, ref)</dt><dd><tt>Propagate&nbsp;char&nbsp;refs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_comment"><strong>handle_comment</strong></a>(self, text)</dt><dd><tt>Propagate&nbsp;comments&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_data"><strong>handle_data</strong></a>(self, data)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_decl"><strong>handle_decl</strong></a>(self, data)</dt><dd><tt>Propagate&nbsp;DOCTYPEs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_entityref"><strong>handle_entityref</strong></a>(self, ref)</dt><dd><tt>Propagate&nbsp;entity&nbsp;refs&nbsp;right&nbsp;through.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-popTag"><strong>popTag</strong></a>(self, closedTagName<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-pushTag"><strong>pushTag</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-reset"><strong>reset</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-unknown_endtag"><strong>unknown_endtag</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-unknown_starttag"><strong>unknown_starttag</strong></a>(self, name, attrs)</dt></dl>
+
+<hr>
+Methods inherited from <a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>:<br>
+<dl><dt><a name="BeautifulStoneSoup-close"><strong>close</strong></a>(self)</dt><dd><tt>Handle&nbsp;the&nbsp;remaining&nbsp;data.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-error"><strong>error</strong></a>(self, message)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-finish_endtag"><strong>finish_endtag</strong></a>(self, tag)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;processing&nbsp;of&nbsp;end&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-finish_shorttag"><strong>finish_shorttag</strong></a>(self, tag, data)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;parsing&nbsp;of&nbsp;&lt;tag/data/&nbsp;(same&nbsp;as&nbsp;&lt;tag&gt;data&lt;/tag&gt;)</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-finish_starttag"><strong>finish_starttag</strong></a>(self, tag, attrs)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;finish&nbsp;processing&nbsp;of&nbsp;start&nbsp;tag<br>
+#&nbsp;Return&nbsp;-1&nbsp;for&nbsp;unknown&nbsp;tag,&nbsp;0&nbsp;for&nbsp;open-only&nbsp;tag,&nbsp;1&nbsp;for&nbsp;balanced&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-get_starttag_text"><strong>get_starttag_text</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-goahead"><strong>goahead</strong></a>(self, end)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;handle&nbsp;data&nbsp;as&nbsp;far&nbsp;as&nbsp;reasonable.&nbsp;&nbsp;May&nbsp;leave&nbsp;state<br>
+#&nbsp;and&nbsp;data&nbsp;to&nbsp;be&nbsp;processed&nbsp;by&nbsp;a&nbsp;subsequent&nbsp;call.&nbsp;&nbsp;If&nbsp;'end'&nbsp;is<br>
+#&nbsp;true,&nbsp;force&nbsp;handling&nbsp;all&nbsp;data&nbsp;as&nbsp;if&nbsp;followed&nbsp;by&nbsp;EOF&nbsp;marker.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_endtag"><strong>handle_endtag</strong></a>(self, tag, method)</dt><dd><tt>#&nbsp;Overridable&nbsp;--&nbsp;handle&nbsp;end&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_pi"><strong>handle_pi</strong></a>(self, data)</dt><dd><tt>#&nbsp;Example&nbsp;--&nbsp;handle&nbsp;processing&nbsp;instruction,&nbsp;could&nbsp;be&nbsp;overridden</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-handle_starttag"><strong>handle_starttag</strong></a>(self, tag, method, attrs)</dt><dd><tt>#&nbsp;Overridable&nbsp;--&nbsp;handle&nbsp;start&nbsp;tag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_endtag"><strong>parse_endtag</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;endtag</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_pi"><strong>parse_pi</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;processing&nbsp;instr,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_starttag"><strong>parse_starttag</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;handle&nbsp;starttag,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-report_unbalanced"><strong>report_unbalanced</strong></a>(self, tag)</dt><dd><tt>#&nbsp;Example&nbsp;--&nbsp;report&nbsp;an&nbsp;unbalanced&nbsp;&lt;/...&gt;&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-setliteral"><strong>setliteral</strong></a>(self, *args)</dt><dd><tt>Enter&nbsp;literal&nbsp;mode&nbsp;(CDATA).<br>
+&nbsp;<br>
+Intended&nbsp;for&nbsp;derived&nbsp;classes&nbsp;only.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-setnomoretags"><strong>setnomoretags</strong></a>(self)</dt><dd><tt>Enter&nbsp;literal&nbsp;mode&nbsp;(CDATA)&nbsp;till&nbsp;EOF.<br>
+&nbsp;<br>
+Intended&nbsp;for&nbsp;derived&nbsp;classes&nbsp;only.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-unknown_charref"><strong>unknown_charref</strong></a>(self, ref)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-unknown_entityref"><strong>unknown_entityref</strong></a>(self, ref)</dt></dl>
+
+<hr>
+Data and other attributes inherited from <a href="sgmllib.html#SGMLParser">sgmllib.SGMLParser</a>:<br>
+<dl><dt><strong>entitydefs</strong> = {'amp': '&amp;', 'apos': "'", 'gt': '&gt;', 'lt': '&lt;', 'quot': '"'}</dl>
+
+<hr>
+Methods inherited from <a href="markupbase.html#ParserBase">markupbase.ParserBase</a>:<br>
+<dl><dt><a name="BeautifulStoneSoup-getpos"><strong>getpos</strong></a>(self)</dt><dd><tt>Return&nbsp;current&nbsp;line&nbsp;number&nbsp;and&nbsp;offset.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_comment"><strong>parse_comment</strong></a>(self, i, report<font color="#909090">=1</font>)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;comment,&nbsp;return&nbsp;length&nbsp;or&nbsp;-1&nbsp;if&nbsp;not&nbsp;terminated</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_declaration"><strong>parse_declaration</strong></a>(self, i)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;declaration&nbsp;(for&nbsp;use&nbsp;by&nbsp;subclasses).</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-parse_marked_section"><strong>parse_marked_section</strong></a>(self, i, report<font color="#909090">=1</font>)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;parse&nbsp;a&nbsp;marked&nbsp;section<br>
+#&nbsp;Override&nbsp;this&nbsp;to&nbsp;handle&nbsp;MS-word&nbsp;extension&nbsp;syntax&nbsp;&lt;![if&nbsp;word]&gt;content&lt;![endif]&gt;</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-unknown_decl"><strong>unknown_decl</strong></a>(self, data)</dt><dd><tt>#&nbsp;To&nbsp;be&nbsp;overridden&nbsp;--&nbsp;handlers&nbsp;for&nbsp;unknown&nbsp;objects</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-updatepos"><strong>updatepos</strong></a>(self, i, j)</dt><dd><tt>#&nbsp;Internal&nbsp;--&nbsp;update&nbsp;line&nbsp;number&nbsp;and&nbsp;offset.&nbsp;&nbsp;This&nbsp;should&nbsp;be<br>
+#&nbsp;called&nbsp;for&nbsp;each&nbsp;piece&nbsp;of&nbsp;data&nbsp;exactly&nbsp;once,&nbsp;in&nbsp;order&nbsp;--&nbsp;in&nbsp;other<br>
+#&nbsp;words&nbsp;the&nbsp;concatenation&nbsp;of&nbsp;all&nbsp;the&nbsp;input&nbsp;strings&nbsp;to&nbsp;this<br>
+#&nbsp;function&nbsp;should&nbsp;be&nbsp;exactly&nbsp;the&nbsp;entire&nbsp;input.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="screenScraper.html#Tag">Tag</a>:<br>
+<dl><dt><a name="BeautifulStoneSoup-__call__"><strong>__call__</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__getitem__"><strong>__getitem__</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__ne__"><strong>__ne__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__setitem__"><strong>__setitem__</strong></a>(self, key, value)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-append"><strong>append</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-fetch"><strong>fetch</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt><dd><tt>Extracts&nbsp;<a href="#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria.&nbsp;&nbsp;You<br>
+can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="#Tag">Tag</a>,&nbsp;any&nbsp;attributes&nbsp;you&nbsp;want&nbsp;the<br>
+<a href="#Tag">Tag</a>&nbsp;to&nbsp;have,&nbsp;and&nbsp;what&nbsp;text&nbsp;and&nbsp;Tags&nbsp;you&nbsp;want&nbsp;to&nbsp;see&nbsp;inside&nbsp;the<br>
+<a href="#Tag">Tag</a>.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-first"><strong>first</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-get"><strong>get</strong></a>(self, key, default<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-isSelfClosing"><strong>isSelfClosing</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulStoneSoup-renderContents"><strong>renderContents</strong></a>(self)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="NavigableText">class <strong>NavigableText</strong></a>(<a href="screenScraper.html#PageElement">PageElement</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;simple&nbsp;wrapper&nbsp;around&nbsp;a&nbsp;string&nbsp;that&nbsp;keeps&nbsp;track&nbsp;of&nbsp;where&nbsp;in<br>
+the&nbsp;document&nbsp;the&nbsp;string&nbsp;was&nbsp;found.&nbsp;Doesn't&nbsp;implement&nbsp;all&nbsp;the<br>
+string&nbsp;methods&nbsp;because&nbsp;I'm&nbsp;lazy.&nbsp;You&nbsp;could&nbsp;have&nbsp;this&nbsp;extend<br>
+UserString&nbsp;if&nbsp;you&nbsp;were&nbsp;using&nbsp;2.2.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="NavigableText-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="NavigableText-__init__"><strong>__init__</strong></a>(self, string, parent<font color="#909090">=None</font>, previous<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="NavigableText-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="NavigableText-strip"><strong>strip</strong></a>(self)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PageElement">class <strong>PageElement</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Contains&nbsp;the&nbsp;navigational&nbsp;information&nbsp;for&nbsp;some&nbsp;part&nbsp;of&nbsp;the&nbsp;page<br>
+(either&nbsp;a&nbsp;tag&nbsp;or&nbsp;a&nbsp;piece&nbsp;of&nbsp;text)<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="PageElement-__init__"><strong>__init__</strong></a>(self, parent<font color="#909090">=None</font>, previous<font color="#909090">=None</font>)</dt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Tag">class <strong>Tag</strong></a>(<a href="screenScraper.html#PageElement">PageElement</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Represents&nbsp;a&nbsp;found&nbsp;HTML&nbsp;tag&nbsp;with&nbsp;its&nbsp;attributes&nbsp;and&nbsp;contents.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Tag-__call__"><strong>__call__</strong></a>(self, *args)</dt></dl>
+
+<dl><dt><a name="Tag-__eq__"><strong>__eq__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="Tag-__getitem__"><strong>__getitem__</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="Tag-__init__"><strong>__init__</strong></a>(self, name, attrs<font color="#909090">={}</font>, parent<font color="#909090">=None</font>, previous<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Tag-__ne__"><strong>__ne__</strong></a>(self, other)</dt></dl>
+
+<dl><dt><a name="Tag-__repr__"><strong>__repr__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Tag-__setitem__"><strong>__setitem__</strong></a>(self, key, value)</dt></dl>
+
+<dl><dt><a name="Tag-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Tag-append"><strong>append</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="Tag-fetch"><strong>fetch</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt><dd><tt>Extracts&nbsp;<a href="#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria.&nbsp;&nbsp;You<br>
+can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="#Tag">Tag</a>,&nbsp;any&nbsp;attributes&nbsp;you&nbsp;want&nbsp;the<br>
+<a href="#Tag">Tag</a>&nbsp;to&nbsp;have,&nbsp;and&nbsp;what&nbsp;text&nbsp;and&nbsp;Tags&nbsp;you&nbsp;want&nbsp;to&nbsp;see&nbsp;inside&nbsp;the<br>
+<a href="#Tag">Tag</a>.</tt></dd></dl>
+
+<dl><dt><a name="Tag-first"><strong>first</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, contents<font color="#909090">=None</font>, recursive<font color="#909090">=1</font>)</dt></dl>
+
+<dl><dt><a name="Tag-get"><strong>get</strong></a>(self, key, default<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Tag-isSelfClosing"><strong>isSelfClosing</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Tag-renderContents"><strong>renderContents</strong></a>(self)</dt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>htmlText</strong> = ' &lt;html&gt;&lt;head&gt;&lt;title&gt;Agents at the Root ("&lt;a href...=."&gt;Agents at the root (.)&lt;/a&gt;&lt;br&gt;&lt;/body&gt;&lt;/html&gt;<font color="#c040c0">\n</font>'</td></tr></table>
+</body></html>

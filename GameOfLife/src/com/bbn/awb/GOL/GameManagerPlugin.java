@@ -37,7 +37,8 @@ public class GameManagerPlugin extends ComponentPlugin {
 	private Map props;
 
 	private Map targets = new HashMap();
-
+    private int rows;
+	
 	private IncrementalSubscription cellStatus; // Tasks that I'm interested in
 
 	/*
@@ -58,6 +59,8 @@ public class GameManagerPlugin extends ComponentPlugin {
 		// send initial relays with initial cell states
 		for (Iterator iter = getParameters().iterator(); iter.hasNext();) {
 			String s = (String) iter.next();
+			if (s.toLowerCase().indexOf("rows") >= 0)
+				rows = Integer.parseInt(s.substring(s.indexOf("="), s.length()));
 			if (s.toLowerCase().indexOf("target") < 0)
 				continue;
 
@@ -84,6 +87,61 @@ public class GameManagerPlugin extends ComponentPlugin {
 
 		}
 
+	}
+
+	private void sendNeighborList(){
+		String[][] cells;
+		int numCells = targets.size();
+		int cols = numCells / rows;
+		cells = new String[rows][cols];
+		
+		Iterator itr = targets.keySet().iterator();
+		int i = 0;
+		int j = 0;
+		while (itr.hasNext()){
+			cells[i][j] = (String) itr.next();
+			i++;
+			if (i == rows){
+				i = 0;
+				j++;
+			}
+		}
+		
+		for(i = 0; i < rows; i++){
+			for(j = 0; j < cols; j++){
+				String[] n = neighborList(i, j, cells, cols);
+				MessageAddress target = MessageAddress.getMessageAddress(cells[i][j]);
+                for(int k = 0; k < n.length; k++){
+                	UID uid = uidService.nextUID();
+                	GameMessage query = new GameMessage("Neighbor:"+n[k]);
+                	SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+                	blackboard.publishAdd(sr);
+                }
+			}
+		}
+	}
+	
+		
+
+	/**
+	 * @param i
+	 * @param j
+	 * @param cells
+	 * @param cols
+	 * @return
+	 */
+	private String[] neighborList(int i, int j, String[][] cells, int cols) {
+		// TODO Auto-generated method stub
+		String[] n = new String[8];
+		n[0] = cells[(i-1)%rows][(j-1)%cols];
+		n[0] = cells[(i-1)%rows][j];
+		n[0] = cells[(i-1)%rows][(j+1)%cols];
+		n[0] = cells[i][(j-1)%cols];
+		n[0] = cells[i][(j+1)%cols];
+		n[0] = cells[(i+1)%rows][(j-1)%cols];
+		n[0] = cells[(i+1)%rows][j];
+		n[0] = cells[(i+1)%rows][(j+1)%cols];
+		return n;
 	}
 
 	/*
@@ -172,7 +230,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				.getService(this, AgentIdentificationService.class, null);
 		if (agentIdService == null) {
 			throw new RuntimeException("Unable to obtain agent-id service");
-		}
+		} 
 		agentId = agentIdService.getMessageAddress();
 		String agentIdString = agentIdService.getName();
 		getServiceBroker().releaseService(this,

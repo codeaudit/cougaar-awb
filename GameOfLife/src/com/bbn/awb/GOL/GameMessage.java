@@ -29,10 +29,12 @@ public class GameMessage  {
 	private String[] stateRegister = {
 			"GO",
 			"ALIVE",
-			"DEAD"
+			"DEAD",
+			"READY",
 	};
 	private String state  = null;
 
+	
 	public GameMessage(String state){
 		this.state = state;
 	}

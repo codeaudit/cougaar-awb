@@ -36,9 +36,11 @@ public class GameManagerPlugin extends ComponentPlugin {
 
 	private Map props;
 
-	private Map targets = new HashMap();
+	private Map cell_ready = new HashMap();    //Keep track of READY/BUSY status
+	private Map cell_neighbors = new HashMap(); //Count registered neighbors per node
     private int rows;
-	
+	private int neighbor_ack_count = 0;
+    
 	private IncrementalSubscription cellStatus; // Tasks that I'm interested in
 
 	/*
@@ -68,7 +70,9 @@ public class GameManagerPlugin extends ComponentPlugin {
 					.substring(s.indexOf("=") + 1, s.indexOf(":"));
 			String target_value = s.substring(s.indexOf(":") + 1, s.length());
 
-			targets.put(target_name, target_value);
+			cell_ready.put(target_name, new Boolean(false));
+			cell_neighbors.put(target_name, new Integer(0));
+			
 			System.out.println(agentId + " :target_name" + target_name
 					+ " target_value " + target_value);
 			MessageAddress target = MessageAddress
@@ -92,11 +96,11 @@ public class GameManagerPlugin extends ComponentPlugin {
 
 	private void sendNeighborList(){
 		String[][] cells;
-		int numCells = targets.size();
+		int numCells = cell_ready.size();
 		int cols = numCells / rows;
 		cells = new String[rows][cols];
 		
-		Iterator itr = targets.keySet().iterator();
+		Iterator itr = cell_ready.keySet().iterator();
 		int i = 0;
 		int j = 0;
 		while (itr.hasNext()){
@@ -162,49 +166,182 @@ public class GameManagerPlugin extends ComponentPlugin {
 			// is a subscription change
 			return;
 		}
-
-		// observe added relays
 		for (Enumeration en = cellStatus.getAddedList(); en.hasMoreElements();) {
 			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			//System.out.println(agentId+":observe added " + sr);
+			String msg_type = ((GameMessage) sr.getQuery()).getType();
+			String msg_param = ((GameMessage) sr.getQuery()).getParam();
+			MessageAddress msg_src = sr.getSource();
 
-			if (agentId.equals(sr.getTarget())) {
-				// send back reply
-				sr.setReply("echo-" + sr.getQuery());
-				//				System.out.println(agentId+":REPLY " + sr);
-				blackboard.publishChange(sr);
-			} else {
-				//				System.out.println(agentId+":ignoring relays we sent");
-			}
-		}
-
-		// observe changed relays
-		for (Enumeration en = cellStatus.getChangedList(); en.hasMoreElements();) {
-
-			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			//System.out.println(agentId.toString().toUpperCase()+":observe
-			// changed " + sr);
-
-			if (agentId.equals(sr.getSource())) {
-				// got back answer
-				// printMessageData("~~~ ", sr);
-				// printMessage(agentId.toString().toUpperCase(), sr);
-				// remove query both locally and at the remote target.
-				// this is optional, but it's a good idea to clean up and
-				// free some memory.
-				blackboard.publishRemove(sr);
-			} else {
-				//			System.out.println(agentId.toString().toUpperCase()+":RECIEVED
-				// FROM " + sr.getSource()+" TO "+sr.getTarget()+"
-				// getQuery:::"+sr.getQuery());
+			if (!agentId.equals(msg_src)) { //Ignore messages to self
 				printMessageData("^^^ ", sr);
 				printMessage(agentId.toString().toUpperCase(), sr);
-				//			System.out.println(agentId+":ignore our reply");
+				if (msg_type.equals(GameMessage.GO_MESSAGE))
+					handleGo();
+				else if (msg_type.equals(GameMessage.INIT_MESSAGE))
+					handleInit();
+				else if (msg_type.equals(GameMessage.READY_MESSAGE))
+					handleReady(msg_src.toString());
+				else if (msg_type.equals(GameMessage.QUERY_MESSAGE))
+					handleQuery();
+				else if (msg_type.equals(GameMessage.RESPONSE_MESSAGE))
+					handleResponse();
+				else if (msg_type.equals(GameMessage.NEIGHBOR_MESSAGE))
+					handleNeighbor();
+				else if (msg_type.equals(GameMessage.NEIGHBOR_ACK_MESSAGE))
+					handleNeighborAck(msg_src.toString());
 			}
+			blackboard.publishRemove(sr);
 		}
-
 	}
 
+
+
+	/**
+	 * 
+	 */
+	private void handleNeighborAck(String msg_src) {
+		// TODO Auto-generated method stub
+		int i = ((Integer) cell_neighbors.get(msg_src)).intValue();
+		cell_neighbors.put(msg_src, new Integer(i+1));
+		if (allNeighborsRegistered() && allCellsReady())
+			sendGo();
+	}
+
+	/**
+	 * 
+	 */
+	private void sendGo() {
+		// TODO Auto-generated method stub
+		Iterator itr = cell_ready.keySet().iterator();
+		System.out.println("Starting next generation");
+		try{
+		Thread.sleep(10000); //Sleep a bit so iterations don't go too fast
+		}catch (Exception e){}
+		while (itr.hasNext())
+		{
+			String cell_name = (String) itr.next();
+			sendMessage("GO", null, cell_name);
+			cell_ready.put(cell_name, new Boolean(false));
+		}
+		
+	}
+
+
+	/**
+	 * @return
+	 */
+	private boolean allCellsReady() {
+		// TODO Auto-generated method stub
+		Iterator itr = cell_ready.values().iterator();
+		while (itr.hasNext())
+		{
+		 if (!((Boolean) itr.next()).booleanValue())
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * @return
+	 */
+	private boolean allNeighborsRegistered() {
+		// TODO Auto-generated method stub
+		Iterator itr = cell_neighbors.values().iterator();
+		while (itr.hasNext())
+		{
+			if (((Integer) itr.next()).intValue() != 8)
+				return false;
+		}
+		return true;
+	}
+
+	
+	/**
+	 * @param msg_param
+	 */
+	private void handleNeighbor() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "+ GameMessage.NEIGHBOR_MESSAGE+
+				"  That shouldn't hapen...");
+	}
+
+	/**
+	 * @param msg_param
+	 * @param string
+	 */
+	private void handleResponse() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "+ GameMessage.RESPONSE_MESSAGE+
+		"  That shouldn't hapen...");
+	}
+
+	/**
+	 * @param msg_src
+	 */
+	private void handleQuery() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "+ GameMessage.QUERY_MESSAGE+
+		"  That shouldn't hapen...");
+	}
+
+	/**
+	 * @param msg_src
+	 * 
+	 */
+	private void handleReady(String msg_src) {
+		// TODO Auto-generated method stub
+		cell_ready.put(msg_src, new Boolean(true));
+		if (allNeighborsRegistered() && allCellsReady())
+			sendGo();
+	}
+
+	/**
+	 * @param msg_param
+	 */
+	private void handleInit() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "+ GameMessage.INIT_MESSAGE+
+		"  That shouldn't hapen...");
+		
+	}
+
+	/**
+	 * 
+	 */
+	private void handleGo() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "+ GameMessage.GO_MESSAGE+
+		"  That shouldn't hapen...");		
+	}
+
+	/**
+	 * @param msg
+	 * @param param
+	 * @param target
+	 */
+	private void sendMessage(String type, String param, MessageAddress target) {
+		if (agentId.equals(target)) {
+			System.out.println(agentId + ":sending to myself..." + agentId);
+			return;
+		}
+		UID uid = uidService.nextUID();
+		GameMessage query = new GameMessage(type, param);
+		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+		blackboard.publishAdd(sr);	
+	}
+	
+	/**
+	 * Overloading to accept target as a string
+	 * @param msg
+	 * @param param
+	 * @param target_name
+	 */
+	private void sendMessage(String type, String param, String target_name) {
+		// TODO Auto-generated method stub
+		MessageAddress target = MessageAddress.getMessageAddress(target_name);
+		sendMessage(type, param, target);
+	}
+	
 	private void printMessageData(String extra, SimpleRelay sr) {
 		System.out.println(extra + agentId.toString().toUpperCase()
 				+ " :DST-> " + sr.getTarget() + " :SRC-> " + sr.getSource());

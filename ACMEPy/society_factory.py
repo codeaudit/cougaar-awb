@@ -161,7 +161,7 @@ class TransformationRule:
     self.society = None
     self.isRubyRule = false
 
-  def set_rule(ruleText):
+  def set_rule(self, ruleText):
     self.rule = str(ruleText.rule)
     self.isRubyRule = ruleText.isRubyRule
     

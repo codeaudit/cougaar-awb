@@ -60,7 +60,7 @@ class Host:
 
   def clone(self):
     host = Host(self.name)
-    host.add_nodes
+    host.add_nodes(self.nodes)
     return host
     
   def to_xml(self):

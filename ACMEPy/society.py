@@ -82,6 +82,13 @@ class Society:
 	for agent in node.each_agent():
 	  yield agent
 
+  def each_component(self):
+    for host in self.each_host():
+      for node in host.each_node():
+	for agent in node.each_agent():
+	  for component in agent.each_component():
+	    yield component
+
 
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"

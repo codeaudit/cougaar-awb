@@ -69,7 +69,7 @@ class Agent:
       agent.add_component(component.clone())
     return agent
     
- def each_component(self):
+  def each_component(self):
     for component in self.components: # iterators
       yield component
 

@@ -31,7 +31,7 @@ from agent import *
 from component import *
 from argument import *
 from parameter import *
-
+import types
 class SocietyFactory:
   
 	# if 'source' is a string assume it is a filename

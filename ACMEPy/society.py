@@ -59,6 +59,9 @@ class Society:
       self.hosts[host].society = self
       return self.hosts[host]
     
+  def has_host(self, host):
+    return self.hosts[host] is not None
+  
   def get_host(self, index):
     return self.hostlist[index]
 

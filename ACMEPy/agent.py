@@ -75,21 +75,25 @@ class Agent:
     for facet in self.facets:
       if facet.contains_entry(keyValueString):
         facet.remove_entry(keyValueString)
+        self.society.isDirty = True
         break
   
   def replace_facet(self, oldEntry, newEntry):
     for facet in self.facets:
       if facet.contains_entry(oldEntry):
         facet.replace_entry(oldEntry, newEntry)
+        self.society.isDirty = True
         break
   
   def remove_all_facets(self):
     for facet in self.facets:
       del facet
+      self.society.isDirty = True
     self.facets = []
 
   def delete_facet(self, facet):
     self.facets.remove(facet)
+    self.society.isDirty = True
 
   def add_facet(self, facet, rule='BASE'):
     #facet arg could be either a Facet instance or a facet value string
@@ -97,10 +101,10 @@ class Agent:
       facet.parent = self
       facet.rule = rule
       self.facets.append(facet)
+      self.society.isDirty = True
     else:
-      fac = Facet(facet, rule)
-      fac.parent = self
-      self.facets.append(fac)
+      fac = Facet(facet)
+      self.add_facet(fac, rule)
 
   def get_facet(self, index):
     return self.facets[index]
@@ -120,6 +124,7 @@ class Agent:
     for c in self.components:
       if (c.klass == component_classname):
         self.components.remove(c)
+        self.society.isDirty = True
 
   def delete_component(self, component):
     # Destroys the component object
@@ -128,6 +133,7 @@ class Agent:
         component.delete_argument(argument)
       self.components.remove(component)
       del component
+      self.society.isDirty = True
     else:
       print "WARNING: Attempt to delete non-existent Component. Could be an error."
 
@@ -137,10 +143,10 @@ class Agent:
     if isinstance(component, Component):
       component.parent = self
       self.components.append(component)
+      self.society.isDirty = True
     else:
       comp = Component(component)
-      comp.parent = self
-      self.components.append(comp)
+      self.add_component(comp)
 
   def get_component(self, index):
     return self.components[index]
@@ -152,8 +158,9 @@ class Agent:
     return False
   
   def set_rule(self, newRule):
-        self.rule = str(newRule)
-
+    self.rule = str(newRule)
+    self.society.isDirty = True
+  
   def set_attribute(self, attribute, value):
     # both args must be strings
     if attribute.lower() == 'name':
@@ -168,6 +175,7 @@ class Agent:
       self.rule = value
     else:
       raise Exception, "Attempting to set unknown Agent attribute: " + attribute.lower()
+    self.society.isDirty = True
   
   def host(self):
     return self.parent.parent
@@ -184,6 +192,7 @@ class Agent:
     if agentNameCheck is None:
       # name is not taken, so it's OK
       self.name = newName
+      self.society.isDirty = True
     return self.name
   
   def isNodeAgent(self):
@@ -207,6 +216,7 @@ class Agent:
     
   def set_society(self, society):
     self.society = society
+    self.society.isDirty = True
   
   def to_xml(self, hnaOnly=False):
     xml = "      <agent name='"+ self.name + "'"

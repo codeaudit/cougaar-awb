@@ -74,6 +74,7 @@ class Host:
         node.parent = self
         node.society = self.parent
         node.nodeAgent.society = self.parent
+        self.parent.isDirty = True
         return node
       else:
         print "Unable to add duplicate Node."
@@ -106,6 +107,7 @@ class Host:
       node.remove_all_parameters()
       self.nodelist.remove(node)
       del node
+      self.parent.isDirty = True
   
   def remove_entity(self):
     self.parent.remove_host(self)
@@ -113,6 +115,7 @@ class Host:
   def remove_node(self, node):
     if node in self.nodelist:
       self.nodelist.remove(node)
+      self.parent.isDirty = True
   
   def get_node(self, index):
     return self.nodelist[index]
@@ -147,37 +150,41 @@ class Host:
     for facet in self.facets:
       if facet.contains_entry(keyValueString):
         facet.remove_entry(keyValueString)
+        self.parent.isDirty = True
         break
 
   def replace_facet(self, oldEntry, newEntry):
     for facet in self.facets:
       if facet.contains_entry(oldEntry):
         facet.replace_entry(oldEntry, newEntry)
+        self.parent.isDirty = True
         break
   
   def remove_all_facets(self):
     for facet in self.facets:
       del facet
+      self.parent.isDirty = True
     self.facets = []
-
+  
   def delete_facet(self, facet):
     self.facets.remove(facet)
     del facet
-
+    self.parent.isDirty = True
+  
   def add_facet(self, facet, rule='BASE'):
     #facet arg could be either a Facet instance or a facet value string
     if isinstance(facet, Facet):
       facet.parent = self
       facet.rule = rule
       self.facets.append(facet)
+      self.parent.isDirty = True
     else:
-      fac = Facet(facet, rule)
-      fac.parent = self
-      self.facets.append(fac)
-
+      fac = Facet(facet)
+      self.add_facet(fac, rule)
+  
   def get_facet(self, index):
     return self.facets[index]
-
+  
   ##
   # Returns a list containing all the values for the specified key
   #
@@ -189,8 +196,9 @@ class Host:
     return valList
 
   def set_rule(self, newRule):
-        self.rule = str(newRule)
-
+    self.rule = str(newRule)
+    self.parent.isDirty = True
+  
   def countNodes(self):
     return len(self.nodelist)
   
@@ -210,6 +218,7 @@ class Host:
         self.parent.set_nameserver(newName + self.parent.nameserver_suffix)
         for node in self.parent.each_node():
           node.updateNameServerParam(self.parent.get_nameserver())
+      self.parent.isDirty = True
     return self.name
   
   def each_node(self):
@@ -232,6 +241,7 @@ class Host:
     self.parent = society
     for node in self.nodelist:
       node.set_society(society)
+    self.parent.isDirty = True
   
   def to_xml(self, hnaOnly=False, isNameserver=False):
     xml = "  <host name='"+ self.name + "'"

@@ -39,6 +39,7 @@ class Argument:
       self.rule = value
     else:
       raise Exception, "Attempting to set unknown Argument attribute: " + attribute.lower()
+    self.parent.parent.society.isDirty = True
 
   def delete_entity(self):
     self.parent.delete_argument(self)
@@ -54,9 +55,11 @@ class Argument:
   
   def set_rule(self, newRule):
     self.rule = str(newRule)
+    self.parent.parent.society.isDirty = True
   
   def rename(self, newName):
     self.name = newName
+    self.parent.parent.society.isDirty = True
     return self.name
   
   def clone(self):

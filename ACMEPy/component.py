@@ -52,6 +52,7 @@ class Component:
       self.rule = value
     else:
       raise Exception, "Attempting to set unknown Component attribute: " + attribute.lower()
+    self.parent.society.isDirty = True
 
   def delete_entity(self):
     '''Deletes itself from component list of parent node or agent.'''
@@ -69,6 +70,7 @@ class Component:
   def delete_argument(self, argument):
     self.arguments.remove(argument)
     del argument
+    self.parent.society.isDirty = True
   
   def add_entity(self, entity):
     if isinstance(entity, Argument):
@@ -81,6 +83,7 @@ class Component:
     if isinstance(argument, Argument):
       self.arguments.append(argument)
       argument.parent = self
+      self.parent.society.isDirty = True
     elif type(argument) == types.StringType:  # must be a string
       arg = Argument(argument)
       self.add_argument(arg)
@@ -104,7 +107,8 @@ class Component:
     return "Component:"+self.name+":RULE:"+self.rule
   
   def set_rule(self, newRule):
-        self.rule = str(newRule)
+    self.rule = str(newRule)
+    self.parent.society.isDirty = True
   
   def getStrippedName(self):
     index = self.name.find('|')
@@ -115,6 +119,7 @@ class Component:
   
   def rename(self, newName):
     self.name = newName
+    self.parent.society.isDirty = True
     return self.name
   
   def clone(self):

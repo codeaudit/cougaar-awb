@@ -44,6 +44,7 @@ class Society:
     self.rule = str(rule)
     self.nameserver_host = "localhost"
     self.nameserver_suffix = ":8888:5555"
+    self.isDirty = False
     
   def __str__(self):
     return "Society:"+ self.name+":RULE:"+self.rule
@@ -73,6 +74,7 @@ class Society:
           # User doesn't care where it's added, so add at the end
           self.hostlist.append(host)
         host.parent = self
+        self.isDirty = True
         return host
       else:
         return None
@@ -96,31 +98,35 @@ class Society:
       facet.parent = self
       facet.rule = rule
       self.facets.append(facet)
+      self.isDirty = True
     else:
-      fac = Facet(facet, rule)
-      fac.parent = self
-      self.facets.append(fac)
+      fac = Facet(facet)
+      self.add_facet(fac, rule)
 
   def remove_facet(self, keyValueString):
     for facet in self.facets:
       if facet.contains_entry(keyValueString):
         facet.remove_entry(keyValueString)
+        self.isDirty = True
         break
   
   def remove_all_facets(self):
     for facet in self.facets:
       del facet
     self.facets = []
+    self.isDirty = True
   
   def replace_facet(self, oldEntry, newEntry):
     for facet in self.facets:
       if facet.contains_entry(oldEntry):
         facet.replace_entry(oldEntry, newEntry)
+        self.isDirty = True
         break
   
   def delete_facet(self, facet):
     self.facets.remove(facet)
     del facet
+    self.isDirty = True
   
   ##
   # Iteratively returns each facet on this Host instance as a Dictionary
@@ -153,9 +159,11 @@ class Society:
     else:
       self.nameserver_host = nameserver[:colon]
       self.nameserver_suffix = nameserver[colon:]
+    self.isDirty = True
   
   def set_nameserver_host(self, hostname):
     self.nameserver_host = hostname
+    self.isDirty = True
   
   def has_host(self, hostName):
     for host in self.hostlist:
@@ -178,6 +186,7 @@ class Society:
     host.remove_all_facets()
     self.remove_host(host)
     del host
+    self.isDirty = True
   
   def remove_host(self, host):
     if host in self.hostlist:
@@ -190,10 +199,12 @@ class Society:
       self.nameserver_host = self.hostlist[0].name
       for node in self.each_node():
         node.updateNameServerParam(self.get_nameserver())
+    self.isDirty = True
   
   def set_rule(self, newRule):
-        self.rule = str(newRule)
-      
+    self.rule = str(newRule)
+    self.isDirty = True
+  
   def active_hosts():
     actives = []
     for host in self.hostlist:
@@ -290,6 +301,7 @@ class Society:
     for host in self.each_host():
       if host.has_node(node.name):
         host.remove_node(node)
+        self.isDirty = True
         return
   
   def remove_agent(self, agent):
@@ -303,10 +315,12 @@ class Society:
       for node in host.each_node():
         if node.has_agent(agent.name):
           node.remove_agent(agent)
+          self.isDirty = True
           return
   
   def rename(self, newName):
     self.name = newName
+    self.isDirty = True
     return self.name
   
   ##

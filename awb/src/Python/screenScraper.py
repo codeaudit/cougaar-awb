@@ -1,7 +1,7 @@
 from sgmllib import SGMLParser
 import string
 import types
-
+CONVERTED2DOT5 = True
 class PageElement:
     """Contains the navigational information for some part of the page
     (either a tag or a piece of text)"""

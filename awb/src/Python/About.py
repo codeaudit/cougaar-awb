@@ -3,7 +3,7 @@
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: About.py,v 1.5 2004-12-06 22:22:46 damoore Exp $
+# RCS-ID:       $Id: About.py,v 1.6 2004-12-21 16:46:06 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -25,7 +25,7 @@
 
 import sys
 import wx
-import wx.html as html
+import wx.html as wxHtml
 import wxPython.lib.wxpTag
 
 #---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ class MyAboutBox(wx.Dialog):
 cellpadding="0" border="1">
 <tr>
     <td align="center">
-    <h1>CSMARTer 2003</h1>
+    <h1>Agent Workbench</h1>
     Version %s<br>
     </td>
 </tr>
@@ -47,7 +47,7 @@ cellpadding="0" border="1">
 <p>AWB provides a graphical environment for building
 and manipulating Cougaar societies.</p>
 
-<p>AWB is brought to you by BBN Technolgies.</p>
+<p>AWB is brought to you by Dana Moore and Jonathan Nilsson, BBN Technolgies.</p>
 
 <p>
 <font size="-1">Please see <i>license.txt</i> for licensing information.</font>
@@ -62,12 +62,12 @@ and manipulating Cougaar societies.</p>
 </html>
 '''
     def __init__(self, parent):
-        wx.Dialog.__init__(self, parent, -1, 'About CSMARTer',)
-        html = html.HtmlWindow(self, -1, size=(420, -1))
+        wx.Dialog.__init__(self, parent, -1, 'About AWB',)
+        html = wxHtml.HtmlWindow(self, -1, size=(420, -1))
         py_version = sys.version.split()[0]
-        html.SetPage(self.text % ('1.2'))  # Version number
+        html.SetPage(self.text % ('1.7'))  # Version number
         btn = html.FindWindowById(wx.ID_OK)
-        btn.SetDefault()
+#        btn.SetDefault()
         ir = html.GetInternalRepresentation()
         html.SetSize( (ir.GetWidth()+5, ir.GetHeight()+5) )
         self.SetClientSize(html.GetSize())

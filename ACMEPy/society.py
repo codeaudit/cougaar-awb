@@ -78,9 +78,9 @@ class Society:
       h = Host(host)
       return self.add_host(h)
   
-  def add_entity(self, host, orderAfterObj=None):
+  def add_entity(self, host, orderAfterObj=None, isCopyOperation=False):
     if isinstance(host, Host):
-      if host.parent.name == self.name:  # it's a reordering
+      if host.parent.name == self.name and not isCopyOperation:  # it's a reordering
         return self.add_host(host, orderAfterObj, True)
       if host.parent is not None:  # host just moved here from another society
         host.prev_parent = host.parent

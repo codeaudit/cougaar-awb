@@ -38,13 +38,13 @@ class Host:
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
     
-  def add_entity(self, entity, orderAfterObj=None):  
+  def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):  
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Node):
       entity.prev_parent = entity.parent
-      if entity.society.name == self.parent.name:  # it's a reordering w/in same society
+      if entity.society.name == self.parent.name and not isCopyOperation:  # it's a reordering w/in same society
          return self.add_node(entity, orderAfterObj, True)
       return self.add_node(entity, orderAfterObj)
     else:

@@ -88,14 +88,14 @@ class Node:
       newAgent = Agent(agent)
       return self.add_agent(newAgent)
 
-  def add_entity(self, entity, orderAfterObj=None):
+  def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):
     if type(entity) == types.ListType:  # parameters or facets
       self.add_parameters(entity)
     elif isinstance(entity, Component):
       self.add_component(entity)
     elif isinstance(entity, Agent):
       entity.prev_parent = entity.parent
-      if entity.society.name == self.society.name:  # it's a reordering w/in same society
+      if entity.society.name == self.society.name and not isCopyOperation:  # it's a reordering w/in same society
         return self.add_agent(entity, orderAfterObj, True)
       return self.add_agent(entity, orderAfterObj)
     else:

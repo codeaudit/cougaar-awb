@@ -35,6 +35,8 @@ class Host:
     self.nodelist = [] # for testing iterators
     self.facets = []
     self.rule = str(rule)
+    #~ self.enclaveFacetShowing = False
+    #~ self.serviceFacetShowing = False
 
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
@@ -123,11 +125,12 @@ class Host:
   def get_facet(self, index):
     return self.facets[index]
 
-  def get_facet_value(self, key):
+  def get_facet_values(self, key):
+    valList = []
     for facet in self.facets:
       if facet.has_key(key):
-        return facet[key]
-    return None
+        valList.append(facet.get(key))
+    return valList
 
   def set_rule(self, newRule):
         self.rule = str(newRule)

@@ -33,6 +33,7 @@ class Agent:
     self.facets = []
     self.components = []
     self.rule = str(rule)
+    #~ self.facetsShowing = False  # not currently used; for future growth
       
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
@@ -77,11 +78,12 @@ class Agent:
   def get_facet(self, index):
     return self.facets[index]
 
-  def get_facet_value(self, key):
+  def get_facet_values(self, key):
+    valList = []
     for facet in self.facets:
       if facet.has_key(key):
-        return facet[key]
-    return None
+        valList.append(facet.get(key))
+    return valList
 
   def each_component(self):
     for component in self.components:

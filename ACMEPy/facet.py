@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.2 2003-05-07 12:47:51 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.3 2003-05-30 17:46:49 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -64,6 +64,12 @@ class Facet:
   def each_facet_pair(self):
     for key in self.facets.keys():
       yield (key + "=" + self.facets[key])
+  
+  def has_key(self, key):
+    return self.facets.has_key(key)
+  
+  def get(self, key):
+    return self.facets[key]
   
   def delete_entity(self, key=None):
     if key is None:

@@ -38,6 +38,7 @@ class Node:
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
+    #~ self.facetShowing = False
     self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
   
   def __str__(self):
@@ -137,7 +138,7 @@ class Node:
       fac = Facet( facet )
       fac.parent = self
       self.facets.append(fac)
-    else:
+    else:  # it's a string type
       facetDict = {}
       facetList = facet.split("=")
       facetDict[facetList[0]] = facetList[1]
@@ -148,11 +149,12 @@ class Node:
   def get_facet(self, index):
     return self.facets[index]
 
-  def get_facet_value(self, key):
+  def get_facet_values(self, key):
+    valList = []
     for facet in self.facets:
       if facet.has_key(key):
-        return facet[key]
-    return None
+        valList.append(facet.get(key))
+    return valList
 
   def add_component(self, component):
     self.nodeAgent.add_component(component)

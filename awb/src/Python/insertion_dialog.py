@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: insertion_dialog.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: insertion_dialog.py,v 1.2 2004-11-01 21:52:34 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -36,15 +36,16 @@ from ACMEPy.facet import Facet
 from ACMEPy.component import Component
 from ACMEPy.argument import Argument
 from ACMEPy.parameter import *
+import wx
 
 #---------------------------------------------------------------------------
 
-class NewEntityDialog (wxTextEntryDialog):
+class NewEntityDialog (wx.TextEntryDialog):
 
   def __init__(self, parent, label):
-    wxTextEntryDialog.__init__(self, parent, label, 'Add New Entity')
+    wx.TextEntryDialog.__init__(self, parent, label, 'Add New Entity')
     self.SetSize((175, -1))
-    if self.ShowModal() == wxID_OK:
+    if self.ShowModal() == wx.ID_OK:
       parent.newEntityName = self.GetValue()
     self.Destroy()
 
@@ -53,43 +54,43 @@ class NewEntityDialog (wxTextEntryDialog):
 class NewNodeDialog:
 
   def __init__(self, parent):
-    self.win = wxDialog(parent, -1, "New Node", size=wxSize(400, 200),
-                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
+    self.win = wx.Dialog(parent, -1, "New Node", size=wx.Size(400, 200),
+                   style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
     ###---------------------------------------------------
     self.parent = parent
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
     
-    label = wxStaticText(self.win, -1, "New Node")
-    sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "New Node")
+    sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
     # text boxes
     # Name
-    nameBox = wxBoxSizer(wxHORIZONTAL)
-    nameLabel = wxStaticText(self.win, -1, "Name:")
-    nameBox.Add(nameLabel, 0, wxALIGN_CENTRE|wxALL, 5)
+    nameBox = wx.BoxSizer(wx.HORIZONTAL)
+    nameLabel = wx.StaticText(self.win, -1, "Name:")
+    nameBox.Add(nameLabel, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    tID = wxNewId()
-    self.nodeName = wxTextCtrl(self.win, tID, "", size=(200,-1))
-    nameBox.Add(self.nodeName, 1, wxALIGN_CENTRE|wxALL, 5)
+    tID = wx.NewId()
+    self.nodeName = wx.TextCtrl(self.win, tID, "", size=(200,-1))
+    nameBox.Add(self.nodeName, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    sizer.AddSizer(nameBox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(nameBox, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
     
     # Class
-    classBox = wxBoxSizer(wxHORIZONTAL)
+    classBox = wx.BoxSizer(wx.HORIZONTAL)
     
-    classLabel = wxStaticText(self.win, -1, "Class:")
-    classBox.Add(classLabel, 0, wxALIGN_CENTRE|wxALL, 5)
+    classLabel = wx.StaticText(self.win, -1, "Class:")
+    classBox.Add(classLabel, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    nodeClass = wxTextCtrl(self.win, -1, "org.cougaar.bootstrap.Bootstrapper", size=(200,-1))
-    classBox.Add(nodeClass, 1, wxALIGN_CENTRE|wxALL, 5)
+    nodeClass = wx.TextCtrl(self.win, -1, "org.cougaar.bootstrap.Bootstrapper", size=(200,-1))
+    classBox.Add(nodeClass, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    sizer.AddSizer(classBox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(classBox, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
     
     # parameters
     self.progPanel = AddParameterPanel(self.win, 'prog', True)
-    sizer.Add(self.progPanel, 1, wxGROW)
+    sizer.Add(self.progPanel, 1, wx.GROW)
     self.envPanel = AddParameterPanel(self.win, 'env', True)
-    sizer.Add(self.envPanel, 1, wxGROW)
+    sizer.Add(self.envPanel, 1, wx.GROW)
     self.envPanel.Show()
     self.vmPanel = AddParameterPanel(self.win, 'vm', True)
     self.vmPanel.params.SetInsertionPoint(0)  # insert next item at top of the list
@@ -98,22 +99,22 @@ class NewNodeDialog:
     self.vmPanel.params.SetInsertionPointEnd()  # now go back to the end
     self.vmPanel.params.WriteText("\n-Dorg.cougaar.name.server=" + \
                                                   self.parent.parent.frame.society.get_nameserver())
-    sizer.Add(self.vmPanel, 1, wxGROW)
+    sizer.Add(self.vmPanel, 1, wx.GROW)
     self.vmPanel.Show()
     
-    line = wxStaticLine(self.win, -1, size=(20,-1), style=wxLI_HORIZONTAL)
-    sizer.Add(line, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP, 5)
+    line = wx.StaticLine(self.win, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
+    sizer.Add(line, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)
     
     # buttons
-    box = wxBoxSizer(wxHORIZONTAL)
-    btn = wxButton(self.win, wxID_OK, " OK ")
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    btn = wx.Button(self.win, wx.ID_OK, " OK ")
     btn.SetDefault()
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self.win, wx.ID_CANCEL, " Cancel ")
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
-    sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
     
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
@@ -121,7 +122,7 @@ class NewNodeDialog:
     self.win.CenterOnParent()
     
     val = self.win.ShowModal()
-    if val == wxID_OK:
+    if val == wx.ID_OK:
       parent.newEntityName = self.nodeName.GetValue()
       parent.newNodeClass = nodeClass.GetValue()
       parent.newProgParams = self.progPanel.params.GetValue()
@@ -139,57 +140,57 @@ class NewNodeDialog:
 
 class NewAgentDialog:
   def __init__(self, parent):
-    self.win = wxDialog(parent, -1, "New Agent", size=wxSize(350, 200),
-                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
+    self.win = wx.Dialog(parent, -1, "New Agent", size=wx.Size(350, 200),
+                   style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
 
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
 
-    label = wxStaticText(self.win, -1, "New Agent")
-    sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "New Agent")
+    sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    box = wxBoxSizer(wxHORIZONTAL)
+    box = wx.BoxSizer(wx.HORIZONTAL)
 
-    label = wxStaticText(self.win, -1, "Name:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "Name:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
     # Agent name text box
-    agentName = wxTextCtrl(self.win, -1, "", size=(200,-1))
-    box.Add(agentName, 1, wxALIGN_CENTRE|wxALL, 5)
+    agentName = wx.TextCtrl(self.win, -1, "", size=(200,-1))
+    box.Add(agentName, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
-    box = wxBoxSizer(wxHORIZONTAL)
+    box = wx.BoxSizer(wx.HORIZONTAL)
 
-    label = wxStaticText(self.win, -1, "Class:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "Class:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
     # Agent class text box
-    agentClass = wxTextCtrl(self.win, -1, "org.cougaar.core.agent.SimpleAgent", size=(200,-1))
-    box.Add(agentClass, 1, wxALIGN_CENTRE|wxALL, 5)
+    agentClass = wx.TextCtrl(self.win, -1, "org.cougaar.core.agent.SimpleAgent", size=(200,-1))
+    box.Add(agentClass, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
-    line = wxStaticLine(self.win, -1, size=(20,-1), style=wxLI_HORIZONTAL)
-    sizer.Add(line, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP, 5)
+    line = wx.StaticLine(self.win, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
+    sizer.Add(line, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)
 
     # OK and CANCEL buttons
-    box = wxBoxSizer(wxHORIZONTAL)
+    box = wx.BoxSizer(wx.HORIZONTAL)
 
-    btn = wxButton(self.win, wxID_OK, " OK ")
+    btn = wx.Button(self.win, wx.ID_OK, " OK ")
     btn.SetDefault()
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self.win, wx.ID_CANCEL, " Cancel ")
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
-    if val == wxID_OK:
+    if val == wx.ID_OK:
         parent.newEntityName = agentName.GetValue()
         parent.newAgentClass = agentClass.GetValue()
     self.win.Destroy()
@@ -198,88 +199,88 @@ class NewAgentDialog:
 
 class NewComponentDialog:
   def __init__(self, parent):
-    self.win = wxDialog(parent, -1, "New Component", size=wxSize(350, 200),
-                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
+    self.win = wx.Dialog(parent, -1, "New Component", size=wx.Size(350, 200),
+                   style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
 ###---------------------------------------------------
 
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
 
-    label = wxStaticText(self.win, -1, "New Component")
-    sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "New Component")
+    sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
 
 # text boxes
 # Name
-    box = wxBoxSizer(wxHORIZONTAL)
-    label = wxStaticText(self.win, -1, "Name:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    label = wx.StaticText(self.win, -1, "Name:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    componentName = wxTextCtrl(self.win, -1, "", size=(80,-1))
-    box.Add(componentName, 1, wxALIGN_CENTRE|wxALL, 5)
+    componentName = wx.TextCtrl(self.win, -1, "", size=(80,-1))
+    box.Add(componentName, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
 # Class
-    box = wxBoxSizer(wxHORIZONTAL)
+    box = wx.BoxSizer(wx.HORIZONTAL)
 
-    label = wxStaticText(self.win, -1, "Class:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "Class:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    componentClass = wxTextCtrl(self.win, -1, "", size=(150,-1))
-    box.Add(componentClass, 1, wxALIGN_CENTRE|wxALL, 5)
+    componentClass = wx.TextCtrl(self.win, -1, "", size=(150,-1))
+    box.Add(componentClass, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
-    line = wxStaticLine(self.win, -1, size=(20,-1), style=wxLI_HORIZONTAL)
-    sizer.Add(line, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP, 5)
+    line = wx.StaticLine(self.win, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
+    sizer.Add(line, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.RIGHT|wx.TOP, 5)
 
 # Priority
-    box = wxBoxSizer(wxHORIZONTAL)
-    label = wxStaticText(self.win, -1, "Priority:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    label = wx.StaticText(self.win, -1, "Priority:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
     prioValues = ["HIGH", "INTERNAL", "BINDER", "COMPONENT", "LOW"]
     defaultPrio = "COMPONENT"
-    componentPriority = wxComboBox(self.win, -1, defaultPrio, wxDefaultPosition, wxSize(100, -1),
-                    prioValues, wxCB_DROPDOWN | wxCB_READONLY)
-    box.Add(componentPriority, 0, wxALIGN_CENTRE|wxALL, 5)
+    componentPriority = wx.ComboBox(self.win, -1, defaultPrio, wx.DefaultPosition, wx.Size(100, -1),
+                    prioValues, wx.CB_DROPDOWN | wx.CB_READONLY)
+    box.Add(componentPriority, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
   
 # Order
-    label = wxStaticText(self.win, -1, "Order:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
-    componentOrder = wxTextCtrl(self.win, -1, "", size=wxSize(50, -1))
-    #~ box.Add(orderSpinner, 0, wxALIGN_CENTRE|wxALL, 5)
-    box.Add(componentOrder, 0, wxALIGN_RIGHT|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "Order:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+    componentOrder = wx.TextCtrl(self.win, -1, "", size=wx.Size(50, -1))
+    #~ box.Add(orderSpinner, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+    box.Add(componentOrder, 0, wx.ALIGN_RIGHT|wx.ALL, 5)
     
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
   
 # InsertionPoint
-    box = wxBoxSizer(wxHORIZONTAL)
-    label = wxStaticText(self.win, -1, "Insertion Point:")
-    box.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    label = wx.StaticText(self.win, -1, "Insertion Point:")
+    box.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    componentInsertionPoint = wxTextCtrl(self.win, -1, "Node.AgentManager.Agent.PluginManager.Plugin", 
+    componentInsertionPoint = wx.TextCtrl(self.win, -1, "Node.AgentManager.Agent.PluginManager.Plugin", 
                                                         size=(250,-1))
-    box.Add(componentInsertionPoint, 1, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(componentInsertionPoint, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 ### ------------------------------------
-    box = wxBoxSizer(wxHORIZONTAL)
-    btn = wxButton(self.win, wxID_OK, " OK ")
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    btn = wx.Button(self.win, wx.ID_OK, " OK ")
     btn.SetDefault()
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self.win, wx.ID_CANCEL, " Cancel ")
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
-    if val == wxID_OK:
+    if val == wx.ID_OK:
       parent.newComponentName = componentName.GetValue()
       parent.newComponentClass = componentClass.GetValue()
       parent.newComponentPriority = componentPriority.GetValue()
@@ -304,47 +305,47 @@ class AddMultipleValuesDialog:
     elif self.valueType == 'facet':
       title = "Add Facets"
       labelText = "Enter new facets in 'key=value' format"
-    self.win = wxDialog(parent, -1, title, size=wxSize(350, 200),
-                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
+    self.win = wx.Dialog(parent, -1, title, size=wx.Size(350, 200),
+                   style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
     
 ###---------------------------------------------------
 
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
 
-    label = wxStaticText(self.win, -1, labelText)
-    sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, labelText)
+    sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
 # parameters
     if self.valueType is None:  # allow entry of all three types of parameter
       self.progPanel = AddParameterPanel(self.win, 'prog')
-      sizer.Add(self.progPanel, 1, wxGROW)
+      sizer.Add(self.progPanel, 1, wx.GROW)
       self.displayedPanels.append(self.progPanel)
       self.envPanel = AddParameterPanel(self.win, 'env')
-      sizer.Add(self.envPanel, 1, wxGROW)
+      sizer.Add(self.envPanel, 1, wx.GROW)
       self.displayedPanels.append(self.envPanel)
       self.envPanel.Show()
       self.vmPanel = AddParameterPanel(self.win, 'vm')
-      sizer.Add(self.vmPanel, 1, wxGROW)
+      sizer.Add(self.vmPanel, 1, wx.GROW)
       self.displayedPanels.append(self.vmPanel)
       self.vmPanel.Show()
     else:  # only allow entry of one type of parameter
       self.panel = AddParameterPanel(self.win, self.valueType)
-      sizer.Add(self.panel, 1, wxGROW)
+      sizer.Add(self.panel, 1, wx.GROW)
       self.displayedPanels.append(self.panel)
     
-    line = wxStaticLine(self.win, -1, size=(20,-1), style=wxLI_HORIZONTAL)
-    sizer.Add(line, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
+    line = wx.StaticLine(self.win, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
+    sizer.Add(line, 0, wx.GROW|wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
 # buttons
-    box = wxBoxSizer(wxHORIZONTAL)
-    btn = wxButton(self.win, wxID_OK, " OK ")
+    box = wx.BoxSizer(wx.HORIZONTAL)
+    btn = wx.Button(self.win, wx.ID_OK, " OK ")
     btn.SetDefault()
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self.win, wx.ID_CANCEL, " Cancel ")
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
@@ -352,7 +353,7 @@ class AddMultipleValuesDialog:
     self.win.CenterOnParent()
 
     val = self.win.ShowModal()
-    if val == wxID_OK:
+    if val == wx.ID_OK:
       self.addNewParams()
     self.win.Destroy()
 
@@ -378,8 +379,8 @@ class AddMultipleValuesDialog:
                 self.paramsList.append(Facet(param))
               else:
                 msg = '''A facet must be in "key=value" format.  Please reenter.'''
-                errorDialog = wxMessageDialog(self.parent, msg, style = wxCAPTION | wxOK | 
-                     wxTHICK_FRAME | wxICON_ERROR)
+                errorDialog = wx.MessageDialog(self.parent, msg, style = wx.CAPTION | wx.OK | 
+                     wx.THICK_FRAME | wx.ICON_ERROR)
                 errorDialog.ShowModal()
                 return
     
@@ -410,10 +411,10 @@ class AddMultipleValuesDialog:
       print "No new parameters entered"
 
 #---------------------------------------------------------------------------
-class AddParameterPanel(wxPanel):
+class AddParameterPanel(wx.Panel):
 
   def __init__(self, parent, paramType, nodeCreation=False):
-    wxPanel.__init__(self, parent, -1)
+    wx.Panel.__init__(self, parent, -1)
     self.parent = parent
     self.paramType = paramType
     self.nodeCreation = nodeCreation
@@ -428,19 +429,19 @@ class AddParameterPanel(wxPanel):
 -Dorg.cougaar.core.persistence.enable=false
 -Dorg.cougaar.planning.ldm.lps.ComplainingLP.level=0
 -Duser.timezone=GMT'''
-    box = wxBoxSizer(wxVERTICAL)
+    box = wx.BoxSizer(wx.VERTICAL)
     
     labelText = ""
     if self.paramType == "facet":
       labelText = "Facets:"
     else:
       labelText = self.paramType + "_parameters:"
-    progLabel = wxStaticText(self, -1, labelText)
-    box.Add(progLabel, 0, wxALIGN_CENTRE | wxALL, 5)
-    self.params = wxTextCtrl(self, -1, self.defaultParam, size=(300,130),
-                                        style=wxTE_MULTILINE | wxHSCROLL)
+    progLabel = wx.StaticText(self, -1, labelText)
+    box.Add(progLabel, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+    self.params = wx.TextCtrl(self, -1, self.defaultParam, size=(300,130),
+                                        style=wx.TE_MULTILINE | wx.HSCROLL)
     self.params.SetInsertionPointEnd()
-    box.Add(self.params, 1, wxGROW | wxALIGN_CENTRE | wxALL, 5)
+    box.Add(self.params, 1, wx.GROW | wx.ALIGN_CENTRE | wx.ALL, 5)
 
     self.SetSizer(box)
     self.SetAutoLayout(true)
@@ -472,20 +473,20 @@ Doing so will permanently delete the society file from the disk.'''
       dialogFormat = 4
       
     if dialogFormat == 0:
-      self.win = wxMessageDialog(parent, msg, style = wxCAPTION | wxOK | 
-                     wxTHICK_FRAME | wxICON_EXCLAMATION)
+      self.win = wx.MessageDialog(parent, msg, style = wx.CAPTION | wx.OK | 
+                     wx.THICK_FRAME | wx.ICON_EXCLAMATION)
     elif dialogFormat == 1:
-      self.win = wxMessageDialog(parent, msg, style = wxCAPTION | wxYES_NO | 
-                     wxYES_DEFAULT | wxCANCEL | wxTHICK_FRAME | wxICON_QUESTION)
+      self.win = wx.MessageDialog(parent, msg, style = wx.CAPTION | wx.YES_NO | 
+                     wx.YES_DEFAULT | wx.CANCEL | wx.THICK_FRAME | wx.ICON_QUESTION)
     elif dialogFormat == 2:
-      self.win = wxMessageDialog(parent, msg, style = wxCAPTION | wxYES_NO | 
-                     wxNO_DEFAULT | wxTHICK_FRAME | wxICON_QUESTION)
+      self.win = wx.MessageDialog(parent, msg, style = wx.CAPTION | wx.YES_NO | 
+                     wx.NO_DEFAULT | wx.THICK_FRAME | wx.ICON_QUESTION)
     if dialogFormat == 3:
-      self.win = wxMessageDialog(parent, msg, style = wxCAPTION | wxOK | 
-                     wxTHICK_FRAME | wxICON_INFORMATION)
+      self.win = wx.MessageDialog(parent, msg, style = wx.CAPTION | wx.OK | 
+                     wx.THICK_FRAME | wx.ICON_INFORMATION)
     if dialogFormat == 4:
-      self.win = wxMessageDialog(parent, msg, style = wxCAPTION | wxOK | 
-                     wxTHICK_FRAME | wxICON_ERROR)
+      self.win = wx.MessageDialog(parent, msg, style = wx.CAPTION | wx.OK | 
+                     wx.THICK_FRAME | wx.ICON_ERROR)
   
   def display(self):
     self.win.ShowModal()
@@ -500,63 +501,63 @@ Doing so will permanently delete the society file from the disk.'''
 
 class FindItemDialog:
   def __init__(self, parent, showViewerRadio=False):
-    self.win = wxDialog(parent, -1, "Find society entity", size=wxSize(350, 200),
-                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
+    self.win = wx.Dialog(parent, -1, "Find society entity", size=wx.Size(350, 200),
+                   style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
     
     self.parent = parent
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
     
-    label = wxStaticText(self.win, -1, "Enter name of society entity to find:")
-    sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
+    label = wx.StaticText(self.win, -1, "Enter name of society entity to find:")
+    sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
     
     # Item name text box
-    self.itemName = wxTextCtrl(self.win, -1, self.parent.searchLabel, size=(200,-1))
+    self.itemName = wx.TextCtrl(self.win, -1, self.parent.searchLabel, size=(200,-1))
     self.itemName.SetSelection(-1, -1)
-    sizer.Add(self.itemName, 1, wxALIGN_CENTRE|wxALL, 5)
+    sizer.Add(self.itemName, 1, wx.ALIGN_CENTRE|wx.ALL, 5)
        
     # Case-sensitive search desired checkbox
     self.caseSearchDesired = False
-    caseSearchID = wxNewId()
-    self.caseSearchCheckbox = wxCheckBox(self.win, caseSearchID, "Perform Case-Sensitive Search")
+    caseSearchID = wx.NewId()
+    self.caseSearchCheckbox = wx.CheckBox(self.win, caseSearchID, "Perform Case-Sensitive Search")
     self.caseSearchCheckbox.SetValue(self.parent.caseSearchDesired)
-    EVT_CHECKBOX(self.win, caseSearchID, self.OnCaseSearchChecked)
-    sizer.Add(self.caseSearchCheckbox, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=7)
+    self.Bind(wx.EVT_CHECKBOX,   self.OnCaseSearchChecked, self.caseSearchCheckbox)
+    sizer.Add(self.caseSearchCheckbox, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM, border=7)
     
     # Viewer in which to search radio box
-    rbID = wxNewId()
+    rbID = wx.NewId()
     rbLabel = "Search for desired item in:"
     buttonTitles = ["Agent List", "HNA Map                      "]
-    self.rb = wxRadioBox(self.win, rbID, rbLabel, wxDefaultPosition, (-1, 80), buttonTitles, 1, wxRA_SPECIFY_COLS)
+    self.rb = wx.RadioBox(self.win, rbID, rbLabel, wx.DefaultPosition, (-1, 80), buttonTitles, 1, wx.RA_SPECIFY_COLS)
     self.rb.SetSelection(1)  # HNA Map is default selection
     if not showViewerRadio:
       self.rb.Enable(false)
       self.viewerToSearch = self.parent.societyViewer
     else:
       self.viewerToSearch = self.parent.laydownViewer
-    EVT_RADIOBOX(self.win, rbID, self.OnEvtRadioBox)
-    sizer.Add(self.rb, 0, wxALIGN_CENTER | wxALL, 10)
+    self.Bind(wx.EVT_RADIOBOX, self.OnEvtRadioBox, self.rb)  
+    sizer.Add(self.rb, 0, wx.ALIGN_CENTER | wx.ALL, 10)
     
-    line = wxStaticLine(self.win, -1, size=(20,-1), style=wxLI_HORIZONTAL)
-    sizer.Add(line, 0, wxGROW | wxALIGN_CENTER | wxTOP, 5)
+    line = wx.StaticLine(self.win, -1, size=(20,-1), style=wx.LI_HORIZONTAL)
+    sizer.Add(line, 0, wx.GROW | wx.ALIGN_CENTER | wx.TOP, 5)
 
     # OK and CANCEL buttons
-    box = wxBoxSizer(wxHORIZONTAL)
+    box = wx.BoxSizer(wx.HORIZONTAL)
 
-    btn = wxButton(self.win, wxID_OK, " OK ")
+    btn = wx.Button(self.win, wx.ID_OK, " OK ")
     btn.SetDefault()
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
-    box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self.win, wx.ID_CANCEL, " Cancel ")
+    box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
-    if val == wxID_OK:
+    if val == wx.ID_OK:
       self.parent.searchLabel = self.itemName.GetValue()
       self.parent.caseSearchDesired = self.caseSearchDesired
       self.parent.currentTree = self.viewerToSearch
@@ -576,23 +577,23 @@ class FindItemDialog:
 
 #**************************************************************
 
-class NodeInfoEditor(wxFrame):
+class NodeInfoEditor(wx.Frame):
 
   EDIT = 0
   DELETE = 1
   ADD = 2
 
   def __init__(self, parent, log, ID = -1, title = 'Edit Node Info', 
-                    pos=wxDefaultPosition, size=(450,450), 
-                    style=wxDEFAULT_FRAME_STYLE):
-    wxFrame.__init__(self, parent, ID, title, pos, size, style)
+                    pos=wx.DefaultPosition, size=(450,450), 
+                    style=wx.DEFAULT_FRAME_STYLE):
+    wx.Frame.__init__(self, parent, ID, title, pos, size, style)
     self.parent = parent
     self.log = log
     self.changesToMake = []
-    tID = wxNewId()
+    tID = wx.NewId()
     
-    self.tree = wxTreeCtrl(self, tID, wxDefaultPosition, (450,450),
-                           wxTR_HAS_BUTTONS | wxTR_EDIT_LABELS)
+    self.tree = wx.TreeCtrl(self, tID, wx.DefaultPosition, (450,450),
+                           wx.TR_HAS_BUTTONS | wx.TR_EDIT_LABELS)
     
     #------------------------------------------------------------------------------------------------
     #   Build the tree
@@ -668,34 +669,34 @@ class NodeInfoEditor(wxFrame):
       data = [self.entityObj, "order"]
       self.tree.SetPyData(compOrderNode, data)
     
-    cookie = 1     # required by wxTreeCtrl for getting children.  See docs.
+    cookie = 1     # required by wx.TreeCtrl for getting children.  See docs.
     self.ExpandTree(self.root, cookie)
     self.tree.SelectItem(self.root)
     
-    EVT_TREE_SEL_CHANGED    (self, tID, self.OnSelChanged)
-    EVT_TREE_BEGIN_LABEL_EDIT(self, tID, self.OnBeginEdit)
-    EVT_TREE_END_LABEL_EDIT (self, tID, self.OnEndEdit)
-    EVT_TREE_DELETE_ITEM(self, tID, self.OnDelete)
-    EVT_RIGHT_DOWN(self.tree, self.OnRightClick)
-    EVT_RIGHT_UP(self.tree, self.OnRightUp)
+    self.Bind(wx.EVT_TREE_SEL_CHANGED,   self.OnSelChanged, self.tree)
+    self.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT,   self.OnBeginEdit, self.tree)
+    self.Bind(wx.EVT_TREE_END_LABEL_EDIT,   self.OnEndEdit, self.tree)
+    self.Bind(wx.EVT_TREE_DELETE_ITEM,   self.OnDelete, self.tree)
+    self.Bind(wx.EVT_RIGHT_DOWN,   self.OnRightClick, self.tree)
+    self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp, self.tree)
 
 ###---------------------------------------------------
 
-    sizer = wxBoxSizer(wxVERTICAL)
+    sizer = wx.BoxSizer(wx.VERTICAL)
     
-    btnBox = wxBoxSizer(wxHORIZONTAL)
-    btn = wxButton(self, wxID_OK, "  OK  ")
-    EVT_BUTTON(self, wxID_OK, self.OnOK)  
+    btnBox = wx.BoxSizer(wx.HORIZONTAL)
+    btn = wx.Button(self, wx.ID_OK, "  OK  ")
+    self.Bind(wx.EVT_BUTTON, self.OnOk, btn)
     btn.SetDefault()
-    btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btnBox.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    btn = wxButton(self, wxID_CANCEL, " Cancel ")
-    EVT_BUTTON(self, wxID_CANCEL, self.OnCancel)  
-    EVT_CLOSE(self, self.OnCloseWindow)
-    btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+    btn = wx.Button(self, wx.ID_CANCEL, " Cancel ")
+    self.Bind(wx.EVT_BUTTON, self.OnCancel, btn)
+    self.Bind(wx.EVT_CLOSE, self.OnCloseWindow)
+    btnBox.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
-    sizer.Add(self.tree, 1, wxEXPAND | wxALIGN_CENTER)
-    sizer.Add(btnBox, 0, wxALIGN_CENTER|wxALL, 5)
+    sizer.Add(self.tree, 1, wx.EXPAND | wx.ALIGN_CENTER)
+    sizer.Add(btnBox, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.SetSizer(sizer)
     self.SetAutoLayout(true)
@@ -740,7 +741,7 @@ class NodeInfoEditor(wxFrame):
     self.itemDataList = self.tree.GetPyData(item)
     menu = self.SetMenu(self.itemDataList)  # arg is a ref to the obj underlying the tree item
     if menu is not None:
-      self.PopupMenu(menu, wxPoint(self.x, self.y))
+      self.PopupMenu(menu, wx.Point(self.x, self.y))
       menu.Destroy()
     event.Skip()
 
@@ -778,31 +779,31 @@ class NodeInfoEditor(wxFrame):
  
   def OnRename(self, event):
     if isinstance(self.itemDataList[0], Component) and self.itemDataList[1] == "priority":
-      dlg = wxDialog(self.tree, -1, "Edit Component Priority", 
-                     style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
-      sizer = wxBoxSizer(wxVERTICAL)
-      label = wxStaticText(dlg, -1, "Select new Priority")
-      sizer.Add(label, 0, wxALIGN_CENTRE | wxALL, 5)
+      dlg = wx.Dialog(self.tree, -1, "Edit Component Priority", 
+                     style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME)
+      sizer = wx.BoxSizer(wx.VERTICAL)
+      label = wx.StaticText(dlg, -1, "Select new Priority")
+      sizer.Add(label, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
       prioValues = ["HIGH", "INTERNAL", "BINDER", "COMPONENT", "LOW"]
       defaultPrio = self.itemDataList[0].priority
-      componentPriority = wxComboBox(dlg, -1, defaultPrio, wxDefaultPosition, wxSize(100, -1),
-                      prioValues, wxCB_DROPDOWN | wxCB_READONLY)
-      sizer.Add(componentPriority, 0, wxALIGN_CENTRE | wxALL, 5)
-      box = wxBoxSizer(wxHORIZONTAL)
-      btn = wxButton(dlg, wxID_OK, " OK ")
+      componentPriority = wx.ComboBox(dlg, -1, defaultPrio, wx.DefaultPosition, wx.Size(100, -1),
+                      prioValues, wx.CB_DROPDOWN | wx.CB_READONLY)
+      sizer.Add(componentPriority, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+      box = wx.BoxSizer(wx.HORIZONTAL)
+      btn = wx.Button(dlg, wx.ID_OK, " OK ")
       btn.SetDefault()
-      box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+      box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
       
-      btn = wxButton(dlg, wxID_CANCEL, " Cancel ")
-      box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
+      btn = wx.Button(dlg, wx.ID_CANCEL, " Cancel ")
+      box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
       
-      sizer.AddSizer(box, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
+      sizer.AddSizer(box, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
       
       dlg.SetSizer(sizer)
       dlg.SetAutoLayout(true)
       sizer.Fit(dlg)
       val = dlg.ShowModal()
-      if val == wxID_OK:
+      if val == wx.ID_OK:
         newLabel = componentPriority.GetStringSelection()
         print "New Prio value:", newLabel  # prg debug
         self.tree.SetItemText(self.currentItem, newLabel)
@@ -947,44 +948,44 @@ class NodeInfoEditor(wxFrame):
     tID7 = 6
     tID8 = 7
     
-    menu = wxMenu()
-    editMenuItem = wxMenuItem(menu, tID1, "Edit")
-    deleteMenuItem = wxMenuItem(menu, tID2, "Delete")
-    addVmParamMenuItem = wxMenuItem(menu, tID3, "Add vm_parameter")
-    addProgParamMenuItem = wxMenuItem(menu, tID6, "Add prog_parameter")
-    addEnvParamMenuItem = wxMenuItem(menu, tID7, "Add env_parameter")
-    addCompMenuItem = wxMenuItem(menu, tID4, "Add Component")
-    addArgMenuItem = wxMenuItem(menu, tID5, "Add Argument")
-    addFacetMenuItem = wxMenuItem(menu, tID8, "Add Facet")
+    menu = wx.Menu()
+    editMenuItem = wx.MenuItem(menu, tID1, "Edit")
+    deleteMenuItem = wx.MenuItem(menu, tID2, "Delete")
+    addVmParamMenuItem = wx.MenuItem(menu, tID3, "Add vm_parameter")
+    addProgParamMenuItem = wx.MenuItem(menu, tID6, "Add prog_parameter")
+    addEnvParamMenuItem = wx.MenuItem(menu, tID7, "Add env_parameter")
+    addCompMenuItem = wx.MenuItem(menu, tID4, "Add Component")
+    addArgMenuItem = wx.MenuItem(menu, tID5, "Add Argument")
+    addFacetMenuItem = wx.MenuItem(menu, tID8, "Add Facet")
     
     if self.tree.GetItemText(self.currentItem) == "VM_Parameters":
       menu.AppendItem(addVmParamMenuItem)
-      EVT_MENU(self, tID3, self.OnAddVmParameter)
+      self.Bind(wx.EVT_MENU, self.OnAddVmParameter, addVmParamMenuItem)
       return menu
     
     if self.tree.GetItemText(self.currentItem) == "Prog_Parameters":
       menu.AppendItem(addProgParamMenuItem)
-      EVT_MENU(self, tID6, self.OnAddProgParameter)
+      self.Bind(wx.EVT_MENU, self.OnAddProgParameter, addProgParamMenuItem)
       return menu
     
     if self.tree.GetItemText(self.currentItem) == "Env_Parameters":
       menu.AppendItem(addEnvParamMenuItem)
-      EVT_MENU(self, tID7, self.OnAddEnvParameter)
+      self.Bind(wx.EVT_MENU, self.OnAddEnvParameter, addEnvParamMenuItem)
       return menu
     
     if self.tree.GetItemText(self.currentItem) == "Components":
       menu.AppendItem(addCompMenuItem)
-      EVT_MENU(self, tID4, self.OnAddComponent)
+      self.Bind(wx.EVT_MENU, self.OnAddComponentr, addCompMenuItem)
       return menu
 
     if self.tree.GetItemText(self.currentItem) == "Arguments":
       menu.AppendItem(addArgMenuItem)
-      EVT_MENU(self, tID5, self.OnAddArgument)
+      self.Bind(wx.EVT_MENU, self.OnAddArgument, addArgMenuItem)
       return menu
 
     if self.tree.GetItemText(self.currentItem) == "Facets":
       menu.AppendItem(addFacetMenuItem)
-      EVT_MENU(self, tID8, self.OnAddFacet)
+      self.Bind(wx.EVT_MENU, self.OnAddFacet, addFacetMenuItem)
       return menu
 
     if itemDataList is not None:
@@ -992,27 +993,27 @@ class NodeInfoEditor(wxFrame):
         menu.AppendItem(editMenuItem)
         menu.AppendItem(deleteMenuItem)
         menu.AppendItem(addVmParamMenuItem)
-        EVT_MENU(self, tID1, self.OnRename)
-        EVT_MENU(self, tID2, self.OnDeleteItem)
-        EVT_MENU(self, tID3, self.OnAddVmParameter)
+        self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnDeleteItem, deleteMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddVmParameter, addVmParamMenuItem)
         return menu
       
       if isinstance(itemDataList[0], ProgParameter):
         menu.AppendItem(editMenuItem)
         menu.AppendItem(deleteMenuItem)
         menu.AppendItem(addProgParamMenuItem)
-        EVT_MENU(self, tID1, self.OnRename)
-        EVT_MENU(self, tID2, self.OnDeleteItem)
-        EVT_MENU(self, tID6, self.OnAddProgParameter)
+        self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnDeleteItem, deleteMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddProgParameter, addProgParamMenuItem)
         return menu
       
       if isinstance(itemDataList[0], EnvParameter):
         menu.AppendItem(editMenuItem)
         menu.AppendItem(deleteMenuItem)
         menu.AppendItem(addEnvParamMenuItem)
-        EVT_MENU(self, tID1, self.OnRename)
-        EVT_MENU(self, tID2, self.OnDeleteItem)
-        EVT_MENU(self, tID7, self.OnAddEnvParameter)
+        self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnDeleteItem, deleteMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddEnvParameter, addEnvParamMenuItem)
         return menu
       
       if isinstance(itemDataList[0], Component):
@@ -1021,24 +1022,25 @@ class NodeInfoEditor(wxFrame):
           menu.AppendItem(deleteMenuItem)
           menu.AppendItem(addCompMenuItem)
           menu.AppendItem(addArgMenuItem)
-        EVT_MENU(self, tID1, self.OnRename)
-        EVT_MENU(self, tID2, self.OnDeleteItem)
-        EVT_MENU(self, tID4, self.OnAddComponent)
-        EVT_MENU(self, tID5, self.OnAddArgument)
+        self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnDeleteItem, deleteMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddComponent, addCompMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddArgument, addArgMenuItem)
         return menu
       
       if isinstance(itemDataList[0], Facet):
         menu.AppendItem(editMenuItem)
         menu.AppendItem(deleteMenuItem)
         menu.AppendItem(addFacetMenuItem)
-        EVT_MENU(self, tID1, self.OnRename)
-        EVT_MENU(self, tID2, self.OnDeleteItem)
-        EVT_MENU(self, tID8, self.OnAddFacet)
+        self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnDeleteItem, deleteMenuItem)
+        self.Bind(wx.EVT_MENU, self.OnAddFacet, addFacetMenuItem)
+
         return menu
       
       # For all other items (except headings):
       menu.AppendItem(editMenuItem)
-      EVT_MENU(self, tID1, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, editMenuItem)
       return menu
       
     else:

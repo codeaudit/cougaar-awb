@@ -8,21 +8,21 @@ import thread
 import httplib
 
 from wxPython.wx import *
-from wxPython.ogl import *
 from wxPython.lib.dialogs import wxMultipleChoiceDialog
 
 from globalConstants import *
 import images
 
 import zoomer as z
-
+import wx
+import wx.lib.ogl as ogl
 
 #----------------------------------------------------------------------
-class InformationPanel(wxDividedShape):
+class InformationPanel(ogl.DividedShape):
     def __init__(self, width, height, canvas, information=None):
-        wxDividedShape.__init__(self, width, height)
+        ogl.DividedShape.__init__(self, width, height)
         if information is None:
-                region = wxShapeRegion()
+                region = ogl.ShapeRegion()
                 region.SetText('no uniqueObjects')
                 region.SetProportions(0.0, 0.2)
                 region.SetFormatMode(FORMAT_CENTRE_HORIZ)
@@ -31,7 +31,7 @@ class InformationPanel(wxDividedShape):
                 i = 0
                 for key in information.iterkeys():
                         print "uniqueObjects:", key,":", information[key]
-                        region = wxShapeRegion()
+                        region = ogl.ShapeRegion()
                         region.SetText(str(key)+":"+str(information[key]))
                         region.SetProportions(0.0, 0.2)
                         region.SetFormatMode(FORMAT_CENTRE_HORIZ)
@@ -46,7 +46,7 @@ class InformationPanel(wxDividedShape):
         rnum = 0
         if canvas is None:
             canvas = self.GetCanvas()
-        dc = wxClientDC(canvas)  # used for measuring
+        dc = wx.ClientDC(canvas)  # used for measuring
         for region in self.GetRegions():
             text = region.GetText()
             self.FormatText(dc, text, rnum)

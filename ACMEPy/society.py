@@ -250,9 +250,12 @@ class Society:
   
   ##
   # A standby method for printing a simple list of agent names in the society.  May be
-  # added into the program in the future.  For now, it's used only as-needed.
+  # added into the program in the future.  For now, it's used only as-needed.  When
+  # user needs a list of agent names, rename this method to 'to_xml()' and rename
+  # 'to_xml' to 'to_xml_real'.  Then just 'save' the society; it will produce a text
+  # file consisting of a list of agent names.
   #
-  def to_xml_for_printing_list_of_agent_names(self):
+  def to_xml_agentNameList_only(self, hnaOnly=False):
     xml = "Society name: " + self.name + "\n"
     xml = xml + "  Agents:\n"
     for agent in self.each_agent():

@@ -53,9 +53,7 @@ class Argument:
     return Argument(self.name, self.rule)
   
   def to_xml(self):
-    xml = "<argument>"
-    xml = xml + str(self.name) + "</argument>\n"
-    return xml
+    return "<argument>" + str(self.name) + "</argument>\n"
     
   def to_python(self):
     script = "argument = Argument('"+self.name+"','"+self.rule+"')\n"

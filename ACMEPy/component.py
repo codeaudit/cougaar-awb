@@ -78,7 +78,8 @@ class Component:
   def delete_argument(self, argument):
     self.arguments.remove(argument)
     del argument
-    self.parent.society.isDirty = True
+    if self.parent is not None:
+      self.parent.society.isDirty = True
 
   def add_entity(self, entity):
     if isinstance(entity, Argument):
@@ -91,7 +92,7 @@ class Component:
     if isinstance(argument, Argument):
       self.arguments.append(argument)
       argument.parent = self
-      if self.parent.society is not None:
+      if self.parent is not None and self.parent.society is not None:
         self.parent.society.isDirty = True
     elif type(argument) == types.StringType:  # must be a string
       arg = Argument(argument)

@@ -179,20 +179,9 @@ class TransformationRule:
     #~ wxLogMessage("Running rule '"+ str(self.name)+ "' on society "+ str(society.name))
     print "Running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     try:
-      self.rule = '''
-myClass = 'org.cougaar.core.servlet.SimpleServletComponent'
-myName = None
-myPriority='COMPONENT'
-myInsertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'
-myOrder = None
-myRule = 'BASE'
-
-for agent in society.each_agent():
-    component = Component(myName, myClass, myPriority, myInsertionpoint)
-    agent. add_component(component)
-    component.add_argument(Argument("com.bbn.awb.GOL.MessageCountServlet"))
-    component.add_argument(Argument("/count"))
-'''
+      #ugly ugly replacement to get around stray CR's that can 
+      #be introduced when editing on multiple  platforms
+      self.rule = self.rule.replace(chr(13), '')
       exec self.rule
     except Exception, args:
       print "exec self.rule exception"

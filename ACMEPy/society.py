@@ -101,7 +101,21 @@ class Society:
           for component in agent.each_component():
             yield component
 
-
+  def get_agent_list(self):
+    agentList = []
+    for agent in self.each_agent():
+      agentList.append(agent)
+    return agentList
+  
+  def countAgents(self):
+    count = 0
+    for agent in self.each_agent():
+      count += 1
+    return count
+  
+  def countHosts(self):
+    return len(self.hostlist)
+  
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"
     xml = xml + "<society name='"+ self.name +"'\n"
@@ -196,3 +210,24 @@ class Society:
 	component.add_argument(argument)
     return society
  
+  # Causes a society to delete references to all its components (hosts, nodes, agents, etc.).
+  def close(self, saveAgents=False):
+    for host in self.each_host():
+      for node in host.each_node():
+        if not saveAgents:
+          for agent in node.each_agent():
+            for component in agent.each_component():
+              del component.arguments
+            del agent.components
+            del agent.facets
+        del node.agents
+        del node.agentlist
+        del node.facets
+        del node.vm_parameters
+        del node.prog_parameters
+        del node.env_parameters
+      del host.nodes
+      del host.nodelist
+      del host.facets
+    del self.hosts
+    del self.hostlist

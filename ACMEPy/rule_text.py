@@ -21,6 +21,8 @@ class RuleText:
 	  self.description = str(list[1]).strip()
 	if find (lower(in_line),'rule:') == 0:
 	  readingRule = True
+      ### write a final newline to assure outdenting in Python
+      self.rule = self.rule + "\n"
 
   def saveRule(self, filename):
     f = open(filename, 'w+')

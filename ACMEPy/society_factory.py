@@ -39,7 +39,7 @@ class SocietyFactory:
   def __init__(self, source):
     global dom
     if (type(source) is type("")):
-      source = file(source)
+      source = file(source,'r+')
     dom = PyExpat.Reader().fromStream(source)
 
   def parse(self):
@@ -108,7 +108,7 @@ class TransformationRule:
     self.fired = False
     self.society = None
 
-  def set_rule(self, ruleText):
+  def set_rule(ruleText):
     self.rule = ruleText
     
   def fire(self):
@@ -130,14 +130,13 @@ class TransformationRule:
 
 
 class TransformationEngine:
-  def __init__(self, society, max_loop=30):
+  def __init__(self, society, max_loop=300):
     self.MAXLOOP = max_loop
     self.society = society
     self.rules = []
     
   def add_rule(self, rule):
     if isinstance(rule, TransformationRule): self.rules.append(rule)
-    else: print "???Bad rule???", rule
   
   def transform(self):
     loop = True

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: insertion_dialog.py,v 1.4 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: insertion_dialog.py,v 1.5 2004-11-14 18:34:37 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -592,7 +592,7 @@ class NodeInfoEditor(wx.Frame):
     self.log = log
     self.changesToMake = []
     tID = wx.NewId()
-    
+    self.log.WriteText("new NodeInfoEditor\n")
     self.tree = wx.TreeCtrl(self, tID, wx.DefaultPosition, (450,450),
                            wx.TR_HAS_BUTTONS | wx.TR_EDIT_LABELS)
     
@@ -669,25 +669,26 @@ class NodeInfoEditor(wx.Frame):
       compOrderNode = self.tree.AppendItem(compOrderTitleNode, str(self.entityObj.order))
       data = [self.entityObj, "order"]
       self.tree.SetPyData(compOrderNode, data)
-    
+      
     cookie = 1     # required by wx.TreeCtrl for getting children.  See docs.
     self.ExpandTree(self.root, cookie)
+    self.log.WriteText("new NodeInfoEditor here\n")
     self.tree.SelectItem(self.root)
     
     self.Bind(wx.EVT_TREE_SEL_CHANGED,   self.OnSelChanged, self.tree)
     self.Bind(wx.EVT_TREE_BEGIN_LABEL_EDIT,   self.OnBeginEdit, self.tree)
     self.Bind(wx.EVT_TREE_END_LABEL_EDIT,   self.OnEndEdit, self.tree)
     self.Bind(wx.EVT_TREE_DELETE_ITEM,   self.OnDelete, self.tree)
-    self.Bind(wx.EVT_RIGHT_DOWN,   self.OnRightClick, self.tree)
-    self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp, self.tree)
-
+    self.tree.Bind(wx.EVT_RIGHT_DOWN,   self.OnRightClick)
+    self.tree.Bind(wx.EVT_RIGHT_UP, self.OnRightUp)
+    
 ###---------------------------------------------------
 
     sizer = wx.BoxSizer(wx.VERTICAL)
     
     btnBox = wx.BoxSizer(wx.HORIZONTAL)
     btn = wx.Button(self, wx.ID_OK, "  OK  ")
-    self.Bind(wx.EVT_BUTTON, self.OnOk, btn)
+    self.Bind(wx.EVT_BUTTON, self.OnOK, btn)
     btn.SetDefault()
     btnBox.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
 
@@ -702,6 +703,7 @@ class NodeInfoEditor(wx.Frame):
     self.SetSizer(sizer)
     self.SetAutoLayout(True)
     self.CenterOnParent()
+    self.log.WriteText("new NodeInfoEditor: init done\n")
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #Event Handlers
@@ -931,13 +933,19 @@ class NodeInfoEditor(wx.Frame):
 
   # Recursively iterates over all the tree nodes and expands them.
   def ExpandTree(self, treeNode, cookie):
-    if treeNode.IsOk():
-      self.tree.Expand(treeNode)
-      child = self.tree.GetFirstChild(treeNode, cookie)
-      while child[0].IsOk():
-        self.ExpandTree(child[0], child[1])
-        child = self.tree.GetNextChild(child[0], child[1])
-
+    self.log.WriteText("ExpandTree\n")
+    if treeNode.IsOk(): 
+      self.tree.Expand(treeNode) 
+      (child, cookie) = self.tree.GetFirstChild(treeNode)
+#      print 'child:', child
+#      while child[0].IsOk():
+      while child.IsOk():
+#        self.ExpandTree(child[0], child[1])
+        self.ExpandTree(child, cookie)
+        self.log.WriteText("ExpandTree here\n")
+#        child = self.tree.GetNextChild(child[0], child[1])
+        (child, cookie) = self.tree.GetNextChild(child, cookie)
+    self.log.WriteText("ExpandTree done\n")
   def SetMenu(self, itemDataList):
   
     tID1 = 0

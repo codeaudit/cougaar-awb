@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyViewer.py,v 1.4 2004-11-02 19:22:36 damoore Exp $
+# RCS-ID:       $Id: societyViewer.py,v 1.5 2004-11-14 18:34:37 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -793,7 +793,7 @@ class SocietyViewer(wx.TreeCtrl):
     self.SetItemTextColour(item, wx.WHITE)
   
   def removeHighlighting(self, item):
-    print 'removeHighlighting: old Item', item 
+#    print 'removeHighlighting: old Item', item 
     self.SetItemBackgroundColour(item, wx.WHITE)
     self.SetItemTextColour(item, wx.BLACK)
   
@@ -1241,7 +1241,7 @@ def runApp( frame, nb, log ):
 overview = """\
 <html><body>
 <P>
-<H2>The CSMARTer Society Viewer ...</H2>
+<H2>The Agent Workbench Society Viewer ...</H2>
 <P>
 To use, read in a society file. Then read in rules files and apply them as needed. Finally, write the society back out 
 </body></html>

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyEditor.py,v 1.4 2004-11-02 19:22:36 damoore Exp $
+# RCS-ID:       $Id: societyEditor.py,v 1.5 2004-11-14 18:34:37 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -136,9 +136,11 @@ class SocietyEditorPanel(wx.Panel):
 #    EVT_TREE_SEL_CHANGING(self, tID, self.OnSelChanging)
     self.Bind(wx.EVT_TREE_SEL_CHANGING, self.OnSelChanging,  self.frame.societyViewer)
 #    EVT_RIGHT_DOWN(self.frame.societyViewer, self.OnRightClick)  # emits a wx.MouseEvent
-    self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightClick,  self.frame.societyViewer)
+#    self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightClick,  self.frame.societyViewer)
+    self.frame.societyViewer.Bind(wx.EVT_RIGHT_DOWN, self.OnRightClick)
 #    EVT_RIGHT_UP(self.frame.societyViewer, self.OnRightUp)  # emits a wx.MouseEvent
-    self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp,  self.frame.societyViewer)
+#    self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp,  self.frame.societyViewer)
+    self.frame.societyViewer.Bind(wx.EVT_RIGHT_UP, self.OnRightUp)
 #    EVT_LEFT_DOWN(self.frame.societyViewer, self.OnLeftDown)  # emits a wx.MouseEvent
     self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown,  self.frame.societyViewer)
 #    EVT_LEFT_UP(self.frame.societyViewer, self.OnLeftUp)  # emits a wx.MouseEvent
@@ -269,14 +271,14 @@ class SocietyEditorPanel(wx.Panel):
   def OnSelChanged(self, event):
     #~ print "SocietyEditor::OnSelChanged"
     self.currentItem = event.GetItem()
-    print "===================\nOnSelChanged: self.currentItem", self.currentItem, "\nself.currentItem.IsOk()", self.currentItem.IsOk()
-    print "OnSelChanged: self.currentItem = event.GetItem()", self.currentItem,"\n \n"
+#    print "===================\nOnSelChanged: self.currentItem", self.currentItem, "\nself.currentItem.IsOk()", self.currentItem.IsOk()
+#    print "OnSelChanged: self.currentItem = event.GetItem()", self.currentItem,"\n \n"
     if not self.currentItem.IsOk():
-        print "possible invalide Item???",  self.currentItem
+#        print "possible invalide Item???",  self.currentItem
         return
     self.frame.societyViewer.removeHighlighting(self.currentItem) # ??? needed???
     self.entityObj = self.getEntityObj()
-    print "self.entityObj.name", self.entityObj.name,'==========='
+#    print "self.entityObj.name", self.entityObj.name,'==========='
     if not self.entityObj:
       event.Skip()
       return
@@ -293,18 +295,19 @@ class SocietyEditorPanel(wx.Panel):
     self.y = event.GetY()
     pt = event.GetPosition();
     item, flags = self.frame.societyViewer.HitTest(pt)
-    print "OnRightClick:", item, " IsOk:", item.IsOk()
+#    self.log.WriteText("OnRightClick: %s IsOk: %d" % item, item.IsOk())
     if item.IsOk():
       self.frame.societyViewer.SelectItem(item)
 
   def OnRightUp(self, event):
     pt = event.GetPosition();
     item, flags = self.frame.societyViewer.HitTest(pt)
-    print "OnRightUp:", item, " IsOk:", item.IsOk()
+    
+    self.log.WriteText("OnRightUp: Item==> %s\n" % self.frame.societyViewer.GetItemText(item))
     if item.IsOk():  # need this to prevent sys crash when tree has no items
-      #~ itemText = self.frame.societyViewer.GetItemText(item).getAllText()
+#      itemText = self.frame.societyViewer.GetItemText(item).getAllText()
       self.entityObj = self.frame.societyViewer.GetPyData(item)
-      #self.log.WriteText("OnRightUp: %s\n" % itemText)
+#      self.log.WriteText("OnRightUp (item.IsOk): %s\n" % itemText)
     else:
       self.entityObj = None
     if item.IsOk() or self.frame.societyViewer.isEmptyTree():
@@ -612,6 +615,7 @@ class SocietyEditorPanel(wx.Panel):
     self.frame.societyViewer.EditLabel(self.currentItem)
 
   def OnEditNodeInfo(self, event):
+    self.log.WriteText("OnEditNodeInfo:")
     #Bring up a separate Frame to view/edit other info
     if not self.infoFrameOpen:  # only one may be open at a time
       nodeInfoEditor = NodeInfoEditor(self, self.log)

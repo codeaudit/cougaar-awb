@@ -30,6 +30,7 @@ from csmarter_events import *
 from servletProperties import ServletProperties
 from globalConstants import *
 import images
+import zoomer as z
 
 
 #---------------------------------------------------------------------
@@ -108,6 +109,8 @@ class AgentControllerViewer(wx.Panel):
         # ------
         self.testServletButton = wx.Button(self, GLOBAL_WIDGET_ID_BASE+5, "Agent Probes")
         wx.EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+5, self.AgentTaskCountUpdate)
+        self.currTaskCount = None
+        self.oldTaskCount = None
         self.testServletButton.SetBackgroundColour(wx.CYAN)
         self.testServletButton.SetForegroundColour(wx.BLACK)
         #~ self.viewSocietyButton.SetDefault()
@@ -129,10 +132,17 @@ class AgentControllerViewer(wx.Panel):
             print >> sys.stdout, "AgentTaskCountUpdate"
             if self.societyReader is not None:
                 #~ print >> sys.stdout, "..."
-                uniqueObjects = self.societyReader.readUniqueObjects(self.HOST, self.PORT)
-                for o in uniqueObjects.keys():
-
-                    self.computeHeat(o, uniqueObjects[o])
+                self.oldTaskCount = self.currTaskCount
+                self.currTaskCount = self.societyReader.readUniqueObjects(self.HOST, self.PORT)
+                for o in self.currTaskCount.keys():
+                    heat = 0
+                    if self.oldTaskCount is None:
+                      heat = self.currTaskCount[o]
+                    elif self.oldTaskCount.get(o) is None:
+                      heat = self.currTaskCount[o]
+                    else:
+                      heat = int(self.currTaskCount[o]) - int(self.oldTaskCount[o])
+                    self.computeHeat(o, heat)
                 #~ info = InformationPanel (140, 300, self.canvas, information=uniqueObjects)
                 #~ self.canvas.addShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
                 #~ dc = wxClientDC(self.canvas)
@@ -234,7 +244,7 @@ class AgentControllerViewer(wx.Panel):
         try:
             cip = os.environ['COUGAAR_INSTALL_PATH']
             execstring = cip+os.sep+'bin'+os.sep+'XSLNode'
-            self.spawnPID = os.spawnv(os.P_NOWAIT,execstring, (execstring, self.NODE));
+            self.spawnPID = os.spawnv(os.P_NOWAIT,execstring, (execstring, self.NODE, "> run.log"));
             #~ print 'spawned...',execstring , ' ID=', self.spawnPID
         except KeyError:
             dlg = wx.MessageDialog(self.frame, "set 'COUGAAR_INSTALL_PATH' as an environmental variable",
@@ -259,7 +269,9 @@ class AgentControllerViewer(wx.Panel):
         red = green = blue = 0
         agentValue = int(agentValue)
         agentValue = agentValue * 2
-        if agentValue < 256:
+        if agentValue <= 0:
+          red = green = blue = 40
+        elif 0 <agentValue < 256:
             red = 0; green = agentValue; blue = 255 - agentValue
         elif  256 <= agentValue < 512:
             red = agentValue - 256; green = 255; blue = 0

@@ -28,11 +28,12 @@ class Component:
    #
    # data:: [String] the plugin data
    #
-  def __init__(self, name=None, klass=None, priority = None, insertionpoint=None, rule='BASE'):
+  def __init__(self, name=None, klass=None, priority = None, insertionpoint=None, order=None, rule='BASE'):
     self.name = name
     self.klass = klass
     self.priority = priority
     self.insertionpoint = insertionpoint
+    self.order = order
     self.arguments = []
     self.rule = str(rule)
     self.parent = None
@@ -48,6 +49,8 @@ class Component:
       self.priority = value
     elif attribute.lower() == 'insertionpoint':
       self.insertionpoint = value
+    elif attribute.lower() == 'order':
+      self.order = value
     elif attribute.lower() == 'rule':
       self.rule = value
     else:
@@ -92,7 +95,9 @@ class Component:
       raise Exception, "Attempting to add invalid Argument type"
   
   def get_argument(self, index):
-    return self.arguments[index]
+    if len(self.arguments) > index:
+      return self.arguments[index]
+    return None
   
   def each_argument(self):
     for argument in self.arguments: # only for testing iterators
@@ -124,7 +129,7 @@ class Component:
     return self.name
   
   def clone(self, parent=None):
-    component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
+    component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.order, self.rule)
     component.parent = parent
     for arg in self.arguments:
       new_arg = arg.clone()
@@ -137,14 +142,20 @@ class Component:
   def to_xml(self, numTabs=4):
     tab = ' ' * 4
     indent = tab * numTabs
-    xml =  indent + "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
+    xml =  indent + "<component name='" + str(self.name) + "' class='" + str(self.klass) + \
+        "' priority='" + str(self.priority) + "' insertionpoint='" + str(self.insertionpoint) + "'"
+    if self.order and len(str(self.order)) > 0:  # order may not be present
+      xml = xml + " order='" + str(self.order) + "'"
+    xml = xml + ">\n"
     for a in self.arguments[:]:
       xml = xml + a.to_xml()
     xml = xml + indent + "</component>\n"
     return xml
     
   def to_python(self):
-    script = "component = Component(name='"+self.name+"', klass='"+self.klass+"', priority='"+str(self.priority)+"', insertionpoint='"+self.insertionpoint+"')\n"
+    script = "component = Component(name='" + self.name + "', klass='" + self.klass + \
+        "', priority='" + str(self.priority) + "', insertionpoint='" + self.insertionpoint + \
+        "', order='" + self.order + "')\n"
     script = script + "agent.add_component(component)\n"
     for a in self.arguments:
       script = script + a.to_python()
@@ -161,6 +172,7 @@ class Component:
     script = script + indent + "c.classname = '" + self.klass + "'\n"
     script = script + indent + "c.priority = '" + self.priority + "'\n"
     script = script + indent + "c.insertionpoint = '" + self.insertionpoint + "'\n"
+    script = script + indent + "c.order = '" + self.order + "'\n"
     for a in self.arguments:
       script = script + a.to_ruby(numTabs)
     indent = "  " * (numTabs - 1)

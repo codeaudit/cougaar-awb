@@ -1,9 +1,9 @@
 """
 Created: 2001/08/05
-Purpose: Turn ACMEPy into a package
+Purpose: Provide package information for CSModel
 
-__version__ = "$Revision: 1.1 $"
-__date__ = "$Date: 2004-12-07 15:01:31 $"
+__version__ = "$Revision: 1.2 $"
+__date__ = "$Date: 2004-12-07 15:12:11 $"
 
 """
 from society import *

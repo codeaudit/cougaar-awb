@@ -5,6 +5,7 @@ from string import split,strip,join
 import sys,os
 import threading
 import jabber
+import xmlrpclib
 
 class RoboUser(threading.Thread):
   
@@ -12,7 +13,7 @@ class RoboUser(threading.Thread):
   False = 0
 
   
-  def __init__(self, server=None, username=None, password=None, resource=None):
+  def __init__(self, server=None, rpc=None, username=None, password=None, resource=None):
     threading.Thread.__init__(self)
     print "RoboUser: Register a New Robot: ",server, username, password, resource
     if server == None or username == None or password == None or resource == None:
@@ -31,6 +32,7 @@ class RoboUser(threading.Thread):
     self.username = username
     self.password = password
     self.resource = resource
+    self.rpc = rpc
 
     try:
       self.con.connect()
@@ -113,17 +115,15 @@ class RoboUser(threading.Thread):
     """Called when a message is recieved"""
     print "robo user: messageCB", str(msg)
     if msg.getType() == 'groupchat':
-      self.observations.append(msg.getBody())
+      self.observations.append(str(msg.getBody()))
+
       if msg.getBody() == 'RECORD':
-	m = jabber.Message()
-	m.setFrom(self.username)
-	m.setTo(msg.getFrom())
-	m.setType('chat')
+	self.polarisServer = xmlrpclib.Server(self.rpc)
+	observationString = str(self.username)+" Observation:\r\n"
 	for observation in self.observations:
-	  responseString ="observation==>"+str(observation) 
-	  m.setBody(responseString)
-	  self.con.send(m) # send message back to the service requester. "It worked"
-	#~ print self.observations
+	  observationString =observationString + observation +'\r\n'
+	print "POSTING: "+ observationString
+	self.polarisServer.remote.addObservation(int(self.username), str(self.username), observationString)
     
   def presenceCB(self, con, prs):
     """Called when a presence is recieved

@@ -16,6 +16,7 @@ keys = {}
 myFromID = 'robologger'
 MYPORT = 7002
 JABBERSERVER = None
+XMLRPCSERVER = "http://u180/servlet/xml-rpc"
 def iqCB(con, iq):
     resultIq = jabber.Iq(to=iq.getFrom())
     resultIq.setID(iq.getID())
@@ -175,7 +176,7 @@ def messageCB(con, msg):
       m.setTo(msg.getFrom())
       m.setType('chat')
       responseString = 'created robo user==>'+experimentID
-      roboUser = RoboUser(server=JABBERSERVER, username=experimentID, password=experimentID, resource=experimentID)
+      roboUser = RoboUser(server=JABBERSERVER, rpc=XMLRPCSERVER, username=experimentID, password=experimentID, resource=experimentID)
       robots[experimentID] = roboUser
       m.setBody("OK :"+responseString)
       con.send(m) # send message back to the service requester. "It worked"
@@ -190,13 +191,16 @@ def messageCB(con, msg):
 # ###
 # start here
 # ###
-if len(sys.argv) == 1: 
+if len(sys.argv) < 3: 
       # looks like the invoker forgot to specify a real host. possible bummer
       # let's set it to 'localhost' but print out the fact.
       JABBERSERVER = 'localhost'
+      XMLRPCSERVER = "http://u180/servlet/xml-rpc"
 else:
       JABBERSERVER = sys.argv[1]
+      XMLRPCSERVER = sys.argv[2]
 print 'JABBERSERVER == ', JABBERSERVER
+print 'XMLRPCSERVER == ', XMLRPCSERVER
 
 con = jabber.Component(host=JABBERSERVER, debug=0, port=MYPORT, log='log')
 robots = {}    

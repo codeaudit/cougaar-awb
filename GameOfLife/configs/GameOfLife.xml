@@ -418,6 +418,10 @@
           <argument>target=Cell15:Dead</argument>
           <argument>rows=4</argument>
      </component>
+      <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
 
       </agent>
  

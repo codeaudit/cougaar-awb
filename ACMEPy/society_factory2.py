@@ -23,7 +23,7 @@
 from __future__ import generators
 import os, sys, traceback
 from wxPython.wx import *
-from xml.dom import minidom 
+from xml.dom import minidom
 from Ft.Xml.Domlette import Print, PrettyPrint
 from Ft.Xml.Domlette import NonvalidatingReader
 
@@ -38,7 +38,7 @@ from parameter import *
 import types
 
 class SocietyFactory:
-  
+
   def __init__(self, uri=None, xmlString=None):
     global doc
     if uri is not None:
@@ -46,7 +46,7 @@ class SocietyFactory:
     elif xmlString is not None:
       uri = 'file:bogusFile.txt' # Required by Domlette or it issues a warning.
       doc = NonvalidatingReader.parseString(xmlString, uri)
-  
+
   def parse(self):
     societyElement = doc.childNodes[0]
     society = Society(societyElement.getAttributeNS(None, "name"))
@@ -70,7 +70,7 @@ class SocietyFactory:
               hostElements = societyElem.childNodes
               # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
               for xmlNode in hostElements:
-                if xmlNode.nodeType == minidom.Node.ELEMENT_NODE: 
+                if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
                   #~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
                   if xmlNode.nodeName == 'facet':
                     newHost.add_facet(self.attributeDict(xmlNode))
@@ -96,7 +96,7 @@ class SocietyFactory:
   def populateNodeElements(self, thisNode, xmlNodes):
     for xmlNode in xmlNodes:
       if xmlNode.nodeName == 'facet':
-        thisNode.add_facet(self.attributeDict(xmlNode)) 
+        thisNode.add_facet(self.attributeDict(xmlNode))
       elif xmlNode.nodeName == 'vm_parameter':
         thisNode.add_vm_parameter( VMParameter(value=xmlNode.childNodes[0].data.strip()) )
         #~ print 'vm_parameter:', xmlNode.childNodes[0].data.strip()
@@ -116,33 +116,31 @@ class SocietyFactory:
           raise Exception, "Parsing failed due to duplicate agent: " + agentDict['name']
         if agentDict.has_key('class'):
           newAgent.klass = agentDict['class']
-        #~ print 'AGENT:', newAgent 
+        #~ print 'AGENT:', newAgent
         self.populateAgentElements(newAgent, xmlNode.childNodes)
       elif xmlNode.nodeName == 'component':
         compAttrs = self.attributeDict(xmlNode)
-        #~ component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'], compAttrs['order'])
-        component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
+        component = Component(compAttrs.get('name'), compAttrs['class'], compAttrs.get('priority'), compAttrs.get('insertionpoint'))
         thisNode.add_component(component)
-        #~ print 'NODE COMPONENT:', component 
+        #~ print 'NODE COMPONENT:', component
       else:
         if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
-          print 'UNKNOWN NODE TYPE:', xmlNode.nodeName 
-  
+          print 'UNKNOWN NODE TYPE:', xmlNode.nodeName
+
   def populateAgentElements(self, thisAgent, xmlNodes):
     for xmlNode in xmlNodes:
       if xmlNode.nodeName == 'facet':
-        thisAgent.add_facet(self.attributeDict(xmlNode)) 
+        thisAgent.add_facet(self.attributeDict(xmlNode))
       elif xmlNode.nodeName == 'component':
         compAttrs = self.attributeDict(xmlNode)
         #~ print "component name :", compAttrs['name'], " class :",  compAttrs['class'], " priority :",  compAttrs['priority'], " ip:",  compAttrs['insertionpoint']
-        component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
-        #~ component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'], compAttrs['order'])
+        component = Component(compAttrs.get('name'), compAttrs['class'], compAttrs.get('priority'), compAttrs.get('insertionpoint'))
         thisAgent.add_component(component)
         if xmlNode.hasChildNodes():
           argNodes = xmlNode.childNodes
           for argNode in argNodes:
             if argNode.nodeType == minidom.Node.ELEMENT_NODE:
-              #~ print "argument:", argNode.childNodes[0].data.strip() 
+              #~ print "argument:", argNode.childNodes[0].data.strip()
               component.add_argument(str(argNode.childNodes[0].data.strip()))
 
 def society_from_python(filename):
@@ -166,21 +164,35 @@ class TransformationRule:
   def set_rule(self, ruleText):
     self.rule = str(ruleText.rule)
     #~ self.isRubyRule = ruleText.isRubyRule
-    
+
   def fire(self):
     self.fire_count += 1
     self.fired = True
-    
+
   def reset(self):
     self.fired = False
-    
+
   def has_fired(self):
     return self.fired
-    
+
   def execute(self, society):
     #~ wxLogMessage("Running rule '"+ str(self.name)+ "' on society "+ str(society.name))
     print "Running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     try:
+      self.rule = '''
+myClass = 'org.cougaar.core.servlet.SimpleServletComponent'
+myName = None
+myPriority='COMPONENT'
+myInsertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'
+myOrder = None
+myRule = 'BASE'
+
+for agent in society.each_agent():
+    component = Component(myName, myClass, myPriority, myInsertionpoint)
+    agent. add_component(component)
+    component.add_argument(Argument("com.bbn.awb.GOL.MessageCountServlet"))
+    component.add_argument(Argument("/count"))
+'''
       exec self.rule
     except Exception, args:
       print "exec self.rule exception"
@@ -193,10 +205,10 @@ class TransformationEngine:
     self.society = society
     self.rules = []
     self.parent = parent
-    
+
   def add_rule(self, rule):
     if isinstance(rule, TransformationRule): self.rules.append(rule)
-  
+
   def transform(self):
     loop = True
     count =0
@@ -209,14 +221,14 @@ class TransformationEngine:
           print "ERROR transforming the Society."
           traceback.print_exc()
           self.log.WriteText("Transformation failed.\n")
-          self.log.WriteText("%s\n" % str(args))   
-          
+          self.log.WriteText("%s\n" % str(args))
+
         if rule.fired == True:  # if rule fired, we'll fire it again...until it doesn't fire any longer
           rule.reset()
           loop = True
       count = count + 1
       print "loop ", count
-    for rule in self.rules: 
+    for rule in self.rules:
       # Sending the following msg to the log file seems to cause Linux to hang, perhaps
       # because this is running in a separate thread and a deadlock occurs (see wxPython bug 496697).
       #~ wxLogMessage("Rule '" + rule.name + "' fired " + str(rule.fire_count) + " times.")
@@ -235,6 +247,6 @@ def main():
   #factory = SocietyFactory('tiny.xml')
   factory = QikSocietyFactory('SB-1AD-STRIPPED_TEST.xml')
   factory.parse()
-  
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
   main()

@@ -36,10 +36,10 @@ class Agent:
     self.components = []
     self.rule = str(rule)
     self.isExcluded = False
-      
+
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
-    
+
   def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):
     if type(entity) == types.ListType:  # will be a list of Facet objects
       for each_thing in entity:
@@ -48,7 +48,7 @@ class Agent:
       entity.prev_parent = entity.parent
       isReordering = False
       print "isCopyOperation:", isCopyOperation  # prg debug
-      if entity.parent == self and not isCopyOperation:  
+      if entity.parent == self and not isCopyOperation:
         print "It's a reordering w/in the same agent" # prg debug  ## Just take out 'print' stmt ##
         self.remove_component(entity)  # we'll be adding it back again in a new location
         isReordering = True
@@ -57,27 +57,27 @@ class Agent:
       return self.add_component(entity, orderAfterObj, isReordering)
     else:
       raise Exception, "Attempting to add unknown Node attribute"
-  
+
   def delete_entity(self):
     self.parent.delete_agent(self)
-  
+
   def delete_from_prev_parent(self):
     if self.prev_parent is not None:
       self.prev_parent.remove_agent(self)
     else:
       self.remove_entity()
-  
+
   def has_changed_parent(self):
     return self.parent != self.prev_parent
-  
+
   def remove_entity(self):
     self.parent.remove_agent(self)
-  
+
   ##
   # Iteratively returns each facet on this Agent instance as a Dictionary
   #
   def each_facet(self):
-    for facet in self.facets: 
+    for facet in self.facets:
       yield facet
 
   def remove_facet(self, keyValueString):
@@ -86,14 +86,14 @@ class Agent:
         facet.remove_entry(keyValueString)
         self.society.isDirty = True
         break
-  
+
   def replace_facet(self, oldEntry, newEntry):
     for facet in self.facets:
       if facet.contains_entry(oldEntry):
         facet.replace_entry(oldEntry, newEntry)
         self.society.isDirty = True
         break
-  
+
   def remove_all_facets(self):
     for facet in self.facets:
       del facet
@@ -121,7 +121,7 @@ class Agent:
   # agent's list of facets.  Dupes are ignored; i.e., not added.
   #
   # facetList:: [List] a list of facets
-  # 
+  #
   def add_facets(self, facetList):
     if facetList is not None and len(facetList) > 0:
       # check for dupes
@@ -142,7 +142,7 @@ class Agent:
               self.add_facet(key + '=' + facet.get(key))
           else:  # no key match; this is a new key=value pair for this host
             self.add_facet(key + '=' + facet.get(key))
-  
+
   def get_facet(self, index):
     return self.facets[index]
 
@@ -151,7 +151,7 @@ class Agent:
   #
   def get_facets(self):
     return self.facets
-  
+
   ##
   # Returns True if this agent has a facet matching the facet value
   # specified in the argument; otherwise, returns False.
@@ -163,7 +163,7 @@ class Agent:
       if facet.contains_entry(keyValuePair):
         return True
     return False
-  
+
   ##
   # Returns a list containing all the values for the specified key
   #
@@ -186,7 +186,7 @@ class Agent:
         if key not in facetKeyList:  # eliminate dupes
           facetKeyList.append(key)
     return facetKeyList
-  
+
   def each_component(self):
     for component in self.components:
       yield component
@@ -216,8 +216,10 @@ class Agent:
       #~ if not reorder and self.society is not None:
       if not reorder:
         for existingComp in self.components:
-          if component.name == existingComp.name:
+          #~ if component.name == existingComp.name:
+          if component.equalsComponent(existingComp):
             isDupe = True
+            print "Dupe detected", component.name, existingComp.name
             break
       if not isDupe:
         # We don't have it, so add it
@@ -247,17 +249,17 @@ class Agent:
     if len(self.components) > index:
       return self.components[index]
     return None
-  
+
   def has_component(self, componentName):
     for component in self.components:
       if component.getStrippedName() == componentName:
         return True
     return False
-  
+
   def set_rule(self, newRule):
     self.rule = str(newRule)
     self.society.isDirty = True
-  
+
   def set_attribute(self, attribute, value):
     # both args must be strings
     if attribute.lower() == 'name':
@@ -273,7 +275,7 @@ class Agent:
     else:
       raise Exception, "Attempting to set unknown Agent attribute: " + attribute.lower()
     self.society.isDirty = True
-  
+
   def host(self):
     return self.parent.parent
 
@@ -291,12 +293,12 @@ class Agent:
       self.name = newName
       self.society.isDirty = True
     return self.name
-  
+
   def isNodeAgent(self):
     if self == self.parent.nodeAgent:
       return True
     return False
-  
+
   def clone(self, inclComponents=True, parent=None):
     agent = Agent(self.name, self.klass, self.rule)
     agent.uic = self.uic
@@ -312,14 +314,14 @@ class Agent:
       agent.add_facet(new_facet)
       new_facet.parent = agent
     return agent
-    
+
   def set_society(self, society):
     self.society = society
     self.society.isDirty = True
-  
+
   def getType(self):
     return 'agent'
-  
+
   def to_xml(self, hnaOnly=False):
     tab = ' ' * 4
     indent = tab * 3
@@ -340,7 +342,7 @@ class Agent:
       for component in self.components:
         xml = xml + component.to_xml()
       xml = xml +  indent + "</agent>\n"
-      return xml   
+      return xml
 
   def to_python(self):
     script = "agent = Agent('"+self.name+"')\n"
@@ -350,7 +352,7 @@ class Agent:
     for c in self.components:
       script = script + c.to_python()
     return script
-  
+
   def to_ruby(self):
     if self.klass is None and self.uic is None and len(self.facets) == 0 and len(self.components) == 0:
       script = "      node.add_agent('" + self.name + "')\n"

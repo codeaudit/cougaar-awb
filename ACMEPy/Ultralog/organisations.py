@@ -8,7 +8,7 @@ from ACMEPy.parameter import *
 
 
 
-from xml.dom import minidom 
+from xml.dom import minidom
 from Ft.Xml.Domlette import Print, PrettyPrint
 from Ft.Xml.Domlette import NonvalidatingReader
 
@@ -55,7 +55,7 @@ class LevelMap:
             l.agents.append(AgentName)
             l.numberOfAgents += 1
             self.levelMap[Level] = l
-        else: 
+        else:
             l = LevelData(AgentName)
             self.levelMap[Level] = l
     def __str__(self):
@@ -67,7 +67,7 @@ class LevelMap:
         return rtnString
 
 
-        
+
 
 
 class MilitaryHierarchy:
@@ -104,10 +104,10 @@ class MilitaryHierarchy:
         if agentName is None:          return
         self.lvl += 1
         self.calcLevel(self.hierarchy[agentName].getSuperior())
-    
+
     def __str__(self):
         rtnString =  "MilitaryHierarchy==>\n"
-        for iter in self.hierarchy.iterkeys(): 
+        for iter in self.hierarchy.iterkeys():
             rtnString = rtnString +  str(self.hierarchy[iter])+"\n"
         return rtnString
 
@@ -173,18 +173,23 @@ class ULHierarchy:
 		self.lvl += 1
 		self.calcLevel(self.hierarchy[agentName].getSuperior())
 
+        def getAgents(self):
+                agents = []
+                for iter in self.hierarchy.iterkeys():
+                        agents.append(  self.hierarchy[iter])
+                return agents
 
 	def __str__(self):
 		rtnString =  "ULHierarchy==>\n"
-		for iter in self.hierarchy.iterkeys(): 
+		for iter in self.hierarchy.iterkeys():
 			rtnString = rtnString +  str(self.hierarchy[iter])+"\n"
 		return rtnString
-		
+
 
 def runTest(uri):
 	h = ULHierarchy(uri=uri)
 	print "society...",h
-	
+
 if __name__ == '__main__':
     runTest('hierarchy.xml')
 

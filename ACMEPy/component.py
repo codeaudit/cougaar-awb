@@ -21,6 +21,7 @@
 #
 from __future__ import generators
 import types
+import time
 from argument import Argument
 
 class Component:
@@ -38,7 +39,11 @@ class Component:
     self.rule = str(rule)
     self.parent = None
     self.prev_parent = None
-    
+    # look for degenerate XML:
+    if name is None: self.name = klass                     # + str(time.time())
+    if priority is None: self.priority = 'COMPONENT'
+    if insertionpoint is None: self.insertionpoint = 'Node.AgentManager.Agent.PluginManager.Plugin' # Good default?
+
   def set_attribute(self, attribute, value):
     # both args must be strings
     if attribute.lower() == 'name':
@@ -60,21 +65,21 @@ class Component:
   def delete_entity(self):
     '''Deletes itself from component list of parent node or agent.'''
     self.parent.delete_component(self)
-  
+
   def delete_from_prev_parent(self):
     if self.prev_parent is not None:
       self.prev_parent.delete_component(self)
     else:
       self.delete_entity()
-  
+
   def has_changed_parent(self):
     return self.parent != self.prev_parent
-  
+
   def delete_argument(self, argument):
     self.arguments.remove(argument)
     del argument
     self.parent.society.isDirty = True
-  
+
   def add_entity(self, entity):
     if isinstance(entity, Argument):
       entity.prev_parent = entity.parent
@@ -93,41 +98,41 @@ class Component:
       self.add_argument(arg)
     else:
       raise Exception, "Attempting to add invalid Argument type"
-  
+
   def get_argument(self, index):
     if len(self.arguments) > index:
       return self.arguments[index]
     return None
-  
+
   def each_argument(self):
     for argument in self.arguments: # only for testing iterators
       yield argument
-  
+
   def has_argument(self, argValue):
     for argument in self.arguments:
       if argument.name == argValue:
         return True
     return False
-  
+
   def __str__(self):
     return "Component:"+self.name+":RULE:"+self.rule
-  
+
   def set_rule(self, newRule):
     self.rule = str(newRule)
     self.parent.society.isDirty = True
-  
+
   def getStrippedName(self):
     index = self.name.find('|')
     if index > -1 and self.parent is not None and self.name[:index] == self.parent.name:
       return self.name[index+1:]
     else:
       return self.name
-  
+
   def rename(self, newName):
     self.name = newName
     self.parent.society.isDirty = True
     return self.name
-  
+
   def clone(self, parent=None):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.order, self.rule)
     component.parent = parent
@@ -135,10 +140,10 @@ class Component:
       new_arg = arg.clone()
       component.add_argument(new_arg)
     return component
-  
+
   def getType(self):
     return 'component'
-  
+
   def to_xml(self, numTabs=4):
     tab = ' ' * 4
     indent = tab * numTabs
@@ -151,7 +156,7 @@ class Component:
       xml = xml + a.to_xml()
     xml = xml + indent + "</component>\n"
     return xml
-    
+
   def to_python(self):
     script = "component = Component(name='" + self.name + "', klass='" + self.klass + \
         "', priority='" + str(self.priority) + "', insertionpoint='" + self.insertionpoint + \
@@ -160,7 +165,7 @@ class Component:
     for a in self.arguments:
       script = script + a.to_python()
     return script
-  
+
   def to_ruby(self, numTabs):
     if self.parent.isNodeAgent():
       # it's a component of a node
@@ -179,3 +184,17 @@ class Component:
     indent = "  " * (numTabs - 1)
     script = script + indent + "end\n"
     return script
+
+  def equalsComponent(self, other):
+    foo = """
+          self.name = name
+    self.klass = klass
+    self.priority = priority
+    self.insertionpoint = insertionpoint
+    self.order = order
+    self.arguments = []
+    self.rule = str(rule)
+    """
+    a1 = [other.name, other.klass, other.arguments]
+    a2 = [self.name, self.klass, self.arguments]
+    return a1 == a2

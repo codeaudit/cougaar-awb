@@ -50,10 +50,6 @@ class Host:
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
-  def delete_entity(self):
-    '''Deletes itself from its parent society'''
-    self.parent.delete_host(self)
-  
   def add_node(self, node):
     if isinstance(node, Node):
       #~ self.nodes[node.name] = node
@@ -67,6 +63,10 @@ class Host:
       newNode.parent = self
       return newNode
 
+  def delete_entity(self, saveAgents=False):
+    '''Deletes itself from its parent society'''
+    self.parent.delete_host(self, saveAgents)
+  
   def delete_node(self, node, saveAgents=False):
     for agent in node.each_agent():
       if saveAgents:
@@ -74,11 +74,15 @@ class Host:
       else:
         node.delete_agent(agent)
     node.remove_all_facets()
-    del node.vm_parameters
-    del node.prog_parameters
-    del node.env_parameters
+    node.remove_all_parameters()
     self.nodelist.remove(node)
     del node
+  
+  def remove_entity(self):
+    self.parent.remove_host(self)
+  
+  def remove_node(self, node):
+    self.nodelist.remove(node)
   
   def get_node(self, index):
     return self.nodelist[index]

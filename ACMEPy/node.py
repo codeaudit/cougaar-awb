@@ -71,9 +71,9 @@ class Node:
       newAgent.parent = self
       return newAgent
 
-  def delete_entity(self):
+  def delete_entity(self, saveAgents=False):
     '''Deletes itself from node list of parent host.'''
-    self.parent.delete_node(self)
+    self.parent.delete_node(self, saveAgents)
   
   def add_entity(self, entity):
     if type(entity) == types.ListType:  # parameters or facets
@@ -85,8 +85,8 @@ class Node:
     else:
       raise Exception, "Attempting to add unknown Node attribute"
   
-  def get_agent(self, index):
-    return self.agentlist[index]
+  def remove_entity(self):
+    self.parent.remove_node(self)
   
   def remove_agent(self, agent):
     # Note that this doesn't destroy the agent object, just removes it from this 
@@ -102,11 +102,17 @@ class Node:
       self.remove_agent(agent)
       del agent
   
+  def get_agent(self, index):
+    return self.agentlist[index]
+  
   def has_agent(self, agentName):
     for agent in self.agentlist:
       if agent.name == agentName:
         return True
     return False
+  
+  def countAgents(self):
+    return len(self.agentlist)
   
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
@@ -217,6 +223,11 @@ class Node:
         break
     return i
 
+  def remove_all_parameters(self):
+    self.vm_parameters = []
+    self.env_parameters = []
+    self.prog_parameters = []
+  
   def delete_parameter(self, param):
     if isinstance(param, VMParameter):
       self.vm_parameters.remove(param)

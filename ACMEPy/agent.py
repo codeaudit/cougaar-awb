@@ -50,6 +50,9 @@ class Agent:
   def delete_entity(self):
     self.parent.delete_agent(self)
   
+  def remove_entity(self):
+    self.parent.remove_agent(self)
+  
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
       yield facet

@@ -79,6 +79,9 @@ class Society:
     self.hostlist.remove(host)
     del host
   
+  def remove_host(self, host):
+    self.hostlist.remove(host)
+  
   def set_rule(self, newRule):
         self.rule = str(newRule)
       

@@ -343,14 +343,16 @@ class Node:
       elif agent != self.nodeAgent:
         yield agent
   
-  def to_xml(self, hnaOnly=False):
-    xml = "  <node name='"+ self.name + "'"
+  def to_xml(self, hnaOnly=False, inclNameserverFacet=False):
+    xml = "    <node name='"+ self.name + "'"
     if len(self.agentlist) == 0 and (hnaOnly or (self.klass is None and len(self.facets) == 0 \
             and len(self.prog_parameters) == 0 and len(self.env_parameters) == 0 \
             and len(vm_parameters) == 0)):
       xml = xml + "/>\n"
       return xml
     xml = xml + ">\n"
+    if inclNameserverFacet:
+      xml = xml + "      <facet role='NameServer'/>\n"
     if not hnaOnly:
       if self.klass is not None:
         xml = xml + "   <class>" + self.klass + "</class>\n"
@@ -368,8 +370,8 @@ class Node:
         for component in agent.components:
           xml = xml + component.to_xml()
       else:
-        xml = xml + agent.to_xml()
-    xml = xml +  "  </node>\n"
+        xml = xml + agent.to_xml(hnaOnly)
+    xml = xml +  "    </node>\n"
     return xml
 
   def to_python(self):

@@ -207,7 +207,7 @@ class Host:
     for node in self.nodelist:
       node.set_society(society)
   
-  def to_xml(self, hnaOnly=False):
+  def to_xml(self, hnaOnly=False, isNameserver=False):
     xml = "  <host name='"+ self.name + "'"
     if len(self.nodelist) == 0:
       xml = xml + "/"
@@ -215,8 +215,13 @@ class Host:
     if not hnaOnly:
       for facet in self.facets:
         xml = xml + facet.to_xml()
+    isFirstNode = True
     for node in self.nodelist:
-      xml = xml + node.to_xml(hnaOnly)
+      inclNameserverFacet = False
+      if hnaOnly and isNameserver and isFirstNode:
+        inclNameserverFacet = True
+      xml = xml + node.to_xml(hnaOnly, inclNameserverFacet)
+      isFirstNode = False
     if len(self.nodelist) > 0:
       xml = xml +  "  </host>\n"
     return xml

@@ -187,7 +187,7 @@ class Agent:
     self.society = society
   
   def to_xml(self, hnaOnly=False):
-    xml = "   <agent name='"+ self.name + "'"
+    xml = "      <agent name='"+ self.name + "'"
     if hnaOnly:
       xml = xml + "/>\n"
       return xml

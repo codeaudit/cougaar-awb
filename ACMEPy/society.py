@@ -248,13 +248,28 @@ class Society:
     self.name = newName
     return self.name
   
+  ##
+  # A standby method for printing a simple list of agent names in the society.  May be
+  # added into the program in the future.  For now, it's used only as-needed.
+  #
+  def to_xml_for_printing_list_of_agent_names(self):
+    xml = "Society name: " + self.name + "\n"
+    xml = xml + "  Agents:\n"
+    for agent in self.each_agent():
+      xml = xml + "    " + agent.name + "\n"
+    xml = xml + "\nTotal agents: " + str(self.countAgents()) + "\n"
+    return xml
+  
   def to_xml(self, hnaOnly=False):
     xml = "<?xml version='1.0'?>\n"
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
     for host in self.hostlist:
-      xml = xml + host.to_xml(hnaOnly)
+      isNameserver = False
+      if host.name == self.nameserver_host:
+        isNameserver = True
+      xml = xml + host.to_xml(hnaOnly, isNameserver)
     xml = xml + "</society>"
     return xml
 

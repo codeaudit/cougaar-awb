@@ -240,7 +240,7 @@ class Node:
     nameServerParam = "-Dorg.cougaar.name.server="
     for vmParam in self.vm_parameters:
       if vmParam.value.startswith(nameServerParam):
-        vmParam.value = nameServerParam + nameServer
+        vmParam.value = nameServerParam + nameServer + ":8888:5555"
         break
     
   

@@ -33,6 +33,7 @@ class Component:
     self.insertionpoint = insertionpoint
     self.arguments = []
     self.rule = str(rule)
+    self.parent = None
     
   def add_argument(self, argument):
     if isinstance(argument, Argument):

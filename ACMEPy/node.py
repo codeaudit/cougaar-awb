@@ -474,6 +474,9 @@ class Node:
       elif agent != self.nodeAgent:
         yield agent
   
+  def getType(self):
+    return 'node'
+  
   def to_xml(self, hnaOnly=False, inclNameserverFacet=False):
     tab = ' ' * 4
     indent = tab * 2

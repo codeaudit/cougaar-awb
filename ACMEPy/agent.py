@@ -271,6 +271,9 @@ class Agent:
     self.society = society
     self.society.isDirty = True
   
+  def getType(self):
+    return 'agent'
+  
   def to_xml(self, hnaOnly=False):
     tab = ' ' * 4
     indent = tab * 3

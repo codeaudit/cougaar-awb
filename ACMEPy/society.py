@@ -450,6 +450,9 @@ class Society:
     self.isDirty = True
     return self.name
   
+  def getType(self):
+    return 'society'
+  
   ##
   # A standby method for printing a simple list of agent names in the society.  May be
   # added into the program in the future.  For now, it's used only as-needed.  When

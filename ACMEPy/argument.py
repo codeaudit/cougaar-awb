@@ -65,6 +65,9 @@ class Argument:
   def clone(self):
     return Argument(self.name, self.rule)
   
+  def getType(self):
+    return 'argument'
+  
   def to_xml(self, numTabs=5):
     tab = ' ' * 4
     indent = tab * numTabs

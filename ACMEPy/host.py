@@ -319,6 +319,9 @@ class Host:
       node.set_society(society)
     self.parent.isDirty = True
   
+  def getType(self):
+    return 'host'
+  
   def to_xml(self, hnaOnly=False, isNameserver=False):
     tab = ' ' * 4
     indent = tab * 1

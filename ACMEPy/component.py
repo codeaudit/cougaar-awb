@@ -131,6 +131,9 @@ class Component:
       component.add_argument(new_arg)
     return component
   
+  def getType(self):
+    return 'component'
+  
   def to_xml(self, numTabs=4):
     tab = ' ' * 4
     indent = tab * numTabs

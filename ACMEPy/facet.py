@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.8 2003-08-05 15:39:59 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.9 2003-08-14 18:42:18 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -109,13 +109,16 @@ class Facet:
   
   ##
   # Returns True if the dictionary contained in this Facet obj contains
-  # the specified entry; else, returns False
+  # the specified entry (i.e., key-value pair); else, returns False
   #
   # keyValueString:: [String] in "key=value" format
   #
   def contains_entry(self, keyValueString):
     key, value = self.split_entry(keyValueString)
-    return self.has_key(key)
+    #~ return self.has_key(key)
+    if self.facets.has_key(key):
+      return self.facets[key] == value
+    return False
   
   ##
   # Removes a single key=value entry from the dictionary

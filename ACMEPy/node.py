@@ -86,11 +86,11 @@ class Node:
     xml = "  <node name='"+ self.name + "'>\n"
     # add parameters and agents
     for p in self.prog_parameters[:]:
-      xml = xml + "<prog_parameter>\n" + str(p) +"</prog_parameter>\n"
+      xml = xml + p.to_xml()
     for p in self.env_parameters[:]:
-      xml = xml + "<env_parameter>\n" + str(p) +"</env_parameter>\n"
+      xml = xml + p.to_xml()
     for p in self.vm_parameters[:]:
-      xml = xml + "<vm_parameter>\n" + str(p) +"</vm_parameter>\n"
+      xml = xml + p.to_xml()
     for agent in self.agents.keys():
       xml = xml + self.agents[agent].to_xml()
 

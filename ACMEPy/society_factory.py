@@ -39,7 +39,7 @@ class SocietyFactory:
   def __init__(self, source):
     global dom
     if (type(source) is type("")):
-		  source = file(source)
+      source = file(source)
     dom = PyExpat.Reader().fromStream(source)
 
   def parse(self):

@@ -4,36 +4,21 @@
   xsi:schemaLocation='society.xsd'>
   <host name='ad'>
   <node name='1AD_TINY'>
-<prog_parameter>
-ProgParameter:org.cougaar.core.node.Node</prog_parameter>
-<env_parameter>
-EnvParameter:DISPLAY=AD:0.0</env_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.node.name=1AD_TINY</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.configuration.database=jdbc:mysql://ad/cougaar</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.configuration.password=s0c0nfig</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.configuration.user=society_config</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.control.port=8484</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.core.agent.startTime=08/10/2005</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.core.persistence.clear=true</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.core.persistence.enable=false</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.experiment.id=EXPT-0001.TRIAL</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.name.server=ad:8888:5555</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.planning.ldm.lps.ComplainingLP.level=0</vm_parameter>
-<vm_parameter>
-VMParameter:-Dorg.cougaar.tools.server.swallowOutputConnectionException=true</vm_parameter>
-<vm_parameter>
-VMParameter:-Duser.timezone=GMT</vm_parameter>
+<prog_parameter>org.cougaar.core.node.Node</prog_parameter>
+<env_parameter>DISPLAY=AD:0.0</env_parameter>
+<vm_parameter>-Dorg.cougaar.node.name=1AD_TINY</vm_parameter>
+<vm_parameter>-Dorg.cougaar.configuration.database=jdbc:mysql://ad/cougaar</vm_parameter>
+<vm_parameter>-Dorg.cougaar.configuration.password=s0c0nfig</vm_parameter>
+<vm_parameter>-Dorg.cougaar.configuration.user=society_config</vm_parameter>
+<vm_parameter>-Dorg.cougaar.control.port=8484</vm_parameter>
+<vm_parameter>-Dorg.cougaar.core.agent.startTime=08/10/2005</vm_parameter>
+<vm_parameter>-Dorg.cougaar.core.persistence.clear=true</vm_parameter>
+<vm_parameter>-Dorg.cougaar.core.persistence.enable=false</vm_parameter>
+<vm_parameter>-Dorg.cougaar.experiment.id=EXPT-0001.TRIAL</vm_parameter>
+<vm_parameter>-Dorg.cougaar.name.server=ad:8888:5555</vm_parameter>
+<vm_parameter>-Dorg.cougaar.planning.ldm.lps.ComplainingLP.level=0</vm_parameter>
+<vm_parameter>-Dorg.cougaar.tools.server.swallowOutputConnectionException=true</vm_parameter>
+<vm_parameter>-Duser.timezone=GMT</vm_parameter>
   <agent name='AWR-2' class='org.cougaar.core.agent.SimpleAgent'>
 <component name='AWR-2|org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' order='8.0' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
 <argument order='1.0'>

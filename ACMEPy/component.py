@@ -26,11 +26,10 @@ class Component:
    #
    # data:: [String] the plugin data
    #
-  def __init__(self, name=None, klass=None, priority = None, order=None, insertionpoint=None, rule='BASE'):
+  def __init__(self, name=None, klass=None, priority = None, insertionpoint=None, rule='BASE'):
     self.name = name
     self.klass = klass
     self.priority = priority
-    self.order = order
     self.insertionpoint = insertionpoint
     self.arguments = []
     self.rule = str(rule)
@@ -49,14 +48,14 @@ class Component:
   def clone(self):
     return Plugin(self.name)
   def to_xml(self):
-    xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' order='"+str(self.order)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
+    xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
     for a in self.arguments[:]:
       xml = xml + a.to_xml()
     xml = xml + "</component>\n"
     return xml
     
   def to_python(self):
-    script = "component = Component(name='"+self.name+"', klass='"+self.klass+"', priority='"+str(self.priority)+"', order='"+str(self.order)+"', insertionpoint='"+self.insertionpoint+"')\n"
+    script = "component = Component(name='"+self.name+"', klass='"+self.klass+"', priority='"+str(self.priority)+"', insertionpoint='"+self.insertionpoint+"')\n"
     script = script + "agent.add_component(component)\n"
     for a in self.arguments:
       script = script + a.to_python()

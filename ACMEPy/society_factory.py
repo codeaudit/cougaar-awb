@@ -83,15 +83,13 @@ class SocietyFactory:
 	    name = component.getAttribute('name')
 	    klass = component.getAttribute('class')
 	    priority = component.getAttribute('priority')
-	    order = component.getAttribute('order')
 	    insertionpoint = component.getAttribute('insertionpoint')
-	    c = Component(name, klass, priority, order, insertionpoint)
+	    c = Component(name, klass, priority, insertionpoint)
 	    node_agent.add_component(c)
 	    arguments = Evaluate('argument', component)
 	    for argument in arguments:
-	      order = str(argument.getAttribute('order'))
 	      value = str(argument.firstChild.nodeValue).strip()
-	      c.add_argument(Argument(value, order))
+	      c.add_argument(Argument(value))
     return society    
 
   def to_xml(self, society):    return self.society.to_xml

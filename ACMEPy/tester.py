@@ -94,7 +94,7 @@ for host in society.hosts.keys():
 	if str(component.klass) == "org.cougaar.blah.blah": hascomp = True
       if hascomp is not True:
 	name = str(agent.name)+"|org.cougaar.blah.blah"
-	c = Component(name, klass="org.cougaar.blah.blah", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
+	c = Component(name, klass="org.cougaar.blah.blah", priority = "COMPONENT", insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
 	agent.add_component(c)
 	c.add_argument(Argument("Parameter1", "1.0", rule=self.name))
 	self.fire()

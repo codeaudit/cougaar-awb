@@ -38,8 +38,8 @@ class SocietyFactory:
 	# otherwise, assume it is a stream
   def __init__(self, source):
     global dom
-    if (type(source) is type("")):
-      source = file(source,'r+')
+    if type(source) is not types.FileType:
+      source = file(str(source))
     dom = PyExpat.Reader().fromStream(source)
 
   def parse(self):

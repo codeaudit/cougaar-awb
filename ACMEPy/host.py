@@ -80,7 +80,7 @@ class Host:
           self.parent.isDirty = True
         return node
       else:
-        print "Unable to add duplicate Node."
+        print "Unable to add duplicate Node:", node.name
         return None
     if isinstance(node, types.StringType):
       newNode = Node(node)
@@ -188,19 +188,38 @@ class Host:
       self.facets.append(facet)
       if self.parent is not None:
         self.parent.isDirty = True
-    else:
+    else:  # facet is a String in 'key=value' format
       fac = Facet(facet)
       self.add_facet(fac, rule)
   
   ##
   # Adds the list of facets passed in as the argument to this
-  # host's list of facets.
+  # host's list of facets.  Dupes are ignored; i.e., not added.
   #
   # facetList:: [List] a list of facets
   # 
   def add_facets(self, facetList):
     if facetList is not None and len(facetList) > 0:
-      self.facets.extend(facetList)
+      #~ keyValuePairToAdd = []
+      #~ facetAddList = []
+      #~ match = False
+      # check for dupes
+      for facet in facetList:
+        keyList = facet.keys()
+        for key in keyList:
+          values = self.get_facet_values(key)
+          if len(values) > 0:     # check for a key match
+            match = False
+            for value in values:  # have a key match; check if value is the same
+              if value == facet.get(key):
+                match = True  # it's a dupe
+                break
+            if not match:
+              # it's a new key=value pair for this host
+              self.add_facet(key + '=' + facet.get(key))
+              #~ keyValuePairToAdd.append(key + '=' + value)
+          else:  # no key match; this is a new key=value pair for this host
+            self.add_facet(key + '=' + facet.get(key))
   
   ##
   # Returns the facet obj specified by index in the argument

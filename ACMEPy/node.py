@@ -344,16 +344,12 @@ class Node:
         yield agent
   
   def to_xml(self, hnaOnly=False):
-    #~ xml = "  <node name='"+ self.name + "'>\n"
-    #~ terminator = "  </node>\n"
     xml = "  <node name='"+ self.name + "'"
-    #~ if len(self.agentlist) == 0 and hnaOnly:
     if len(self.agentlist) == 0 and (hnaOnly or (self.klass is None and len(self.facets) == 0 \
             and len(self.prog_parameters) == 0 and len(self.env_parameters) == 0 \
             and len(vm_parameters) == 0)):
       xml = xml + "/>\n"
       return xml
-      #~ terminator = ""
     xml = xml + ">\n"
     if not hnaOnly:
       if self.klass is not None:
@@ -373,9 +369,7 @@ class Node:
           xml = xml + component.to_xml()
       else:
         xml = xml + agent.to_xml()
-    
     xml = xml +  "  </node>\n"
-    #~ xml = xml + terminator
     return xml
 
   def to_python(self):

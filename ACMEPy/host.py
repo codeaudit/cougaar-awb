@@ -208,7 +208,6 @@ class Host:
       node.set_society(society)
   
   def to_xml(self, hnaOnly=False):
-    #~ xml = "  <host name='"+ self.name + "'>\n"
     xml = "  <host name='"+ self.name + "'"
     if len(self.nodelist) == 0:
       xml = xml + "/"

@@ -125,6 +125,8 @@ class Society:
 	  text = text + str(theNode.agents[agent])+"\n"
 	  for component in theNode.agents[agent].components:
 	    text = text + str(component)+"\n"
+	    for argument in component.arguments:
+	      text = text + str(argument)+"\n"
     return text
 
   def fromPrettyFormat(self, text):
@@ -152,7 +154,7 @@ class Society:
 	component = Component(data[1])
 	agent.add_component(component)
       if data[0].lower() == 'argument':
-	argument = Argument(data[1])
+	argument = Argument(data[1], data[5])
 	agent.add_argument(argument)
     return society
  

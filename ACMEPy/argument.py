@@ -28,7 +28,7 @@ class Argument:
     self.rule = str(rule)
     
   def __str__(self):
-    return "Argument:"+self.value+":RULE:"+self.rule  
+    return "Argument:"+self.value+":RULE:"+self.rule+":ORDER:"+str(self.ord)
           
   def to_xml(self):
     xml = "<argument order='"+ str(self.ord)+ "'>\n"

@@ -99,7 +99,6 @@ class AgentCanvas(ogl.ShapeCanvas):
         if textColour:    shape.SetTextColour(textColour)
         if text:
             shape.AddText(text)
-#            shape.SetClientData(text)
             shape.SetFormatMode(ogl.FORMAT_CENTRE_VERT)
             shape.SetRegionName(text)
             # shape.SetShadowMode(SHADOW_RIGHT)

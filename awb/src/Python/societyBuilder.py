@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.8 2004-11-15 16:25:20 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.9 2004-12-02 14:46:55 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -410,59 +410,10 @@ You will lose all changes made to the society since the transformation.'''
       msg = ""
       if len(checkedRules) > 0:
         self.frame.ruleApplied = True
-        if ruleFilename.endswith('rule'):  # just sample the last rule checked
-          # They're Ruby rules
-          rubyArgs = 'ruby ruleEngine/acme_scripting/src/lib/cougaar/py_society_builder.rb '
-          rubyArgs = rubyArgs + ' '.join(checkedRules)
-          self.log.WriteText(rubyArgs)
-          self.log.WriteText("Transformation in progress...please wait\n")
-          # Call a Ruby program that receives the society (in Ruby code) as a string from Python,
-          # creates a Ruby society object, transforms that society per rules passed as args,
-          # then outputs it back to Python as a string of xml-formatted text
-          input, output = os.popen2(rubyArgs)
-          input.write(self.frame.society.to_ruby())  # sends society as Ruby code to Ruby
-          input.close()
-          xmlSocietyList = output.readlines()  # transformed society as a list of  XML strings from Ruby
-          output.close()
-
-          # Check if Ruby threw an exception during transformation
-          # also catch any runy warnings...
-          potentialWarnings = []
-          errOrWarn = 0
-
-          while xmlSocietyList[0].lower().find("<?xml version='1.0'?>") == -1:
-            potentialWarnings.append(xmlSocietyList[0])
-            xmlSocietyList.remove(xmlSocietyList[0])
-            errOrWarn = 1
-          if potentialWarnings: msg = join(potentialWarnings, '\n')
-          if xmlSocietyList[0].lower().find('error') >= 0:
-            self.log.WriteText("Transformation failed.\n")
-            msg += 'ERROR parsing XML document.\nSociety creation/transformation failed.'
-            errOrWarn += 2
-          if errOrWarn > 2:
-            wx.LogError(msg)
-            errorDialog = CougaarMessageDialog(self.frame, "error", msg)
-            errorDialog.display()
-            return
-          else:
-            #codeObj = "".join(codeObjList)  # for use when output from Ruby program is Python code
-            #exec codeObj     # for use when output from Ruby program is Python code
-            xmlSociety = "".join(xmlSocietyList)  # join list elements into a single string; for use when output from Ruby program is XML
-            # Now parse the xml string and create the new, transformed society
-            self.frame.server = SocietyFactoryServer(None, self, self.log, xmlSociety)
-            self.frame.server.Start()
-            # NOTE: The animation doesn't work while the Ruby process is executing.  I presume it's
-            # because the animation is a thread of the Python process, and while the Ruby process
-            # is executing, the Python process is blocked waiting for output from Ruby.  I'm guessing that
-            # as long as the Python process is blocked, all its threads are also blocked.  However, I've
-            # noticed that once the Ruby process completes, many, many gizmo events arrive all at once.
-            # So it may be that the animation thread continues to run, but its events are not handled till
-            # after the Ruby process completes.
-        else:
-          # They're Python rules, so...
-          # Create one SocietyTransformServer instance and pass it a list of rules to execute
-          self.transformServer = SocietyTransformServer(self.frame.society, checkedRules, self, self.log)
-          self.transformServer.Start()
+        # All rules are now python rules
+        # Create one SocietyTransformServer instance and pass it a list of rules to execute
+        self.transformServer = SocietyTransformServer(self.frame.society, checkedRules, self, self.log)
+        self.transformServer.Start()
         #~ self.StartAnimation()
         self.log.WriteText("Transformation complete.\n")
         self.undoTransformButton.Enable(True)

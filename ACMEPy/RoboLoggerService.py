@@ -145,6 +145,10 @@ def presenceCB(con, pres):
 
 
 
+
+# ###
+#                          Message Handler
+# ###
 def messageCB(con, msg):
     experimentID = ''
     users = []
@@ -187,6 +191,11 @@ def messageCB(con, msg):
     else:
       m.setBody("FAIL:"+responseString)
       con.send(m)
+
+
+
+
+
 
 # ###
 # start here

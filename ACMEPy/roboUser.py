@@ -65,21 +65,44 @@ class RoboUser(threading.Thread):
     self.createConference()
 
   def createConference(self):
-    # first send my presence to the conference service...
-    # <presence to="jabber@conference.localhost"/>
-    pres = jabber.Presence(to='jabber@conference.'+str(self.server))
+    """
+    Use the newer Multi-User Conference spec (vs the older groupchat spec)
+    Multi-step process; not totally sure of sequence (i.e., whether something gets received between these)
+    1). First, send presence to the room (to see if it exists):
+    <presence to="X2180@conference.localhost" id="3"> <priority>0</priority> </presence>
+    2). Next send an IQ to the conference:
+    <iq to="X2180@conference.localhost" id="conf_1" type="set">
+    <query xmlns="jabber:iq:conference">
+    <nick>X_2180</nick>
+    <name>X_2180</name>
+    </query>
+    </iq>
+    3). Finally, send a presence to the room:
+    <presence to="X2180@conference.localhost" id="4">
+    <status>Normal attention</status>
+    <priority>0</priority>
+    </presence>
+    
+    """
+    # first message:
+    roomName = "X"+str(self.username)
+    pres = jabber.Presence(to=roomName+'@conference.'+str(self.server))
     self.con.send(pres)
-      
-    confSetUpIq = jabber.Iq(to='jabber@conference.'+str(self.server))
+    # second message  
+    confSetUpIq = jabber.Iq(to=roomName+'@conference.'+str(self.server))
     confSetUpIq.setType('set')
-    confSetUpIq.setID('COM_'+str(self.server))
+    confSetUpIq.setID('COM_'+str(self.username))
     query = confSetUpIq.setQuery("jabber:iq:conference")
     node = query.insertTag('nick')
-    node.putData("X_"+str(self.username))
+    node.putData("X_"+roomName)
     node = query.insertTag('name')
-    node.putData("X"+str(self.username))
+    node.putData("X"+roomName)
     self.con.send(confSetUpIq)
     print "confSetUpIq", confSetUpIq
+    # final message
+    pres = jabber.Presence(to=roomName+'@conference.'+str(self.server))
+    
+    self.con.send(pres)
     
   def createRoster(self, users):
     print "robo user: users:", users
@@ -139,15 +162,11 @@ class RoboUser(threading.Thread):
       pres.setType('subscribed')
       pres.setStatus('Normal Subscription Response')
       self.con.send(pres)
-      # add to roster?
-      #~ self.roster = con.requestRoster()
-      #~ print 'getting roster'
-      #~ print 'RoboUser:roster==>', self.roster
 
   def run(self):
     
     while 1:
-      print "RoboUser: process. Delay =", self.DELAY
+      #~ print "RoboUser: process. Delay =", self.DELAY
       self.con.process(self.DELAY)
 
   def setDELAY(self, delay):
@@ -162,7 +181,10 @@ class RoboUser(threading.Thread):
   def disconnectedCB(self, con):
       print "ERROR: network disconect"
       sys.exit(1)
-  
+
+# ## 
+# simple test driver vvvvvvvvvv
+# ##
 if __name__ == '__main__':
  
   if len(sys.argv) == 5:

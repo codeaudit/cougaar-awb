@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.6 2003-07-28 12:24:58 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.7 2003-08-04 19:55:09 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -77,6 +77,9 @@ class Facet:
   def each_facet_pair(self):
     for key in self.facets.keys():
       yield (key + "=" + self.facets[key])
+  
+  def keys(self):
+    return self.facets.keys()
   
   def has_key(self, key):
     return self.facets.has_key(key)

@@ -30,53 +30,77 @@ class Host:
     """Constructs a host with the optional name  """
     self.name = name
     self.parent = None
-    self.nodelist = [] # for testing iterators
+    self.nodelist = [] 
     self.facets = []
     self.rule = str(rule)
 
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
     
-  def add_entity(self, entity):  
+  def add_entity(self, entity, orderAfterObj=None):  
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Node):
-      self.add_node(entity)
+      if entity.parent.name == self.name:  # it's a reordering
+        self.add_node(entity, orderAfterObj, True)
+      else:
+        self.add_node(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
-  def add_node(self, node):
+  def add_node(self, node, orderAfterObj=None, reorder=False):
     if isinstance(node, Node):
-      self.nodelist.append(node) # only for testing iterators
-      node.parent = self
-      return node
+      isDupe = False
+      # Check if we've already got a node by that name; but if this
+      # is a reordering, dupes are ok, so we leave isDupe set to false
+      if not reorder and self.parent is not None:
+        for existingNode in self.parent.each_node():
+          if node.name == existingNode.name:
+            isDupe = True
+            break
+      if not isDupe:
+        # We don't have it, so add it
+        if orderAfterObj is not None:
+          # User  wants to add it at a particular place
+          index = -1
+          if isinstance(orderAfterObj, Node) and orderAfterObj in self.nodelist:
+            index = self.nodelist.index(orderAfterObj)
+          self.nodelist.insert(index + 1, node)
+        else:
+          # User doesn't care where it's added, so add at the end
+          self.nodelist.append(node) 
+        node.parent = self
+        node.society = self.parent
+        return node
+      else:
+        return None
     if isinstance(node, types.StringType):
       newNode = Node(node)
-      self.nodelist.append(newNode) # only for testing iterators     
-      newNode.parent = self
-      return newNode
-
+      return self.add_node(newNode)
+  
   def delete_entity(self, saveAgents=False):
     '''Deletes itself from its parent society'''
     self.parent.delete_host(self, saveAgents)
   
   def delete_node(self, node, saveAgents=False):
-    for agent in node.each_agent():
-      if saveAgents:
-        node.remove_agent(agent)
-      else:
-        node.delete_agent(agent)
-    node.remove_all_facets()
-    node.remove_all_parameters()
-    self.nodelist.remove(node)
-    del node
+    if node in self.nodelist:
+      for agent in node.each_agent():
+        if saveAgents:
+          node.remove_agent(agent)
+        else:
+          node.delete_agent(agent)
+      node.remove_all_facets()
+      node.remove_all_parameters()
+      self.nodelist.remove(node)
+      del node
   
   def remove_entity(self):
     self.parent.remove_host(self)
   
   def remove_node(self, node):
-    self.nodelist.remove(node)
+    if node in self.nodelist:
+      self.nodelist.remove(node)
   
   def get_node(self, index):
     return self.nodelist[index]
@@ -154,6 +178,7 @@ class Host:
       new_facet = facet.clone()
       host.add_facet(new_facet)
       new_facet.parent = host
+    host.parent = self.parent
     return host
     
   def to_xml(self):

@@ -37,7 +37,8 @@ class Node:
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
-    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
+    self.society = None
+    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create(Node Agent)"))
   
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -56,28 +57,51 @@ class Node:
     else:
       raise Exception, "Attempting to set unknown Node attribute: " + attribute.lower()
 
-  def add_agent(self, agent, klass = None):
+  def add_agent(self, agent, orderAfterObj=None, reorder=False):
     if isinstance(agent, Agent):
-      agent.parent = self
-      self.agentlist.append(agent)
-      return agent
+      isDupe = False
+      # Check if we've already got a node by that name; but if this
+      # is a reordering, dupes are ok, so we leave isDupe set to false
+      if not reorder:
+        if self.society is not None:
+          for existingAgent in self.society.each_agent():
+            if agent.name == existingAgent.name:
+              isDupe = True
+              break
+      if not isDupe:
+        # We don't have it, so add it
+        if orderAfterObj is not None:
+          # User  wants to add it at a particular place
+          index = -1
+          if isinstance(orderAfterObj, Agent) and orderAfterObj in self.agentlist:
+            index = self.agentlist.index(orderAfterObj)
+          self.agentlist.insert(index + 1, agent)
+        else:
+          # User doesn't care where it's added , so add at the end
+          self.agentlist.append(agent)
+        agent.parent = self
+        agent.society = self.society
+        return agent
+      else:
+        return None
     if isinstance(agent, types.StringType):
       newAgent = Agent(agent)
-      self.agentlist.append(newAgent)
-      newAgent.parent = self
-      return newAgent
+      return self.add_agent(newAgent)
 
   def delete_entity(self, saveAgents=False):
     '''Deletes itself from node list of parent host.'''
     self.parent.delete_node(self, saveAgents)
   
-  def add_entity(self, entity):
+  def add_entity(self, entity, orderAfterObj=None):
     if type(entity) == types.ListType:  # parameters or facets
       self.add_parameters(entity)
     elif isinstance(entity, Component):
       self.add_component(entity)
     elif isinstance(entity, Agent):
-      self.add_agent(entity)
+      if entity.parent.name == self.name:  # it's a reordering
+        self.add_agent(entity, orderAfterObj, True)
+      else:
+        self.add_agent(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Node attribute"
   
@@ -87,7 +111,8 @@ class Node:
   def remove_agent(self, agent):
     # Note that this doesn't destroy the agent object, just removes it from this 
     # node's agentlist
-    self.agentlist.remove(agent)
+    if agent in self.agentlist:
+      self.agentlist.remove(agent)
   
   def delete_agent(self, agent):
     # Destroys the agent object
@@ -268,6 +293,7 @@ class Node:
   
   def rename(self, newName):
     self.name = newName
+    self.nodeAgent.rename(newName)
   
   def clone(self):
     node = Node(self.name)

@@ -28,6 +28,7 @@ class Agent:
   def __init__(self, name=None, klass=None, rule='BASE'):
     self.name = name
     self.parent = None
+    self.society = None
     self.uic = None
     self.klass = klass
     self.facets = []
@@ -149,6 +150,11 @@ class Agent:
 
   def rename(self, newName):
     self.name = newName
+  
+  def isNodeAgent(self):
+    if self == self.parent.nodeAgent:
+      return True
+    return False
   
   def clone(self):
     agent = Agent(self.name, self.klass, self.rule)

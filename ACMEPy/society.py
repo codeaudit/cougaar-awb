@@ -36,7 +36,6 @@ class Society:
     self.name = name
     self.agents = None 
     self.nodes = None
-    self.hosts = {}
     self.cougaar_port  = DEFAULT_PORT
     self.controller = None
     self.hostlist = []
@@ -47,23 +46,44 @@ class Society:
   def __str__(self):
     return "Society:"+ self.name+":RULE:"+self.rule
     
-  def add_host(self, host):
+  def add_host(self, host, orderAfterObj=None, reorder=False):
     # is this really a 'Host' instance?
     if isinstance(host, Host):
       if len(self.hostlist) == 0:  # if this is first host, make it the nameserver
         self.nameserver_host = host.name
-      self.hosts[host.name] = host
-      self.hostlist.append(host)
-      host.parent = self
-      return host
+      isDupe = False
+      # Check if we've already got a host by that name; but if this
+      # is a reordering, dupes are ok, so we leave isDupe set to false
+      if not reorder:
+        for existingHost in self.hostlist:
+          if host.name == existingHost.name:
+            isDupe = True
+            break
+      if not isDupe:
+        # We don't have it, so add it
+        if orderAfterObj is not None:
+          # User wants to add it at a particular place
+          index = -1
+          if isinstance(orderAfterObj, Host) and orderAfterObj in self.hostlist:
+            index = self.hostlist.index(orderAfterObj)
+          self.hostlist.insert(index + 1, host)
+        else:
+          # User doesn't care where it's added, so add at the end
+          self.hostlist.append(host)
+        host.parent = self
+        return host
+      else:
+        return None
     if isinstance(host,types.StringType):
       h = Host(host)
-      newHost = self.add_host(h)
-      return newHost
+      return self.add_host(h)
   
-  def add_entity(self, host):
+  def add_entity(self, host, orderAfterObj=None):
     if isinstance(host, Host):
-      self.add_host(host)
+      if host.parent.name == self.name:  # it's a reordering
+        self.add_host(host, orderAfterObj, True)
+      else:  #  we're adding a new host
+        self.add_host(host, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
   
@@ -82,8 +102,11 @@ class Society:
   def set_nameserver_host(self, hostname):
     self.nameserver_host = hostname
   
-  def has_host(self, host):
-    return self.hosts[host] is not None
+  def has_host(self, hostName):
+    for host in self.hostlist:
+      if host.name == hostName:
+        return True
+    return False
   
   def get_host(self, index):
     return self.hostlist[index]
@@ -92,12 +115,12 @@ class Society:
     for node in host.each_node():
       host.delete_node(node, saveAgents)
     host.remove_all_facets()
-    del self.hosts[host.name]
     self.remove_host(host)
     del host
   
   def remove_host(self, host):
-    self.hostlist.remove(host)
+    if host in self.hostlist:
+      self.hostlist.remove(host)
     # If we've removed the host that's the nameserver, designate the 
     # next host in the list as the new nameserver
     if len(self.hostlist) == 0:
@@ -112,8 +135,8 @@ class Society:
       
   def active_hosts():
     actives = []
-    for host in self.hosts.keys():
-      if len(hosts.nodes) > 0: 
+    for host in self.hostlist:
+      if len(host.nodelist) > 0: 
         actives.append(host.clone)
     return actives 
 
@@ -192,8 +215,8 @@ class Society:
     society = Society(self.name, self.rule)
     for host in self.hostlist:
       new_host = host.clone()
+      new_host.parent = society
       society.add_host(new_host)
-      new_host.society = society
     return society
   
   def remove_node(self, node):
@@ -229,8 +252,6 @@ class Society:
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
-    #for host in self.hosts.keys():
-      #xml = xml + self.hosts[host].to_xml()
     for host in self.hostlist:
       xml = xml + host.to_xml()
     xml = xml + "</society>"
@@ -244,8 +265,8 @@ class Society:
     script = script + "from component import Component\n"
     script = script + "from argument import Argument\n\n"
     script = script + "society = Society('"+str(self.name)+"')\n"
-    for host in self.hosts.keys():
-      script = script + self.hosts[host].to_python()   
+    for host in self.hostlist:
+      script = script + host.to_python()   
     return script
 
   def prettyPrint(self):
@@ -269,21 +290,19 @@ class Society:
     
   def prettyFormat(self):
     text = str(self)+"\n"
-    for host in self.hosts.keys():
-      text = text+str(self.hosts[host])+"\n"
+    for host in self.hostlist:
+      text = text+str(host)+"\n"
       for facet in host.facets:
         text = text + str(facet) + "\n"
-      for node in self.hosts[host].nodes.keys():
-        theNode = self.hosts[host].nodes[node]
-        text = text+str(theNode)+"\n"
-        for facet in theNode.facets:
+      for node in host.nodelist:
+        text = text+str(node)+"\n"
+        for facet in node.facets:
           text = text + str(facet) + "\n"
-        for agent in self.hosts[host].nodes[node].agents.keys():
-          theAgent = theNode.agents[agent]
-          text = text + str(theAgent)+"\n"
-          for facet in theAgent.facets:
+        for agent in node.agentlist:
+          text = text + str(agent)+"\n"
+          for facet in agent.facets:
             text = text + str(facet) + "\n"
-          for component in theNode.agents[agent].components:
+          for component in agent.components:
             text = text + str(component)+"\n"
             for argument in component.arguments:
               text = text + str(argument)+"\n"

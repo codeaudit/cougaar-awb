@@ -50,6 +50,9 @@ class Host:
       self.nodes[node].host = self
       return self.nodes[node]
 
+  def get_node(self, index):
+    return self.nodelist[index]
+
   def add_nodes(self, nodes):
     if isinstance(nodes, types.ListType):
       for n in nodes: self.add_node(n)

@@ -54,6 +54,9 @@ class Agent:
     else:
       self.components.append(Component(component))
 
+  def get_component(self, index):
+    return self.components[index]
+
   def set_rule(self, newRule):
         self.rule = str(newRule)
 

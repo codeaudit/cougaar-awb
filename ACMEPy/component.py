@@ -38,6 +38,9 @@ class Component:
     if isinstance(argument, Argument):
       self.arguments.append(argument)
 
+  def get_argument(self, index):
+    return self.arguments[index]
+
   def __str__(self):
     return "Component:"+self.name+":RULE:"+self.rule
 

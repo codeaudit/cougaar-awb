@@ -207,13 +207,19 @@ class Host:
     for node in self.nodelist:
       node.set_society(society)
   
-  def to_xml(self):
-    xml = "  <host name='"+ self.name + "'>\n"
-    for facet in self.facets:
-      xml = xml + facet.to_xml()
+  def to_xml(self, hnaOnly=False):
+    #~ xml = "  <host name='"+ self.name + "'>\n"
+    xml = "  <host name='"+ self.name + "'"
+    if len(self.nodelist) == 0:
+      xml = xml + "/"
+    xml = xml + ">\n"
+    if not hnaOnly:
+      for facet in self.facets:
+        xml = xml + facet.to_xml()
     for node in self.nodelist:
-      xml = xml + node.to_xml()
-    xml = xml +  "  </host>\n"
+      xml = xml + node.to_xml(hnaOnly)
+    if len(self.nodelist) > 0:
+      xml = xml +  "  </host>\n"
     return xml
   
   def to_python(self):

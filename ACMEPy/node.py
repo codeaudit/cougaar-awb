@@ -343,19 +343,30 @@ class Node:
       elif agent != self.nodeAgent:
         yield agent
   
-  def to_xml(self):
-    xml = "  <node name='"+ self.name + "'>\n"
-    if self.klass is not None:
-      xml = xml + "   <class>" + self.klass + "</class>\n"
-    # add parameters and agents
-    for facet in self.facets:
-      xml = xml + facet.to_xml()
-    for p in self.prog_parameters[:]:
-      xml = xml + p.to_xml()
-    for p in self.env_parameters[:]:
-      xml = xml + p.to_xml()
-    for p in self.vm_parameters[:]:
-      xml = xml + p.to_xml()
+  def to_xml(self, hnaOnly=False):
+    #~ xml = "  <node name='"+ self.name + "'>\n"
+    #~ terminator = "  </node>\n"
+    xml = "  <node name='"+ self.name + "'"
+    #~ if len(self.agentlist) == 0 and hnaOnly:
+    if len(self.agentlist) == 0 and (hnaOnly or (self.klass is None and len(self.facets) == 0 \
+            and len(self.prog_parameters) == 0 and len(self.env_parameters) == 0 \
+            and len(vm_parameters) == 0)):
+      xml = xml + "/>\n"
+      return xml
+      #~ terminator = ""
+    xml = xml + ">\n"
+    if not hnaOnly:
+      if self.klass is not None:
+        xml = xml + "   <class>" + self.klass + "</class>\n"
+      # add parameters and agents
+      for facet in self.facets:
+        xml = xml + facet.to_xml()
+      for p in self.prog_parameters[:]:
+        xml = xml + p.to_xml()
+      for p in self.env_parameters[:]:
+        xml = xml + p.to_xml()
+      for p in self.vm_parameters[:]:
+        xml = xml + p.to_xml()
     for agent in self.agentlist:
       if agent == self.nodeAgent:
         for component in agent.components:
@@ -364,6 +375,7 @@ class Node:
         xml = xml + agent.to_xml()
     
     xml = xml +  "  </node>\n"
+    #~ xml = xml + terminator
     return xml
 
   def to_python(self):

@@ -248,13 +248,13 @@ class Society:
     self.name = newName
     return self.name
   
-  def to_xml(self):
+  def to_xml(self, hnaOnly=False):
     xml = "<?xml version='1.0'?>\n"
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
     for host in self.hostlist:
-      xml = xml + host.to_xml()
+      xml = xml + host.to_xml(hnaOnly)
     xml = xml + "</society>"
     return xml
 

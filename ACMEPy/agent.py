@@ -186,21 +186,25 @@ class Agent:
   def set_society(self, society):
     self.society = society
   
-  def to_xml(self):
+  def to_xml(self, hnaOnly=False):
     xml = "   <agent name='"+ self.name + "'"
-    if self.klass is not None:
-      xml = xml + " class='"+str(self.klass)+"'"
-    if len(self.facets) == 0 and len(self.components) == 0:
+    if hnaOnly:
       xml = xml + "/>\n"
       return xml
     else:
-      xml = xml + ">\n"
-    for facet in self.facets:
-      xml = xml + facet.to_xml()
-    for component in self.components:
-      xml = xml + component.to_xml()
-    xml = xml +  "   </agent>\n"
-    return xml   
+      if self.klass is not None:
+        xml = xml + " class='"+str(self.klass)+"'"
+      if len(self.facets) == 0 and len(self.components) == 0:
+        xml = xml + "/>\n"
+        return xml
+      else:
+        xml = xml + ">\n"
+      for facet in self.facets:
+        xml = xml + facet.to_xml()
+      for component in self.components:
+        xml = xml + component.to_xml()
+      xml = xml +  "   </agent>\n"
+      return xml   
 
   def to_python(self):
     script = "agent = Agent('"+self.name+"')\n"

@@ -33,7 +33,6 @@ class Agent:
     self.facets = []
     self.components = []
     self.rule = str(rule)
-    #~ self.facetsShowing = False  # not currently used; for future growth
       
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
@@ -54,7 +53,7 @@ class Agent:
     self.parent.remove_agent(self)
   
   def each_facet(self):
-    for facet in self.facets: # only for testing iterators
+    for facet in self.facets: 
       yield facet
 
   def remove_facet(self, component_classname):
@@ -148,8 +147,10 @@ class Agent:
   def host(self):
     return self.parent.parent
 
+  def rename(self, newName):
+    self.name = newName
+  
   def clone(self):
-    #~ print "Cloning Agent"
     agent = Agent(self.name, self.klass, self.rule)
     agent.uic = self.uic
     for component in self.components:

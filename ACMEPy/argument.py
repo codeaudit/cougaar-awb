@@ -45,6 +45,9 @@ class Argument:
   def set_rule(self, newRule):
     self.rule = str(newRule)
   
+  def rename(self, newName):
+    self.name = newName
+  
   def clone(self):
     return Argument(self.name, self.rule)
   

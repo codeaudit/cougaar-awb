@@ -102,6 +102,9 @@ class Component:
     else:
       return self.name
   
+  def rename(self, newName):
+    self.name = newName
+  
   def clone(self):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
     for arg in self.arguments:

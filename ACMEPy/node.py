@@ -30,7 +30,6 @@ class Node:
   def __init__(self, name=None, rule='BASE'):
     self.name = name
     self.parent = None
-    #~ self.agents = {}
     self.agentlist = []
     self.facets = []
     self.vm_parameters = []
@@ -38,7 +37,6 @@ class Node:
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
-    #~ self.facetShowing = False
     self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
   
   def __str__(self):
@@ -61,12 +59,10 @@ class Node:
   def add_agent(self, agent, klass = None):
     if isinstance(agent, Agent):
       agent.parent = self
-      #~ self.agents[agent.name] = agent
       self.agentlist.append(agent)
       return agent
     if isinstance(agent, types.StringType):
       newAgent = Agent(agent)
-      #~ self.agents[agent] = newAgent
       self.agentlist.append(newAgent)
       newAgent.parent = self
       return newAgent
@@ -263,12 +259,15 @@ class Node:
         self.rule = str(newRule)
  
   def updateNameServerParam(self, nameServer):
+    # Updates the namerserver parameter; for use whenever the nameserver changes
     nameServerParam = "-Dorg.cougaar.name.server="
     for vmParam in self.vm_parameters:
       if vmParam.value.startswith(nameServerParam):
-        vmParam.value = nameServerParam + nameServer + ":8888:5555"
+        vmParam.value = nameServerParam + nameServer
         break
-    
+  
+  def rename(self, newName):
+    self.name = newName
   
   def clone(self):
     node = Node(self.name)

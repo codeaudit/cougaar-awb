@@ -29,14 +29,10 @@ class Host:
   def __init__(self, name=None, rule='BASE'):
     """Constructs a host with the optional name  """
     self.name = name
-    #~ self.society = None
     self.parent = None
-    #~ self.nodes = {}
     self.nodelist = [] # for testing iterators
     self.facets = []
     self.rule = str(rule)
-    #~ self.enclaveFacetShowing = False
-    #~ self.serviceFacetShowing = False
 
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
@@ -52,13 +48,11 @@ class Host:
   
   def add_node(self, node):
     if isinstance(node, Node):
-      #~ self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
       node.parent = self
       return node
     if isinstance(node, types.StringType):
       newNode = Node(node)
-      #~ self.nodes[node] = newNode
       self.nodelist.append(newNode) # only for testing iterators     
       newNode.parent = self
       return newNode
@@ -142,6 +136,14 @@ class Host:
   def countNodes(self):
     return len(self.nodelist)
   
+  def rename(self, newName):
+    oldName = self.name
+    self.name = newName
+    if oldName == self.parent.nameserver_host:
+      self.parent.set_nameserver(newName + self.parent.nameserver_suffix)
+      for node in self.parent.each_node():
+        node.updateNameServerParam(self.parent.get_nameserver())
+  
   def clone(self):
     host = Host(self.name, self.rule)
     for node in self.nodelist:
@@ -156,8 +158,6 @@ class Host:
     
   def to_xml(self):
     xml = "  <host name='"+ self.name + "'>\n"
-    #for node in self.nodes.keys():
-      #xml = xml + self.nodes[node].to_xml()
     for facet in self.facets:
       xml = xml + facet.to_xml()
     for node in self.nodelist:

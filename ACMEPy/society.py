@@ -41,6 +41,8 @@ class Society:
     self.controller = None
     self.hostlist = []
     self.rule = str(rule)
+    self.nameserver_host = "localhost"
+    self.nameserver_suffix = ":8888:5555"
     
   def __str__(self):
     return "Society:"+ self.name+":RULE:"+self.rule
@@ -48,22 +50,34 @@ class Society:
   def add_host(self, host):
     # is this really a 'Host' instance?
     if isinstance(host, Host):
+      if len(self.hostlist) == 0:  # if this is first host, make it the nameserver
+        self.nameserver_host = host.name
       self.hosts[host.name] = host
       self.hostlist.append(host)
       host.parent = self
       return host
     if isinstance(host,types.StringType):
       h = Host(host)
-      self.hosts[host] = h # Host(host)
-      self.hostlist.append(h) # (host)      
-      self.hosts[host].parent = self
-      return self.hosts[host]
+      newHost = self.add_host(h)
+      return newHost
   
   def add_entity(self, host):
     if isinstance(host, Host):
       self.add_host(host)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
+  
+  def get_nameserver(self):
+    return self.nameserver_host + self.nameserver_suffix
+  
+  def set_nameserver(self, nameserver):
+    # nameserver is assumed to be in the format '<hostname>:8888:5555'
+    colon = nameserver.find(':')
+    if colon < 0:
+      self.nameserver_host = nameserver
+    else:
+      self.nameserver_host = nameserver[:colon]
+      self.nameserver_suffix = nameserver[colon:]
   
   def has_host(self, host):
     return self.hosts[host] is not None
@@ -76,11 +90,19 @@ class Society:
       host.delete_node(node, saveAgents)
     host.remove_all_facets()
     del self.hosts[host.name]
-    self.hostlist.remove(host)
+    self.remove_host(host)
     del host
   
   def remove_host(self, host):
     self.hostlist.remove(host)
+    # If we've removed the host that's the nameserver, designate the 
+    # next host in the list as the new nameserver
+    if len(self.hostlist) == 0:
+      self.nameserver_host = "localhost"
+    elif self.nameserver_host == host.name:
+      self.nameserver_host = self.hostlist[0].name
+      for node in self.each_node():
+        node.updateNameServerParam(self.get_nameserver())
   
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -149,6 +171,9 @@ class Society:
         if node.has_agent(agent.name):
           node.remove_agent(agent)
           return
+  
+  def rename(self, newName):
+    self.name = newName
   
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"

@@ -22,7 +22,7 @@
 from __future__ import generators
 import types
 from agent import Agent
-from parameter import VMParameter
+from parameter import *
 
 class Node:
   def __init__(self, name=None, rule='BASE'):
@@ -33,6 +33,7 @@ class Node:
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
+    self.klass = None
     self.rule = str(rule)
     
   def __str__(self):
@@ -95,6 +96,12 @@ class Node:
     if isinstance(params, types.ListType):
       self.parameters = self.parameters + params
 
+  def set_klass(self, klass):
+    self.klass = klass
+
+  def get_klass(self):
+    return self.klass
+
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
@@ -109,6 +116,7 @@ class Node:
       
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
+    xml = xml + "   <class>" + self.klass + "</class>\n"
     # add parameters and agents
     for p in self.prog_parameters[:]:
       xml = xml + p.to_xml()

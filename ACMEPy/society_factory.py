@@ -24,6 +24,8 @@ import sys
 from xml.dom.ext.reader import PyExpat
 from xml.xpath import Evaluate
 
+from wxPython.wx import *
+
 from society import *
 from host import *
 from node import *
@@ -33,6 +35,7 @@ from component import *
 from argument import *
 from parameter import *
 import types
+
 class SocietyFactory:
   
 	# if 'source' is a string assume it is a filename
@@ -179,10 +182,11 @@ class TransformationRule:
 
 
 class TransformationEngine:
-  def __init__(self, society, max_loop=300):
+  def __init__(self, society, parent, max_loop=300):
     self.MAXLOOP = max_loop
     self.society = society
     self.rules = []
+    self.parent = parent
     
   def add_rule(self, rule):
     if isinstance(rule, TransformationRule): self.rules.append(rule)
@@ -194,11 +198,18 @@ class TransformationEngine:
       loop = False
       for rule in self.rules:
         rule.execute(self.society)
-        if rule.fired == True:
-          rule.reset
+        if rule.fired == True:  # if rule fired, we'll fire it again...until it doesn't fire any longer
+          rule.reset()
           loop = True
       count = count + 1
       print "loop ", count
     for rule in self.rules: print "Rule '"+ rule.name + "' fired ", rule.fire_count, " times."
+    if count == self.MAXLOOP:
+      msg = '''The transformation ran to the loop limit.  This may indicate there was an error and the
+transformation did not complete correctly.'''
+      dlg = wxMessageDialog(self.parent, msg, style = wxCAPTION | wxOK | 
+                     wxTHICK_FRAME | wxICON_EXCLAMATION)
+      val = dlg.ShowModal()
+      #dlg.Show()
     return self.society
 

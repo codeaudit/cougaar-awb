@@ -91,6 +91,7 @@ class MilitaryHierarchy:
 
     def addAgent(self, agent):
         org = agent.get_facet_values("org_id")
+        print "agent::", agent.name, " org_id:", org
         if org == None: return # silently? or complain of an ill-formed XML stanza? TODO: resolve this
         rel = AgentMetadata(org, agent.name)
         subs = agent.get_facet_values("subordinate_org_id")

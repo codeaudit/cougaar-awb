@@ -58,6 +58,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell01'>
         <!-- A Cell in the game-->
@@ -67,6 +75,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component>  
       </agent>
 
       <agent name='Cell02'>
@@ -77,6 +93,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell03'>
         <!-- A Cell in the game-->
@@ -86,6 +110,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell04'>
         <!-- A Cell in the game-->
@@ -95,6 +127,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell05'>
         <!-- A Cell in the game-->
@@ -104,6 +144,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell06'>
         <!-- A Cell in the game-->
@@ -113,6 +161,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell07'>
         <!-- A Cell in the game-->
@@ -122,6 +178,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell08'>
         <!-- A Cell in the game-->
@@ -131,6 +195,15 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component>  
+        
       </agent>
       <agent name='Cell09'>
         <!-- A Cell in the game-->
@@ -140,6 +213,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell10'>
         <!-- A Cell in the game-->
@@ -149,6 +230,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell11'>
         <!-- A Cell in the game-->
@@ -158,6 +247,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell12'>
         <!-- A Cell in the game-->
@@ -167,6 +264,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell13'>
         <!-- A Cell in the game-->
@@ -176,6 +281,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='Cell14'>
         <!-- A Cell in the game-->
@@ -185,6 +298,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>
+        </component>  
       </agent>
       <agent name='Cell15'>
         <!-- A Cell in the game-->
@@ -194,6 +315,14 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
+        <component 
+          name='org.cougaar.core.servlet.SimpleServletComponent'
+          class='org.cougaar.core.servlet.SimpleServletComponent'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
+          <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+          <argument>/state</argument>          
+        </component> 
       </agent>
       <agent name='GameManager'>
         <!-- 
@@ -209,21 +338,21 @@
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
           <argument>target=Cell00:Dead</argument>
-          <argument>target=Cell01:Alive</argument>
-          <argument>target=Cell02:Alive</argument>
+          <argument>target=Cell01:Dead</argument>
+          <argument>target=Cell02:Dead</argument>
           <argument>target=Cell03:Dead</argument>
           <argument>target=Cell04:Dead</argument>
           <argument>target=Cell05:Alive</argument>
           <argument>target=Cell06:Alive</argument>
-          <argument>target=Cell07:Alive</argument>
+          <argument>target=Cell07:Dead</argument>
           <argument>target=Cell08:Dead</argument>
           <argument>target=Cell09:Alive</argument>
           <argument>target=Cell10:Alive</argument>
           <argument>target=Cell11:Dead</argument>
           <argument>target=Cell12:Dead</argument>
           <argument>target=Cell13:Alive</argument>
-          <argument>target=Cell14:Alive</argument>
-          <argument>target=Cell15:Alive</argument>
+          <argument>target=Cell14:Dead</argument>
+          <argument>target=Cell15:Dead</argument>
           <argument>rows=4</argument>
      </component>
 

@@ -24,7 +24,7 @@ class RuleText:
 
   def saveRule(self, filename):
     f = open(filename, 'w+')
-    f.writelines("description: "+str(self.description))
+    f.writelines("description: "+str(self.description)+'\n')
     f.writelines("rule:\n"+str(self.rule))
     f.close()
   def __str__(self):

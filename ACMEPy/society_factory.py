@@ -137,6 +137,7 @@ class TransformationEngine:
     
   def add_rule(self, rule):
     if isinstance(rule, TransformationRule): self.rules.append(rule)
+    else: print "???Bad rule???", rule
   
   def transform(self):
     loop = True

@@ -35,7 +35,10 @@ generator_file = sys.argv[1]
 print "creating society from ",generator_file
 society = SocietyFactory(generator_file).parse()
 
-society.prettyPrint()
+print "\n\nPrettyPrint test:\n\n"
+text = society.prettyPrint()
+
+
 #print society
 #for host in society.hosts.keys():
 #  print "\t", society.hosts[host]
@@ -53,8 +56,11 @@ print "\n\nIterator test:\n\n"
 #  for n in  h.each_node(): 
 #    for a in n.each_agent():  print a,
 #for n in society.each_node(): print n,
-
-for a in society.each_agent(): print a,
+f = file('tiny-iterator.txt', 'w+')
+for a in society.each_agent():
+  f.write(str(a))
+  f.write('\n')
+f.close()
 
 print "\n\nto xml-----------------"
 xml = society.to_xml()
@@ -84,6 +90,7 @@ for host in society.hosts.keys():
 	c = Component(name, klass="org.cougaar.blah.blah", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
 	agent.add_component(c)
 	c.add_argument(Argument("Parameter1", "1.0", rule=self.name))
+	self.fire()
 
 """
 rule01 = TransformationRule("Add foo foo to all agents.")
@@ -97,7 +104,7 @@ for agent in society.each_agent():
     c = Component(name, klass="org.cougaar.foo.foo", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
     agent.add_component(c)
     c.add_argument(Argument("Parameter1", "1.0", rule=self.name))
-
+    self.fire()
 """
 
 engine = TransformationEngine(society, 100)
@@ -105,8 +112,10 @@ engine = TransformationEngine(society, 100)
 engine.add_rule(rule01)
 soc = engine.transform()
 
-print soc.prettyFormat()
-
+text = soc.prettyFormat()
+f = file('tiny-prettyFormat.txt', 'w+')
+f.write(text)
+f.close()
 print "to python-----------------"
 
 script = soc.to_python()
@@ -120,3 +129,10 @@ f = file('tiny-xform.xml', 'w+')
 f.write(xml)
 f.close()
 print "Transformation Done!"
+
+print "into and back from prettyFormat ---------------"
+soc0 = soc.fromPrettyFormat(text)
+text = soc0.prettyFormat()
+f = file('tiny-fromPrettyFormat.txt', 'w+')
+f.write(text)
+f.close()

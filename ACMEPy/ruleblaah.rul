@@ -9,5 +9,6 @@ for agent in society.each_agent():
     c = Component(name, klass="org.cougaar.foo.foo", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin")
     agent.add_component(c)
     c.add_argument(Argument("Parameter1", "1.0"))
+    self.fire() # uber-important to add this !!!
 
 

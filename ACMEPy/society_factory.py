@@ -129,8 +129,6 @@ class TransformationRule:
 
 
 
-
-
 class TransformationEngine:
   def __init__(self, society, max_loop=300):
     self.MAXLOOP = max_loop

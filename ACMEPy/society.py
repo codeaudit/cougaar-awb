@@ -21,6 +21,10 @@
 #
 from __future__ import generators
 from host import Host
+from node import Node  
+from agent import Agent
+from component import Component
+from argument import Argument
 import types
 
 
@@ -83,7 +87,7 @@ class Society:
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
     for host in self.hosts.keys():
       xml = xml + self.hosts[host].to_xml()
-      xml = xml + "</society>"
+    xml = xml + "</society>"
     return xml
 
   def to_python(self):
@@ -122,3 +126,33 @@ class Society:
 	  for component in theNode.agents[agent].components:
 	    text = text + str(component)+"\n"
     return text
+
+  def fromPrettyFormat(self, text):
+    # reverse of prettyFormat. We need to flesh out the detail of attributes and elements for each of these
+    # this is just the bare backbones!!!
+    # should we do a recursive descent like we do with everything else? this sort of looks flat to me :-(
+    rowList =   rowList = str(text).split('\n')
+    for item in rowList:
+      data = str(item).split(':')
+      if len(data) < 4:
+	print "??? Malformed text ???:<", item, ">" 
+	continue
+      if data[0].lower() == 'society':
+	society = Society(data[1])
+      if data[0].lower() == 'host':
+	host = Host(data[1])
+	society.add_host(host)
+      if data[0].lower() == 'node':
+	node = Node(data[1])
+	host.add_node(node)
+      if data[0].lower() == 'agent':
+	agent = Agent(data[1])
+	node.add_agent(agent)
+      if data[0].lower() == 'component':
+	component = Component(data[1])
+	agent.add_component(component)
+      if data[0].lower() == 'argument':
+	argument = Argument(data[1])
+	agent.add_argument(argument)
+    return society
+ 

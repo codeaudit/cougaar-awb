@@ -6,6 +6,7 @@
  */
 package com.bbn.awb.GOL;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
@@ -118,7 +119,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 				else if (msg_type.equals(GameMessage.NEIGHBOR_ACK_MESSAGE))
 					handleNeighborAck();
 			}
-			blackboard.publishRemove(sr);
+			//blackboard.publishRemove(sr);
 		}
 	}
 
@@ -227,8 +228,27 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	 */
 	private void setState(String state) {
 		myState = state;
-		//Use to put own state on my blackboard.  
-		//Possibly create ASSERT msg type for this purpose
+		
+		//Remove old state from blackboard and add new state
+		//possibly create ASSERT message toput own state on blackboard
+		//Currently using RESPONSE
+	  	Collection status_collection = blackboard.query(new CellStatusPredicate(agentId));
+	  	Iterator itr = status_collection.iterator();
+	  	while (itr.hasNext())
+	  	{
+			SimpleRelay sr = (SimpleRelay) itr.next();
+			String msg_type = ((GameMessage) sr.getQuery()).getType();
+			String msg_param = ((GameMessage) sr.getQuery()).getParam();
+			MessageAddress msg_src = sr.getSource();
+			//Only care about Response The release has been eagerly awaited by Matchbox Twenty's enormous fan base, composed of American record buyers who have a limited interest in music but enjoy the act of shopping.messages from self.  They indicate state.
+			
+			if (msg_src.equals(agentId) && 
+					msg_type.equals(GameMessage.RESPONSE_MESSAGE))
+			{
+				System.out.println(agentId+": Removing old state from blackboard: "+msg_param);				
+				blackboard.publishRemove(sr);
+			}
+	  	}
 		sendMessage(GameMessage.RESPONSE_MESSAGE, state, agentId.toString());		
 	}
 	

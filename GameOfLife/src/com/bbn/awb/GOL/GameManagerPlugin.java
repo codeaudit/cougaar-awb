@@ -215,7 +215,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 		Iterator itr = cell_ready.keySet().iterator();
 		System.out.println("Starting next generation");
 		try{
-		Thread.sleep(10000); //Sleep a bit so iterations don't go too fast
+		Thread.sleep(20000); //Sleep a bit so iterations don't go too fast
 		}catch (Exception e){}
 		while (itr.hasNext())
 		{

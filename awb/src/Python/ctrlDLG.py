@@ -1,8 +1,10 @@
+# CONVERTED2DOT5 = TRUE
+
 import sys
 import re
 import os
 
-from wxPython.wx import *
+import wx
 from wxPython.help import *
 
 import images
@@ -13,7 +15,7 @@ import pickle
 
 NODE_TXTCTRL_ID = 701
 
-class CtrlDlg(wxDialog):
+class CtrlDlg(wx.Dialog):
     def OnSetFocus(self, evt):
         print "OnSetFocus"
         evt.Skip()
@@ -21,47 +23,47 @@ class CtrlDlg(wxDialog):
         print "OnKillFocus"
         evt.Skip()
 
-    def __init__(self, parent, ID, log, title, pos=wxDefaultPosition, size=wxDefaultSize, style=wxDEFAULT_DIALOG_STYLE):
-        pre = wxPreDialog()
+    def __init__(self, parent, ID, log, title, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE):
+        pre = wx.PreDialog()
         pre.Create(parent, ID, title, pos, size, style)
         self.this = pre.this
         self.parent = parent
         self.log = log
 
  #~ ------------------------------
-        nodeLbl = wxStaticText(self, -1, "Node")
+        nodeLbl = wx.StaticText(self, -1, "Node")
         default = "enter/select node to run"
-        self.nodeTxtCtrl = wxTextCtrl(self, NODE_TXTCTRL_ID, default, size=(300, -1), style=wxTE_PROCESS_ENTER )
+        self.nodeTxtCtrl = wx.TextCtrl(self, NODE_TXTCTRL_ID, default, size=(300, -1), style=wx.TE_PROCESS_ENTER )
 
-        EVT_TEXT_ENTER(self, self.nodeTxtCtrl.GetId(), self.OnOk)
+        wx.EVT_TEXT_ENTER(self, self.nodeTxtCtrl.GetId(), self.OnOk)
 
         self.bg_bmp = images.getGridBGBitmap()
-        EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
+        wx.EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
         #---------------------------------
         # button fixtures
-        bBrowseID = wxNewId()
-        bBrowse = wxButton(self, bBrowseID, "browse")
+        bBrowseID = wx.NewId()
+        bBrowse = wx.Button(self, bBrowseID, "browse")
         bBrowse.SetBackgroundColour("BLACK")
         bBrowse.SetForegroundColour("WHITE")
 
-        EVT_BUTTON(self, bBrowse.GetId(), self.OnBrowse)
+        wx.EVT_BUTTON(self, bBrowse.GetId(), self.OnBrowse)
 
-        bOk = wxButton(self, wxID_OK, "OK")
+        bOk = wx.Button(self, wx.ID_OK, "OK")
         bOk.SetDefault()
-        EVT_BUTTON(self, bOk.GetId(), self.OnOk)
-        bCan = wxButton(self, wxID_CANCEL, "Cancel")
-        EVT_BUTTON(self, bCan.GetId(), self.OnCancel)
+        wx.EVT_BUTTON(self, bOk.GetId(), self.OnOk)
+        bCan = wx.Button(self, wx.ID_CANCEL, "Cancel")
+        wx.EVT_BUTTON(self, bCan.GetId(), self.OnCancel)
 
-        bsizer = wxBoxSizer(wxHORIZONTAL)
-        bsizer.Add(bBrowse, 0, wxGROW|wxALL, 4)
-        bsizer.Add(bOk, 0, wxGROW|wxALL, 4)
-        bsizer.Add(bCan, 0, wxGROW|wxALL, 4)
+        bsizer = wx.BoxSizer(wx.HORIZONTAL)
+        bsizer.Add(bBrowse, 0, wx.GROW|wx.ALL, 4)
+        bsizer.Add(bOk, 0, wx.GROW|wx.ALL, 4)
+        bsizer.Add(bCan, 0, wx.GROW|wx.ALL, 4)
 
-        sizer = wxFlexGridSizer(cols=3, hgap=6, vgap=6)
+        sizer = wx.FlexGridSizer(cols=3, hgap=6, vgap=6)
         sizer.AddMany([nodeLbl, self.nodeTxtCtrl, (0,0),
                         (0,0),bsizer,(0,0),])
-        border = wxBoxSizer(wxVERTICAL)
-        border.Add(sizer, 0, wxALL, 25)
+        border = wx.BoxSizer(wx.VERTICAL)
+        border.Add(sizer, 0, wx.ALL, 25)
 
 
 
@@ -71,25 +73,25 @@ class CtrlDlg(wxDialog):
 
 
     def OnBrowse(self, evt):
-        fileDialog = wxFileDialog(self, message="Choose a node xml file", wildcard = "*.xml", style=wxOPEN  )
-        if fileDialog.ShowModal() == wxID_OK:
+        fileDialog = wx.FileDialog(self, message="Choose a node xml file", wildcard = "*.xml", style=wx.OPEN  )
+        if fileDialog.ShowModal() == wx.ID_OK:
            self.nodeTxtCtrl.SetValue( fileDialog.GetPath())
         fileDialog.Destroy()
 
     def OnOk(self, evt):
         self.log.WriteText('OnOk: %s, %s\n' % (self.nodeTxtCtrl.GetValue(),  evt.GetId()))
         self.parent.NODE = self.nodeTxtCtrl.GetValue()
-        self.SetReturnCode(wxID_OK)
+        self.SetReturnCode(wx.ID_OK)
         self.Destroy()
 
 
     def OnCancel(self, evt):
-        self.SetReturnCode(wxID_CANCEL)
+        self.SetReturnCode(wx.ID_CANCEL)
         self.Destroy()
     def OnEraseBackground(self, evt):
         dc = evt.GetDC()
         if not dc:
-          dc = wxClientDC(self.GetClientWindow())
+          dc = wx.ClientDC(self.GetClientWindow())
 
         # tile the background bitmap
         sz = self.GetClientSize()

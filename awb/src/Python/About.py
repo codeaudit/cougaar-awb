@@ -1,3 +1,5 @@
+# CONVERTED2DOT5 = TRUE
+
 import sys
 import wx
 import wx.html as html

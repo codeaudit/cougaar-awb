@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/P. Gardella)
 #
-# RCS-ID:       $Id: csmarter_events.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: csmarter_events.py,v 1.2 2004-11-01 21:18:50 jblau Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -24,36 +24,34 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-#
+# CONVERTED2DOT5 = TRUE
 
-from wxPython.wx import *
-from wxPython import  events
+import wx
 
-
-wxEVT_UPDATE_SOCIETY = wxNewEventType()
-
-def EVT_UPDATE_SOCIETY(win, func):
-    win.Connect(-1, -1, wxEVT_UPDATE_SOCIETY, func)
+wxEVT_UPDATE_SOCIETY = wx.NewEventType()
+EVT_UPDATE_SOCIETY = wx.PyEventBinder(wxEVT_UPDATE_SOCIETY, 1)
+#~ def EVT_UPDATE_SOCIETY(win, func):
+    #~ win.Connect(-1, -1, wxEVT_UPDATE_SOCIETY, func)
 
 #----------------------------------------------------------------------
-class UpdateSocietyEvent(wxPyEvent):
+class UpdateSocietyEvent(wx.PyEvent):
     def __init__(self, msg):
-        wxPyEvent.__init__(self)
+        wx.PyEvent.__init__(self)
         self.SetEventType(wxEVT_UPDATE_SOCIETY)
         self.msg = msg
 
 #----------------------------------------------------------------------
 
 
-wxEVT_SOCIETYCONTROLLER_TEST = wxNewEventType()
-
-def EVT_SOCIETYCONTROLLER_TEST(win, func):
-    win.Connect(-1, -1, wxEVT_SOCIETYCONTROLLER_TEST, func)
+wxEVT_SOCIETYCONTROLLER_TEST = wx.NewEventType()
+EVT_SOCIETYCONTROLLER_TEST = wx.PyEventBinder(wxEVT_SOCIETYCONTROLLER_TEST, 1)
+#~ def EVT_SOCIETYCONTROLLER_TEST(win, func):
+    #~ win.Connect(-1, -1, wxEVT_SOCIETYCONTROLLER_TEST, func)
 
 #----------------------------------------------------------------------
-class SocietyControllerEvent(wxPyEvent):
+class SocietyControllerEvent(wx.PyEvent):
     def __init__(self, msg):
-        wxPyEvent.__init__(self)
+        wx.PyEvent.__init__(self)
         self.SetEventType(wxEVT_SOCIETYCONTROLLER_TEST)
         self.msg = msg
 
@@ -61,15 +59,15 @@ class SocietyControllerEvent(wxPyEvent):
 #----------------------------------------------------------------------
 
 
-wxEVT_AGENT_TASK_COUNT = wxNewEventType()
-
-def EVT_AGENT_TASK_COUNT(win, func):
-    win.Connect(-1, -1, wxEVT_AGENT_TASK_COUNT, func)
+wxEVT_AGENT_TASK_COUNT = wx.NewEventType()
+EVT_AGENT_TASK_COUNT = wx.PyEventBinder(wxEVT_AGENT_TASK_COUNT, 1)
+#~ def EVT_AGENT_TASK_COUNT(win, func):
+    #~ win.Connect(-1, -1, wxEVT_AGENT_TASK_COUNT, func)
 
 #----------------------------------------------------------------------
-class AgentTaskCountEvent(wxPyEvent):
+class AgentTaskCountEvent(wx.PyEvent):
     def __init__(self, msg):
-        wxPyEvent.__init__(self)
+        wx.PyEvent.__init__(self)
         self.SetEventType(wxEVT_AGENT_TASK_COUNT)
         self.msg = msg
 

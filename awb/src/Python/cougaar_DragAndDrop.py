@@ -4,7 +4,7 @@
 #
 # Author:       ISAT (P. Gardella)
 #
-# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.2 2004-11-01 21:18:50 jblau Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -23,9 +23,9 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-#
+# CONVERTED2DOT5 = TRUE
 
-from wxPython.wx import *
+import wx
 import cPickle
 from ACMEPy.society import Society
 from ACMEPy.host import Host
@@ -38,10 +38,10 @@ from ACMEPy.argument import Argument
 #  DnD classes
 #************************************************************************
 
-class CougaarDropTarget(wxPyDropTarget):
+class CougaarDropTarget(wx.PyDropTarget):
 
   def __init__(self, window, log, frame, inclComponents=False):
-    wxPyDropTarget.__init__(self)
+    wx.PyDropTarget.__init__(self)
     self.log = log
     self.viewer = window
     self.frame = frame    # ref to the top-level CSmarter object
@@ -50,8 +50,8 @@ class CougaarDropTarget(wxPyDropTarget):
     self.isCopyOperation = False
     
     # Specify the type of data we will accept:
-    self.format = wxCustomDataFormat("CougaarComponent")
-    self.dataObj = wxCustomDataObject(self.format)
+    self.format = wx.CustomDataFormat("CougaarComponent")
+    self.dataObj = wx.CustomDataObject(self.format)
     self.SetDataObject(self.dataObj)
     
   # some virtual methods that track the progress of the drag
@@ -60,7 +60,7 @@ class CougaarDropTarget(wxPyDropTarget):
     #~ print "OnEnter: %d, %d, %d" % (x, y, d)
     if not self.viewer.isDragSource:
       self.viewer.UnselectAll()
-    if d != wxDragCopy:
+    if d != wx.DragCopy:
       self.isCopyOperation = False
     else:
       self.isCopyOperation = True      
@@ -79,7 +79,7 @@ class CougaarDropTarget(wxPyDropTarget):
     # suggested value which is based on whether the Ctrl key is pressed.
     #~ self.log.WriteText("OnDragOver: %d, %d, %d\n" % (x, y, d))
     
-    if wxPlatform == '__WXMSW__':  # this method crashes in Linux, so only use w/ Windows
+    if wx.Platform == '__WXMSW__':  # this method crashes in Linux, so only use w/ Windows
       #~ print "OnDragOver: %d" % d
       # This controls the icon associated with the mouse cursor when an item is being dragged.  
       # If the mouse cursor is over a valid drop target, we'll get the copy (if CTRL is held) or 
@@ -88,7 +88,7 @@ class CougaarDropTarget(wxPyDropTarget):
       # icon to work in Linux.  In fact, the whole app crashes in Linux (Red Hat 8) with a 
       # "Segmentation fault".
       # 
-      if d != wxDragCopy:
+      if d != wx.DragCopy:
         self.isCopyOperation = False
       else:
         self.isCopyOperation = True      
@@ -96,7 +96,7 @@ class CougaarDropTarget(wxPyDropTarget):
         self.mouseOverItem = self.viewer.GetRootItem()
       
       draggedEntity = self.frame.objCloset.values()[0]  # just get the first item; using it to determine its type
-      treeItem, flag = self.viewer.HitTest(wxPoint(x,y))
+      treeItem, flag = self.viewer.HitTest(wx.Point(x,y))
       
       if treeItem.IsOk():
         if treeItem != self.mouseOverItem or not self.viewer.itemIsHighlighted(self.mouseOverItem):  # Only do this if the mouse position has changed
@@ -104,22 +104,22 @@ class CougaarDropTarget(wxPyDropTarget):
           self.mouseOverItem = treeItem
           validItemFlags = [8, 16, 64, 128, 2056, 2112, 4104, 4112, 4160, 4224]
           if flag not in validItemFlags:
-            self.dragOverRetVal = wxDragNone  
+            self.dragOverRetVal = wx.DragNone  
             return self.dragOverRetVal  
           mouseOverObj = self.viewer.GetPyData(self.mouseOverItem)  
           
           # Following blocks describe invalid drop targets for various types of draggedEntity:
           if isinstance(draggedEntity, Host):  
             if isinstance(mouseOverObj, Node) or isinstance(mouseOverObj, Agent):  
-              self.dragOverRetVal = wxDragNone  
+              self.dragOverRetVal = wx.DragNone  
               return self.dragOverRetVal  
           
           elif isinstance(draggedEntity, Node):  
             if isinstance(mouseOverObj, Society) or isinstance(mouseOverObj, Agent):  
-              self.dragOverRetVal = wxDragNone  
+              self.dragOverRetVal = wx.DragNone  
               return self.dragOverRetVal  
           elif isinstance(draggedEntity, Agent) and isinstance(mouseOverObj, Society):  
-            self.dragOverRetVal = wxDragNone  
+            self.dragOverRetVal = wx.DragNone  
             return self.dragOverRetVal
           
           # Must be a valid drop target
@@ -136,12 +136,12 @@ class CougaarDropTarget(wxPyDropTarget):
       # Mouse is over an invalid tree item, but previous tree item is still highlighted
       elif self.viewer.itemIsHighlighted(self.mouseOverItem):
         self.viewer.removeHighlighting(self.mouseOverItem)
-        self.dragOverRetVal = wxDragNone  
+        self.dragOverRetVal = wx.DragNone  
         return self.dragOverRetVal  
       
       # Mouse is over an invalid tree item
       else:
-        self.dragOverRetVal = wxDragNone  
+        self.dragOverRetVal = wx.DragNone  
         return self.dragOverRetVal
     
     else:  # if we're running on Unix, skip all the above stuff
@@ -149,7 +149,7 @@ class CougaarDropTarget(wxPyDropTarget):
   
   def OnDrop(self, x, y):
     #~ self.log.WriteText("OnDrop: %d %d\n" % (x, y))
-    if wxPlatform == '__WXMSW__':
+    if wx.Platform == '__WXMSW__':
       #~ print "OnDrop: %d %d\n" % (x, y)
       self.viewer.removeHighlighting(self.mouseOverItem)
       self.viewer.SelectItem(self.mouseOverItem)
@@ -187,11 +187,11 @@ class CougaarDropTarget(wxPyDropTarget):
         # from where it can be retrieved by the drag source.
         sourceViewer = self.frame.getDragSource()  
       else:
-        sourceViewer.setDropResult(wxDragNone)
-        return wxDragNone
+        sourceViewer.setDropResult(wx.DragNone)
+        return wx.DragNone
       
       # Populate variables we will need to update the destination tree
-      receiverItem, flags = self.viewer.HitTest(wxPoint(x, y))
+      receiverItem, flags = self.viewer.HitTest(wx.Point(x, y))
       iconType = None
       parentItem = None
       
@@ -203,16 +203,16 @@ class CougaarDropTarget(wxPyDropTarget):
           if isinstance(receiverData, Host):
             isHomoDrop = True
           elif not isinstance(receiverData, Society):
-            sourceViewer.setDropResult(wxDragNone)
-            return wxDragNone  # can only drop Hosts on a Society or another host
+            sourceViewer.setDropResult(wx.DragNone)
+            return wx.DragNone  # can only drop Hosts on a Society or another host
           
         elif isinstance(entity, Node): # if dragging a Node, ok to drop it on a Host or another Node
           iconType = self.viewer.nodeImage
           if isinstance(receiverData, Node):
             isHomoDrop = True
           elif not isinstance(receiverData, Host):
-            sourceViewer.setDropResult(wxDragNone)
-            return wxDragNone  # reject the drop operation
+            sourceViewer.setDropResult(wx.DragNone)
+            return wx.DragNone  # reject the drop operation
             
         elif isinstance(entity, Agent):  # if dragging an Agent, ok to drop it on a Host, Node, or another Agent
           iconType = self.viewer.agentImage
@@ -232,8 +232,8 @@ class CougaarDropTarget(wxPyDropTarget):
           elif isinstance(receiverData, Agent):
             isHomoDrop = True
           elif not isinstance(receiverData, Node):
-            sourceViewer.setDropResult(wxDragNone)
-            return wxDragNone  # can't drop an agent on a component or argument
+            sourceViewer.setDropResult(wx.DragNone)
+            return wx.DragNone  # can't drop an agent on a component or argument
             
         elif isinstance(entity, Component): # ok to drop a component on an agent or another component
           iconType = self.viewer.componentImage
@@ -247,8 +247,8 @@ class CougaarDropTarget(wxPyDropTarget):
             agentName = receiverData.name
           #~ elif not isinstance(receiverData, Agent):
           else:
-            sourceViewer.setDropResult(wxDragNone)
-            return wxDragNone  # can't drop a component on a host, node, or argument
+            sourceViewer.setDropResult(wx.DragNone)
+            return wx.DragNone  # can't drop a component on a host, node, or argument
           entity.name = agentName + "|" + entityStrippedName
             
         elif isinstance(entity, Argument): # ok to drop an argument on a component or another argument
@@ -256,12 +256,12 @@ class CougaarDropTarget(wxPyDropTarget):
           if isinstance(receiverData, Argument):
             isHomoDrop = True
           elif not isinstance(receiverData, Component):
-            sourceViewer.setDropResult(wxDragNone)
-            return wxDragNone  # can't drop an argument on a host, node, or agent
+            sourceViewer.setDropResult(wx.DragNone)
+            return wx.DragNone  # can't drop an argument on a host, node, or agent
             
         else:  # what else could it be?
-          sourceViewer.setDropResult(wxDragNone)
-          return wxDragNone  # reject the drop operation
+          sourceViewer.setDropResult(wx.DragNone)
+          return wx.DragNone  # reject the drop operation
         
         if isHomoDrop:
           parentItem = self.viewer.GetItemParent(receiverItem)
@@ -316,8 +316,8 @@ class CougaarDropTarget(wxPyDropTarget):
             # If we moved around an entity marked for exclusion, preserve the highlighted label
             if (isinstance(entity, Agent) or isinstance(entity, Node) or isinstance(entity, Host)) \
                 and entity.isExcluded:
-              self.viewer.SetItemBackgroundColour(newItem, wxRED)
-              self.viewer.SetItemTextColour(newItem, wxWHITE)
+              self.viewer.SetItemBackgroundColour(newItem, wx.RED)
+              self.viewer.SetItemTextColour(newItem, wx.WHITE)
             
             # Do some things unique to agents
             if isinstance(entity, Agent):
@@ -369,8 +369,8 @@ class CougaarDropTarget(wxPyDropTarget):
                 # depending on the state of the keys (<Ctrl>, <Shift>, and <Alt>) at
                 # the moment of drop."  (See "Drag and drop overview" in wxPython docs)
     else:
-      sourceViewer.setDropResult(wxDragNone)
-      return wxDragNone  # rejected drop
+      sourceViewer.setDropResult(wx.DragNone)
+      return wx.DragNone  # rejected drop
 
   def bringNodes(self, hostItem, host):
     for node in host.each_node():

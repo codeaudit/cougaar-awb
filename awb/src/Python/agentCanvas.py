@@ -1,3 +1,5 @@
+# CONVERTED2DOT5 = TRUE
+
 import sys
 import re
 import urllib
@@ -8,26 +10,26 @@ import math
 import thread
 import httplib
 
-from wxPython.wx import *
-from wxPython.ogl import *
-from wxPython.lib.dialogs import wxMultipleChoiceDialog
+import wx
+import wx.lib.ogl as ogl
+import wx.lib.dialogs
 import zoomer as z
 
 
 #----------------------------------------------------------------------
 
 
-class AgentCanvas(wxShapeCanvas):
+class AgentCanvas(ogl.ShapeCanvas):
 
     def __init__(self, parent, frame, log):
 
-        wxShapeCanvas.__init__(self, parent)
+        ogl.ShapeCanvas.__init__(self, parent)
         self.log = log
         self.parent = parent
         self.frame = frame
         self.SetBackgroundColour("LIGHT BLUE") #wxWHITE)
         self.status = "inactive"
-        self.diagram = wxDiagram()
+        self.diagram = ogl.Diagram()
         self.SetDiagram(self.diagram)
         self.diagram.SetCanvas(self)
         self.AgentInfoDict = {}
@@ -43,7 +45,7 @@ class AgentCanvas(wxShapeCanvas):
         #~ self.agentBmp = earthImage.getBitmap()
         #~ mask = wxMaskColour(self.agentBmp, wxColour(red=254, green=254, blue=254))
         #~ self.agentBmp.SetMask(mask)
-        EVT_WINDOW_DESTROY(self, self.OnDestroy)
+        wx.EVT_WINDOW_DESTROY(self, self.OnDestroy)
         #~ EVT_RIGHT_UP(self, self.OnRightClick)
 
     def MySocietyInit(self):
@@ -52,7 +54,7 @@ class AgentCanvas(wxShapeCanvas):
         self.shapeDict.clear()             # Clear dictionary list
         del self.shapes[0:]                # Delete the shapes list
         del self.diagram                    # delete the diagram
-        self.diagram = wxDiagram()     #make a new diagram
+        self.diagram = ogl.Diagram()     #make a new diagram
         self.SetDiagram(self.diagram)
         self.diagram.SetCanvas(self)
         # Reset the society
@@ -76,8 +78,8 @@ class AgentCanvas(wxShapeCanvas):
             w = z.viewLevelData[2]["BOXWIDTH"]*3
             h = z.viewLevelData[2]["BOXHEIGHT"]
             self.addShape(
-            wxRectangleShape(w,h), x,y, wxBLACK_PEN,
-            wxBrush("GREY", wxSOLID),
+            ogl.RectangleShape(w,h), x,y, wx.BLACK_PEN,
+            wx.Brush("GREY", wx.SOLID),
             str(agent),
             "BLACK"
             )
@@ -86,7 +88,7 @@ class AgentCanvas(wxShapeCanvas):
             #~ self.addShape(s, x, y, None, None, str(agent), "YELLOW")
 
     def addShape(self, shape, x, y, pen, brush, text, textColour):
-        FontParameters = wxFont(10, wxDEFAULT,wxNORMAL, wxNORMAL)
+        FontParameters = wx.Font(10, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
 
         shape.SetDraggable(True, True)
         shape.SetCanvas(self)
@@ -129,7 +131,7 @@ class AgentCanvas(wxShapeCanvas):
         widthspacing=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["WIDTHSPACING"],
         heightspacing= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["HEIGHTSPACING"],
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
-        dc = wxClientDC(self)
+        dc = wx.ClientDC(self)
         self.PrepareDC(dc)
         self.Clear()
         self.CreateConnections(dc)
@@ -156,10 +158,10 @@ class AgentCanvas(wxShapeCanvas):
                 for that in those:
                         toShape = self.shapeDict[that]
 
-                        line = wxLineShape()
+                        line = wx.LineShape()
                         line.SetCanvas(self)
-                        line.SetPen(wxBLACK_PEN)
-                        line.SetBrush(wxBLACK_BRUSH)
+                        line.SetPen(wx.BLACK_PEN)
+                        line.SetBrush(wx.BLACK_BRUSH)
 
                         line.MakeLineControlPoints(2)
                         fromShape.AddLine(line, toShape)
@@ -191,7 +193,7 @@ class AgentCanvas(wxShapeCanvas):
         self.diagram.Destroy()
 
     def ResizeBoxes(self, nWidth, nHeight, nFontSize):
-        FontParameters = wxFont(nFontSize, wxDEFAULT,wxNORMAL, wxNORMAL)
+        FontParameters = wx.Font(nFontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
         for i in self.diagram.GetShapeList():
             i.SetSize(nWidth, nHeight)
             i.SetFont(FontParameters)
@@ -205,9 +207,9 @@ class AgentCanvas(wxShapeCanvas):
 
 
 
-class MyEvtHandler(wxShapeEvtHandler):
+class MyEvtHandler(ogl.ShapeEvtHandler):
     def __init__(self, frame, log):
-        wxShapeEvtHandler.__init__(self)
+        ogl.ShapeEvtHandler.__init__(self)
         self.log = log
         self.statbarFrame = frame
 
@@ -217,7 +219,7 @@ class MyEvtHandler(wxShapeEvtHandler):
         self.log.WriteText("LEFTCLICK in Event Handler: shaoe class %s name %s\n" % (str(shape.__class__), self.GetShape().GetClassName()))
         #~ print shape.__class__, shape.GetClassName()
         canvas = shape.GetCanvas()
-        dc = wxClientDC(canvas)
+        dc = wx.ClientDC(canvas)
         canvas.PrepareDC(dc)
 
         if shape.Selected():
@@ -268,23 +270,23 @@ class MyEvtHandler(wxShapeEvtHandler):
         TODO = ''' centre the object on the canvas'''
 
 
-class ServerNotRunning(wxDialog):
-    def __init__(self, parent, ID, title, pos=wxDefaultPosition, size=wxDefaultSize, style=wxDEFAULT_DIALOG_STYLE):
-        pre = wxPreDialog()
+class ServerNotRunning(wx.Dialog):
+    def __init__(self, parent, ID, title, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE):
+        pre = wx.PreDialog()
         pre.Create(parent, ID, title, pos, size, style)
         self.this = pre.this
 
         # Now continue with the normal construction of the dialog
         # contents
-        sizer = wxBoxSizer(wxVERTICAL)
-        label = wxStaticText(self, -1, "The Society is inactive")
-        sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
-        box = wxBoxSizer(wxHORIZONTAL)
-        btn = wxButton(self, wxID_OK, " OK ")
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        label = wx.StaticText(self, -1, "The Society is inactive")
+        sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+        box = wx.BoxSizer(wx.HORIZONTAL)
+        btn = wx.Button(self, wx.ID_OK, " OK ")
         btn.SetDefault()
         btn.SetHelpText("The OK button completes the dialog")
-        box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-        sizer.AddSizer(box, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
+        box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+        sizer.AddSizer(box, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
         self.SetSizer(sizer)
         self.SetAutoLayout(True)

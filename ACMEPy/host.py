@@ -29,7 +29,8 @@ class Host:
   def __init__(self, name=None, rule='BASE'):
     """Constructs a host with the optional name  """
     self.name = name
-    self.society = None
+    #~ self.society = None
+    self.parent = None
     self.nodes = {}
     self.nodelist = [] # for testing iterators
     self.facets = []
@@ -38,7 +39,7 @@ class Host:
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
     
-  def add_entity(self, entity):  # currently, used only to add facets
+  def add_entity(self, entity):  
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
@@ -48,11 +49,12 @@ class Host:
       raise Exception, "Attempting to add unknown Host attribute"
   
   def delete_entity(self):
-    self.society.delete_host(self)
+    '''Deletes itself from its parent society'''
+    self.parent.delete_host(self)
   
   def add_node(self, node):
     if isinstance(node, Node):
-      node.host = self
+      node.parent = self
       self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
       return node
@@ -60,7 +62,7 @@ class Host:
       newNode = Node(node)
       self.nodes[node] = newNode
       self.nodelist.append(newNode) # only for testing iterators     
-      self.nodes[node].host = self
+      self.nodes[node].parent = self
       return self.nodes[node]
 
   def delete_node(self, node):

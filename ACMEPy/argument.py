@@ -25,7 +25,8 @@ class Argument:
   def __init__(self, value, rule='BASE'):
     self.value = value
     self.rule = str(rule)
-    self.component = None
+    #~ self.component = None
+    self.parent = None
   
   def __str__(self):
     return "Argument:"+self.value+":RULE:"+self.rule
@@ -40,7 +41,7 @@ class Argument:
       raise Exception, "Attempting to set unknown Argument attribute: " + attribute.lower()
 
   def delete_entity(self):
-    self.component.delete_argument(self)
+    self.parent.delete_argument(self)
   
   def set_rule(self, newRule):
     self.rule = str(newRule)

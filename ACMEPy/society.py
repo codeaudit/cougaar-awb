@@ -50,17 +50,20 @@ class Society:
     if isinstance(host, Host):
       self.hosts[host.name] = host
       self.hostlist.append(host)
-      host.society = self
+      host.parent = self
       return host
     if isinstance(host,types.StringType):
       h = Host(host)
       self.hosts[host] = h # Host(host)
       self.hostlist.append(h) # (host)      
-      self.hosts[host].society = self
+      self.hosts[host].parent = self
       return self.hosts[host]
   
   def add_entity(self, host):
-    self.add_host(host)
+    if isinstance(host, Host):
+      self.add_host(host)
+    else:
+      raise Exception, "Attempting to add unknown Society attribute"
   
   def has_host(self, host):
     return self.hosts[host] is not None

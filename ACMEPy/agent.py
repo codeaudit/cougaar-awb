@@ -27,7 +27,8 @@ from facet import Facet
 class Agent:
   def __init__(self, name=None, klass=None, rule='BASE'):
     self.name = name
-    self.node = None
+    #~ self.node = None
+    self.parent = None
     self.uic = None
     self.klass = klass
     self.facets = []
@@ -37,7 +38,7 @@ class Agent:
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
     
-  def add_entity(self, entity):  # currently, used only to add facets
+  def add_entity(self, entity):  
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
@@ -47,7 +48,7 @@ class Agent:
       raise Exception, "Attempting to add unknown Agent attribute"
   
   def delete_entity(self):
-    self.node.delete_agent(self)
+    self.parent.delete_agent(self)
   
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
@@ -114,8 +115,8 @@ class Agent:
     # both args must be strings
     if attribute.lower() == 'name':
       self.name = value
-    elif attribute.lower() == 'node':
-      self.node == value
+    elif attribute.lower() == 'parent':
+      self.parent == value
     elif attribute.lower() == 'uic':
       self.uic == value
     elif attribute.lower() == 'klass':
@@ -126,7 +127,8 @@ class Agent:
       raise Exception, "Attempting to set unknown Agent attribute: " + attribute.lower()
   
   def host(self):
-    return agent.node.host
+    #~ return agent.node.host
+    return self.parent.parent
 
   def clone(self):
     #~ print "Cloning Agent"

@@ -59,12 +59,15 @@ class Component:
     self.arguments.remove(argument)
   
   def add_entity(self, entity):
-    self.add_argument(entity)
-  
+    if isinstance(entity, Argument):
+      self.add_argument(entity)
+    else:
+      raise Exception, "Attempting to add unknown Component attribute"
+
   def add_argument(self, argument):
     if isinstance(argument, Argument):
       self.arguments.append(argument)
-      argument.component = self
+      argument.parent = self
     elif type(argument) == types.StringType:  # must be a string
       arg = Argument(argument)
       self.add_argument(arg)

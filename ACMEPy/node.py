@@ -29,7 +29,8 @@ from facet import Facet
 class Node:
   def __init__(self, name=None, rule='BASE'):
     self.name = name
-    self.host = None
+    #~ self.host = None
+    self.parent = None
     self.agents = {}
     self.agentlist = []
     self.facets = []
@@ -59,7 +60,7 @@ class Node:
 
   def add_agent(self, agent, klass = None):
     if isinstance(agent, Agent):
-      agent.node = self
+      agent.parent = self
       self.agents[agent.name] = agent
       self.agentlist.append(agent)
       return agent
@@ -67,12 +68,12 @@ class Node:
       newAgent = Agent(agent)
       self.agents[agent] = newAgent
       self.agentlist.append(newAgent)
-      self.agents[agent].node = self
+      self.agents[agent].parent = self
       return self.agents[agent]
 
   def delete_entity(self):
     '''Deletes itself from node list of parent host.'''
-    self.host.delete_node(self)
+    self.parent.delete_node(self)
   
   def add_entity(self, entity):
     if type(entity) == types.ListType:  # parameters or facets
@@ -230,7 +231,7 @@ class Node:
  
   def clone(self):
     node = Node(self.name)
-    node.host = self.host
+    node.parent = self.parent
     node.klass = self.klass
     node.rule = self.rule
     for agent in self.agentlist:

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<society name='TINY-1AD-TRANS-STUB-bill'>
+  <host name='localhost'>
+    <node name='localnode'>
+      <agent name='1-35-ARBN'/>
+      <agent name='1-6-INFBN'/>
+      <agent name='1-AD'/>
+      <agent name='102-POL-SUPPLYCO'/>
+      <agent name='106-TCBN'/>
+      <agent name='110-POL-SUPPLYCO'/>
+      <agent name='123-MSB'/>
+      <agent name='16-CSG'/>
+      <agent name='18-MAINTBN'/>
+      <agent name='191-ORDBN'/>
+      <agent name='2-BDE-1-AD'/>
+      <agent name='21-TSC-HQ'/>
+      <agent name='227-SUPPLYCO'/>
+      <agent name='28-TCBN'/>
+      <agent name='29-SPTGP'/>
+      <agent name='3-SUPCOM-HQ'/>
+      <agent name='343-SUPPLYCO'/>
+      <agent name='37-TRANSGP'/>
+      <agent name='47-FSB'/>
+      <agent name='485-CSB'/>
+      <agent name='5-CORPS'/>
+      <agent name='51-MAINTBN'/>
+      <agent name='565-RPRPTCO'/>
+      <agent name='592-ORDCO'/>
+      <agent name='6-TCBN'/>
+      <agent name='7-CSG'/>
+      <agent name='71-MAINTBN'/>
+      <agent name='AWR-2'/>
+      <agent name='DISCOM-1-AD'/>
+      <agent name='DLAHQ'/>
+      <agent name='HNS'/>
+      <agent name='NCA'/>
+      <agent name='OSC'/>
+      <agent name='TRANSCOM'/>
+      <agent name='USAEUR'/>
+      <agent name='USEUCOM'/>
+      <agent name='BUCHANAN'/>
+    </node>
+  </host>
+</society>

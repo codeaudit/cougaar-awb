@@ -163,7 +163,7 @@ class TransformationRule:
     return self.fired
     
   def execute(self, society):
-    print "running rule "+ str(self.name)+ " on society "+ str(society.name)
+    print "running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     exec self.rule
 
 

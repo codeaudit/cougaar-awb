@@ -1,0 +1,32 @@
+# Add agents 16-99
+
+def addNewArgs(component):
+#remove old row argument
+  for argument in component.each_argument():
+    if argument.name.startswith('rows='):
+      component.delete_argument(argument)
+  component.add_argument('rows=10')
+  for i in range(16, 100):
+    component.add_argument('target=Cell'+str(i)+':Dead')
+
+for node in society.each_node():
+#Tell game manager about new agents
+  for agent in node.each_agent():
+    for component in agent.each_component():
+      if (component.klass == 'com.bbn.awb.GOL.GameManagerPlugin'):
+        addNewArgs(component)
+
+#Add new agents to society
+  for i in range(16, 100):
+    myAgent = Agent("Cell"+str(i))
+    cellPlugin = Component(klass="com.bbn.awb.GOL.CellularAutomatonPlugin")
+    tasksServlet = Component(klass="org.cougaar.core.servlet.SimpleServletComponent" )
+    tasksServlet.add_argument("org.cougaar.planning.servlet.PlanViewServlet")
+    tasksServlet.add_argument("/tasks")
+    myAgent.add_component(cellPlugin)
+    myAgent.add_component(tasksServlet)
+    node.add_agent(myAgent)
+
+
+
+

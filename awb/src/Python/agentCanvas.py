@@ -35,8 +35,7 @@ class AgentCanvas(wxShapeCanvas):
         self.shapes = []
         self.save_gdi = []
         #~ self.TheSociety = mySociety() # create the society
-        rRectBrush = wxBrush("MEDIUM TURQUOISE", wxSOLID)
-        dsBrush = wxBrush("WHEAT", wxSOLID)
+
         #~ self.CreateSociety()
         #~ self.OrganizeAgents()
         self.SetScrollbars(20, 20, z.MAXWIDTH/20, z.MAXWIDTH/20)
@@ -78,9 +77,9 @@ class AgentCanvas(wxShapeCanvas):
             h = z.viewLevelData[2]["BOXHEIGHT"]
             self.addShape(
             wxRectangleShape(w,h), x,y, wxBLACK_PEN,
-            wxBrush("BLUE", wxSOLID),
+            wxBrush("GREY", wxSOLID),
             str(agent),
-            "YELLOW"
+            "BLACK"
             )
             #~ s = wxBitmapShape()
             #~ s.SetBitmap(self.agentBmp)

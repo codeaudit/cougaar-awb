@@ -4,6 +4,7 @@ import urllib
 import random as r
 import time
 import os
+import signal
 import thread
 import httplib
 
@@ -15,6 +16,7 @@ from wxPython.lib.dialogs import wxMultipleChoiceDialog
 # ----------------
 # AWB Generic mods
 from probeDLG import ProbeDlg
+from ctrlDLG import CtrlDlg
 from societyReader import SocietyReader
 from agentCanvas import AgentCanvas
 from informationPanel import InformationPanel
@@ -38,6 +40,7 @@ import zoomer as z
 #---------------------------------------------------------------------
 #~ GLOBAL VARS
 CLOSE_SOCIETY_BTN_ID = 701
+GLOBAL_WIDGET_ID_BASE = 10
 #----------------------------------------------------------------------
 # This creates some pens and brushes that the OGL library uses.
 
@@ -60,10 +63,20 @@ class AgentViewer(wxPanel):
         self.box.Add(self.canvas, 1, wxGROW)
         subbox = wxBoxSizer(wxHORIZONTAL)
 
+# ------
+        self.ctrlSocietyButtonID =  GLOBAL_WIDGET_ID_BASE+1
+        self.ctrlSocietyButton = wxButton(self, self.ctrlSocietyButtonID , "Start")
+
+        EVT_BUTTON(self, self.ctrlSocietyButtonID, self.OnStartSociety)
+        self.ctrlSocietyButton.SetBackgroundColour("BLACK")
+        self.ctrlSocietyButton.SetForegroundColour("WHITE")
+        #~ self.viewSocietyButton.SetDefault()
+        subbox.Add(self.ctrlSocietyButton , flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+
 
         # ------
-        self.viewSocietyButton = wxButton(self, 11, "View Agents")
-        EVT_BUTTON(self, 11, self.OnViewSociety)
+        self.viewSocietyButton = wxButton(self, GLOBAL_WIDGET_ID_BASE+2, "View Agents")
+        EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+2, self.OnViewSociety)
         self.viewSocietyButton.SetBackgroundColour("BLUE")
         self.viewSocietyButton.SetForegroundColour("YELLOW")
         #~ self.viewSocietyButton.SetDefault()
@@ -76,16 +89,16 @@ class AgentViewer(wxPanel):
 
         # ------
         # ------
-        self.ZoomPlusButton = wxButton(self, 12, "+")
-        EVT_BUTTON(self, 12, self.OnZoomPlus)
+        self.ZoomPlusButton = wxButton(self, GLOBAL_WIDGET_ID_BASE+3, "+")
+        EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+3, self.OnZoomPlus)
         self.ZoomPlusButton.SetBackgroundColour(wxGREEN)
         self.ZoomPlusButton.SetForegroundColour(wxWHITE)
 
         subbox.Add(self.ZoomPlusButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
 
        # ------
-        self.ZoomMinusButton = wxButton(self, 13, "-")
-        EVT_BUTTON(self, 13, self.OnZoomMinus)
+        self.ZoomMinusButton = wxButton(self, GLOBAL_WIDGET_ID_BASE+4, "-")
+        EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+4, self.OnZoomMinus)
         self.ZoomMinusButton.SetBackgroundColour(wxRED)
         self.ZoomMinusButton.SetForegroundColour(wxWHITE)
         subbox.Add(self.ZoomMinusButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
@@ -98,8 +111,8 @@ class AgentViewer(wxPanel):
         #~ subbox.Add(self.viewServletButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
 
         # ------
-        self.testServletButton = wxButton(self, 16, "Agent Probes")
-        EVT_BUTTON(self, 16, self.AgentTaskCountUpdate)
+        self.testServletButton = wxButton(self, GLOBAL_WIDGET_ID_BASE+5, "Agent Probes")
+        EVT_BUTTON(self, GLOBAL_WIDGET_ID_BASE+5, self.AgentTaskCountUpdate)
         self.testServletButton.SetBackgroundColour(wxCYAN)
         self.testServletButton.SetForegroundColour(wxBLACK)
         #~ self.viewSocietyButton.SetDefault()
@@ -118,15 +131,17 @@ class AgentViewer(wxPanel):
         pass
 
     def AgentTaskCountUpdate(self, evt):
-            print >> sys.stdout, "AgentTaskCountUpdate"
+            #~ print >> sys.stdout, "AgentTaskCountUpdate"
             if self.societyReader is not None:
-                print >> sys.stdout, "..."
+                #~ print >> sys.stdout, "..."
                 uniqueObjects = self.societyReader.readUniqueObjects(self.HOST, self.PORT)
-                info = InformationPanel (140, 300, self.canvas, information=uniqueObjects)
-                self.canvas.addShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
-                dc = wxClientDC(self.canvas)
-                self.canvas.PrepareDC(dc)
-                self.canvas.Redraw(dc)
+                for o in uniqueObjects.keys():
+                    self.computeHeat(o, uniqueObjects[o])
+                #~ info = InformationPanel (140, 300, self.canvas, information=uniqueObjects)
+                #~ self.canvas.addShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
+                #~ dc = wxClientDC(self.canvas)
+                #~ self.canvas.PrepareDC(dc)
+                #~ self.canvas.Redraw(dc)
 
     def OnZoomPlus(self, evt):
         if self.canvas.getSocietyStatus() == "active":
@@ -154,6 +169,33 @@ class AgentViewer(wxPanel):
         else:
             self.ErrorWindow()
 
+    def OnStartSociety(self, evt):
+        """
+        We are limited to localhost currently!!!
+        """
+        self.NODE = None
+        win = CtrlDlg(self,wxNewId(), self.log, "Start a Society", size=wxSize(400, 300),style = wxDEFAULT_DIALOG_STYLE)
+        win.CenterOnScreen()
+        val = win.ShowModal()
+        if val != wxID_OK:
+            return
+        print "OK::", self.NODE
+        rtn = self.startNode()
+        if (rtn):
+            self.ctrlSocietyButton.SetBackgroundColour("WHITE")
+            self.ctrlSocietyButton.SetForegroundColour("BLACK")
+            self.ctrlSocietyButton.SetLabel("Stop")
+            EVT_BUTTON(self, self.ctrlSocietyButtonID, self.OnStopSociety)
+
+    def OnStopSociety(self, evt):
+        #~ signal.signal(signal.SIGINT|signal.SIG_DFL, self.spawnPID)
+        if sys.platform[:3] in ('win', 'os2') or sys.platform=='riscos':
+            print 'must use WMI, Win32.all extensions'
+        self.ctrlSocietyButton.SetBackgroundColour("BLACK")
+        self.ctrlSocietyButton.SetForegroundColour("WHITE")
+        self.ctrlSocietyButton.SetLabel("Start")
+        EVT_BUTTON(self, self.ctrlSocietyButtonID , self.OnStartSociety)
+
     def OnViewSociety(self, evt):
         agentList = []
         self.URL = None
@@ -165,18 +207,24 @@ class AgentViewer(wxPanel):
         if val == wxID_OK:
             self.log.WriteText("URLDlg OK\n")
             self.log.WriteText(self.URL)
-            print "read...", self.URL, "host==", self.HOST,"port==", self.PORT
+            #~ print "read...", self.URL, "host==", self.HOST,"port==", self.PORT
             societyreader = SocietyReader(self.URL)
             self.societyReader = societyreader
-            print "societyreader:", societyreader
+            #~ print "societyreader:", societyreader
             agentList = societyreader.readAgents()
-            self.log.WriteText(str(agentList))
-            self.canvas.CreateSociety(agentList)
-            self.canvas.OrganizeAgents()
+            if agentList is None:
+                dlg = wxMessageDialog(self.frame, "Society not up as yet. Try again in a few seconds",
+                          'Non-fatal Error', wxOK|wxICON_ERROR)
+                dlg.ShowModal()
+                dlg.Destroy()
+            else:
+                self.log.WriteText(str(agentList))
+                self.canvas.CreateSociety(agentList)
+                self.canvas.OrganizeAgents()
 
         else:
             self.log.WriteText("URLDlg Cancel\n")
-        print "Society Viewed"
+        #~ print "Society Viewed"
 
     #~ def viewSociety(self, generator_file):
         """
@@ -185,6 +233,45 @@ class AgentViewer(wxPanel):
 
         #~ print "creating society from  %s" % generator_file ### DEBUG -- remove this!
         #~ return ULHierarchy(uri='file:'+str(generator_file))
+    def startNode(self):
+        try:
+            cip = os.environ['COUGAAR_INSTALL_PATH']
+            execstring = cip+os.sep+'bin'+os.sep+'XSLNode'
+            self.spawnPID = os.spawnv(os.P_NOWAIT,execstring, (execstring, self.NODE));
+            #~ print 'spawned...',execstring , ' ID=', self.spawnPID
+        except KeyError:
+            dlg = wxMessageDialog(self.frame, "set 'COUGAAR_INSTALL_PATH' as an environmental variable",
+                          'Fatal Error', wxOK|wxICON_ERROR)
+            dlg.ShowModal()
+            dlg.Destroy()
+            return False
+
+        return True
+
+
+    def computeHeat(self, agent, value):
+        #~ print "computeHeat:", agent, 'value:',value
+        shape = self.canvas.shapeDict[str(agent)]
+        # turn on the right color
+        #~ color = self.computeColor(value)
+        shape.SetBrush(wxBrush(self.computeColor(value), wxSOLID))
+        dc = wxClientDC(self.canvas)
+        self.canvas.PrepareDC(dc)
+        self.canvas.Redraw(dc)
+
+    def computeColor(self, agentValue):
+        red = green = blue = 0
+        agentValue = int(agentValue)
+        agentValue = agentValue * 2
+        if agentValue < 256:
+            red = 0; green = agentValue; blue = 255 - agentValue
+        elif  256 <= agentValue < 512:
+            red = agentValue - 256; green = 255; blue = 0
+        elif 512 <= agentValue  < 767:
+            red = 255; green = 766 - agentValue; blue = 0
+        else:
+            red = 255; green = 0; blue = 0
+        return wxColour(red, green, blue)
 
     def loadFromURL(self, aURL):
         file = urllib.urlopen(aURL)
@@ -216,9 +303,6 @@ class AgentViewer(wxPanel):
                 dc.DrawBitmap(self.bg_bmp, x, y)
                 y = y + h
             x = x + w
-
-    #~ def viewSociety(self, generator_file):
-        #~ return ULHierarchy(uri='file:'+str(generator_file))
 
     def loadSociety(self, generator_file):
         """
@@ -264,7 +348,7 @@ class AgentViewer(wxPanel):
                 limit += 1
                 if limit > 500: break
                 tasks = aPeer.getGeneratedData(agent)
-                print "iteration:", limit, agent,  tasks
+                #~ print "iteration:", limit, agent,  tasks
                 evt = AgentTaskCountEvent((agent, tasks))
                 wxPostEvent(self, evt)
 

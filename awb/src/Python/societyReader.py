@@ -27,16 +27,19 @@ class SocietyReader:
                 self.url = url
 
         def readAgents(self):
-                f = urllib2.urlopen(self.url)
-                htmlText=  f.read() # reads the whole page as a big glob
-                f.close()
-                return self.scrapeHTML(htmlText)
+                try:
+                    f = urllib2.urlopen(self.url)
+                    htmlText=  f.read() # reads the whole page as a big glob
+                    f.close()
+                    return self.scrapeHTML(htmlText)
+                except urllib2.URLError:
+                    return None
 
         def scrapeHTML(self, htmlText):
                 self.agentList = []
                 scraper = BeautifulSoup()
                 scraper.feed(htmlText)
-                print ">>>\n",
+                #~ print ">>>\n",
 
                 list = scraper.fetch('a', {'href':'/$%'})
                 #~ for l in list:
@@ -46,11 +49,11 @@ class SocietyReader:
                 #~ print 'Fetch List...'
                 for s in list:
                         s = str(s)
-                        print 's >>>', s
+                        #~ print 's >>>', s
                         start = string.index(s, ">")
                         end = string.rindex(s, "<")
                         t = s[start+1:end]
-                        print "AREF...", t
+                        #~ print "AREF...", t
                         self.agentList.append(str(t))
                         #~ alphabet = [
 #~ 'Alpha','Beta','Gamma','Delta','Epsilon',
@@ -66,26 +69,36 @@ class SocietyReader:
         fyi = '''
         http://192.233.51.210:8800/$PlanAnalyzerAgent/tasks?mode=12&limit=true&formType=3&uid=formSubmit=Search
         '''
+        fyi2 = """
+        http://localhost:8800/$GameManager/tasks?mode=12
+        """ # this is what the "all uniqueObjects" looks like
 
         def readUniqueObjects(self, host,port):
                 self.uniqueObjects = {}
                 uniqueObjectsQuery = '/tasks?mode=12&limit=true&formType=3&uid=formSubmit=Search'
+                uniqueObjectsQuery = '/tasks?mode=12'
+
                 if len(self.agentList) == None: return
                 for agent in self.agentList:
                         wellformedURL = 'http://'+host+':'+port+ '/$' + agent +uniqueObjectsQuery
-                        print 'wellformedURL', wellformedURL
-                        f = urllib2.urlopen(wellformedURL)
-                        htmlText=  f.read() # reads the whole page as a big glob
-                        f.close()
-                        scraper = BeautifulSoup()
-                        scraper.feed(htmlText)
-                        elements = scraper.fetch('center')
-                        #~ print "elements>>>", elements
-                        elt = str(elements[0])
-                        elt = elt[elt.index('<b>')+3:elt.index('</b>')]
-                        self.uniqueObjects[str(agent)] = elt
+                        #~ print 'wellformedURL', wellformedURL
+                        try:
+                            f = urllib2.urlopen(wellformedURL)
+                            htmlText=  f.read() # reads the whole page as a big glob
+                            f.close()
+                            scraper = BeautifulSoup()
+                            scraper.feed(htmlText)
+                            elements = scraper.fetch('center')
+                            #~ print "elements>>>", elements
+                            elt = str(elements[0])
+                            elt = elt[elt.index('<b>')+3:elt.index('</b>')]
+                            self.uniqueObjects[str(agent)] = elt
+                        except  urllib2.HTTPError:
+                            pass
+                            # We are going to ignore anyone who has no tasks servlet ; just forget them
+                            #
                 # add dummy:
-                        self.uniqueObjects['---'] = '---' # not sure why you need to do - bug in DividedShape??
+                        #~ self.uniqueObjects['---'] = '---' # not sure why you need to do - bug in DividedShape??
                 #~ print 'uniqueObjects',  self.uniqueObjects
                 return self.uniqueObjects
 

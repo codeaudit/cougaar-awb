@@ -21,15 +21,19 @@
 #
 class Argument:
   
-  def __init__(self, value, ord):
+  def __init__(self, value, ord, rule='BASE'):
     self.value = value
     self.ord = ord
-    self.rule = "BASE"
+    self.rule = str(rule)
+    
+  def __str__(self):
+    return "Argument:"+self.value+":RULE:"+self.rule  
           
   def to_xml(self):
     xml = "<argument order='"+ str(self.ord)+ "'>\n"
     xml = xml + str(self.value) + "\n</argument>\n"
     return xml
+    
   def to_python(self):
     script = "argument = Argument('"+self.value+"', "+self.ord+")\n"
     script = script + "component.add_argument(argument)\n"

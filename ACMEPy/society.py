@@ -26,7 +26,7 @@ import types
 
 class Society:
     
-  def __init__(self, name):
+  def __init__(self, name, rule='BASE'):
     DEFAULT_PORT = 8800
     self.name = name
     self.agents = None 
@@ -35,7 +35,9 @@ class Society:
     self.cougaar_port  = DEFAULT_PORT
     self.controller = None
     self.hostlist = []
-    self.rule = "BASE"
+    self.rule = str(rule)
+  def __str__(self):
+    return "Society:"+ self.name+":RULE:"+self.rule
     
   def add_host(self, host):
     # is this really a 'Host' instance?
@@ -95,3 +97,14 @@ class Society:
     for host in self.hosts.keys():
       script = script + self.hosts[host].to_python()   
     return script
+
+  def prettyPrint(self):
+    for host in self.hosts.keys():
+      print "\t", self.hosts[host]
+      for node in self.hosts[host].nodes.keys():
+	theNode = self.hosts[host].nodes[node]
+	print "\t\t", theNode
+	for agent in self.hosts[host].nodes[node].agents.keys():
+	  print "\t\t\t", theNode.agents[agent]
+	  for component in agent.components:
+	    print "\t\t\t\t", component

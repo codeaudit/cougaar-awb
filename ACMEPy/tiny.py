@@ -29,13 +29,14 @@ from society_factory import SocietyFactory
 from society_factory import TransformationEngine
 from society_factory import TransformationRule
 
-
+import sys
 generator_file = sys.argv[1]
 
 print "creating society from ",generator_file
 society = SocietyFactory(generator_file).parse()
 
-#print "Society:", society.name
+society.prettyPrint()
+#print society
 #for host in society.hosts.keys():
 #  print "\t", society.hosts[host]
 #  for node in society.hosts[host].nodes.keys():
@@ -43,6 +44,8 @@ society = SocietyFactory(generator_file).parse()
 #    print "\t\t", theNode
 #    for agent in society.hosts[host].nodes[node].agents.keys():
 #      print "\t\t\t", theNode.agents[agent]
+#      for component in agent.components:
+#	print "\t\t\t\t", component
 
 print "\n\nIterator test:\n\n"
 
@@ -78,9 +81,9 @@ for host in society.hosts.keys():
 	if str(component.klass) == "org.cougaar.blah.blah": hascomp = True
       if hascomp is not True:
 	name = str(agent.name)+"|org.cougaar.blah.blah"
-	c = Component(name, klass="org.cougaar.blah.blah", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin")
+	c = Component(name, klass="org.cougaar.blah.blah", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
 	agent.add_component(c)
-	c.add_argument(Argument("Parameter1", "1.0"))
+	c.add_argument(Argument("Parameter1", "1.0", rule=self.name))
 
 """
 rule01 = TransformationRule("Add foo foo to all agents.")
@@ -91,9 +94,9 @@ for agent in society.each_agent():
     if str(component.klass) == "org.cougaar.foo.foo": hascomp = True
   if hascomp is not True:
     name = str(agent.name)+"|org.cougaar.foo.foo"
-    c = Component(name, klass="org.cougaar.foo.foo", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin")
+    c = Component(name, klass="org.cougaar.foo.foo", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin", rule=self.name)
     agent.add_component(c)
-    c.add_argument(Argument("Parameter1", "1.0"))
+    c.add_argument(Argument("Parameter1", "1.0", rule=self.name))
 
 """
 
@@ -101,6 +104,8 @@ engine = TransformationEngine(society, 100)
 # engine.add_rule(rule00)
 engine.add_rule(rule01)
 soc = engine.transform()
+
+soc.prettyPrint()
 
 print "transformation ==> xml-----------------"
 xml = soc.to_xml()

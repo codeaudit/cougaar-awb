@@ -24,17 +24,18 @@ import types
 from node import Node
 class Host:
 
-  def __init__(self, name=None):
+  def __init__(self, name=None, rule='BASE'):
     """Constructs a host with the optional name  """
     self.name = name
     self.society = None
     self.nodes = {}
     self.nodelist = [] # for testing iterators
-    self.rule = "BASE"
+    self.rule = str(rule)
 
 
   def __str__(self):
-    return ("Host:"+ self.name)
+    return "Host:"+ self.name+":RULE:"+self.rule
+    
     
   def add_node(self, node):
     if isinstance(node, Node):

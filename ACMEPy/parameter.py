@@ -25,9 +25,10 @@ from agent import Agent
 
 
 class Parameter:
-  def __init__(self, value=None, type="Parameter"):
+  def __init__(self, value=None, type="Parameter", rule='BASE'):
     self.type = str(type)
     self.value = str(value)
+    self.rule = rule
     
   def __str__(self):
     return (self.type+":"+self.value)

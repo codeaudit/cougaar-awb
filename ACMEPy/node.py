@@ -24,7 +24,7 @@ import types
 from agent import Agent
 
 class Node:
-  def __init__(self, name=None):
+  def __init__(self, name=None, rule='BASE'):
     self.name = name
     self.host = None
     self.agents = {}
@@ -33,10 +33,10 @@ class Node:
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
-    self.rule = "BASE"
+    self.rule = str(rule)
     
   def __str__(self):
-    return ("Node:"+self.name)
+    return "Node:"+self.name+":RULE:"+self.rule
     
   def add_agent(self, agent, klass = None):
     if isinstance(agent, Agent):

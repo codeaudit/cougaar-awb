@@ -26,21 +26,23 @@ class Component:
    #
    # data:: [String] the plugin data
    #
-  def __init__(self, name=None, klass=None, priority = None, order=None, insertionpoint=None):
+  def __init__(self, name=None, klass=None, priority = None, order=None, insertionpoint=None, rule='BASE'):
     self.name = name
     self.klass = klass
     self.priority = priority
     self.order = order
     self.insertionpoint = insertionpoint
     self.arguments = []
-    self.rule = "BASE"
+    self.rule = str(rule)
     
   def add_argument(self, argument):
     if isinstance(argument, Argument):
       self.arguments.append(argument)
 
   def __str__(self):
-    return "Plugin:"+self.data
+    return "Component:"+self.data+":RULE:"+self.rule
+
+
   def clone(self):
     return Plugin(self.name)
   def to_xml(self):

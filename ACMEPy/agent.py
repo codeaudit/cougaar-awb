@@ -24,18 +24,18 @@ import types
 from component import Component
 
 class Agent:
-  def __init__(self, name=None, klass=None):
+  def __init__(self, name=None, klass=None, rule='BASE'):
     self.name = name
     self.node = None
     self.uic = None
     self.klass = klass
     self.cloned = False
     self.components = []
-    self.rule = "BASE"
+    self.rule = str(rule)
 
       
   def __str__(self):
-    return "Agent:"+self.name
+    return "Agent:"+self.name+":RULE:"+self.rule
     
   def add_component(self, component):
   # plugin is either an actual plugin or a string representing the data for a plugin.

@@ -167,7 +167,7 @@ class TransformationRule:
     #~ self.isRubyRule = ruleText.isRubyRule
     
   def fire(self):
-    self.fire_count = self.fire_count + 1
+    self.fire_count += 1
     self.fired = True
     
   def reset(self):
@@ -179,7 +179,6 @@ class TransformationRule:
   def execute(self, society):
     print "running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     exec self.rule
-    print "completing rule.execute()"  # prg debug
 
 
 class TransformationEngine:

@@ -58,6 +58,7 @@ class Component:
   
   def delete_argument(self, argument):
     self.arguments.remove(argument)
+    del argument
   
   def add_entity(self, entity):
     if isinstance(entity, Argument):
@@ -96,10 +97,10 @@ class Component:
   
   def getStrippedName(self):
     index = self.name.find('|')
-    if index == -1:
-      return self.name
-    else:
+    if index > -1 and self.parent is not None and self.name[:index] == self.parent.name:
       return self.name[index+1:]
+    else:
+      return self.name
   
   def clone(self):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)

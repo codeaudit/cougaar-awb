@@ -54,9 +54,9 @@ class Host:
   
   def add_node(self, node):
     if isinstance(node, Node):
-      node.parent = self
       #~ self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
+      node.parent = self
       return node
     if isinstance(node, types.StringType):
       newNode = Node(node)
@@ -65,9 +65,18 @@ class Host:
       newNode.parent = self
       return newNode
 
-  def delete_node(self, node):
-    #~ del self.nodes[node.name]
+  def delete_node(self, node, saveAgents=False):
+    for agent in node.each_agent():
+      if saveAgents:
+        node.remove_agent(agent)
+      else:
+        node.delete_agent(agent)
+    node.remove_all_facets()
+    del node.vm_parameters
+    del node.prog_parameters
+    del node.env_parameters
     self.nodelist.remove(node)
+    del node
   
   def get_node(self, index):
     return self.nodelist[index]
@@ -93,10 +102,13 @@ class Host:
     print "Host::remove_facet() not implemented"
 
   def remove_all_facets(self):
+    for facet in self.facets:
+      del facet
     self.facets = []
 
   def delete_facet(self, facet):
     self.facets.remove(facet)
+    del facet
 
   def add_facet(self, facet):
     #facet arg could be either a Facet instance or a facet value string

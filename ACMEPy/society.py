@@ -71,9 +71,13 @@ class Society:
   def get_host(self, index):
     return self.hostlist[index]
 
-  def delete_host(self, host):
+  def delete_host(self, host, saveAgents=False):
+    for node in host.each_node():
+      host.delete_node(node, saveAgents)
+    host.remove_all_facets()
     del self.hosts[host.name]
     self.hostlist.remove(host)
+    del host
   
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -130,13 +134,18 @@ class Society:
       new_host.society = society
     return society
   
-  def remove_agent(self, agentName):
+  def remove_agent(self, agent):
+    # Diff betw this and delete_agent( ) is that this does not delete the agent object,
+    # but just removes it from the agentlist of its node.  The agent obj may continue
+    # to exist in the agentlist of another node. Even if the agent obj is NOT in the
+    # agentlist of another node, it will survive because its components and facets
+    # (if any) hold references to it, thus preventing it from being garbage
+    # collected.  This can be a memory leak if not properly managed.
     for host in self.each_host():
       for node in host.each_node():
-        agent = node.agents[agentName]
-        if agent is not None:
-          node.delete_agent(agent)
-    
+        if node.has_agent(agent.name):
+          node.remove_agent(agent)
+          return
   
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"
@@ -258,21 +267,4 @@ class Society:
   # got them, hence the "saveAgents" parameter.
   def close(self, saveAgents=False):
     for host in self.each_host():
-      for node in host.each_node():
-        if not saveAgents:
-          for agent in node.each_agent():
-            for component in agent.each_component():
-              del component.arguments
-            del agent.components
-            del agent.facets
-        del node.agents
-        del node.agentlist
-        del node.facets
-        del node.vm_parameters
-        del node.prog_parameters
-        del node.env_parameters
-      del host.nodes
-      del host.nodelist
-      del host.facets
-    del self.hosts
-    del self.hostlist
+      self.delete_host(host, saveAgents)

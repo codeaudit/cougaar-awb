@@ -27,7 +27,6 @@ from facet import Facet
 class Agent:
   def __init__(self, name=None, klass=None, rule='BASE'):
     self.name = name
-    #~ self.node = None
     self.parent = None
     self.uic = None
     self.klass = klass
@@ -58,6 +57,8 @@ class Agent:
     print "Agent::remove_facet() not implemented"
 
   def remove_all_facets(self):
+    for facet in self.facets:
+      del facet
     self.facets = []
 
   def delete_facet(self, facet):
@@ -83,7 +84,7 @@ class Agent:
     return None
 
   def each_component(self):
-    for component in self.components: # only for testing iterators
+    for component in self.components:
       yield component
 
   def remove_component(self, component_classname):
@@ -92,7 +93,14 @@ class Agent:
         self.components.remove(c)
 
   def delete_component(self, component):
-    self.components.remove(component)
+    # Destroys the component object
+    if component in self.components:
+      for argument in component.each_argument():
+        component.delete_argument(argument)
+      self.components.remove(component)
+      del component
+    else:
+      print "WARNING: Attempt to delete non-existent Component. Could be an error."
 
   def add_component(self, component):
   # plugin is either an actual plugin or a string representing the data for a plugin.
@@ -133,7 +141,6 @@ class Agent:
       raise Exception, "Attempting to set unknown Agent attribute: " + attribute.lower()
   
   def host(self):
-    #~ return agent.node.host
     return self.parent.parent
 
   def clone(self):

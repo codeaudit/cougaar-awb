@@ -29,7 +29,6 @@ from facet import Facet
 class Node:
   def __init__(self, name=None, rule='BASE'):
     self.name = name
-    #~ self.host = None
     self.parent = None
     #~ self.agents = {}
     self.agentlist = []
@@ -87,11 +86,21 @@ class Node:
   
   def get_agent(self, index):
     return self.agentlist[index]
-
-  def delete_agent(self, agent):
-    #~ del self.agents[agent.name]
+  
+  def remove_agent(self, agent):
+    # Note that this doesn't destroy the agent object, just removes it from this 
+    # node's agentlist
     self.agentlist.remove(agent)
-
+  
+  def delete_agent(self, agent):
+    # Destroys the agent object
+    if agent in self.agentlist:
+      for component in agent.each_component():
+        agent.delete_component(component)
+      agent.remove_all_facets()
+      self.remove_agent(agent)
+      del agent
+  
   def has_agent(self, agentName):
     for agent in self.agentlist:
       if agent.name == agentName:
@@ -106,10 +115,13 @@ class Node:
     print "Node::remove_facet() not implemented"
 
   def remove_all_facets(self):
+    for facet in self.facets: 
+      del facet
     self.facets = []
 
   def delete_facet(self, facet):
     self.facets.remove(facet)
+    del facet
 
   def add_facets(self, facetList):
     for facet in facetList:

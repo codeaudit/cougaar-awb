@@ -35,6 +35,7 @@ class Host:
     self.facets = []
     self.rule = str(rule)
     self.isExcluded = False
+    self.numAgents = 0
 
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
@@ -216,6 +217,12 @@ class Host:
           numNodes += 1
       return numNodes
     return len(self.nodelist)
+  
+  def countAgents(self, onlyIfIncluded=False, inclNodeAgent=False):
+    count = 0
+    for node in self.nodelist:
+      count += node.countAgents(onlyIfIncluded, inclNodeAgent)
+    return count
   
   ##
   # Renames this host if the new name is not already taken by another host.

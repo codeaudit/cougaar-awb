@@ -39,8 +39,8 @@ class Node:
     self.klass = None
     self.rule = str(rule)
     self.society = None
-    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create(Node Agent)"))
     self.isExcluded = False
+    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create(Node Agent)"))
   
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -102,7 +102,11 @@ class Node:
       entity.prev_parent = entity.parent
       if entity.society is not None and entity.society.name == self.society.name and not isCopyOperation:  
         # it's a reordering w/in same society
+        if entity.parent == self:
+          # it's a reordering w/in the same node
+          self.remove_agent(entity)  # we'll be adding it back again in a new location
         return self.add_agent(entity, orderAfterObj, True)
+      self.society.adjustAgentCount(True)  # True = increment by one
       return self.add_agent(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Node attribute"
@@ -154,14 +158,17 @@ class Node:
         return True
     return False
   
-  def countAgents(self, onlyIfIncluded=False):
+  def countAgents(self, onlyIfIncluded=False, inclNodeAgent=False):
+    nodeAgentAdjustment = 1
+    if inclNodeAgent:
+      nodeAgentAdjustment = 0
     if onlyIfIncluded:
       numAgents = 0
       for agent in self.agentlist:
         if not agent.isExcluded:
           numAgents += 1
-      return numAgents
-    return len(self.agentlist)
+      return numAgents - nodeAgentAdjustment
+    return len(self.agentlist) - nodeAgentAdjustment
   
   ##
   # Iteratively returns each facet on this Node instance as a Dictionary

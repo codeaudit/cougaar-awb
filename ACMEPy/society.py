@@ -45,6 +45,7 @@ class Society:
     self.nameserver_host = "localhost"
     self.nameserver_suffix = ":8888:5555"
     self.isDirty = False
+    self.numAgents = 0
     
   def __str__(self):
     return "Society:"+ self.name+":RULE:"+self.rule
@@ -291,12 +292,17 @@ class Society:
       return numNodes
     return len(nodelist)
   
-  def countAgents(self, onlyIfIncluded=False):
-    count = 0
-    for agent in self.each_agent():
-      if not onlyIfIncluded or (onlyIfIncluded and not agent.isExcluded):
-        count += 1
-    return count
+  def countAgents(self, onlyIfIncluded=False, inclNodeAgent=False):
+    self.numAgents = 0
+    for host in self.hostlist:
+      self.numAgents += host.countAgents(onlyIfIncluded, inclNodeAgent)
+    return self.numAgents
+  
+  def adjustAgentCount(self, isIncrement=True):
+    if isIncrement:
+      self.numAgents += 1
+    else:
+      self.numAgents -= 1
   
   def clone(self, inclComponents=True):
     society = Society(self.name, self.rule)

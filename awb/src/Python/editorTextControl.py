@@ -3,7 +3,7 @@
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: editorTextControl.py,v 1.7 2004-12-06 22:22:46 damoore Exp $
+# RCS-ID:       $Id: editorTextControl.py,v 1.8 2004-12-09 16:02:23 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -80,9 +80,9 @@ class EditorControl(stc.StyledTextCtrl):
 
     self.SetViewWhiteSpace(False)
 
-
-    self.SetEdgeMode(stc.STC_EDGE_BACKGROUND)
-    self.SetEdgeColumn(78)
+# Don't set this at all! dem 12/008/2004
+#    self.SetEdgeMode(stc.STC_EDGE_BACKGROUND)
+#    self.SetEdgeColumn(128)
 
     self.adjustEOL()
     #self.SetViewEOL(1)
@@ -92,6 +92,9 @@ class EditorControl(stc.StyledTextCtrl):
     self.SetMarginMask(2, stc.STC_MASK_FOLDERS)
     self.SetMarginSensitive(2, True)
     self.SetMarginWidth(2, 12)
+    self.CanPaste()
+    self.CanRedo()
+    self.CanUndo()
 
     if 0: # simple folder marks, like the old version
       self.MarkerDefine(stc.STC_MARKNUM_FOLDER, stc.STC_MARK_ARROW, "navy", "navy")
@@ -111,8 +114,8 @@ class EditorControl(stc.StyledTextCtrl):
       self.MarkerDefine(stc.STC_MARKNUM_FOLDER,        stc.STC_MARK_BOXPLUS,  "white", "black")
       self.MarkerDefine(stc.STC_MARKNUM_FOLDEROPEN,    stc.STC_MARK_BOXMINUS, "white", "black")
 
-    self.Bind(stc.EVT_STC_UPDATEUI,   self.OnUpdateUI ) 
-    self.Bind(stc.EVT_STC_MARGINCLICK,   self.OnMarginClick) 
+    self.Bind(stc.EVT_STC_UPDATEUI,   self.OnUpdateUI )
+    self.Bind(stc.EVT_STC_MARGINCLICK,   self.OnMarginClick)
     self.Bind(stc.EVT_STC_MODIFIED,   self.OnModified)
 
     # Make some styles,  The lexer defines what each style is used for, we
@@ -162,7 +165,7 @@ class EditorControl(stc.StyledTextCtrl):
     self.SetCaretForeground("BLUE")
 
     self.Bind(wx.EVT_KEY_DOWN,   self.OnKeyPressed, self)
-    
+
 
   def convertEOL(self):
     if wx.Platform == '__WXMSW__':
@@ -237,23 +240,23 @@ class EditorControl(stc.StyledTextCtrl):
   def OnMarginClick(self, evt):
       # fold and unfold as needed
       if evt.GetMargin() == 2:
-	  if evt.GetShift() and evt.GetControl():
-	      self.FoldAll()
-	  else:
-	      lineClicked = self.LineFromPosition(evt.GetPosition())
-	      if self.GetFoldLevel(lineClicked) & stc.STC_FOLDLEVELHEADERFLAG:
-		  if evt.GetShift():
-		      self.SetFoldExpanded(lineClicked, True)
-		      self.Expand(lineClicked, True, True, 1)
-		  elif evt.GetControl():
-		      if self.GetFoldExpanded(lineClicked):
-			  self.SetFoldExpanded(lineClicked, False)
-			  self.Expand(lineClicked, False, True, 0)
-		      else:
-			  self.SetFoldExpanded(lineClicked, True)
-			  self.Expand(lineClicked, True, True, 100)
-		  else:
-		      self.ToggleFold(lineClicked)
+      if evt.GetShift() and evt.GetControl():
+          self.FoldAll()
+      else:
+          lineClicked = self.LineFromPosition(evt.GetPosition())
+          if self.GetFoldLevel(lineClicked) & stc.STC_FOLDLEVELHEADERFLAG:
+          if evt.GetShift():
+              self.SetFoldExpanded(lineClicked, True)
+              self.Expand(lineClicked, True, True, 1)
+          elif evt.GetControl():
+              if self.GetFoldExpanded(lineClicked):
+              self.SetFoldExpanded(lineClicked, False)
+              self.Expand(lineClicked, False, True, 0)
+              else:
+              self.SetFoldExpanded(lineClicked, True)
+              self.Expand(lineClicked, True, True, 100)
+          else:
+              self.ToggleFold(lineClicked)
 
 
   def OnModified(self, event):
@@ -266,27 +269,27 @@ class EditorControl(stc.StyledTextCtrl):
 
       # find out if we are folding or unfolding
       for lineNum in range(lineCount):
-	  if self.GetFoldLevel(lineNum) & stc.STC_FOLDLEVELHEADERFLAG:
-	      expanding = not self.GetFoldExpanded(lineNum)
-	      break;
+      if self.GetFoldLevel(lineNum) & stc.STC_FOLDLEVELHEADERFLAG:
+          expanding = not self.GetFoldExpanded(lineNum)
+          break;
 
       lineNum = 0
       while lineNum < lineCount:
-	  level = self.GetFoldLevel(lineNum)
-	  if level & stc.STC_FOLDLEVELHEADERFLAG and \
-	     (level & stc.STC_FOLDLEVELNUMBERMASK) == stc.STC_FOLDLEVELBASE:
+      level = self.GetFoldLevel(lineNum)
+      if level & stc.STC_FOLDLEVELHEADERFLAG and \
+         (level & stc.STC_FOLDLEVELNUMBERMASK) == stc.STC_FOLDLEVELBASE:
 
-	      if expanding:
-		  self.SetFoldExpanded(lineNum, True)
-		  lineNum = self.Expand(lineNum, True)
-		  lineNum = lineNum - 1
-	      else:
-		  lastChild = self.GetLastChild(lineNum, -1)
-		  self.SetFoldExpanded(lineNum, False)
-		  if lastChild > lineNum:
-		      self.HideLines(lineNum+1, lastChild)
+          if expanding:
+          self.SetFoldExpanded(lineNum, True)
+          lineNum = self.Expand(lineNum, True)
+          lineNum = lineNum - 1
+          else:
+          lastChild = self.GetLastChild(lineNum, -1)
+          self.SetFoldExpanded(lineNum, False)
+          if lastChild > lineNum:
+              self.HideLines(lineNum+1, lastChild)
 
-	  lineNum = lineNum + 1
+      lineNum = lineNum + 1
 
 
 
@@ -294,33 +297,33 @@ class EditorControl(stc.StyledTextCtrl):
       lastChild = self.GetLastChild(line, level)
       line = line + 1
       while line <= lastChild:
-	  if force:
-	      if visLevels > 0:
-		  self.ShowLines(line, line)
-	      else:
-		  self.HideLines(line, line)
-	  else:
-	      if doExpand:
-		  self.ShowLines(line, line)
+      if force:
+          if visLevels > 0:
+          self.ShowLines(line, line)
+          else:
+          self.HideLines(line, line)
+      else:
+          if doExpand:
+          self.ShowLines(line, line)
 
-	  if level == -1:
-	      level = self.GetFoldLevel(line)
+      if level == -1:
+          level = self.GetFoldLevel(line)
 
-	  if level & stc.STC_FOLDLEVELHEADERFLAG:
-	      if force:
-		  if visLevels > 1:
-		      self.SetFoldExpanded(line, True)
-		  else:
-		      self.SetFoldExpanded(line, False)
-		  line = self.Expand(line, doExpand, force, visLevels-1)
+      if level & stc.STC_FOLDLEVELHEADERFLAG:
+          if force:
+          if visLevels > 1:
+              self.SetFoldExpanded(line, True)
+          else:
+              self.SetFoldExpanded(line, False)
+          line = self.Expand(line, doExpand, force, visLevels-1)
 
-	      else:
-		  if doExpand and self.GetFoldExpanded(line):
-		      line = self.Expand(line, True, force, visLevels-1)
-		  else:
-		      line = self.Expand(line, False, force, visLevels-1)
-	  else:
-	      line = line + 1;
+          else:
+          if doExpand and self.GetFoldExpanded(line):
+              line = self.Expand(line, True, force, visLevels-1)
+          else:
+              line = self.Expand(line, False, force, visLevels-1)
+      else:
+          line = line + 1;
 
       return line
 

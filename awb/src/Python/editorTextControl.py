@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: editorTextControl.py,v 1.2 2004-10-07 21:30:14 damoore Exp $
+# RCS-ID:       $Id: editorTextControl.py,v 1.3 2004-10-25 21:00:55 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -85,7 +85,7 @@ class EditorControl(wxStyledTextCtrl):
     self.SetEdgeColumn(78)
 
     self.adjustEOL()
-    self.SetViewEOL(1)
+    #self.SetViewEOL(1)
     # Setup a margin to hold fold markers
     #self.SetFoldFlags(16)  ###  WHAT IS THIS VALUE?  WHAT ARE THE OTHER FLAGS?  DOES IT MATTER?
     self.SetMarginType(2, wxSTC_MARGIN_SYMBOL)

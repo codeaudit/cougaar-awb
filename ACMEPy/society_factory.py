@@ -96,6 +96,12 @@ class SocietyFactory:
     
   def to_python(self, society): 	return self.society.to_python()
     
+def society_from_python(filename):
+  globals = {}
+  locals = {}
+  execfile(filename, globals, locals)
+  society = locals['society']
+  return society
 
 class TransformationRule:
   def __init__(self, name):

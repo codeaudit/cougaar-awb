@@ -22,23 +22,22 @@
 
 class Argument:
   
-  def __init__(self, value, rule='BASE', order ='1.0'):
+  def __init__(self, value, rule='BASE'):
     self.value = value
     self.rule = str(rule)
-    self.order = str(order)
     
   def __str__(self):
-    return "Argument:"+self.value+":RULE:"+self.rule+":ORDER:"+self.order
+    return "Argument:"+self.value+":RULE:"+self.rule
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
           
   def to_xml(self):
-    xml = "<argument order=\""+self.order+"\">"
+    xml = "<argument>"
     xml = xml + str(self.value) + "</argument>\n"
     return xml
     
   def to_python(self):
-    script = "argument = Argument('"+self.value+"','"+self.rule+"','"+self.order+"')\n"
+    script = "argument = Argument('"+self.value+"','"+self.rule+"')\n"
     script = script + "component.add_argument(argument)\n"
     return script

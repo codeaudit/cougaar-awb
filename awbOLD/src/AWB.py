@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: CS03.py,v 1.2 2004-08-25 20:47:20 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.1 2004-08-25 20:47:20 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -34,7 +34,7 @@ from societyEditor import SocietyEditorPanel
 from insertion_dialog import CougaarMessageDialog
 from insertion_dialog import FindItemDialog
 from societyFactoryServer import SocietyFactoryServer
-from agentController import AgentController
+from agentController import AgentViewer
 from ACMEPy.node import Node
 import images
 
@@ -389,8 +389,8 @@ class AWB(wxFrame):
         self.nb.AddPage(self.agentLaydown, 'Agent Laydown')
 
         # Notebook page 4:  Society Controller
-        self.societyController = SocietyController(self.nb, self, self.log)
-        self.nb.AddPage(self.societyController, 'Society Controller')
+        self.agentViewer = AgentViewer(self.nb, self, self.log)
+        self.nb.AddPage(self.agentViewer, 'Agent Viewer')
 
         self.Show(true)
 
@@ -402,7 +402,7 @@ class AWB(wxFrame):
         self.nb.SetSelection(self.initialPane)
 
         #wxLogMessage('window handle: %s' % self.GetHandle())
-        wxLogMessage('CS03 initialized.')
+        wxLogMessage('AWB initialized.')
 
       except Exception:
         import traceback

@@ -86,7 +86,7 @@ class SocietyReader:
                         self.uniqueObjects[str(agent)] = elt
                 # add dummy:
                         self.uniqueObjects['---'] = '---' # not sure why you need to do - bug in DividedShape??
-                print 'uniqueObjects',  self.uniqueObjects
+                #~ print 'uniqueObjects',  self.uniqueObjects
                 return self.uniqueObjects
 
 

@@ -8,4 +8,4 @@ REM 2 is the Society Editor
 REM 3 is the Agent Laydown
 set INITIAL_PANE="3"
 
-python AWB.py %INITIAL_PANE%
+python agentController.py %INITIAL_PANE%

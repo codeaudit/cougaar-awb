@@ -1,11 +1,11 @@
 #!/bin/env python
 #----------------------------------------------------------------------------
 # Name:         societyBuilder.py
-# Purpose:      
+# Purpose:
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.1 2004-08-06 18:58:08 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.2 2004-08-25 20:47:20 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -39,6 +39,7 @@ import os.path
 import re
 import time
 import types
+from string import *
 
 from ACMEPy.rule_text import RuleText
 from societyFactoryServer import *
@@ -73,95 +74,95 @@ class SocietyBuilderPanel(wxPanel):
     self.log = log
     self.winCount = 0
     sizer = RowColSizer()
-    
+
     #RuleBook button
     tID = wxNewId()
-    self.ruleBookButton = wxButton(self, tID, "Open RuleBook") 
+    self.ruleBookButton = wxButton(self, tID, "Open RuleBook")
     EVT_BUTTON(self, tID, self.OnOpenRuleBook)
     self.ruleBookButton.SetBackgroundColour(wxBLUE)
     self.ruleBookButton.SetForegroundColour(wxWHITE)
     self.ruleBookButton.SetDefault()
-    sizer.Add(self.ruleBookButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 
+    sizer.Add(self.ruleBookButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL,
                   pos=(1,1), colspan=2)
 
     #Rule CheckListBox
     tID = wxNewId()
     rules = []
-    self.lb = wxCheckListBox(self, tID, size=(-1,250), choices=rules, 
+    self.lb = wxCheckListBox(self, tID, size=(-1,250), choices=rules,
                                          style=wxLB_NEEDED_SB|wxLB_HSCROLL)
                                          #~ style=wxLB_NEEDED_SB|wxLB_HSCROLL|wxLB_SORT)
     sizer.Add(self.lb, flag=wxEXPAND, pos=(2,1), colspan=2, rowspan=11)
     EVT_LISTBOX(self, tID, self.OnListBox)
     EVT_CHECKLISTBOX(self, tID, self.OnChecklistBox)
-###    
+###
     EVT_UPDATE_SOCIETY(self, self.OnUpdate)
 
     # Rule Description label
     tID = wxNewId()
-    self.descLabel = wxStaticText(self, tID, "Rule Description:") 
+    self.descLabel = wxStaticText(self, tID, "Rule Description:")
     sizer.Add(self.descLabel, flag=wxALIGN_CENTER_VERTICAL, pos=(1,4))
-    
+
     # Rule Description text box
     tID = wxNewId()
     self.ruleDescription = wxTextCtrl(self, tID, "", size=(220, -1), style=wxTE_READONLY)
     self.ruleDescription.SetInsertionPoint(0)
     sizer.Add(self.ruleDescription, pos=(2,4), colspan=2)
-    
+
     #Society name label
     tID = wxNewId()
     self.societyNameLabel = wxStaticText(self, tID, "Current Society:")
-    sizer.Add(self.societyNameLabel, flag = wxLEFT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(self.societyNameLabel, flag = wxLEFT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=20, pos=(1, 6))
-    
+
     # Society name text box
     tID = wxNewId()
     self.societyName = wxTextCtrl(self, tID, "", size=(180, -1), style=wxTE_READONLY)
     self.societyName.SetStyle(0, len(self.societyName.GetValue()), wxTextAttr(wxBLUE))
-    sizer.Add(self.societyName, flag = wxLEFT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(self.societyName, flag = wxLEFT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=20, pos=(2,6), colspan=2)
-    
+
     # Rule label
     tID = wxNewId()
-    self.ruleLabel = wxStaticText(self, tID, "Rule:") 
+    self.ruleLabel = wxStaticText(self, tID, "Rule:")
     sizer.Add(self.ruleLabel, flag=wxALIGN_CENTER_VERTICAL, pos=(3,4))
-    
+
     # Rule styled text box
     tID = wxNewId()
-    self.rule = EditorControl(self, tID, self.log) 
+    self.rule = EditorControl(self, tID, self.log)
     sizer.Add(self.rule, flag=wxEXPAND, pos=(4,4), colspan=6, rowspan=11)
-    
+
     # Apply Rules button
     tID = wxNewId()
     self.applyRulesButton = wxButton(self, tID, "Apply Rules")
     EVT_BUTTON(self, tID, self.OnApplyRules)
     self.applyRulesButton.Enable(false)
-    sizer.Add(self.applyRulesButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 
+    sizer.Add(self.applyRulesButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL,
                 pos=(14,1), colspan=2, rowspan=1)
-    
+
     # Create New Rule button
     tID = wxNewId()
     createRuleButton = wxButton(self, tID, "Create New Rule")
     EVT_BUTTON(self, tID, self.OnCreateRule)
-    sizer.Add(createRuleButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 
+    sizer.Add(createRuleButton, flag=wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL,
                 pos=(16,1), colspan=2, rowspan=1)
-    
+
     #Button sizer to hold buttons along bottom
     self.btnSizer = wxBoxSizer(wxHORIZONTAL)
-    
+
     # Save Rule button
     tID = wxNewId()
     self.saveRuleButton = wxButton(self, tID, "Save Rule")
     EVT_BUTTON(self, tID, self.OnSaveRule)
     self.saveRuleButton.Enable(false)
     self.btnSizer.Add(self.saveRuleButton, flag=wxLEFT | wxRIGHT, border=20)
-  
+
     # Open Society button
     tID = wxNewId()
     self.openSocietyButton = wxButton(self, tID, "Open Society")
     EVT_BUTTON(self, tID, self.OnOpenSociety)
     self.openSocietyButton.SetBackgroundColour(wxGREEN)
     self.btnSizer.Add(self.openSocietyButton, flag=wxLEFT | wxRIGHT, border=20)
- 
+
     # Save Society button
     tID = wxNewId()
     self.saveSocietyButton = wxButton(self, tID, "Save Society")
@@ -180,7 +181,7 @@ class SocietyBuilderPanel(wxPanel):
 
     # Progress gizmo image
     tID = wxNewId()
-    lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]        
+    lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]
     self.gizmo = Gizmo(self, -1, lesImages, size=(36, 36), frameDelay = 0.1)
     sizer.Add(self.gizmo, pos=(2,9), flag=wxALIGN_RIGHT, rowspan=2)
 
@@ -193,18 +194,17 @@ class SocietyBuilderPanel(wxPanel):
     sizer.AddGrowableRow(4) # makes Society Viewer expand downward on window resize
     sizer.AddSpacer(10,10, pos=(1,10)) # adds a constant size border along top and right side
     sizer.AddSpacer(10,10, pos=(17,1)) # adds a constant size border along bottom and left side
-    
+
     self.SetSizer(sizer)
     self.SetAutoLayout(true)
-    
+
     EVT_RIGHT_DOWN(self.lb, self.OnRightDown)  # emits a wxMouseEvent
     EVT_RIGHT_UP(self.lb, self.OnRightUp)  # emits a wxMouseEvent
-  
+
 
 #---------------------------------------------------------------------------------------------------
-
   def OnOpenRuleBook(self, event):
-    dlg = wxDirDialog(self, "Choose a RuleBook:", os.getcwd(), style=wxDD_DEFAULT_STYLE|wxDD_NEW_DIR_BUTTON)
+    dlg = wxDirDialog(self, "Choose a RuleBook:", "", style=wxDD_DEFAULT_STYLE|wxDD_NEW_DIR_BUTTON)
     if dlg.ShowModal() == wxID_OK:
       ruleBookPath = dlg.GetPath()
       # check if this rulebook already open
@@ -229,29 +229,29 @@ class SocietyBuilderPanel(wxPanel):
       addRulebook = True
       self.frame.updateCloseRulebookMenuItem(addRulebook)
     dlg.Destroy()
-    
-#---------------------------------------------------------------------- 
+
+#----------------------------------------------------------------------
 
   def OnSaveRule(self, event):
     self.SaveRule()
 
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 
   def OnCreateRule(self, event):
     #First check for changes to current rule
     if self.rule.textIsDirty:
       msg = 'Save changes to rule?'
-      dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO | 
+      dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO |
                      wxNO_DEFAULT | wxTHICK_FRAME | wxICON_EXCLAMATION)
-      
+
       val = dlg.ShowModal()
       if val == wxID_YES:
         self.SaveRule()
-    
+
     self.clearRule()
-  
-#---------------------------------------------------------------------- 
-  
+
+#----------------------------------------------------------------------
+
   def clearRule(self):
     self.rule.SetText("")
     self.ruleDescription.SetValue("")
@@ -265,7 +265,7 @@ class SocietyBuilderPanel(wxPanel):
     self.frame.enableRuleSaveMenuItems(False)
     self.filename = None
 
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 
   def OnOpenSociety(self, event):
     self.frame.openSocietyFile(self, "society")
@@ -283,9 +283,9 @@ class SocietyBuilderPanel(wxPanel):
     else:
       self.frame.saveSociety()
       self.tempSociety = None  # clear out the backup copy
-  
+
   #------------------------------------------------------------------------------
-  
+
   def OnUndoTransform(self, event):
     msg = '''
 Are you sure you want to undo the transformation?
@@ -299,19 +299,19 @@ You will lose all changes made to the society since the transformation.'''
       for node in self.frame.society.each_node():
         node.updateNameServerParam(self.frame.society.get_nameserver())
       self.undoTransformButton.Disable()
-  
+
   #-------------------------------------------------------------------------------
-  
+
   def OnListBox(self, event):
     #self.log.WriteText('EvtListBox: %s\n' % event.GetString())
     if self.rule.textIsDirty == True:
       msg = 'Save changes to rule?'
-      dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO | 
+      dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO |
                      wxNO_DEFAULT | wxTHICK_FRAME | wxICON_EXCLAMATION)
       val = dlg.ShowModal()
       if val == wxID_YES:
         self.SaveRule()
-    
+
     selectedRule = self.lb.GetStringSelection()
     rulebook = self.ruleIndex[selectedRule]  # get this rule's associated rulebook
     self.filename = os.path.join(rulebook.getPath(), selectedRule)
@@ -328,12 +328,12 @@ You will lose all changes made to the society since the transformation.'''
     self.ruleDescription.SetValue(self.ruleText.description)
     # line numbers in the margin
     self.rule.SetMarginType(1, wxSTC_MARGIN_NUMBER)
-    self.rule.SetMarginWidth(1, 25)     
+    self.rule.SetMarginWidth(1, 25)
     self.rule.textIsDirty = False
     self.frame.enableRuleSaveMenuItems(False)
     self.frame.enableRuleSaveAs(True)
     self.frame.enableRuleMenuItems()
-  
+
 #-------------------------------------------------------------------------------
 
   def OnChecklistBox(self,event):
@@ -357,25 +357,25 @@ You will lose all changes made to the society since the transformation.'''
     dc = evt.GetDC()
     if not dc:
       dc = wxClientDC(self.GetClientWindow())
-    
+
     # tile the background bitmap
     sz = self.GetClientSize()
     w = self.bg_bmp.GetWidth()
     h = self.bg_bmp.GetHeight()
     x = 0
     while x < sz.width:
-	y = 0
-	while y < sz.height:
-	    dc.DrawBitmap(self.bg_bmp, x, y)
-	    y = y + h
-	x = x + w
+        y = 0
+        while y < sz.height:
+            dc.DrawBitmap(self.bg_bmp, x, y)
+            y = y + h
+        x = x + w
 #--------------------------------------------------------------------------------------------
 
   def OnApplyRules(self, event):
     self.tempSociety = self.frame.society.clone()  # save a copy in case we must restore
     numRules = self.lb.GetCount()
     if numRules > 0:
-      checkedRules = []  # will hold a string path/filename for ea rule checked 
+      checkedRules = []  # will hold a string path/filename for ea rule checked
       ruleFilename = None
       for item in range(numRules):
         if self.lb.IsChecked(item):
@@ -385,38 +385,50 @@ You will lose all changes made to the society since the transformation.'''
             msg = "The rule you are applying has been changed. If you wish " + \
                       "to apply the changed version, you must first save the rule. "  + \
                       "Would you like to save the rule now?"
-            dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO | 
+            dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxYES_NO |
                            wxNO_DEFAULT | wxTHICK_FRAME | wxICON_EXCLAMATION)
-            
+
             val = dlg.ShowModal()
             if val == wxID_YES:
               self.SaveRule()
           rulebook = self.ruleIndex[ruleFilename]  # get this rule's associated rulebook
           checkedRules.append(os.path.join(rulebook.getPath(), ruleFilename))
-      
+
       if len(checkedRules) > 0:
         self.frame.ruleApplied = True
         if ruleFilename.endswith('rule'):  # just sample the last rule checked
           # They're Ruby rules
-          rubyArgs = 'ruby ../../ruby/acme_scripting/src/lib/cougaar/py_society_builder.rb '
+          rubyArgs = 'ruby ruleEngine/acme_scripting/src/lib/cougaar/py_society_builder.rb '
           rubyArgs = rubyArgs + ' '.join(checkedRules)
+          self.log.WriteText(rubyArgs)
           self.log.WriteText("Transformation in progress...please wait\n")
-          # Call a Ruby program that receives the society (in Ruby code) as a string from Python, 
+          # Call a Ruby program that receives the society (in Ruby code) as a string from Python,
           # creates a Ruby society object, transforms that society per rules passed as args,
           # then outputs it back to Python as a string of xml-formatted text
-          input, output = os.popen2(rubyArgs)  
+          input, output = os.popen2(rubyArgs)
           input.write(self.frame.society.to_ruby())  # sends society as Ruby code to Ruby
           input.close()
           xmlSocietyList = output.readlines()  # transformed society as a list of  XML strings from Ruby
           output.close()
-          
+
           # Check if Ruby threw an exception during transformation
+          # also catch any runy warnings...
+          potentialWarnings = []
+          errOrWarn = 0
+          msg = ""
+          while xmlSocietyList[0].lower().find("<?xml version='1.0'?>") == -1:
+            potentialWarnings.append(xmlSocietyList[0])
+            xmlSocietyList.remove(xmlSocietyList[0])
+            errOrWarn = 1
+          if potentialWarnings: msg = join(potentialWarnings, '\n')
           if xmlSocietyList[0].lower().find('error') >= 0:
             self.log.WriteText("Transformation failed.\n")
-            msg = 'ERROR parsing XML document.\nSociety creation/transformation failed.'
+            msg += 'ERROR parsing XML document.\nSociety creation/transformation failed.'
+            errOrWarn += 2
+          if errOrWarn > 2:
             wxLogError(msg)
             errorDialog = CougaarMessageDialog(self.frame, "error", msg)
-            errorDialog.display()            
+            errorDialog.display()
             return
           else:
             #codeObj = "".join(codeObjList)  # for use when output from Ruby program is Python code
@@ -429,9 +441,9 @@ You will lose all changes made to the society since the transformation.'''
             # because the animation is a thread of the Python process, and while the Ruby process
             # is executing, the Python process is blocked waiting for output from Ruby.  I'm guessing that
             # as long as the Python process is blocked, all its threads are also blocked.  However, I've
-            # noticed that once the Ruby process completes, many, many gizmo events arrive all at once.  
-            # So it may be that the animation thread continues to run, but its events are not handled till 
-            # after the Ruby process completes.  
+            # noticed that once the Ruby process completes, many, many gizmo events arrive all at once.
+            # So it may be that the animation thread continues to run, but its events are not handled till
+            # after the Ruby process completes.
         else:
           # They're Python rules, so...
           # Create one SocietyTransformServer instance and pass it a list of rules to execute
@@ -440,20 +452,21 @@ You will lose all changes made to the society since the transformation.'''
         #~ self.StartAnimation()
         self.log.WriteText("Transformation complete.\n")
         self.undoTransformButton.Enable(True)
-        doneDialog = CougaarMessageDialog(self, "info", "Transformation complete.")
+        msg = "Transformation complete.\n"+msg
+        doneDialog = CougaarMessageDialog(self, "info", msg)
         doneDialog.display()
-  
+
   #--------------------------------------------------------------------------------------------
-  
+
   def OnRightDown(self, event):
     if wxPlatform == '__WXMSW__':
       pt = event.GetPosition()
       itemId = self.lb.HitTest(pt)
       self.lb.SetSelection(itemId, True)
       self.OnListBox(None)
-  
+
   #--------------------------------------------------------------------------------------------
-  
+
   def OnRightUp(self, event):
     if wxPlatform == '__WXMSW__':
       x = event.GetX()
@@ -462,17 +475,17 @@ You will lose all changes made to the society since the transformation.'''
       point = wxPoint(x, y)
       menu = wxMenu()
       menuItem = wxMenuItem(menu, 200, "Delete Rule")
-      menu.AppendItem(menuItem)  
+      menu.AppendItem(menuItem)
       menuItem = wxMenuItem(menu, 210, "Rename Rule")
-      menu.AppendItem(menuItem)  
+      menu.AppendItem(menuItem)
       EVT_MENU(self, 200, self.OnDeleteRule)
       EVT_MENU(self, 210, self.OnRenameRule)
       self.PopupMenu(menu, point)
       menu.Destroy()
       event.Skip()
-  
+
   #--------------------------------------------------------------------------------------------
-  
+
   def OnDeleteRule(self, event):
     ruleIdToDelete = self.lb.GetSelection()
     if ruleIdToDelete < 0:
@@ -492,9 +505,9 @@ Doing so will permanently delete it from disk.'''
     rulebook.removeRule(ruleNameToDelete)
     if rulebook.size() == 0:
       self.removeRulebook(rulebook)
-  
+
 #--------------------------------------------------------------------------------------------
-  
+
   def OnRenameRule(self, event):
     ruleIdToRename = self.lb.GetSelection()
     if ruleIdToRename < 0:
@@ -514,13 +527,13 @@ Doing so will permanently delete it from disk.'''
       self.lb.InsertItems(newRuleName, ruleIdToRename) # This messes up the sort order. Is that OK?
       self.lb.Delete(ruleIdToRename+1)
       # Replace the old rule name with the new in the ruleIndex dictionary
-      del self.ruleIndex[ruleNameToRename] 
+      del self.ruleIndex[ruleNameToRename]
       self.ruleIndex[newRuleName[0]] = rulebook
       # Update rulebook with new rule name
       rulebook.replaceRule(ruleNameToRename, newRuleName[0])
       os.chdir(rulebook.path)
       os.rename(ruleNameToRename, newRuleName[0])
-  
+
 #--------------------------------------------------------------------------------------------
 
   def StartAnimation(self):
@@ -547,8 +560,8 @@ Doing so will permanently delete it from disk.'''
         dlg.Destroy()
     else:
       self.save_rule()
-      
-#---------------------------------------------------------------------- 
+
+#----------------------------------------------------------------------
 
   def save_rule(self):
     ruleText = RuleText(None, description=self.ruleDescription.GetValue(), rule=self.rule.GetText())
@@ -564,8 +577,8 @@ Doing so will permanently delete it from disk.'''
     self.rule.textIsDirty = False
     self.frame.enableRuleSaveMenuItems(False)
     self.frame.enableRuleSaveAs(True)
-  
-#---------------------------------------------------------------------- 
+
+#----------------------------------------------------------------------
 
   def removeRulebook(self, rulebook):
     if isinstance(rulebook, Rulebook):
@@ -595,24 +608,24 @@ Doing so will permanently delete it from disk.'''
       if aRulebook is not None:
         self.removeRulebook(aRulebook)
 
-#---------------------------------------------------------------------- 
+#----------------------------------------------------------------------
 
   def getRulebook(self, rulebookName):
     for rulebook in self.ruleBooks:
       if rulebook.name == rulebookName:
         return rulebook
     return None
-  
-#---------------------------------------------------------------------- 
-  
+
+#----------------------------------------------------------------------
+
   def getRulebookNames(self):
     rbookNames = []
     for rulebook in self.ruleBooks:
       rbookNames.append(rulebook.name)
     return rbookNames
-  
-#---------------------------------------------------------------------- 
-  
+
+#----------------------------------------------------------------------
+
   def addToRulebook(self):
     dir, file = os.path.split(self.filename)
     for rulebook in self.ruleBooks:
@@ -626,12 +639,12 @@ Doing so will permanently delete it from disk.'''
       rulebook.addRule(file)
       self.ruleBooks.append(rulebook)
       return rulebook
-  
-  #---------------------------------------------------------------------- 
-  
+
+  #----------------------------------------------------------------------
+
   def OnUpdate(self, event):
     #~ self.log.WriteText("Stop time: %s\n" % time.ctime())
-    self.StopAnimation() 
+    self.StopAnimation()
     if self.transformServer is not None and self.transformServer.IsRunning():
       self.transformServer.Stop()
     if self.frame.server is not None and self.frame.server.IsRunning():
@@ -648,9 +661,9 @@ Doing so will permanently delete it from disk.'''
       self.frame.enableSocietySaveMenuItems()
       self.setNextHighlightButton()
       self.frame.societyOpen = true
-  
-  #---------------------------------------------------------------------- 
-  
+
+  #----------------------------------------------------------------------
+
   # All we're trying to do here is determine if the Next Highlight button
   # should be enabled or not.  Also, if there are highlighted items that
   # are already visible, increment the colourisedItemIndex to
@@ -661,7 +674,7 @@ Doing so will permanently delete it from disk.'''
     btn = self.frame.societyEditor.nextHighlightButton
     if viewer.colourisedItemIndex < len(viewer.colourisedItemsList):  # if we've got some highlighted items
       hiItem = viewer.colourisedItemsList[viewer.colourisedItemIndex]  # get the first one
-      
+
       while viewer.IsVisible(hiItem):
         # while there are more highlighted items and they are already visible:
         viewer.colourisedItemIndex += 1  # increment index to look at the next one
@@ -670,12 +683,12 @@ Doing so will permanently delete it from disk.'''
         else:
           btn.Enable(False)
           break
-      
+
       else:   # there is another highlighted item that is not visible
         btn.Enable(True)
     else:
       btn.Enable(False)
-  
+
 #***********************************************
 
 class Rulebook:
@@ -688,41 +701,41 @@ contains the following attributes:
     name [String]: The name of the subdirectory containing the rule files
 '''
   def __init__(self, path):
-    
+
     self.path = path
     self.rules = []
     index = path.rfind(os.sep)
     if index >= 0:
       self.name = path[index+1:]    # String; the immediate directory containing the rules
     files = os.listdir(path)               # List; contains filenames of each of the rules
-    
+
     self.fileTypes = re.compile('^.*\.rul', re.IGNORECASE)
-    for file in files: 
+    for file in files:
       filename = str(file)
       if self.fileTypes.search(filename) is not None:
         self.rules.append(filename)
-  
+
   def getPath(self):
     return self.path
-  
+
   def getName(self):
     return self.name
-  
+
   def setRules(self, rules):
     self.rules = rules
-  
+
   def getRules(self):
     return self.rules
-  
+
   def addRule(self, ruleName):
     self.rules.append(ruleName)
-  
+
   def removeRule(self, ruleName):
     for rule in self.rules:
       if rule == ruleName:
         self.rules.remove(rule)
         return
-  
+
   def each_rule(self):
     for rule in self.rules:
       yield rule
@@ -732,27 +745,26 @@ contains the following attributes:
       if rule == ruleName:
         return True
     return False
-  
+
   def isEmpty(self):
     if len(self.rules) > 0:
       return False
     return True
-  
+
   def size(self):
     return len(self.rules)
-  
+
   def replaceRule(self, oldRule, newRule):
     self.removeRule(oldRule)
     self.addRule(newRule)
 
 #***********************************************
 
-def runApp( frame, nb, log ):
-  win = SocietyBuilderPanel( nb, log )
-  return win
+def runTest(frame, nb, log):
+    win = SocietyBuilderPanel( nb, log )
+    return win
 
 #----------------------------------------------------------------------
-
 if __name__ == '__main__':
     import sys,os
     import run

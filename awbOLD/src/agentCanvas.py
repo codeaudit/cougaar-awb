@@ -76,7 +76,7 @@ class AgentCanvas(wxShapeCanvas):
             print "at ", x, y
             w = z.viewLevelData[2]["BOXWIDTH"]*3
             h = z.viewLevelData[2]["BOXHEIGHT"]
-            self.MyAddShape(
+            self.addShape(
             wxRectangleShape(w,h), x,y, wxBLACK_PEN,
             wxBrush("BLUE", wxSOLID),
             str(agent),
@@ -84,9 +84,9 @@ class AgentCanvas(wxShapeCanvas):
             )
             #~ s = wxBitmapShape()
             #~ s.SetBitmap(self.agentBmp)
-            #~ self.MyAddShape(s, x, y, None, None, str(agent), "YELLOW")
+            #~ self.addShape(s, x, y, None, None, str(agent), "YELLOW")
 
-    def MyAddShape(self, shape, x, y, pen, brush, text, textColour):
+    def addShape(self, shape, x, y, pen, brush, text, textColour):
         FontParameters = wxFont(10, wxDEFAULT,wxNORMAL, wxNORMAL)
 
         shape.SetDraggable(True, True)
@@ -114,6 +114,15 @@ class AgentCanvas(wxShapeCanvas):
         self.shapes.append(shape)
         self.shapeDict[text] = shape
         #~ return shape
+    def removeShape(self, shape):
+        self.diagram.RemoveShape(shape) # caution this seems to remove the shape from the canvas but NOT delete it
+        shapes.remove(shape)
+
+        self.self.GetShape()
+        #~ self.shapeDict[text] = shape
+        #~ return shape
+
+
 
     def OrganizeAgents(self, level=z.ZEROLEVEL, maxWidth=z.MAXWIDTH,
         boxWidth=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"],
@@ -205,8 +214,9 @@ class MyEvtHandler(wxShapeEvtHandler):
 
     def OnLeftClick(self, x, y, keys = 0, attachment = 0):
         shape = self.GetShape()
-        print "CLICK: X,Y >>>", x,y
-        print shape.__class__, shape.GetClassName()
+        #~ print "CLICK: X,Y >>>", x,y
+        self.log.WriteText("LEFTCLICK in Event Handler: shaoe class %s name %s\n" % (str(shape.__class__), self.GetShape().GetClassName()))
+        #~ print shape.__class__, shape.GetClassName()
         canvas = shape.GetCanvas()
         dc = wxClientDC(canvas)
         canvas.PrepareDC(dc)

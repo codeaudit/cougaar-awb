@@ -9,9 +9,8 @@ import images
 import pickle
 
 #---------------------------------------------------------------------------
-
-DEPTH = '&depth=-1'
-URLSEQ = ['LEADER', 'HOST', 'COLON_SEP','PORT','HACK','REMAINDER', 'DEPTH']
+#~ URLSEQ = ['LEADER', 'HOST', 'COLON_SEP','PORT','HACK','DOLLAR','AGENT', 'REMAINDER']
+URLSEQ = ['LEADER', 'HOST', 'COLON_SEP','PORT','HACK','REMAINDER']
 URLITEMS = {'LEADER':'http://',
     'HOST': None,
     'COLON_SEP':':',
@@ -20,17 +19,14 @@ URLITEMS = {'LEADER':'http://',
     #~ 'DOLLAR':'$',
     #~ 'AGENT':None,
     #~ 'REMAINDER':'/hierarchy?recurse=true&allRelationships=true&format=xml&Display=',
-    #~ 'REMAINDER':'/agents?suffix=.&format=xml&Display=',
-    'REMAINDER':'/agents?suffix=.&depth=',
-    'DEPTH':'1',
+    'REMAINDER':'/agents?suffix=.&format=xml&Display=',
     }
 HOST_COMBOBOX_ID = 601
 PORT_COMBOBOX_ID = 602
 #~ AGENT_COMBOBOX_ID = 603
 URL_COMBOBOX_ID = 604
-DEPTH_COMBOBOX_ID = 605
 OBJECT_STORE = 'awb.list.p'
-class ProbeDlg(wxDialog):
+class CECOMDlg(wxDialog):
     def OnSetFocus(self, evt):
         print "OnSetFocus"
         evt.Skip()
@@ -77,21 +73,34 @@ class ProbeDlg(wxDialog):
 
         EVT_TEXT(self, self.cbPorts.GetId(), self.EvtText)
         EVT_TEXT_ENTER(self, self.cbPorts.GetId(), self.EvtTextEnter)
+#~ ------------------------------
+        #~ agentLbl = wxStaticText(self, -1, "Agent")
+        #~ default = "enter/select agent"
+        #~ if len(self.URLcomponents.agents) > 0 :
+            #~ default = self.URLcomponents.agents[0]
+            #~ URLITEMS['AGENT'] = default
+
+        #~ self.cbAgents = wxComboBox(self, AGENT_COMBOBOX_ID, default, wxPoint(-1,-1), wxSize(90, -1),                             # wxPoint(90, 50), wxSize(95, -1),
+                        #~ self.URLcomponents.agents, wxCB_DROPDOWN)
+
+        #~ EVT_TEXT(self, self.cbAgents .GetId(), self.EvtText)
+        #~ EVT_TEXT_ENTER(self, self.cbAgents .GetId(), self.EvtTextEnter)
 
 #~ ------------------------------
-        cbLbl = wxStaticText(self, -1, "Depth",  wxPoint(8, 10))
+        cbLbl = wxStaticText(self, -1, "UL Heirarchy Servlet",  wxPoint(8, 10))
 
         default = ""
-        if len(self.URLcomponents.depths) is 0: default = "1"
-        else: default = self.URLcomponents.depths[0]
+        if len(self.URLcomponents.urls) is 0: default = "No URLs Bookmarked"
+        else: default = self.urlcomponents.urls[0]
 
-        cb = wxComboBox(self, DEPTH_COMBOBOX_ID , default, wxPoint(10, 50), wxSize(90, -1),
+        cb = wxComboBox(self, URL_COMBOBOX_ID , default, wxPoint(10, 50), wxSize(300, -1),
                         self.URLcomponents.urls, wxCB_DROPDOWN)
-        EVT_COMBOBOX(self,DEPTH_COMBOBOX_ID , self.EvtComboBox)
-        EVT_TEXT(self, DEPTH_COMBOBOX_ID , self.EvtText)
-        EVT_TEXT_ENTER(self, DEPTH_COMBOBOX_ID , self.EvtTextEnter)
+        EVT_COMBOBOX(self,URL_COMBOBOX_ID , self.EvtComboBox)
+        EVT_TEXT(self, URL_COMBOBOX_ID , self.EvtText)
+        EVT_TEXT_ENTER(self, URL_COMBOBOX_ID , self.EvtTextEnter)
         EVT_SET_FOCUS(cb, self.OnSetFocus)
         EVT_KILL_FOCUS(cb, self.OnKillFocus)
+#~ ------------------------------
 
 
 
@@ -159,11 +168,9 @@ class ProbeDlg(wxDialog):
         #~ self.log.WriteText('EvtComboBox: %s\nClientData: %s\n' % (evt.GetString(), data))
 
     def EvtText(self, evt):
-        #~ TODO would be neat to have number only verification on the port and depth fields
         #~ self.log.WriteText('EvtText: %s\n' % evt.GetString())
         if evt.GetId() == HOST_COMBOBOX_ID:URLITEMS['HOST'] = evt.GetString()
         if evt.GetId() == PORT_COMBOBOX_ID:URLITEMS['PORT'] = evt.GetString()
-        if evt.GetId() == DEPTH_COMBOBOX_ID:URLITEMS['DEPTH'] = evt.GetString()
         #~ if evt.GetId() == AGENT_COMBOBOX_ID:URLITEMS['AGENT'] = evt.GetString()
 
     def EvtTextEnter(self, evt):
@@ -192,7 +199,6 @@ class ProbeDlg(wxDialog):
 
             if URLITEMS['HOST'] not in self.URLcomponents.hosts: self.URLcomponents.hosts.append( str(URLITEMS['HOST']) )
             if URLITEMS['PORT'] not in self.URLcomponents.ports: self.URLcomponents.ports.append( str(URLITEMS['PORT']) )
-            if URLITEMS['DEPTH'] not in self.URLcomponents.depths: self.URLcomponents.depths.append( str(URLITEMS['DEPTH']) )
             pickle.dump(self.URLcomponents,open(OBJECT_STORE,'w'))
             self.parent.URL = s
             self.parent.HOST =str(URLITEMS['HOST'])
@@ -205,7 +211,6 @@ class URLcomponents:
         self.ports = []
         #~ self.agents = []
         self.urls = []
-        self.depths = []
     def __str__(self):
         s0 = "URL COMPONENTS\n"
         s1 = "Hosts\n"

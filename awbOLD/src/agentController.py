@@ -122,8 +122,8 @@ class AgentViewer(wxPanel):
             if self.societyReader is not None:
                 print >> sys.stdout, "..."
                 uniqueObjects = self.societyReader.readUniqueObjects(self.HOST, self.PORT)
-                info = InformationPanel (140, 150, self.canvas, information=uniqueObjects)
-                self.canvas.MyAddShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
+                info = InformationPanel (140, 300, self.canvas, information=uniqueObjects)
+                self.canvas.addShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
                 dc = wxClientDC(self.canvas)
                 self.canvas.PrepareDC(dc)
                 self.canvas.Redraw(dc)
@@ -290,49 +290,6 @@ class AgentViewer(wxPanel):
 #----------------------------------------------------------------------
 
 
-#----------------------------------------------------------------------
-class DividedShape(wxDividedShape):
-    def __init__(self, width, height, canvas):
-        wxDividedShape.__init__(self, width, height)
-
-        region1 = wxShapeRegion()
-        region1.SetText('wxDividedShape')
-        region1.SetProportions(0.0, 0.2)
-        region1.SetFormatMode(FORMAT_CENTRE_HORIZ)
-        self.AddRegion(region1)
-
-        region2 = wxShapeRegion()
-        region2.SetText('This is Region number two.')
-        region2.SetProportions(0.0, 0.3)
-        region2.SetFormatMode(FORMAT_CENTRE_HORIZ|FORMAT_CENTRE_VERT)
-        self.AddRegion(region2)
-
-        region3 = wxShapeRegion()
-        region3.SetText('Region 3\nwith embedded\nline breaks')
-        region3.SetProportions(0.0, 0.5)
-        region3.SetFormatMode(FORMAT_NONE)
-        self.AddRegion(region3)
-
-        self.SetRegionSizes()
-        self.ReformatRegions(canvas)
-
-
-    def ReformatRegions(self, canvas=None):
-        rnum = 0
-        if canvas is None:
-            canvas = self.GetCanvas()
-        dc = wxClientDC(canvas)  # used for measuring
-        for region in self.GetRegions():
-            text = region.GetText()
-            self.FormatText(dc, text, rnum)
-            rnum += 1
-
-
-    def OnSizingEndDragLeft(self, pt, x, y, keys, attch):
-        self.base_OnSizingEndDragLeft(pt, x, y, keys, attch)
-        self.SetRegionSizes()
-        self.ReformatRegions()
-        self.GetCanvas().Refresh()
 
 #----------------------------------------------------------------------
 class RoundedRectangleShape(wxRectangleShape):
@@ -401,7 +358,7 @@ class MyEvtHandler(wxShapeEvtHandler):
         self.log.WriteText("RIGHTCLICK in Event Handler: %s\n" % self.GetShape())
         shape = self.GetShape()
         print shape.__class__, shape.GetClassName()
-
+        # if it's an information panel, then delete it on right click...
         canvas = shape.GetCanvas()
         dc = wxClientDC(canvas)
         canvas.PrepareDC(dc)

@@ -27,15 +27,17 @@ class InformationPanel(wxDividedShape):
                 region.SetProportions(0.0, 0.2)
                 region.SetFormatMode(FORMAT_CENTRE_HORIZ)
                 self.AddRegion(region)
-
         else:
-                print "information", information
+                i = 0
                 for key in information.iterkeys():
+                        print "uniqueObjects:", key,":", information[key]
                         region = wxShapeRegion()
                         region.SetText(str(key)+":"+str(information[key]))
                         region.SetProportions(0.0, 0.2)
                         region.SetFormatMode(FORMAT_CENTRE_HORIZ)
                         self.AddRegion(region)
+                        i += 1
+                        print 'region', "-", i, key,":", information[key]
                 self.SetRegionSizes()
                 self.ReformatRegions(canvas)
 

@@ -159,9 +159,11 @@ class TransformationRule:
     self.rule = None
     self.fired = False
     self.society = None
+    self.isRubyRule = false
 
   def set_rule(ruleText):
-    self.rule = ruleText
+    self.rule = str(ruleText.rule)
+    self.isRubyRule = ruleText.isRubyRule
     
   def fire(self):
     self.fire_count = self.fire_count + 1

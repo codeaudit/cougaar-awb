@@ -271,7 +271,8 @@ class Node:
   
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
-    xml = xml + "   <class>" + self.klass + "</class>\n"
+    if self.klass is not None:
+      xml = xml + "   <class>" + self.klass + "</class>\n"
     # add parameters and agents
     for facet in self.facets:
       xml = xml + facet.to_xml()

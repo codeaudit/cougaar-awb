@@ -1,11 +1,9 @@
-#!/bin/env python
-#----------------------------------------------------------------------------
 # Name:
 # Purpose:
 #
-# Author:       ISAT (D. Moore/P. Gardella)
+# Author:       D. Moore
 #
-# RCS-ID:       $Id: csmarter_events.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: csmarter_events.py,v 1.4 2004-12-06 22:22:46 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -24,7 +22,7 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-# CONVERTED2DOT5 = TRUE
+#
 
 import wx
 

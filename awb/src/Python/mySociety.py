@@ -1,9 +1,39 @@
+#!/bin/env python
+#----------------------------------------------------------------------------
+# Name:         insertion_dialog.py
+# Purpose:      dialogs for insertion
+#
+# Author:       ISAT (D. Moore)
+#
+# RCS-ID:       $Id: mySociety.py,v 1.5 2004-12-06 22:22:46 damoore Exp $
+#  <copyright>
+#  Copyright 2002 BBN Technologies, LLC
+#  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the Cougaar Open Source License as published by
+#  DARPA on the Cougaar Open Source Website (www.cougaar.org).
+#
+#  THE COUGAAR SOFTWARE AND ANY DERIVATIVE SUPPLIED BY LICENSOR IS
+#  PROVIDED 'AS IS' WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR
+#  IMPLIED, INCLUDING (BUT NOT LIMITED TO) ALL IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND WITHOUT
+#  ANY WARRANTIES AS TO NON-INFRINGEMENT.  IN NO EVENT SHALL COPYRIGHT
+#  HOLDER BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL
+#  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE OF DATA OR PROFITS,
+#  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+#  PERFORMANCE OF THE COUGAAR SOFTWARE.
+# </copyright>
+#
+
+
+
 import sys
 import os
 from wxPython.wx import *
 from wx.lib.ogl import *
 
-CONVERTED2DOT5 = True
+
 #---------------------------------------------------------------------------
 # The class which is a representation of the Facets in the society
 class myFacet:

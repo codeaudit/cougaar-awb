@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyFactoryServer.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: societyFactoryServer.py,v 1.4 2004-12-06 22:19:22 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -34,12 +34,12 @@ import wx
 import sys, thread, traceback
 
 
-from ACMEPy.rule_text import RuleText
-from ACMEPy.society_factory2 import *
+from CSModel.rule_text import RuleText
+from CSModel.society_factory2 import *
 
 from csmarter_events import *
 from insertion_dialog import CougaarMessageDialog
-CONVERTED2DOT5 = True
+
 #----------------------------------------------------------------------
 class SocietyFactoryServer:
     def __init__(self, path, parent, log, xmlString=None):

@@ -1,5 +1,28 @@
-# CONVERTED2DOT5 = TRUE
-
+# Name:
+# Purpose:
+#
+# Author:       D. Moore
+#
+# RCS-ID:       $Id: agentController.py,v 1.12 2004-12-06 22:22:46 damoore Exp $
+#  <copyright>
+#  Copyright 2002 BBN Technologies, LLC
+#  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the Cougaar Open Source License as published by
+#  DARPA on the Cougaar Open Source Website (www.cougaar.org).
+#
+#  THE COUGAAR SOFTWARE AND ANY DERIVATIVE SUPPLIED BY LICENSOR IS
+#  PROVIDED 'AS IS' WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR
+#  IMPLIED, INCLUDING (BUT NOT LIMITED TO) ALL IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND WITHOUT
+#  ANY WARRANTIES AS TO NON-INFRINGEMENT.  IN NO EVENT SHALL COPYRIGHT
+#  HOLDER BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL
+#  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE OF DATA OR PROFITS,
+#  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+#  PERFORMANCE OF THE COUGAAR SOFTWARE.
+# </copyright>
+#
 import sys
 import re
 import urllib
@@ -191,8 +214,11 @@ class AgentControllerViewer(wx.Panel):
 
     def OnStopSociety(self, evt):
         #~ signal.signal(signal.SIGINT|signal.SIG_DFL, self.spawnPID)
-        if sys.platform[:3] in ('win', 'os2'):
-            print 'must use WMI, Win32.all extensions'
+#        if sys.platform[:3] in ('win', 'os2'):
+        dlg = wx.MessageDialog(self.frame, "This Feature Not Available in demo version\nFor further information visit http://awb.bbn.com",
+                          'Non-fatal Error', wx.OK|wx.ICON_ERROR)
+        dlg.ShowModal()
+        dlg.Destroy()
         self.ctrlSocietyButton.SetBackgroundColour("BLACK")
         self.ctrlSocietyButton.SetForegroundColour("WHITE")
         self.ctrlSocietyButton.SetLabel("Start")

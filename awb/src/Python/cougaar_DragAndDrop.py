@@ -1,10 +1,9 @@
-# Name:         cougaar_drag-n-drop.py
-# Purpose:     Specify classes for implementing Drag and Drop functionality
-#                     in CSMARTer
+# Name:
+# Purpose:
 #
-# Author:       ISAT (P. Gardella)
+# Author:       D. Moore
 #
-# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.4 2004-12-06 22:22:46 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -23,16 +22,16 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-# CONVERTED2DOT5 = TRUE
+#
 
 import wx
 import cPickle
-from ACMEPy.society import Society
-from ACMEPy.host import Host
-from ACMEPy.node import Node
-from ACMEPy.agent import Agent
-from ACMEPy.component import Component
-from ACMEPy.argument import Argument
+from CSModel.society import Society
+from CSModel.host import Host
+from CSModel.node import Node
+from CSModel.agent import Agent
+from CSModel.component import Component
+from CSModel.argument import Argument
 
 #************************************************************************
 #  DnD classes

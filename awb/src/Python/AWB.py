@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: AWB.py,v 1.6 2004-11-22 18:44:12 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.7 2004-12-06 22:22:46 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -24,7 +24,7 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-# CONVERTED2DOT5 = TRUE
+# 
 
 import sys, os, time
 import wx # from   wxPython.wx import *
@@ -36,7 +36,7 @@ from insertion_dialog import CougaarMessageDialog
 from insertion_dialog import FindItemDialog
 from societyFactoryServer import SocietyFactoryServer
 from agentController import AgentControllerViewer
-from ACMEPy.node import Node
+from CSModel.node import Node
 import images
 
 #---------------------------------------------------------------------------

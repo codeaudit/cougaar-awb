@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: agentLaydown.py,v 1.5 2004-11-02 19:22:36 damoore Exp $
+# RCS-ID:       $Id: agentLaydown.py,v 1.6 2004-12-06 22:22:46 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -24,7 +24,7 @@
 #  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
-# CONVERTED2DOT5 = TRUE
+# 
 
 import wx
 from wx.lib.rcsizer import RowColSizer
@@ -38,10 +38,10 @@ import cPickle
 import math
 from types import *
 
-from ACMEPy.society import Society
-from ACMEPy.host import Host
-from ACMEPy.node import Node
-from ACMEPy.agent import Agent
+from CSModel.society import Society
+from CSModel.host import Host
+from CSModel.node import Node
+from CSModel.agent import Agent
 from societyViewer import SocietyViewer
 from csmarter_events import *
 from insertion_dialog import *

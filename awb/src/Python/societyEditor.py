@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyEditor.py,v 1.5 2004-11-14 18:34:37 damoore Exp $
+# RCS-ID:       $Id: societyEditor.py,v 1.6 2004-12-06 22:19:38 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -39,13 +39,13 @@ import gizmoImages
 import thread
 import os
 
-from ACMEPy.society import Society
-from ACMEPy.host import Host
-from ACMEPy.node import Node
-from ACMEPy.agent import Agent
-from ACMEPy.component import Component
-from ACMEPy.argument import Argument
-from ACMEPy.parameter import *
+from CSModel.society import Society
+from CSModel.host import Host
+from CSModel.node import Node
+from CSModel.agent import Agent
+from CSModel.component import Component
+from CSModel.argument import Argument
+from CSModel.parameter import *
 
 from insertion_dialog import *
 from csmarter_events import *

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: insertion_dialog.py,v 1.5 2004-11-14 18:34:37 damoore Exp $
+# RCS-ID:       $Id: insertion_dialog.py,v 1.6 2004-12-06 22:22:46 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -28,16 +28,16 @@
 
 
 from wxPython.wx import *
-from ACMEPy.parameter import VMParameter
-from ACMEPy.host import Host
-from ACMEPy.node import Node
-from ACMEPy.agent import Agent
-from ACMEPy.facet import Facet
-from ACMEPy.component import Component
-from ACMEPy.argument import Argument
-from ACMEPy.parameter import *
+from CSModel.parameter import VMParameter
+from CSModel.host import Host
+from CSModel.node import Node
+from CSModel.agent import Agent
+from CSModel.facet import Facet
+from CSModel.component import Component
+from CSModel.argument import Argument
+from CSModel.parameter import *
 import wx
-CONVERTED2DOT5 = True
+
 
 #---------------------------------------------------------------------------
 

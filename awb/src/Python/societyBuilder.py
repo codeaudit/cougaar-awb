@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.9 2004-12-02 14:46:55 jnilsson Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.10 2004-12-06 22:22:06 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -43,7 +43,7 @@ import time
 import types
 from string import *
 
-from ACMEPy.rule_text import RuleText
+from CSModel.rule_text import RuleText
 from societyFactoryServer import *
 from csmarter_events import *
 from editorTextControl import EditorControl
@@ -52,7 +52,7 @@ from insertion_dialog import CougaarMessageDialog
 #~ from rulebook import Rulebook
 #~ from societyFactoryServer import SocietyTransformServer
 #~ from societyFactoryServer import SocietyFactoryServer
-CONVERTED2DOT5 = True
+
 SHOW_BACKGROUND = 1
 #----------------------------------------------------------------------
 

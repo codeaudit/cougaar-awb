@@ -91,10 +91,12 @@ class Society:
   def add_entity(self, host, orderAfterObj=None, isCopyOperation=False):
     if isinstance(host, Host):
       host.prev_parent = host.parent
+      reorder = False
       if host.parent.name == self.name and not isCopyOperation:  # it's a reordering
-        return self.add_host(host, orderAfterObj, True)
-      if host.parent is not None:  # host just moved here from another society
-        return self.add_host(host, orderAfterObj)
+        reorder = True
+        #~ return self.add_host(host, orderAfterObj, True)
+      #~ if host.parent is not None:  # host just moved here from another society
+      return self.add_host(host, orderAfterObj, reorder)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
   
@@ -266,8 +268,10 @@ class Society:
     return False
   
   def get_host(self, index):
-    return self.hostlist[index]
-
+    if len(self.hostlist) > index:
+      return self.hostlist[index]
+    return None
+  
   def get_hosts(self):
     return self.hostlist
   

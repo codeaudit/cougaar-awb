@@ -150,7 +150,9 @@ class Node:
         self.society.isDirty = True
   
   def get_agent(self, index):
-    return self.agentlist[index]
+    if len(self.agentlist) > index:
+      return self.agentlist[index]
+    return None
   
   def get_agents(self, inclNodeAgent=False):
     if inclNodeAgent:
@@ -265,6 +267,18 @@ class Node:
   #
   def get_facets(self):
     return self.facets
+  
+  ##
+  # Returns True if this node has a facet matching the facet value
+  # specified in the argument; otherwise, returns False.
+  #
+  # keyValuePair:: [String] Facet in 'key=value' format
+  #
+  def has_facet(self, keyValuePair):
+    for facet in self.each_facet():
+      if facet.contains_entry(keyValuePair):
+        return True
+    return False
   
   ##
   # Returns a list containing all the values for the specified key

@@ -42,18 +42,21 @@ class Host:
     
   def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):  
     if type(entity) == types.ListType:  # will be a list of facet objects
-      for each_thing in entity:
-        self.add_facet(each_thing)
+      for facet in entity:
+        self.add_facet(facet)
     elif isinstance(entity, Node):
       entity.prev_parent = entity.parent
+      reorder = False
       if entity.society.name == self.parent.name and not isCopyOperation:  # it's a reordering w/in same society
-         return self.add_node(entity, orderAfterObj, True)
-      return self.add_node(entity, orderAfterObj)
+         reorder = True
+         #~ return self.add_node(entity, orderAfterObj, True)
+      return self.add_node(entity, orderAfterObj, reorder)
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
   def add_node(self, node, orderAfterObj=None, reorder=False):
     if isinstance(node, Node):
+      #~ node.prev_parent = node.parent
       isDupe = False
       # Check if we've already got a node by that name; but if this
       # is a reordering, dupes are ok, so we leave isDupe set to false
@@ -125,7 +128,9 @@ class Host:
       self.parent.isDirty = True
   
   def get_node(self, index):
-    return self.nodelist[index]
+    if len(self.nodelist) > index:
+      return self.nodelist[index]
+    return None
 
   def get_node_by_name(self, nodeName):
     for node in self.nodelist:
@@ -236,6 +241,18 @@ class Host:
   #
   def get_facets(self):
     return self.facets
+  
+  ##
+  # Returns True if this host has a facet matching the facet value
+  # specified in the argument; otherwise, returns False.
+  #
+  # keyValuePair:: [String] Facet in 'key=value' format
+  #
+  def has_facet(self, keyValuePair):
+    for facet in self.each_facet():
+      if facet.contains_entry(keyValuePair):
+        return True
+    return False
   
   ##
   # Returns a list containing all the values used in this host

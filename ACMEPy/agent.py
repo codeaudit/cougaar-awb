@@ -145,6 +145,18 @@ class Agent:
     return self.facets
   
   ##
+  # Returns True if this agent has a facet matching the facet value
+  # specified in the argument; otherwise, returns False.
+  #
+  # keyValuePair:: [String] Facet in 'key=value' format
+  #
+  def has_facet(self, keyValuePair):
+    for facet in self.each_facet():
+      if facet.contains_entry(keyValuePair):
+        return True
+    return False
+  
+  ##
   # Returns a list containing all the values for the specified key
   #
   def get_facet_values(self, key):
@@ -189,8 +201,8 @@ class Agent:
       print "WARNING: Attempt to delete non-existent Component. Could be an error."
 
   def add_component(self, component):
-  # plugin is either an actual plugin or a string representing the data for a plugin.
-  # handle accordingly!
+    # plugin is either an actual plugin or a string representing the data for a plugin.
+    # handle accordingly!
     if isinstance(component, Component):
       component.parent = self
       self.components.append(component)
@@ -198,10 +210,12 @@ class Agent:
     else:
       comp = Component(component)
       self.add_component(comp)
-
+  
   def get_component(self, index):
-    return self.components[index]
-
+    if len(self.components) > index:
+      return self.components[index]
+    return None
+  
   def has_component(self, componentName):
     for component in self.components:
       if component.getStrippedName() == componentName:

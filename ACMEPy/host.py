@@ -234,7 +234,8 @@ class Host:
     return self.facets
   
   ##
-  # Returns a list containing all the values for the specified key
+  # Returns a list containing all the values used in this host
+  # for the specified key.
   #
   def get_facet_values(self, key):
     valList = []
@@ -243,6 +244,19 @@ class Host:
         valList.append(facet.get(key))
     return valList
 
+  ##
+  # Returns a list containing all the facet keys used in this host
+  # (minus duplicates).
+  #
+  def get_facet_keys(self):
+    facetKeyList = []
+    for facet in self.facets:
+      facetKeys = facet.keys()
+      for key in facetKeys:
+        if key not in facetKeyList:  # eliminate dupes
+          facetKeyList.append(key)
+    return facetKeyList
+  
   def set_rule(self, newRule):
     self.rule = str(newRule)
     self.parent.isDirty = True

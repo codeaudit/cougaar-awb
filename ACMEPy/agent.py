@@ -144,6 +144,9 @@ class Agent:
   def get_facets(self):
     return self.facets
   
+  ##
+  # Returns a list containing all the values for the specified key
+  #
   def get_facet_values(self, key):
     valList = []
     for facet in self.facets:
@@ -151,6 +154,19 @@ class Agent:
         valList.append(facet.get(key))
     return valList
 
+  ##
+  # Returns a list containing all the facet keys used in this agent
+  # (minus duplicates).
+  #
+  def get_facet_keys(self):
+    facetKeyList = []
+    for facet in self.facets:
+      facetKeys = facet.keys()
+      for key in facetKeys:
+        if key not in facetKeyList:  # eliminate dupes
+          facetKeyList.append(key)
+    return facetKeyList
+  
   def each_component(self):
     for component in self.components:
       yield component

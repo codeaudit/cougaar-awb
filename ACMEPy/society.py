@@ -183,6 +183,61 @@ class Society:
         valList.append(facet.get(key))
     return valList
   
+  ##
+  # Returns a list containing all the facet values used by the specified
+  # entity type (i.e., society, host, node, or agent) in the entire
+  # society for the specified key.
+  #
+  def getAllFacetValues(self, key, entityType):
+    facetValueList = []
+    if entityType == 'component' or entityType == 'argument':
+      # this should never happen
+      return facetValueList  
+    if entityType == 'society':
+      facetValueList = self.get_facet_values(key)
+    else:
+      for entity in self.each_entity(entityType):
+        valList = entity.get_facet_values(key)
+        for val in valList:
+          if val not in facetValueList:  # eliminate dupes
+            facetValueList.append(val)
+    return facetValueList
+
+  ##
+  # Returns a list containing all the facet keys used by the specified
+  # entity type (i.e., society, host, node, or agent) in the entire
+  # society (includes child host, node, and agent facet keys).
+  #
+  # entityType:: [String] either 'society', 'host', 'node', or 'agent'
+  #
+  def getAllFacetKeys(self, entityType):
+    facetKeyList = []
+    if entityType == 'component' or entityType == 'argument':
+      # this should never happen
+      return facetKeyList  
+    if entityType == 'society':
+      return self.get_facet_keys()
+    else:
+      for entity in self.each_entity(entityType):
+        keyList = entity.get_facet_keys()
+        for key in keyList:
+          if key not in facetKeyList:  # eliminate dupes
+            facetKeyList.append(key)
+    return facetKeyList
+  
+  ##
+  # Returns a list containing all the facet keys used in this society
+  # (minus duplicates).
+  #
+  def get_facet_keys(self):
+    facetKeyList = []
+    for facet in self.facets:
+      facetKeys = facet.keys()
+      for key in facetKeys:
+        if key not in facetKeyList:  # eliminate dupes
+          facetKeyList.append(key)
+    return facetKeyList
+  
   def get_nameserver(self):
     return self.nameserver_host + self.nameserver_suffix
   

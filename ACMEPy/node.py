@@ -70,15 +70,24 @@ class Node:
       self.agents[agent].node = self
       return self.agents[agent]
 
-  def delete_entity(self, attribute, parent):
-    '''Deletes itself from parameter list of parent node.'''
-    #parent.delete_entity(attribute, self)
-    pass
+  def delete_entity(self):
+    '''Deletes itself from node list of parent host.'''
+    self.host.delete_node(self)
+  
+  def add_entity(self, entity):
+    if type(entity) == types.ListType:
+      self.add_vm_parameters(entity)
+    elif type(entity) == types.InstanceType:
+      self.add_component(entity)
   
   def get_agent(self, index):
     #for buddy in self.agentlist:
       #print buddy.name
     return self.agentlist[index]
+
+  def delete_agent(self, agent):
+    del self.agents[agent.name]
+    self.agentlist.remove(agent)
 
   def add_component(self, component):
     if isinstance(component, Component):

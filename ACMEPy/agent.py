@@ -38,6 +38,9 @@ class Agent:
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
     
+  def delete_entity(self):
+    self.node.delete_agent(self)
+  
   def each_component(self):
     for component in self.components: # only for testing iterators
       yield component
@@ -46,6 +49,9 @@ class Agent:
     for c in self.components:
       if (c.klass == component_classname):
         self.components.remove(c)
+
+  def delete_component(self, component):
+    self.components.remove(component)
 
   def add_component(self, component):
   # plugin is either an actual plugin or a string representing the data for a plugin.

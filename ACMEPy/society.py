@@ -62,6 +62,10 @@ class Society:
   def get_host(self, index):
     return self.hostlist[index]
 
+  def delete_host(self, host):
+    del self.hosts[host.name]
+    self.hostlist.remove(host)
+  
   def set_rule(self, newRule):
         self.rule = str(newRule)
       

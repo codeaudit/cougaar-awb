@@ -37,6 +37,9 @@ class Host:
     return "Host:"+ self.name+":RULE:"+self.rule
     
     
+  def delete_entity(self):
+    self.society.delete_host(self)
+  
   def add_node(self, node):
     if isinstance(node, Node):
       node.host = self
@@ -50,6 +53,10 @@ class Host:
       self.nodes[node].host = self
       return self.nodes[node]
 
+  def delete_node(self, node):
+    del self.nodes[node.name]
+    self.nodelist.remove(node)
+  
   def get_node(self, index):
     return self.nodelist[index]
 

@@ -55,9 +55,16 @@ class Component:
     '''Deletes itself from component list of parent node or agent.'''
     self.parent.delete_component(self)
   
+  def delete_argument(self, argument):
+    self.arguments.remove(argument)
+  
+  def add_entity(self, entity):
+    self.add_argument(entity)
+  
   def add_argument(self, argument):
     if isinstance(argument, Argument):
       self.arguments.append(argument)
+      argument.component = self
 
   def get_argument(self, index):
     return self.arguments[index]

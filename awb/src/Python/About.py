@@ -1,12 +1,12 @@
 import sys
 
-from   wxPython.wx       import *
-from   wxPython.html     import *
+import wx
+import wx.html as html
 import wxPython.lib.wxpTag
 
 #---------------------------------------------------------------------------
 
-class MyAboutBox(wxDialog):
+class MyAboutBox(wx.Dialog):
     text = '''
 <html>
 <body bgcolor="#AC76DE">
@@ -39,16 +39,16 @@ Paul Gardella of BBN Technolgies.</p>
 </html>
 '''
     def __init__(self, parent):
-        wxDialog.__init__(self, parent, -1, 'About CSMARTer',)
-        html = wxHtmlWindow(self, -1, size=(420, -1))
+        wx.Dialog.__init__(self, parent, -1, 'About CSMARTer',)
+        html = html.HtmlWindow(self, -1, size=(420, -1))
         py_version = sys.version.split()[0]
         html.SetPage(self.text % ('1.2'))  # Version number
-        btn = html.FindWindowById(wxID_OK)
+        btn = html.FindWindowById(wx.ID_OK)
         btn.SetDefault()
         ir = html.GetInternalRepresentation()
         html.SetSize( (ir.GetWidth()+5, ir.GetHeight()+5) )
         self.SetClientSize(html.GetSize())
-        self.CentreOnParent(wxBOTH)
+        self.CentreOnParent(wx.BOTH)
 
 #---------------------------------------------------------------------------
 

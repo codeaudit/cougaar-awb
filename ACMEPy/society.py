@@ -25,6 +25,7 @@ from node import Node
 from agent import Agent
 from component import Component
 from argument import Argument
+from types import *
 import types
 
 

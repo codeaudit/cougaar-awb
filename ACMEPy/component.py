@@ -19,6 +19,7 @@
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
 #
+import types
 from argument import Argument
 
 class Component:
@@ -64,6 +65,11 @@ class Component:
     if isinstance(argument, Argument):
       self.arguments.append(argument)
       argument.component = self
+    elif type(argument) == types.StringType:  # must be a string
+      arg = Argument(argument)
+      self.add_argument(arg)
+    else:
+      raise Exception, "Attempting to add invalid Argument type"
 
   def get_argument(self, index):
     return self.arguments[index]

@@ -41,6 +41,8 @@ class Agent:
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
+    elif isinstance(entity, Component):
+      self.add_component(entity)
     else:
       raise Exception, "Attempting to add unknown Agent attribute"
   

@@ -42,6 +42,8 @@ class Host:
     if type(entity) == types.ListType:  # will be a list of facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
+    elif isinstance(entity, Node):
+      self.add_node(entity)
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
@@ -53,6 +55,7 @@ class Host:
       node.host = self
       self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
+      print "Host::add_node() done adding node"  # prg debug
       return node
     if isinstance(node, types.StringType):
       newNode = Node(node)
@@ -75,6 +78,9 @@ class Host:
     if isinstance(nodes, types.ListType):
       for n in nodes: self.add_node(n)
 
+  def has_node(self, nodeName):
+    return self.nodes.has_key(nodeName)
+  
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
       yield facet

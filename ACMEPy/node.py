@@ -78,10 +78,14 @@ class Node:
     self.host.delete_node(self)
   
   def add_entity(self, entity):
-    if type(entity) == types.ListType:
+    if type(entity) == types.ListType:  # parameters or facets
       self.add_parameters(entity)
-    elif type(entity) == types.InstanceType: # this may no longer be called
+    elif isinstance(entity, Component):
       self.add_component(entity)
+    elif isinstance(entity, Agent):
+      self.add_agent(entity)
+    else:
+      raise Exception, "Attempting to add unknown Node attribute"
   
   def get_agent(self, index):
     #for buddy in self.agentlist:
@@ -92,6 +96,9 @@ class Node:
     del self.agents[agent.name]
     self.agentlist.remove(agent)
 
+  def has_agent(self, agentName):
+    return self.agents.has_key(agentName)
+  
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
       yield facet
@@ -136,34 +143,12 @@ class Node:
         return facet[key]
     return None
 
-  def add_component_old(self, component):
-    if isinstance(component, Component):
-      component.parent = self
-      self.components[component.name] = component
-      self.componentlist.append(component)
-      return component
-    if isinstance(component, types.StringType):
-      newComponent = Component(component)
-      self.components[component] = newComponent
-      self.componentlist.append(newComponent)
-      self.components[component].parent = self
-      return self.components[component]
-
   def add_component(self, component):
     self.nodeAgent.add_component(component)
   
-  def delete_component_old(self, component):
-    self.componentlist.remove(component)
-    del self.components[component.name]
-
   def delete_component(self, component):
     self.nodeAgent.delete_component(component)
   
-  def get_component_old(self, index):
-    #for comp in self.componentlist:
-      #print comp.name
-    return self.componentlist[index]
-
   def get_component(self, index):
     #for comp in self.componentlist:
       #print comp.name
@@ -276,7 +261,8 @@ class Node:
   
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
-    xml = xml + "   <class>" + self.klass + "</class>\n"
+    if self.klass is not None:
+      xml = xml + "   <class>" + self.klass + "</class>\n"
     # add parameters and agents
     for facet in self.facets:
       xml = xml + facet.to_xml()

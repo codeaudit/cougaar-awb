@@ -58,7 +58,10 @@ class Society:
       self.hostlist.append(h) # (host)      
       self.hosts[host].society = self
       return self.hosts[host]
-    
+  
+  def add_entity(self, host):
+    self.add_host(host)
+  
   def has_host(self, host):
     return self.hosts[host] is not None
   

@@ -221,7 +221,9 @@ class Agent:
     self.society.isDirty = True
   
   def to_xml(self, hnaOnly=False):
-    xml = "      <agent name='"+ self.name + "'"
+    tab = ' ' * 4
+    indent = tab * 3
+    xml = indent + "<agent name='"+ self.name + "'"
     if hnaOnly:
       xml = xml + "/>\n"
       return xml
@@ -234,10 +236,10 @@ class Agent:
       else:
         xml = xml + ">\n"
       for facet in self.facets:
-        xml = xml + facet.to_xml()
+        xml = xml + facet.to_xml(4)
       for component in self.components:
         xml = xml + component.to_xml()
-      xml = xml +  "      </agent>\n"
+      xml = xml +  indent + "</agent>\n"
       return xml   
 
   def to_python(self):

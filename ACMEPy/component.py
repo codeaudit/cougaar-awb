@@ -130,11 +130,13 @@ class Component:
       new_arg.component = component
     return component
   
-  def to_xml(self):
-    xml =  "        <component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
+  def to_xml(self, numTabs=4):
+    tab = ' ' * 4
+    indent = tab * numTabs
+    xml =  indent + "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
     for a in self.arguments[:]:
       xml = xml + a.to_xml()
-    xml = xml + "        </component>\n"
+    xml = xml + indent + "</component>\n"
     return xml
     
   def to_python(self):

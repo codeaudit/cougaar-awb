@@ -61,6 +61,8 @@ class SocietyFactory:
           elif societyElem.nodeName == 'host':
             newHost = Host(str(societyElem.getAttributeNS(None, "name")))
             society_host = society.add_host(newHost)
+            if society_host is None:
+              raise Exception, "Parsing failed due to duplicate host: " + newHost.name
             newHost.parent = society
             #~ print "Host Name: ", society_host.name
             if societyElem.hasChildNodes():
@@ -72,8 +74,11 @@ class SocietyFactory:
                   if xmlNode.nodeName == 'facet':
                     newHost.add_facet(self.attributeDict(xmlNode))
                   elif xmlNode.nodeName == 'node':
-                    #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
+                    nodename = xmlNode.getAttributeNS(None, "name")
+                    #~ print "Node name ==>", nodename
                     newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
+                    if newNode is None:
+                      raise Exception, "Parsing failed due to duplicate node: " + nodename
                     if xmlNode.hasChildNodes():
                       nodeElements = xmlNode.childNodes
                       self.populateNodeElements(newNode, nodeElements)
@@ -106,6 +111,8 @@ class SocietyFactory:
       elif xmlNode.nodeName == 'agent':
         agentDict = self.attributeDict(xmlNode)
         newAgent = thisNode.add_agent(agentDict['name'])
+        if newAgent is None:
+          raise Exception, "Parsing failed due to duplicate agent: " + agentDict['name']
         if agentDict.has_key('class'):
           newAgent.klass = agentDict['class']
         #~ print 'AGENT:', newAgent 

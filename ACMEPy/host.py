@@ -307,12 +307,14 @@ class Host:
     self.parent.isDirty = True
   
   def to_xml(self, hnaOnly=False, isNameserver=False):
-    xml = "  <host name='"+ self.name + "'"
+    tab = ' ' * 4
+    indent = tab * 1
+    xml = indent + "<host name='"+ self.name + "'"
     if len(self.nodelist) == 0 and len(self.facets) == 0:
       xml = xml + "/"
     xml = xml + ">\n"
     for facet in self.facets:
-      xml = xml + facet.to_xml()
+      xml = xml + facet.to_xml(2)
     isFirstNode = True
     for node in self.nodelist:
       inclNameserverFacet = False
@@ -321,7 +323,7 @@ class Host:
       xml = xml + node.to_xml(hnaOnly, inclNameserverFacet)
       isFirstNode = False
     if len(self.nodelist) > 0 or len(self.facets) > 0:
-      xml = xml +  "  </host>\n"
+      xml = xml +  indent + "</host>\n"
     return xml
   
   def to_python(self):

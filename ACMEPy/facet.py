@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.7 2003-08-04 19:55:09 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.8 2003-08-05 15:39:59 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -182,9 +182,9 @@ class Facet:
       dicList[1] = dicList[1][:-1]
     return {dicList[0]: dicList[1]}
   
-  def to_xml(self, numIndents=0):
+  def to_xml(self, numIndents=1):
     xml = ""
-    indent = numIndents * 2 * ' '
+    indent = numIndents * 4 * ' '
     if len(self.facets) > 0:
       #~ xml = "    <facet"
       xml = indent + "<facet"

@@ -88,6 +88,7 @@ class Node:
           self.society.isDirty = True
         return agent
       else:
+        print "Unable to add duplicate agent:", agent.name
         return None
     if isinstance(agent, types.StringType):
       newAgent = Agent(agent)
@@ -418,7 +419,9 @@ class Node:
         yield agent
   
   def to_xml(self, hnaOnly=False, inclNameserverFacet=False):
-    xml = "    <node name='"+ self.name + "'"
+    tab = ' ' * 4
+    indent = tab * 2
+    xml = indent + "<node name='"+ self.name + "'"
     if len(self.agentlist) == 0 and len(self.facets) == 0 and (hnaOnly or (self.klass is None  \
             and len(self.prog_parameters) == 0 and len(self.env_parameters) == 0 \
             and len(vm_parameters) == 0)):
@@ -427,25 +430,28 @@ class Node:
     xml = xml + ">\n"
     if not hnaOnly:
       if self.klass is not None:
-        xml = xml + "   <class>" + self.klass + "</class>\n"
+        indent = tab * 3
+        xml = xml + indent + "<class>" + self.klass + "</class>\n"
       # add parameters and agents
       for p in self.prog_parameters[:]:
-        xml = xml + p.to_xml()
+        xml = xml + indent + p.to_xml()
       for p in self.env_parameters[:]:
-        xml = xml + p.to_xml()
+        xml = xml + indent + p.to_xml()
       for p in self.vm_parameters[:]:
-        xml = xml + p.to_xml()
+        xml = xml + indent + p.to_xml()
     if inclNameserverFacet:
-      xml = xml + "      <facet role='NameServer'/>\n"
+      indent = tab * 3
+      xml = xml + indent + "<facet role='NameServer'/>\n"
     for facet in self.facets:
-      xml = xml + facet.to_xml()
+      xml = xml + facet.to_xml(3)
     for agent in self.agentlist:
       if agent == self.nodeAgent:
         for component in agent.components:
-          xml = xml + component.to_xml()
+          xml = xml + component.to_xml(3)
       else:
         xml = xml + agent.to_xml(hnaOnly)
-    xml = xml +  "    </node>\n"
+    indent = tab * 2
+    xml = xml +  indent + "</node>\n"
     return xml
 
   def to_python(self):

@@ -78,6 +78,7 @@ class Society:
         self.isDirty = True
         return host
       else:
+        print "Unable to add duplicate host:", host.name
         return None
     if isinstance(host,types.StringType):
       h = Host(host)
@@ -179,6 +180,7 @@ class Society:
     for host in self.hostlist:
       if host.name == hostName:
         return host
+    print "WARNING: Unable to find host", hostName
     return None
   
   def delete_host(self, host, saveAgents=False):
@@ -366,6 +368,8 @@ class Society:
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
+    for facet in self.facets:
+      xml = xml + facet.to_xml(1)
     for host in self.hostlist:
       isNameserver = False
       if host.name == self.nameserver_host:
@@ -415,21 +419,21 @@ class Society:
   def prettyPrintNamesOnly(self):
     print self.name
     for host in self.hostlist:
-      print "\t", host.name
+      print "\tHost:", host.name
       for facet in host.facets:
-        print "\t\t", facet
+        print "\t\tFacet:", facet
       for node in host.nodelist:
-        print "\t\t", node.name
+        print "\t\tNode:", node.name
         for facet in node.facets:  
-          print "\t\t\t", facet
+          print "\t\t\tFacet:", facet
         for agent in node.agentlist:
-          print "\t\t\t", agent.name
+          print "\t\t\tAgent:", agent.name
           for facet in agent.facets:
-            print "\t\t\t\t", facet
+            print "\t\t\t\tFacet:", facet
           for component in agent.components:
-            print "\t\t\t\t", component.name
+            print "\t\t\t\tComponent:", component.name
             for argument in component.arguments:
-              print "\t\t\t\t\t", argument.name
+              print "\t\t\t\t\tArgument:", argument.name
     
   def prettyFormat(self):
     text = str(self)+"\n"

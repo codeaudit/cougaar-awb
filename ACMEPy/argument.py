@@ -65,8 +65,10 @@ class Argument:
   def clone(self):
     return Argument(self.name, self.rule)
   
-  def to_xml(self):
-    return "          <argument>" + str(self.name) + "</argument>\n"
+  def to_xml(self, numTabs=5):
+    tab = ' ' * 4
+    indent = tab * numTabs
+    return indent + "<argument>" + str(self.name) + "</argument>\n"
     
   def to_python(self):
     script = "argument = Argument('"+self.name+"','"+self.rule+"')\n"

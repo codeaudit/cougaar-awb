@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.3 2004-11-01 17:42:29 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.4 2004-11-01 17:43:40 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -52,7 +52,7 @@ from insertion_dialog import CougaarMessageDialog
 #~ from rulebook import Rulebook
 #~ from societyFactoryServer import SocietyTransformServer
 #~ from societyFactoryServer import SocietyFactoryServer
-CONVERTED2DOT5 = False
+CONVERTED2DOT5 = True
 SHOW_BACKGROUND = 1
 #----------------------------------------------------------------------
 

@@ -77,15 +77,21 @@ public class MessageCountServlet extends HttpServlet {
 	  	{
 	  		SimpleRelay sr = (SimpleRelay) itr.next();
 	  		String msg_src = sr.getSource().toString();
-	  		if (messageCount.keySet().contains(msg_src))
+	  		String msg_dest = sr.getTarget().toString();
+	  		String agent;
+	  		if (msg_src.equals(support.getAgentIdentifier().toString()))
+	  			agent = msg_dest;
+			else
+				agent = msg_src;
+	  		if (messageCount.keySet().contains(agent))
 			{
-	  			int count = ((Integer) messageCount.get(msg_src)).intValue();
+	  			int count = ((Integer) messageCount.get(agent)).intValue();
 	  			count++;
-	  			messageCount.put(msg_src, new Integer(count));
+	  			messageCount.put(agent, new Integer(count));
 			}
 	  		else
 	  		{
-	  			messageCount.put(msg_src, new Integer(1));
+	  			messageCount.put(agent, new Integer(1));
 	  		}	
 	  	}	  	
 	  	return messageCount;

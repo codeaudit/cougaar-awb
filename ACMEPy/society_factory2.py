@@ -56,6 +56,7 @@ class SocietyFactory:
         if host.nodeType == minidom.Node.ELEMENT_NODE:
           newHost = Host(str(host.getAttributeNS(None, "name")))
           society_host = society.add_host(newHost)
+          newHost.parent = society
           #~ print "Host Name: ", society_host.name
           if host.hasChildNodes():
             hostElements = host.childNodes

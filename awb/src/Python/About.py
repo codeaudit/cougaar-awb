@@ -3,7 +3,7 @@
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: About.py,v 1.6 2004-12-21 16:46:06 damoore Exp $
+# RCS-ID:       $Id: About.py,v 1.7 2005-03-17 19:06:04 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -44,7 +44,7 @@ cellpadding="0" border="1">
 </tr>
 </table>
 
-<p>AWB provides a graphical environment for building
+<p>AWB provides a GUI environment for building
 and manipulating Cougaar societies.</p>
 
 <p>AWB is brought to you by Dana Moore and Jonathan Nilsson, BBN Technolgies.</p>

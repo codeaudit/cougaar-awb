@@ -131,17 +131,19 @@ class AgentControllerViewer(wxPanel):
         pass
 
     def AgentTaskCountUpdate(self, evt):
-            #~ print >> sys.stdout, "AgentTaskCountUpdate"
+            print >> sys.stdout, "AgentTaskCountUpdate"
             if self.societyReader is not None:
                 #~ print >> sys.stdout, "..."
                 uniqueObjects = self.societyReader.readUniqueObjects(self.HOST, self.PORT)
                 for o in uniqueObjects.keys():
+
                     self.computeHeat(o, uniqueObjects[o])
                 #~ info = InformationPanel (140, 300, self.canvas, information=uniqueObjects)
                 #~ self.canvas.addShape(info,     100, 100, wxBLACK_PEN, wxBrush("LIGHT STEEL BLUE", wxSOLID), '   unique Objects', "Yellow"  )
                 #~ dc = wxClientDC(self.canvas)
                 #~ self.canvas.PrepareDC(dc)
                 #~ self.canvas.Redraw(dc)
+            else: print >> sys.stdout, "WTF???"
 
     def OnZoomPlus(self, evt):
         if self.canvas.getSocietyStatus() == "active":
@@ -245,12 +247,11 @@ class AgentControllerViewer(wxPanel):
             dlg.ShowModal()
             dlg.Destroy()
             return False
-
         return True
 
 
     def computeHeat(self, agent, value):
-        #~ print "computeHeat:", agent, 'value:',value
+        print "computeHeat:", agent, 'value:',value
         shape = self.canvas.shapeDict[str(agent)]
         # turn on the right color
         #~ color = self.computeColor(value)

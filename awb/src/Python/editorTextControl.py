@@ -1,11 +1,11 @@
 #!/bin/env python
 #----------------------------------------------------------------------------
-# Name:         
-# Purpose:      
+# Name:
+# Purpose:
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: editorTextControl.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: editorTextControl.py,v 1.2 2004-10-07 21:30:14 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -57,11 +57,11 @@ class EditorControl(wxStyledTextCtrl):
     self.parent = parent
     self.log = log
     self.textIsDirty = False
-    if size is not None: 
+    if size is not None:
       theSize = size
     else:
       theSize = wxSize(100,100)
-    if pos is not None: 
+    if pos is not None:
       thePos = pos
     else:
       thePos = wxPoint(10,10)
@@ -84,6 +84,8 @@ class EditorControl(wxStyledTextCtrl):
     self.SetEdgeMode(wxSTC_EDGE_BACKGROUND)
     self.SetEdgeColumn(78)
 
+    self.adjustEOL()
+    self.SetViewEOL(1)
     # Setup a margin to hold fold markers
     #self.SetFoldFlags(16)  ###  WHAT IS THIS VALUE?  WHAT ARE THE OTHER FLAGS?  DOES IT MATTER?
     self.SetMarginType(2, wxSTC_MARGIN_SYMBOL)
@@ -163,6 +165,23 @@ class EditorControl(wxStyledTextCtrl):
 
     EVT_KEY_DOWN(self, self.OnKeyPressed)
 
+  def convertEOL(self):
+    if wxPlatform == '__WXMSW__':
+      self.ConvertEOLs(wxSTC_EOL_CRLF)
+    else:
+      self.ConvertEOLs(wxSTC_EOL_CR)
+
+  def adjustEOL(self):
+    note = """
+    wxSTC_EOL_CR   : CR only
+    wxSTC_EOL_CRLF : CRLF
+    wxSTC_EOL_LF   : LF only
+    """
+    if wxPlatform == '__WXMSW__':
+        self.SetEOLMode(wxSTC_EOL_CRLF)
+    else:
+        self.SetEOLMode(wxSTC_EOL_CR)
+
 
   def OnKeyPressed(self, event):
     #self.textIsDirty = True
@@ -220,21 +239,21 @@ class EditorControl(wxStyledTextCtrl):
       if caretPos > 0:
         charBefore = self.GetCharAt(caretPos - 1)
         styleBefore = self.GetStyleAt(caretPos - 1)
-      
+
       # check before
       if charBefore and chr(charBefore) in "[]{}()" and styleBefore == wxSTC_P_OPERATOR:
         braceAtCaret = caretPos - 1
-      
+
       # check after
       if braceAtCaret < 0:
         charAfter = self.GetCharAt(caretPos)
         styleAfter = self.GetStyleAt(caretPos)
         if charAfter and chr(charAfter) in "[]{}()" and styleAfter == wxSTC_P_OPERATOR:
           braceAtCaret = caretPos
-      
+
       if braceAtCaret >= 0:
         braceOpposite = self.BraceMatch(braceAtCaret)
-      
+
       if braceAtCaret != -1  and braceOpposite == -1:
         self.BraceBadLight(braceAtCaret)
       else:
@@ -243,7 +262,7 @@ class EditorControl(wxStyledTextCtrl):
         #self.Refresh(true, wxRect(pt.x, pt.y, 5,5))
         #print pt
         #self.Refresh(false)
-  
+
   def OnMarginClick(self, evt):
       # fold and unfold as needed
       if evt.GetMargin() == 2:
@@ -269,7 +288,7 @@ class EditorControl(wxStyledTextCtrl):
   def OnModified(self, event):
     self.textIsDirty = True
     self.parent.frame.enableRuleSaveMenuItems()
-  
+
   def FoldAll(self):
       lineCount = self.GetLineCount()
       expanding = true

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.2 2004-10-07 21:30:14 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -323,6 +323,8 @@ You will lose all changes made to the society since the transformation.'''
       #~ self.rule.SetLexer(wxSTC_LEX_PYTHON)
     self.rule.SetLexer(wxSTC_LEX_PYTHON)
     self.rule.SetText(self.ruleText.rule)
+    #~ self.rule.adjustEOL()
+    self.rule.convertEOL()
     self.rule.EmptyUndoBuffer()
     self.rule.Colourise(0, -1)
     self.ruleDescription.SetValue(self.ruleText.description)
@@ -393,7 +395,7 @@ You will lose all changes made to the society since the transformation.'''
               self.SaveRule()
           rulebook = self.ruleIndex[ruleFilename]  # get this rule's associated rulebook
           checkedRules.append(os.path.join(rulebook.getPath(), ruleFilename))
-
+      msg = ""
       if len(checkedRules) > 0:
         self.frame.ruleApplied = True
         if ruleFilename.endswith('rule'):  # just sample the last rule checked
@@ -415,7 +417,7 @@ You will lose all changes made to the society since the transformation.'''
           # also catch any runy warnings...
           potentialWarnings = []
           errOrWarn = 0
-          msg = ""
+
           while xmlSocietyList[0].lower().find("<?xml version='1.0'?>") == -1:
             potentialWarnings.append(xmlSocietyList[0])
             xmlSocietyList.remove(xmlSocietyList[0])

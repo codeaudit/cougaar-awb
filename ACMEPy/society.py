@@ -260,7 +260,20 @@ class Society:
         for agent in node.each_agent(inclNodeAgent):
           for component in agent.each_component():
             yield component
-
+  
+  def each_entity(self, entityType):
+    if entityType == "host":
+      for host in self.each_host():
+        yield host
+    elif entityType == "node":
+      for node in self.each_node():
+        yield node
+    elif entityType == "agent":
+      for agent in self.each_agent():
+        yield agent
+    else:
+      raise Exception, "Invalid entity type passed to Society.each_entity(entityType)"
+  
   def get_node_list(self, onlyIfIncluded=False):
     nodeList = []
     for node in self.each_node():
@@ -268,11 +281,14 @@ class Society:
         nodeList.append(node)
     return nodeList
   
-  def get_agent_list(self, inclNodeAgent=False, onlyIfIncluded=False):
+  def get_agent_list(self, inclNodeAgent=False, onlyIfIncluded=False, namesOnly=False):
     agentList = []
     for agent in self.each_agent(inclNodeAgent):
       if not onlyIfIncluded or (onlyIfIncluded and not agent.isExcluded):
-        agentList.append(agent)
+        if namesOnly:
+          agentList.append(agent.name)
+        else:
+          agentList.append(agent)
     return agentList
   
   def countHosts(self, onlyIfIncluded=False):

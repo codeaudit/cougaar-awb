@@ -216,15 +216,19 @@ class Agent:
     return script
   
   def to_ruby(self):
-    script = "agent = Agent.new(\"" + self.name + "\")\n"
-    if self.klass is not None:
-      script = script + "agent.classname = \"" + self.klass + "\"\n"
-    if self.uic is not None:
-      script = script + "agent.uic = \"" + self.uic + "\"\n"
-    for facet in self.facets:
-      for keyvalue in facet.each_facet_pair():
-        script = script + "agent.add_facet(\"" + keyvalue + "\")\n"
-    for c in self.components:
-      script = script + c.to_ruby()
-    script = script + "node.add_agent(agent)\n"
+    if self.klass is None and self.uic is None and len(self.facets) == 0 and len(self.components) == 0:
+      script = "      node.add_agent('" + self.name + "')\n"
+    else:
+      script = "      node.add_agent('" + self.name + "') do |agent|\n"
+      if self.klass is not None:
+        script = script + "        agent.classname = '" + self.klass + "'\n"
+      if self.uic is not None:
+        script = script + "        agent.uic = '" + self.uic + "'\n"
+      for facet in self.facets:
+        script = script + "        agent.add_facet do |facet|\n"
+        script = script + facet.to_ruby(5)
+        script = script + "        end\n"
+      for c in self.components:
+        script = script + c.to_ruby(5)
+      script = script + "      end\n"
     return script

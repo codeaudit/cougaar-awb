@@ -386,21 +386,25 @@ class Node:
     return script
   
   def to_ruby(self):
-    script = "node = Node.new(\"" + self.name + "\")\n"
+    script = "    host.add_node('" + self.name + "') do |node|\n"
     if self.klass is not None:
-      script = script + "node.classname = \"" + self.klass + "\"\n"
+      script = script + "      node.classname = '" + self.klass + "'\n"
     for p in self.vm_parameters:
-      script = script + "node.add_parameter(\"" + p.value + "\")\n"
+      script = script + "      node.add_parameter('" + p.value + "')\n"
     for p in self.prog_parameters:
-      script = script + "node.add_prog_parameter(\"" + p.value + "\")\n"
+      script = script + "      node.add_prog_parameter('" + p.value + "')\n"
     for p in self.env_parameters:
-      script = script + "node.add_env_parameter(\"" + p.value + "\")\n"
+      script = script + "      node.add_env_parameter('" + p.value + "')\n"
     for facet in self.facets:
-      for keyvalue in facet.each_facet_pair():
-        script = script + "node.add_facet(\"" + keyvalue + "\")\n"
+      script = script + "      node.add_facet do |facet|\n"
+      script = script + facet.to_ruby(4)
+      script = script + "      end\n"
+    #~ for facet in self.facets:
+      #~ for keyvalue in facet.each_facet_pair():
+        #~ script = script + "      node.add_facet('" + keyvalue + "')\n"
     for c in self.nodeAgent.each_component():
-      script = script + c.to_ruby()
-    for a in self.each_agent(False):  # exclude node agent
-      script = script + a.to_ruby()
-    script = script + "host.add_node(node)\n"
+      script = script + c.to_ruby(4)
+    for agent in self.each_agent(False):  # exclude node agent
+      script = script + agent.to_ruby()
+    script = script + "    end\n"
     return script

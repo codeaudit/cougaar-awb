@@ -271,9 +271,10 @@ class Society:
     return script
 
   def to_ruby(self):
-    script = "society = Cougaar::Model::Society.new(\"" + self.name + "\")\n"
+    script = "Cougaar::Model::Society.new('" + self.name + "') do |society|\n"
     for host in self.hostlist:
       script = script + host.to_ruby()
+    script = script + "end\n"
     return script
   
   def prettyPrint(self):

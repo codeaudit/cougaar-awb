@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.4 2003-06-19 17:35:02 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.5 2003-06-24 19:11:45 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -127,7 +127,13 @@ class Facet:
       script = "facet = Facet(facetDict)\n"
       script = script + self.parent.name + ".add_facet(facet)\n"
     return script
-
+  
+  def to_ruby(self, numTabs):
+    script = ""
+    indent = "  " * numTabs
+    for key in self.facets.keys():
+      script = script + indent + "facet[:" + key + "]='" + self.facets[key] + "'\n"
+    return script
 
 def unitTest():
   facetDict = {}

@@ -62,5 +62,6 @@ class Argument:
     script = script + "component.add_argument(argument)\n"
     return script
   
-  def to_ruby(self):
-    return "component.add_argument(\"" + self.name + "\")\n"
+  def to_ruby(self, numTabs):
+    indent = "  " * numTabs
+    return indent + "c.add_argument('" + self.name + "')\n"

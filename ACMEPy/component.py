@@ -128,18 +128,19 @@ class Component:
       script = script + a.to_python()
     return script
   
-  def to_ruby(self):
-    script = "component = Component.new(\"" + self.name + "\")\n"
-    script = script + "component.class = \"" + self.klass + "\"\n"
-    script = script + "component.priority = \"" + self.priority + "\"\n"
-    script = script + "component.insertionpoint = \"" + self.insertionpoint + "\"\n"
-    for a in self.arguments:
-      script = script + a.to_ruby()
-    node = self.parent.parent
-    if self.parent == node.nodeAgent:
+  def to_ruby(self, numTabs):
+    if self.parent.isNodeAgent():
       # it's a component of a node
-      script = script + "node.add_component(component)\n"
+      script = "      node.agent.add_component('" + self.name + "') do |c|\n"
     else:
       #it's a component of an agent
-      script = script + "agent.add_component(component)\n"
+      script = "        agent.add_component('" + self.name + "') do |c|\n"
+    indent = "  " * numTabs
+    script = script + indent + "c.classname = '" + self.klass + "'\n"
+    script = script + indent + "c.priority = '" + self.priority + "'\n"
+    script = script + indent + "c.insertionpoint = '" + self.insertionpoint + "'\n"
+    for a in self.arguments:
+      script = script + a.to_ruby(numTabs)
+    indent = "  " * (numTabs - 1)
+    script = script + indent + "end\n"
     return script

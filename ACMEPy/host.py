@@ -231,12 +231,16 @@ class Host:
     return script
   
   def to_ruby(self):
-    script = "host = Host.new(\"" + self.name + "\")\n"
+    script = "  society.add_host('" + self.name + "') do |host|\n"
     for facet in self.facets:
-      for keyvalue in facet.each_facet_pair():
-        script = script + "host.add_facet(\"" + keyvalue + "\")\n"
+      script = script + "    host.add_facet do |facet|\n"
+      script = script + facet.to_ruby(3)
+      script = script + "    end\n"
+      #~ for keyvalue in facet.each_facet_pair():
+        #~ script = script + "host.add_facet(\"" + keyvalue + "\")\n"
     for node in self.nodelist:
       script = script + node.to_ruby()
-    script = script + "society.add_host(host)\n"
+    #~ script = script + "society.add_host(host)\n"
+    script = script + "  end\n"
     return script
   

@@ -27,19 +27,21 @@ from component import *
 from facet import Facet
 
 class Node:
-  def __init__(self, name=None, rule='BASE', createNodeAgent=True):
+  def __init__(self, name=None, rule='BASE'):
     self.name = name
     self.host = None
     self.agents = {}
     self.agentlist = []
     self.facets = []
+    #self.components = {}
+    #self.componentlist = []
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
-    if createNodeAgent:
-      self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
+    self.dupe = None
+    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
     
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -106,12 +108,17 @@ class Node:
   def add_facets(self, facetList):
     for facet in facetList:
       self.add_facet(facet)
+  
 
   def add_facet(self, facet):
     #facet arg could be either a Facet instance or a facet value string of format "key=value"
     if isinstance(facet, Facet):
       facet.parent = self
       self.facets.append(facet)
+    elif isinstance(facet, types.DictType):
+      fac = Facet( facet )
+      fac.parent = self
+      self.facets.append(fac)
     else:
       facetDict = {}
       facetList = facet.split("=")
@@ -229,36 +236,32 @@ class Node:
   def add_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
-      if len(params) > 0:
-        if isinstance(params[0], VMParameter):
-          self.add_vm_parameters(params)
-        elif isinstance(params[0], ProgParameter):
-          self.add_prog_parameters(params)
-        elif isinstance(params[0], EnvParameter):
-          self.add_env_parameters(params)
-        else:  # must be a facet
-          self.add_facets(params)
+      if isinstance(params[0], VMParameter):
+        self.add_vm_parameters(params)
+      elif isinstance(params[0], ProgParameter):
+        self.add_prog_parameters(params)
+      elif isinstance(params[0], EnvParameter):
+        self.add_env_parameters(params)
+      else:  # must be a facet
+        self.add_facets(params)
   
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
-  def clone(self, inclNodeAgent=False):
-    node = Node(self.name, self.rule, inclNodeAgent) #'false' means don't create new node agent
-    node.klass = self.klass
-    for agent in self.agentlist:
-      new_agent = agent.clone()
-      node.add_agent(new_agent)
-      new_agent.node = node
-      if new_agent.name == self.name: 
-        node.nodeAgent = new_agent
-    node.add_parameters(self.clone_parameters('vm'))
-    node.add_prog_parameters(self.clone_parameters('prog'))
-    node.add_env_parameters(self.clone_parameters('env'))
-    for facet in self.facets:
-      new_facet = facet.clone()
-      node.add_facet(new_facet)
-      new_facet.parent = node
-    return node
+  def clone(self):
+    print "Cloning Node"
+    if self.dupe is None:
+      self.dupe = Node(self.name)
+      self.dupe.host = self.host
+      self.dupe.klass = self.klass
+      self.dupe.rule = self.rule
+      for agent in self.agentlist:
+        self.dupe.add_agent(agent.clone())
+      self.dupe.add_parameters(self.clone_parameters('vm'))
+      self.dupe.add_prog_parameters(self.clone_parameters('prog'))
+      #node.add_env_parameters(self.clone_parameters('env'))
+      for comp in self.componentlist:
+        self.dupe.add_component(comp.clone())
   
   def clone_parameters(self, type):
     dupe_params = []
@@ -273,8 +276,7 @@ class Node:
   
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
-    if self.klass is not None:
-      xml = xml + "   <class>" + self.klass + "</class>\n"
+    xml = xml + "   <class>" + self.klass + "</class>\n"
     # add parameters and agents
     for facet in self.facets:
       xml = xml + facet.to_xml()
@@ -308,8 +310,6 @@ class Node:
       script = script + "node.add_env_parameter('" + str(p) +"')\n"
     for p in self.vm_parameters[:]:
       script = script + "node.add_vm_parameter('" + str(p) +"')\n"
-    for facet in self.facets:
-      script = script + facet.to_python()
     for agent in self.agents.keys():
       script = script + self.agents[agent].to_python()  
     return script

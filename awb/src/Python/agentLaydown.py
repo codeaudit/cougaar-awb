@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: agentLaydown.py,v 1.4 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: agentLaydown.py,v 1.5 2004-11-02 19:22:36 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -186,6 +186,8 @@ class AgentLaydownPanel(wx.Panel):
 
     staticBox.AddSizer(innerBox, 0, wx.ALIGN_CENTER)
     spinnerBox.AddSizer(staticBox, 0, wx.ALIGN_CENTER)
+#    staticBox.Add(innerBox, wx.ALIGN_CENTER)
+#    spinnerBox.Add(staticBox, wx.ALIGN_CENTER)
 
     # Add the node per host selection box
     staticBoxTitle = wx.StaticBox( self, -1, "" )
@@ -201,6 +203,8 @@ class AgentLaydownPanel(wx.Panel):
 
     staticBox.AddSizer(innerBox, 0, wx.ALIGN_CENTER)
     spinnerBox.AddSizer(staticBox, 0, wx.ALIGN_CENTER)
+#    staticBox.Add(innerBox, wx.ALIGN_CENTER)
+#    spinnerBox.Add(staticBox, wx.ALIGN_CENTER)
 
     # Add the "system busy" image
     lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]

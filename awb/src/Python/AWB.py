@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: AWB.py,v 1.4 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.5 2004-11-02 19:22:36 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -725,7 +725,7 @@ class AWB(wx.Frame):
           self.currentTree = self.laydownViewer
         else:
           self.currentTree = self.agentLaydown.currentViewer
-        if self.currentTree is not None and len(self.currentTree.GetSelections()) > 0:
+        if self.currentTree is not None: # and len(self.currentTree.GetSelections()) > 0:
           self.editMenu.Enable(AWB.SORT, True)
         else:
           self.editMenu.Enable(AWB.SORT, False)

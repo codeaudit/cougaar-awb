@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyViewer.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: societyViewer.py,v 1.4 2004-11-02 19:22:36 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -782,6 +782,7 @@ class SocietyViewer(wx.TreeCtrl):
   
   def highlightItem(self, item, color='blue'):
     self.EnsureVisible(item)
+    print 'highlightItem:Item', item
     if color == 'blue':
       bgcolor = wx.NamedColour('BLUE')
     elif color == 'gray':
@@ -792,6 +793,7 @@ class SocietyViewer(wx.TreeCtrl):
     self.SetItemTextColour(item, wx.WHITE)
   
   def removeHighlighting(self, item):
+    print 'removeHighlighting: old Item', item 
     self.SetItemBackgroundColour(item, wx.WHITE)
     self.SetItemTextColour(item, wx.BLACK)
   

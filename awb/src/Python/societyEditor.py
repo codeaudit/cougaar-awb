@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyEditor.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: societyEditor.py,v 1.4 2004-11-02 19:22:36 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -54,7 +54,6 @@ from societyFactoryServer import SocietyFactoryServer
 from cougaar_DragAndDrop import *
 CONVERTED2DOT5 = True
 #----------------------------------------------------------------------
-
 class SocietyEditorPanel(wx.Panel):
   def __init__( self, parent, frame, log ):
     wx.Panel.__init__( self, parent, -1 )
@@ -66,7 +65,6 @@ class SocietyEditorPanel(wx.Panel):
     self.societyFile = None
     self.frame.societyFile = None
     self.itemGrabbed = False
-
 ### static controls:
 
     btnBox = wx.BoxSizer(wx.HORIZONTAL)
@@ -271,8 +269,14 @@ class SocietyEditorPanel(wx.Panel):
   def OnSelChanged(self, event):
     #~ print "SocietyEditor::OnSelChanged"
     self.currentItem = event.GetItem()
-    self.frame.societyViewer.removeHighlighting(self.currentItem)
+    print "===================\nOnSelChanged: self.currentItem", self.currentItem, "\nself.currentItem.IsOk()", self.currentItem.IsOk()
+    print "OnSelChanged: self.currentItem = event.GetItem()", self.currentItem,"\n \n"
+    if not self.currentItem.IsOk():
+        print "possible invalide Item???",  self.currentItem
+        return
+    self.frame.societyViewer.removeHighlighting(self.currentItem) # ??? needed???
     self.entityObj = self.getEntityObj()
+    print "self.entityObj.name", self.entityObj.name,'==========='
     if not self.entityObj:
       event.Skip()
       return
@@ -289,12 +293,14 @@ class SocietyEditorPanel(wx.Panel):
     self.y = event.GetY()
     pt = event.GetPosition();
     item, flags = self.frame.societyViewer.HitTest(pt)
+    print "OnRightClick:", item, " IsOk:", item.IsOk()
     if item.IsOk():
       self.frame.societyViewer.SelectItem(item)
 
   def OnRightUp(self, event):
     pt = event.GetPosition();
     item, flags = self.frame.societyViewer.HitTest(pt)
+    print "OnRightUp:", item, " IsOk:", item.IsOk()
     if item.IsOk():  # need this to prevent sys crash when tree has no items
       #~ itemText = self.frame.societyViewer.GetItemText(item).getAllText()
       self.entityObj = self.frame.societyViewer.GetPyData(item)

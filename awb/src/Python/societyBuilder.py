@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.5 2004-11-02 17:01:56 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.6 2004-11-02 19:22:36 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -29,7 +29,7 @@
 from __future__ import generators
 import wx
 from wx.lib.rcsizer import RowColSizer
-from wx.stc import *
+import wx.stc as stc
 
 
 import images
@@ -333,7 +333,7 @@ You will lose all changes made to the society since the transformation.'''
       #~ print "Lexer set to Ruby"
     #~ else:
       #~ self.rule.SetLexer(wx.STC_LEX_PYTHON)
-    self.rule.SetLexer(wx.STC_LEX_PYTHON)
+    self.rule.SetLexer(stc.STC_LEX_PYTHON)
     self.rule.SetText(self.ruleText.rule)
     #~ self.rule.adjustEOL()
     self.rule.convertEOL()
@@ -341,7 +341,7 @@ You will lose all changes made to the society since the transformation.'''
     self.rule.Colourise(0, -1)
     self.ruleDescription.SetValue(self.ruleText.description)
     # line numbers in the margin
-    self.rule.SetMarginType(1, wx.STC_MARGIN_NUMBER)
+    self.rule.SetMarginType(1, stc.STC_MARGIN_NUMBER)
     self.rule.SetMarginWidth(1, 25)
     self.rule.textIsDirty = False
     self.frame.enableRuleSaveMenuItems(False)

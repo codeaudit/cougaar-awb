@@ -108,7 +108,7 @@ class TransformationRule:
     self.fired = False
     self.society = None
 
-  def set_rule(ruleText):
+  def set_rule(self, ruleText):
     self.rule = ruleText
     
   def fire(self):
@@ -130,7 +130,7 @@ class TransformationRule:
 
 
 class TransformationEngine:
-  def __init__(self, society, max_loop=300):
+  def __init__(self, society, max_loop=30):
     self.MAXLOOP = max_loop
     self.society = society
     self.rules = []

@@ -19,6 +19,7 @@
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
 #
+
 class Argument:
   
   def __init__(self, value, ord, rule='BASE'):

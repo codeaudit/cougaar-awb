@@ -294,6 +294,14 @@ class Society:
     print "WARNING: Unable to find host", hostName
     return None
   
+  def get_longest_hostname(self):
+    nameLen = 1
+    for host in self.hostlist:
+      l = len(host.name)
+      if l > nameLen:
+        nameLen = l
+    return nameLen
+  
   def delete_host(self, host, saveAgents=False):
     for node in host.each_node():
       host.delete_node(node, saveAgents)

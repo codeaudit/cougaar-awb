@@ -113,7 +113,7 @@ class Society:
   def prettyFormat(self):
     text = str(self)
     for host in self.hosts.keys():
-      text = text+str(society.hosts[host])+"\n"
+      text = text+str(self.hosts[host])+"\n"
       for node in self.hosts[host].nodes.keys():
 	theNode = self.hosts[host].nodes[node]
 	text = text+str(theNode)+"\n"

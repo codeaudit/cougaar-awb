@@ -84,9 +84,11 @@ class Host:
       else:
         print "Unable to add duplicate Node:", node.name
         return None
-    if isinstance(node, types.StringType):
+    elif isinstance(node, types.StringType):
       newNode = Node(node)
       return self.add_node(newNode)
+    else:
+      raise Exception, "Attempting to add unknown type as a node"
   
   def delete_entity(self, saveAgents=False):
     '''Deletes itself from its parent society'''

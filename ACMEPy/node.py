@@ -90,9 +90,11 @@ class Node:
       else:
         print "Unable to add duplicate agent:", agent.name
         return None
-    if isinstance(agent, types.StringType):
+    elif isinstance(agent, types.StringType):
       newAgent = Agent(agent)
       return self.add_agent(newAgent)
+    else:
+      raise Exception, "Attempting to add unknown type as an agent"
 
   def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):
     if type(entity) == types.ListType:  # parameters or facets

@@ -82,9 +82,11 @@ class Society:
       else:
         print "Unable to add duplicate host:", host.name
         return None
-    if isinstance(host,types.StringType):
+    elif isinstance(host,types.StringType):
       h = Host(host)
       return self.add_host(h)
+    else:
+      raise Exception, "Attempting to add unknown type as a host"
   
   def add_entity(self, host, orderAfterObj=None, isCopyOperation=False):
     if isinstance(host, Host):

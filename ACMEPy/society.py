@@ -155,6 +155,6 @@ class Society:
 	agent.add_component(component)
       if data[0].lower() == 'argument':
 	argument = Argument(data[1], data[5])
-	agent.add_argument(argument)
+	component.add_argument(argument)
     return society
  

@@ -99,6 +99,7 @@ class Society:
     return script
 
   def prettyPrint(self):
+    print self
     for host in self.hosts.keys():
       print "\t", self.hosts[host]
       for node in self.hosts[host].nodes.keys():
@@ -108,4 +109,16 @@ class Society:
 	  print "\t\t\t", theNode.agents[agent]
 	  for component in theNode.agents[agent].components:
 	    print "\t\t\t\t", component
-
+	    
+  def prettyFormat(self):
+    text = str(self)
+    for host in self.hosts.keys():
+      text = text+str(society.hosts[host])+"\n"
+      for node in self.hosts[host].nodes.keys():
+	theNode = self.hosts[host].nodes[node]
+	text = text+str(theNode)+"\n"
+	for agent in self.hosts[host].nodes[node].agents.keys():
+	  text = text + str(theNode.agents[agent])+"\n"
+	  for component in theNode.agents[agent].components:
+	    text = text + str(component)
+    return text

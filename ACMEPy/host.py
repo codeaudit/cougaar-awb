@@ -60,7 +60,7 @@ class Host:
       if not reorder and self.parent is not None:
         for existingNode in self.parent.each_node():
           if node.name == existingNode.name:
-            isDupe = True
+            isDupe = True 
             break
       if not isDupe:
         # We don't have it, so add it
@@ -200,11 +200,10 @@ class Host:
   # 
   def add_facets(self, facetList):
     if facetList is not None and len(facetList) > 0:
-      #~ keyValuePairToAdd = []
-      #~ facetAddList = []
-      #~ match = False
       # check for dupes
       for facet in facetList:
+        if not isinstance(facet, Facet):
+          facet = Facet(facet)
         keyList = facet.keys()
         for key in keyList:
           values = self.get_facet_values(key)
@@ -217,7 +216,6 @@ class Host:
             if not match:
               # it's a new key=value pair for this host
               self.add_facet(key + '=' + facet.get(key))
-              #~ keyValuePairToAdd.append(key + '=' + value)
           else:  # no key match; this is a new key=value pair for this host
             self.add_facet(key + '=' + facet.get(key))
   
@@ -287,12 +285,13 @@ class Host:
     for node in self.nodelist: 
       yield node
 
-  def clone(self, inclComponents=True):
+  def clone(self, inclComponents=True, parent=None):
     host = Host(self.name, self.rule)
+    host.parent = parent
     for node in self.nodelist:
-      new_node = node.clone(inclComponents)
+      new_node = node.clone(inclComponents, host)
       host.add_node(new_node)
-      new_node.parent = host
+      #~ new_node.parent = host
     for facet in self.facets:
       new_facet = facet.clone()
       host.add_facet(new_facet)

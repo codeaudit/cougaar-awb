@@ -102,11 +102,39 @@ class Agent:
       facet.parent = self
       facet.rule = rule
       self.facets.append(facet)
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
     else:
       fac = Facet(facet)
       self.add_facet(fac, rule)
 
+  ##
+  # Adds the list of facets passed in as the argument to this
+  # agent's list of facets.  Dupes are ignored; i.e., not added.
+  #
+  # facetList:: [List] a list of facets
+  # 
+  def add_facets(self, facetList):
+    if facetList is not None and len(facetList) > 0:
+      # check for dupes
+      for facet in facetList:
+        if not isinstance(facet, Facet):
+          facet = Facet(facet)
+        keyList = facet.keys()
+        for key in keyList:
+          values = self.get_facet_values(key)
+          if len(values) > 0:     # check for a key match
+            match = False
+            for value in values:  # have a key match; check if value is the same
+              if value == facet.get(key):
+                match = True  # it's a dupe
+                break
+            if not match:
+              # it's a new key=value pair for this host
+              self.add_facet(key + '=' + facet.get(key))
+          else:  # no key match; this is a new key=value pair for this host
+            self.add_facet(key + '=' + facet.get(key))
+  
   def get_facet(self, index):
     return self.facets[index]
 
@@ -201,15 +229,16 @@ class Agent:
       return True
     return False
   
-  def clone(self, inclComponents=True):
+  def clone(self, inclComponents=True, parent=None):
     agent = Agent(self.name, self.klass, self.rule)
     agent.uic = self.uic
     agent.isExcluded = self.isExcluded
+    agent.parent = parent
+    agent.society = parent.society
     if inclComponents:
       for component in self.components:
-        new_component = component.clone()
+        new_component = component.clone(agent)
         agent.add_component(new_component)
-        new_component.parent = agent
     for facet in self.facets:
       new_facet = facet.clone()
       agent.add_facet(new_facet)

@@ -83,7 +83,8 @@ class Component:
     if isinstance(argument, Argument):
       self.arguments.append(argument)
       argument.parent = self
-      self.parent.society.isDirty = True
+      if self.parent.society is not None:
+        self.parent.society.isDirty = True
     elif type(argument) == types.StringType:  # must be a string
       arg = Argument(argument)
       self.add_argument(arg)
@@ -122,12 +123,12 @@ class Component:
     self.parent.society.isDirty = True
     return self.name
   
-  def clone(self):
+  def clone(self, parent=None):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
+    component.parent = parent
     for arg in self.arguments:
       new_arg = arg.clone()
       component.add_argument(new_arg)
-      new_arg.component = component
     return component
   
   def to_xml(self, numTabs=4):

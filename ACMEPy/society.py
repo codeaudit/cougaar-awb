@@ -105,6 +105,33 @@ class Society:
       fac = Facet(facet)
       self.add_facet(fac, rule)
 
+  ##
+  # Adds the list of facets passed in as the argument to this
+  # society's list of facets.  Dupes are ignored; i.e., not added.
+  #
+  # facetList:: [List] a list of facets
+  # 
+  def add_facets(self, facetList):
+    if facetList is not None and len(facetList) > 0:
+      # check for dupes
+      for facet in facetList:
+        if not isinstance(facet, Facet):
+          facet = Facet(facet)
+        keyList = facet.keys()
+        for key in keyList:
+          values = self.get_facet_values(key)
+          if len(values) > 0:     # check for a key match
+            match = False
+            for value in values:  # have a key match; check if value is the same
+              if value == facet.get(key):
+                match = True  # it's a dupe
+                break
+            if not match:
+              # it's a new key=value pair for this host
+              self.add_facet(key + '=' + facet.get(key))
+          else:  # no key match; this is a new key=value pair for this host
+            self.add_facet(key + '=' + facet.get(key))
+  
   def remove_facet(self, keyValueString):
     for facet in self.facets:
       if facet.contains_entry(keyValueString):
@@ -325,9 +352,9 @@ class Society:
   def clone(self, inclComponents=True):
     society = Society(self.name, self.rule)
     for host in self.hostlist:
-      new_host = host.clone(inclComponents)
+      new_host = host.clone(inclComponents, society)
+      #~ new_host.set_parent(society)
       society.add_host(new_host)
-      new_host.set_parent(society)
     return society
   
   def remove_node(self, node):

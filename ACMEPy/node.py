@@ -207,9 +207,32 @@ class Node:
     if self.society is not None:
       self.society.isDirty = True
 
+  ##
+  # Adds the list of facets passed in as the argument to this
+  # node's list of facets.  Dupes are ignored; i.e., not added.
+  #
+  # facetList:: [List] a list of facets
+  # 
   def add_facets(self, facetList):
-    for facet in facetList:
-      self.add_facet(facet)
+    if facetList is not None and len(facetList) > 0:
+      # check for dupes
+      for facet in facetList:
+        if not isinstance(facet, Facet):
+          facet = Facet(facet)
+        keyList = facet.keys()
+        for key in keyList:
+          values = self.get_facet_values(key)
+          if len(values) > 0:     # check for a key match
+            match = False
+            for value in values:  # have a key match; check if value is the same
+              if value == facet.get(key):
+                match = True  # it's a dupe
+                break
+            if not match:
+              # it's a new key=value pair for this host
+              self.add_facet(key + '=' + facet.get(key))
+          else:  # no key match; this is a new key=value pair for this host
+            self.add_facet(key + '=' + facet.get(key))
   
   def add_facet(self, facet, rule='BASE'):
     #facet arg could be either a Facet instance or a facet value string of format "key=value"
@@ -375,14 +398,16 @@ class Node:
       self.society.isDirty = True
     return self.name
   
-  def clone(self, inclComponents=True):
+  def clone(self, inclComponents=True, parent=None):
     node = Node(self.name)
     node.klass = self.klass
     node.rule = self.rule
     node.isExcluded = self.isExcluded
+    node.parent = parent
+    node.society = parent.parent
     for agent in self.agentlist:
       if agent != self.nodeAgent:
-        newAgent = agent.clone(inclComponents)
+        newAgent = agent.clone(inclComponents, node)
         node.add_agent(newAgent)
     if inclComponents:
       node.add_parameters(self.clone_parameters('vm'))

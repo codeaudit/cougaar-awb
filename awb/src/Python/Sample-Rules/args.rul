@@ -1,0 +1,14 @@
+# Dana - Add Argument
+for component in society.each_component():
+  if str(component.klass) == "org.cougaar.foo.foo":
+    hasArg = False
+    for argument in component.arguments:
+      if argument.name == "Parameter2": hasArg = True
+    if hasArg is False:
+      component.add_argument(Argument("Parameter2", rule=self.name))
+      self.fire()
+
+
+
+
+

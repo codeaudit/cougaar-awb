@@ -1,0 +1,457 @@
+<?xml version='1.0'?>
+<society name='svcloudA-hosts'>
+    <host name='sv007'>
+        <facet service='cougaar-db'/>
+        <facet service='smtp'/>
+    </host>
+    <host name='u133-utb'>
+        <facet service='cnccalc-db'/>
+    </host>
+    <host name='acmev7'>
+        <facet service='jabber'/>
+    </host>
+    <host name='sb042'>
+        <facet service='analysis'/>
+    </host>
+    <host name='sv007-utb'>
+        <facet service='nfs-shared'/>
+        <facet service='nfs-software'/>
+        <facet service='grabber-db'/>
+        <facet service='smtp'/>
+    </host>
+    <host name='sa007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sb007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sc007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sv008'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sv022'>
+        <facet service='operator'/>
+    </host>
+    <host name='sv023'>
+        <facet service='BW-router'/>
+    </host>
+    <host name='sv024'>
+        <facet uriname='sv024-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv025'>
+        <facet uriname='sv025-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv026'>
+        <facet uriname='sv026-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv027'>
+        <facet uriname='sv027-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv028'>
+        <facet uriname='sv028-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv029'>
+        <facet uriname='sv029-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv030'>
+        <facet uriname='sv030-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv031'>
+        <facet uriname='sv031-utb'/>
+        <facet service='acme'/>
+        <facet service='nameserver'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv032'>
+        <facet uriname='sv032-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv033'>
+        <facet uriname='sv033-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv034'>
+        <facet uriname='sv034-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv035'>
+        <facet uriname='sv035-utb'/>
+        <facet service='acme'/>
+        <facet service='Web0Gen'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv036'>
+        <facet uriname='sv036-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv037'>
+        <facet uriname='sv037-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv038'>
+        <facet uriname='sv038-utb'/>
+        <facet service='acme'/>
+        <facet service='Web1Gen'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv039'>
+        <facet uriname='sv039-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv040'>
+        <facet uriname='sv040-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv041'>
+        <facet uriname='sv041-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv042'>
+        <facet uriname='sv042-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv043'>
+        <facet uriname='sv043-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv044'>
+        <facet uriname='sv044-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv045'>
+        <facet uriname='sv045-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+    </host>
+    <host name='sv046'>
+        <facet uriname='sv046-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+    </host>
+    <host name='sv047'>
+        <facet uriname='sv047-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+    </host>
+    <host name='sv048'>
+        <facet uriname='sv048-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+    </host>
+    <host name='sv049'>
+        <facet uriname='sv049-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+    </host>
+    <host name='sv050'>
+        <facet uriname='sv050-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+    </host>
+    <host name='sv051'>
+        <facet uriname='sv051-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+    </host>
+    <host name='sv052'>
+        <facet uriname='sv052-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+    </host>
+    <host name='sv053'>
+        <facet uriname='sv053-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+    </host>
+    <host name='sv054'>
+        <facet uriname='sv054-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+    </host>
+    <host name='sv055'>
+        <facet uriname='sv055-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+    </host>
+    <host name='sv062'>
+        <facet uriname='sv062-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+    </host>
+    <host name='sv063'>
+        <facet uriname='sv063-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+    </host>
+    <host name='sv064'>
+        <facet uriname='sv064-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+    </host>
+    <host name='sv065'>
+        <facet uriname='sv065-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+    </host>
+    <host name='sv066'>
+        <facet uriname='sv066-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv067'>
+        <facet uriname='sv067-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv068'>
+        <facet uriname='sv068-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv069'>
+        <facet uriname='sv069-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv070'>
+        <facet uriname='sv070-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv071'>
+        <facet uriname='sv071-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv072'>
+        <facet uriname='sv072-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv073'>
+        <facet uriname='sv073-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv074'>
+        <facet uriname='sv074-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv075'>
+        <facet uriname='sv075-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv126'>
+        <facet uriname='sv126-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+    </host>
+    <host name='sv127'>
+        <facet uriname='sv127-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv128'>
+        <facet uriname='sv128-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv129'>
+        <facet uriname='sv129-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv130'>
+        <facet uriname='sv130-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv131'>
+        <facet uriname='sv131-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv132'>
+        <facet uriname='sv132-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+    </host>
+    <host name='sv133'>
+        <facet uriname='sv133-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+    <host name='sv134'>
+        <facet uriname='sv134-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+    <host name='sv135'>
+        <facet uriname='sv135-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+    <host name='sv158'>
+        <facet uriname='sv158-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+    <host name='sv159'>
+        <facet uriname='sv159-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+    <host name='sv160'>
+        <facet uriname='sv160-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv161'>
+        <facet uriname='sv161-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv162'>
+        <facet uriname='sv162-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv163'>
+        <facet uriname='sv163-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv164'>
+        <facet uriname='sv164-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+    </host>
+    <host name='sv167'>
+        <facet uriname='sv167-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+    </host>
+    <host name='sv168'>
+        <facet uriname='sv168-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+    </host>
+    <host name='sv169'>
+        <facet uriname='sv169-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+    </host>
+    <host name='sv170'>
+        <facet uriname='sv170-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+    </host>
+    <host name='sv171'>
+        <facet uriname='sv171-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+    </host>
+    <host name='sv172'>
+        <facet uriname='sv172-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+    </host>
+</society>

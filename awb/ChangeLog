@@ -1,0 +1,24 @@
+Target
+Release	Date		Change
+-------	---------	-------------------------------------------------------
+1.1		24 Sep 03	Added logging to a log file (CSMARTer.log) of results
+				of rule transformation.
+
+1.1		25 Sep 03	Restructured distribution directories, placing the 
+				ACMEPy dir under the CSMARTer dir.  This streamlines 
+				the build and install process.
+
+1.2		28 Oct 03	Fixed bug that was preventing the sorting of agent items
+				in the society trees.  Also fixed bug that was preventing
+				the search function from working properly.
+
+1.2   	6 Nov 03	Changed the graphic depiction of excluded hosts, nodes,
+        			and agents from an 'x' in the label to white text on a 
+				red background.  Also, fixed problem causing an infinite 
+				loop when distributing agents	with a node excluded.  
+				Finally, fixed bug that was allowing old text elements 
+        			to remain in a TreeItemLabel obj even after the society
+        			with which the label was associated had been closed.
+        
+
+

@@ -1,0 +1,23 @@
+Version	Changes
+-------	----------------------------------------------------------------
+1.0		Initial release.  See README.txt for installation/usage info.
+
+1.1		1. Added logging to a log file when applying rules.  After 
+		   applying rules, check CSMARTer\CSMARTer.log for status re-
+		   porting and error messages.  Many of the same messages are
+		   logged to the log pane in the app, but log file adds provides
+		   persistence.  Subsequent runs of the program overwrite the 
+		   previous log file.
+	
+		2. Distribution directory restructuring: now ACMEPy is a 
+		   subdirectory of CSMARTer, rather than being a sibling.  
+		   Transparent to users.
+
+
+1.2		1. Fixed various bugs, but most significant changes were those
+		   enabling CSMARTer to run on Linux.  Though Python and wxPython
+		   are platform-independent, Linux/GTK behaves differently from 
+		   Windows in how widgets and controls respond and/or render 
+		   themselves.  Note that there is not a separate version of the
+		   CSMARTer software for Windows and Linux; rather, the same 
+		   software now runs under both.

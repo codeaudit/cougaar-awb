@@ -196,7 +196,7 @@ class Host:
   # Adds the list of facets passed in as the argument to this
   # host's list of facets.  Dupes are ignored; i.e., not added.
   #
-  # facetList:: [List] a list of facets
+  # facetList:: [List] a list of Facets or Strings
   # 
   def add_facets(self, facetList):
     if facetList is not None and len(facetList) > 0:

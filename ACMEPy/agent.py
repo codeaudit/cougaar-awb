@@ -138,6 +138,12 @@ class Agent:
   def get_facet(self, index):
     return self.facets[index]
 
+  ##
+  # Returns the list of facets on this host.
+  #
+  def get_facets(self):
+    return self.facets
+  
   def get_facet_values(self, key):
     valList = []
     for facet in self.facets:

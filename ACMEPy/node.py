@@ -40,7 +40,7 @@ class Node:
     self.rule = str(rule)
     self.society = None
     self.isExcluded = False
-    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create(Node Agent)"))
+    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create"))
   
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -150,6 +150,15 @@ class Node:
   def get_agent(self, index):
     return self.agentlist[index]
   
+  def get_agents(self, inclNodeAgent=False):
+    if inclNodeAgent:
+      return self.agentlist
+    returnList = []
+    for agent in self.agentlist:
+      if not agent.isNodeAgent():
+        returnList.append(agent)
+    return returnList
+  
   def get_node_agent(self):
     return self.nodeAgent
   
@@ -248,6 +257,12 @@ class Node:
   
   def get_facet(self, index):
     return self.facets[index]
+  
+  ##
+  # Returns the list of facets on this host.
+  #
+  def get_facets(self):
+    return self.facets
   
   def get_facet_values(self, key):
     valList = []

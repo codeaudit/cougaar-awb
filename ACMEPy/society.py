@@ -168,6 +168,12 @@ class Society:
     return self.facets[index]
   
   ##
+  # Returns the list of facets on this host.
+  #
+  def get_facets(self):
+    return self.facets
+  
+  ##
   # Returns a list containing all the values for the specified key
   #
   def get_facet_values(self, key):

@@ -180,6 +180,18 @@ class Society:
     return self.facets
   
   ##
+  # Returns True if this society has a facet matching the facet value
+  # specified in the argument; otherwise, returns False.
+  #
+  # keyValuePair:: [String] Facet in 'key=value' format
+  #
+  def has_facet(self, keyValuePair):
+    for facet in self.each_facet():
+      if facet.contains_entry(keyValuePair):
+        return True
+    return False
+  
+  ##
   # Returns a list containing all the values for the specified key
   #
   def get_facet_values(self, key):

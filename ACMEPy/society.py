@@ -447,6 +447,7 @@ class Society:
       new_host = host.clone(inclComponents, society)
       #~ new_host.set_parent(society)
       society.add_host(new_host)
+    society.isDirty = True
     return society
   
   def remove_node(self, node):

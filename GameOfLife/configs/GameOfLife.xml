@@ -63,6 +63,24 @@
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
       </agent>
+      <agent name='Cell01'>
+        <!-- A Cell in the game-->
+        <component
+          name='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          class='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+        </component>
+      </agent>
+      <agent name='Cell02'>
+        <!-- A Cell in the game-->
+        <component
+          name='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          class='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+        </component>
+      </agent>
       <agent name='GameManager'>
         <!-- 
         GameOfLife Manager specific plugins.
@@ -76,37 +94,9 @@
           class='com.bbn.awb.GOL.GameManagerPlugin'
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
-          
-          <argument>Cell0-0=DEAD</argument>
-          <argument>Cell0-1=DEAD</argument>
-          <argument>Cell0-2=DEAD</argument>
-          <argument>Cell0-3=DEAD</argument>
-          <argument>Cell0-4=DEAD</argument>
-          
-          <argument>Cell1-0=DEAD</argument>
-          <argument>Cell1-1=DEAD</argument>
-          <argument>Cell1-2=ALIVE</argument>
-          <argument>Cell1-3=DEAD</argument>
-          <argument>Cell1-4=DEAD</argument>
-          
-          <argument>Cell2-0=DEAD</argument>
-          <argument>Cell2-1=ALIVE</argument>
-          <argument>Cell2-2=ALIVE</argument>
-          <argument>Cell2-3=ALIVE</argument>
-          <argument>Cell2-4=DEAD</argument>
-
-          <argument>Cell3-0=DEAD</argument>
-          <argument>Cell3-1=ALIVE</argument>
-          <argument>Cell3-2=DEAD</argument>
-          <argument>Cell3-3=ALIVE</argument>
-          <argument>Cell3-4=DEAD</argument>
- 
-          <argument>Cell4-0=DEAD</argument>
-          <argument>Cell4-1=DEAD</argument>
-          <argument>Cell4-2=ALIVE</argument>
-          <argument>Cell4-3=DEAD</argument>
-          <argument>Cell4-4=DEAD</argument>
-                            
+          <argument>target=Cell00:Dead</argument>
+          <argument>target=Cell01:Alive</argument>
+          <argument>target=Cell02:Alive</argument>
         </component>
 
       </agent>

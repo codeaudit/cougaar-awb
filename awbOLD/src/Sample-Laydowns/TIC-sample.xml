@@ -1,0 +1,787 @@
+<?xml version='1.0'?>
+<society name='svcloudA-hosts'>
+    <host name='sv007'>
+        <facet service='cougaar-db'/>
+        <facet service='smtp'/>
+    </host>
+    <host name='u133-utb'>
+        <facet service='cnccalc-db'/>
+    </host>
+    <host name='acmev7'>
+        <facet service='jabber'/>
+    </host>
+    <host name='sb042'>
+        <facet service='analysis'/>
+    </host>
+    <host name='sv007-utb'>
+        <facet service='nfs-shared'/>
+        <facet service='nfs-software'/>
+        <facet service='grabber-db'/>
+        <facet service='smtp'/>
+    </host>
+    <host name='sa007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sb007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sc007'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sv008'>
+        <facet service='smtp'/>
+    </host>
+    <host name='sv022'>
+        <facet service='operator'/>
+    </host>
+    <host name='sv023'>
+        <facet service='BW-router'/>
+    </host>
+    <host name='sv024'>
+        <facet uriname='sv024-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv023_NODE_0'>
+            <agent name='1-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL-FCS-RS-V-1'/>
+            <agent name='1-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL-FCS-RS-V-2'/>
+        </node>
+        <node name='sv024_NODE_0'>
+            <agent name='110-POL-SUPPLYCO.37-TRANSGP.21-TSC.ARMY.MIL'/>
+            <agent name='123-MSB-FOOD.DISCOM.1-AD.ARMY.MIL'/>
+        </node>
+        <node name='sv007_NODE_0'>
+            <agent name='1-35-ARBN.2-BDE.1-AD.ARMY.MIL'/>
+            <agent name='1-6-INFBN.2-BDE.1-AD.ARMY.MIL'/>
+            <agent name='1-AD.ARMY.MIL'/>
+        </node>
+        <node name='u133-utb_NODE_0'>
+            <agent name='1-PLT-1-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT-1-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ICV-0'/>
+            <agent name='1-PLT-2-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+        <node name='acmev7_NODE_0'>
+            <agent name='1-PLT-2-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ICV-0'/>
+            <agent name='1-PLT-3-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT-3-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ICV-0'/>
+        </node>
+        <node name='sb042_NODE_0'>
+            <agent name='1-PLT-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ARV-A-0'/>
+            <agent name='1-PLT-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-C2V-0'/>
+        </node>
+        <node name='sv007-utb_NODE_0'>
+            <agent name='1-PLT-WPN-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT-WPN-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ICV-0'/>
+            <agent name='1-PLT.INFCO-B.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+        <node name='sa007_NODE_0'>
+            <agent name='1-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL-FCS-ARV-R-0'/>
+            <agent name='1-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL-FCS-MCS-0'/>
+        </node>
+        <node name='sb007_NODE_0'>
+            <agent name='1-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL-FCS-MCS-1'/>
+            <agent name='1-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL-FCS-MCS-2'/>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+        <node name='sc007_NODE_0'>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-FTTS-MS-0'/>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-FTTS-MS-1'/>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-NLOS-Mortar-0'/>
+        </node>
+        <node name='sv008_NODE_0'>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-NLOS-Mortar-1'/>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-NLOS-Mortar-2'/>
+            <agent name='1-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL-NLOS-Mortar-3'/>
+        </node>
+        <node name='sv022_NODE_0'>
+            <agent name='1-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='1-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL-FCS-ARV-R-0'/>
+            <agent name='1-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL-FCS-RS-V-0'/>
+        </node>
+    </host>
+    <host name='sv025'>
+        <facet uriname='sv025-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv025_NODE_0'>
+            <agent name='123-MSB-HQ.DISCOM.1-AD.ARMY.MIL'/>
+            <agent name='123-MSB-ORD.DISCOM.1-AD.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv026'>
+        <facet uriname='sv026-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv026_NODE_0'>
+            <agent name='123-MSB-PARTS.DISCOM.1-AD.ARMY.MIL'/>
+            <agent name='123-MSB-POL.DISCOM.1-AD.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv027'>
+        <facet uriname='sv027-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv027_NODE_0'>
+            <agent name='125-ORDBN.7-CSG.5-CORPS.ARMY.MIL'/>
+            <agent name='191-ORDBN.29-SPTGP.21-TSC.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv028'>
+        <facet uriname='sv028-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv028_NODE_0'>
+            <agent name='2-BDE.1-AD.ARMY.MIL'/>
+            <agent name='2-CA-BN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv029'>
+        <facet uriname='sv029-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv029_NODE_0'>
+            <agent name='2-PLT-1-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='2-PLT-2-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv030'>
+        <facet uriname='sv030-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv030_NODE_0'>
+            <agent name='2-PLT-3-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='2-PLT-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv031'>
+        <facet uriname='sv031-utb'/>
+        <facet service='acme'/>
+        <facet service='nameserver'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv031_NODE_0'>
+            <agent name='2-PLT-WPN-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='2-PLT.INFCO-B.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv032'>
+        <facet uriname='sv032-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv032_NODE_0'>
+            <agent name='2-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='2-PLT.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv033'>
+        <facet uriname='sv033-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv033_NODE_0'>
+            <agent name='2-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='200-MMC.21-TSC.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv034'>
+        <facet uriname='sv034-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv034_NODE_0'>
+            <agent name='21-TSC-HQ.ARMY.MIL'/>
+            <agent name='29-SPTGP.21-TSC.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv035'>
+        <facet uriname='sv035-utb'/>
+        <facet service='acme'/>
+        <facet service='Web0Gen'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv035_NODE_0'>
+            <agent name='3-CA-BN.1-UA.ARMY.MIL'/>
+            <agent name='3-PLT-1-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv036'>
+        <facet uriname='sv036-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv036_NODE_0'>
+            <agent name='3-PLT-2-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='3-PLT-3-INF-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv037'>
+        <facet uriname='sv037-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv037_NODE_0'>
+            <agent name='3-PLT-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='3-PLT-WPN-SQUAD.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv038'>
+        <facet uriname='sv038-utb'/>
+        <facet service='acme'/>
+        <facet service='Web1Gen'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv038_NODE_0'>
+            <agent name='3-PLT.INFCO-B.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='3-PLT.MCSCO-A.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv039'>
+        <facet uriname='sv039-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv039_NODE_0'>
+            <agent name='3-PLT.RECON-DET.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='3-SUPCOM-HQ.5-CORPS.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv040'>
+        <facet uriname='sv040-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv040_NODE_0'>
+            <agent name='316-POL-SUPPLYBN.7-CSG.5-CORPS.ARMY.MIL'/>
+            <agent name='343-SUPPLYCO.29-SPTGP.21-TSC.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv041'>
+        <facet uriname='sv041-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv041_NODE_0'>
+            <agent name='37-TRANSGP.21-TSC.ARMY.MIL'/>
+            <agent name='406-SUPPLYCO.7-CSG.5-CORPS.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv042'>
+        <facet uriname='sv042-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv042_NODE_0'>
+            <agent name='47-FSB.DISCOM.1-AD.ARMY.MIL'/>
+            <agent name='5-CORPS.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv043'>
+        <facet uriname='sv043-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv043_NODE_0'>
+            <agent name='51-MAINTBN.29-SPTGP.21-TSC.ARMY.MIL'/>
+            <agent name='561-SSBN.7-CSG.5-CORPS.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv044'>
+        <facet uriname='sv044-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv044_NODE_0'>
+            <agent name='565-RPRPTCO.7-CSG.5-CORPS.ARMY.MIL'/>
+            <agent name='6-TCBN.37-TRANSGP.21-TSC.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv045'>
+        <facet uriname='sv045-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+        <node name='sv045_NODE_0'>
+            <agent name='7-CSG.5-CORPS.ARMY.MIL'/>
+            <agent name='71-MAINTBN.7-CSG.5-CORPS.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv046'>
+        <facet uriname='sv046-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+        <node name='sv046_NODE_0'>
+            <agent name='900-POL-SUPPLYCO.7-CSG.5-CORPS.ARMY.MIL'/>
+            <agent name='AMC.TRANSCOM.MIL'/>
+        </node>
+    </host>
+    <host name='sv047'>
+        <facet uriname='sv047-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+        <node name='sv047_NODE_0'>
+            <agent name='AREA-SPT-EVAC-SECTION.FSB.1-UA.ARMY.MIL'/>
+            <agent name='AREA-SPT-EVAC-SECTION.FSB.1-UA.ARMY.MIL-FTTS-AMB-0'/>
+        </node>
+    </host>
+    <host name='sv048'>
+        <facet uriname='sv048-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+        <node name='sv048_NODE_0'>
+            <agent name='AREA-SPT-EVAC-SECTION.FSB.1-UA.ARMY.MIL-FTTS-AMB-1'/>
+            <agent name='AREA-SPT-EVAC-SECTION.FSB.1-UA.ARMY.MIL-FTTS-AMB-2'/>
+        </node>
+    </host>
+    <host name='sv049'>
+        <facet uriname='sv049-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+        <node name='sv049_NODE_0'>
+            <agent name='AREA-SPT-EVAC-SECTION.FSB.1-UA.ARMY.MIL-FTTS-AMB-3'/>
+            <agent name='AVN-DET.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv050'>
+        <facet uriname='sv050-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+        <node name='sv050_NODE_0'>
+            <agent name='AWR-2.21-TSC.ARMY.MIL'/>
+            <agent name='BIC-CO.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv051'>
+        <facet uriname='sv051-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+        <node name='sv051_NODE_0'>
+            <agent name='BN-HHB.NLOS-BN.1-UA.ARMY.MIL'/>
+            <agent name='BN-HHC.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv052'>
+        <facet uriname='sv052-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+        <node name='sv052_NODE_0'>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL'/>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-0'/>
+        </node>
+    </host>
+    <host name='sv053'>
+        <facet uriname='sv053-utb'/>
+        <facet service='acme'/>
+        <facet group='11'/>
+        <facet web='4'/>
+        <node name='sv053_NODE_0'>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-1'/>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-2'/>
+        </node>
+    </host>
+    <host name='sv054'>
+        <facet uriname='sv054-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+        <node name='sv054_NODE_0'>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-3'/>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-4'/>
+        </node>
+    </host>
+    <host name='sv055'>
+        <facet uriname='sv055-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+        <node name='sv055_NODE_0'>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-FTTS-MS-5'/>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-NLOS-Cannon-0'/>
+        </node>
+    </host>
+    <host name='sv062'>
+        <facet uriname='sv062-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+        <node name='sv062_NODE_0'>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-NLOS-Cannon-1'/>
+            <agent name='BTY-A-1-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL-NLOS-Cannon-2'/>
+        </node>
+    </host>
+    <host name='sv063'>
+        <facet uriname='sv063-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+        <node name='sv063_NODE_0'>
+            <agent name='BTY-A-2-CANNON-PLT.NLOS-BN.1-UA.ARMY.MIL'/>
+            <agent name='BTY-A-HQ.NLOS-BN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv064'>
+        <facet uriname='sv064-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+        <node name='sv064_NODE_0'>
+            <agent name='BTY-B.NLOS-BN.1-UA.ARMY.MIL'/>
+            <agent name='BTY-C.NLOS-BN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv065'>
+        <facet uriname='sv065-utb'/>
+        <facet service='acme'/>
+        <facet group='13'/>
+        <facet web='6'/>
+        <node name='sv065_NODE_0'>
+            <agent name='BTY-HQ.MORTAR-BTY.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='CIC.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv066'>
+        <facet uriname='sv066-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv066_NODE_0'>
+            <agent name='CO-HQ.FSB.1-UA.ARMY.MIL'/>
+            <agent name='CO-HQ.FSB.1-UA.ARMY.MIL-FTTS-MS-0'/>
+        </node>
+    </host>
+    <host name='sv067'>
+        <facet uriname='sv067-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv067_NODE_0'>
+            <agent name='CO-HQ.FSB.1-UA.ARMY.MIL-FTTS-U-C2-0'/>
+            <agent name='CO-HQ.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-0'/>
+        </node>
+    </host>
+    <host name='sv068'>
+        <facet uriname='sv068-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv068_NODE_0'>
+            <agent name='CO-HQ.INFCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='CO-HQ.INFCO-B.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv069'>
+        <facet uriname='sv069-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv069_NODE_0'>
+            <agent name='CO-HQ.MCSCO-A.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='CONUSGround.TRANSCOM.MIL'/>
+        </node>
+    </host>
+    <host name='sv070'>
+        <facet uriname='sv070-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv070_NODE_0'>
+            <agent name='DET-HQ.RECON-DET.1-CABN.1-UA.ARMY.MIL'/>
+            <agent name='DISCOM.1-AD.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv071'>
+        <facet uriname='sv071-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv071_NODE_0'>
+            <agent name='DISTRO-MGT-CELL.FSB.1-UA.ARMY.MIL'/>
+            <agent name='DISTRO-PLT-HQ.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv072'>
+        <facet uriname='sv072-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv072_NODE_0'>
+            <agent name='DLAHQ.MIL'/>
+            <agent name='DRY-CARGO-SECTION.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv073'>
+        <facet uriname='sv073-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv073_NODE_0'>
+            <agent name='EVAC-PLT-HQ.FSB.1-UA.ARMY.MIL'/>
+            <agent name='FUEL-WATER-SECTION.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv074'>
+        <facet uriname='sv074-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv074_NODE_0'>
+            <agent name='FWD-EVAC-SECTION.FSB.1-UA.ARMY.MIL'/>
+            <agent name='HNS.MIL'/>
+        </node>
+    </host>
+    <host name='sv075'>
+        <facet uriname='sv075-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv075_NODE_0'>
+            <agent name='HOLDING-DET.FSB.1-UA.ARMY.MIL'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv126'>
+        <facet uriname='sv126-utb'/>
+        <facet service='acme'/>
+        <facet group='21'/>
+        <facet web='7'/>
+        <node name='sv126_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-0'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-1'/>
+        </node>
+    </host>
+    <host name='sv127'>
+        <facet uriname='sv127-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv127_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-2'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-3'/>
+        </node>
+    </host>
+    <host name='sv128'>
+        <facet uriname='sv128-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv128_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-4'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-5'/>
+        </node>
+    </host>
+    <host name='sv129'>
+        <facet uriname='sv129-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv129_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-6'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-7'/>
+        </node>
+    </host>
+    <host name='sv130'>
+        <facet uriname='sv130-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv130_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-8'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FCS-RMV-9'/>
+        </node>
+    </host>
+    <host name='sv131'>
+        <facet uriname='sv131-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv131_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-0'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-1'/>
+        </node>
+    </host>
+    <host name='sv132'>
+        <facet uriname='sv132-utb'/>
+        <facet service='acme'/>
+        <facet group='22'/>
+        <facet web='8'/>
+        <node name='sv132_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-2'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-3'/>
+        </node>
+    </host>
+    <host name='sv133'>
+        <facet uriname='sv133-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv133_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-4'/>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-5'/>
+        </node>
+    </host>
+    <host name='sv134'>
+        <facet uriname='sv134-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv134_NODE_0'>
+            <agent name='MAINT-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-C2-0'/>
+            <agent name='MCSCO-B.1-CABN.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv135'>
+        <facet uriname='sv135-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv135_NODE_0'>
+            <agent name='MED-CO-HQ.FSB.1-UA.ARMY.MIL'/>
+            <agent name='MSC.TRANSCOM.MIL'/>
+        </node>
+    </host>
+    <host name='sv158'>
+        <facet uriname='sv158-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv158_NODE_0'>
+            <agent name='OSC.MIL'/>
+            <agent name='OSD.GOV'/>
+        </node>
+    </host>
+    <host name='sv159'>
+        <facet uriname='sv159-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv159_NODE_0'>
+            <agent name='PlanePacker.TRANSCOM.MIL'/>
+            <agent name='STAFF-CELL.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv160'>
+        <facet uriname='sv160-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv160_NODE_0'>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL'/>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-0'/>
+        </node>
+    </host>
+    <host name='sv161'>
+        <facet uriname='sv161-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv161_NODE_0'>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-1'/>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-2'/>
+        </node>
+    </host>
+    <host name='sv162'>
+        <facet uriname='sv162-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv162_NODE_0'>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-3'/>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-4'/>
+        </node>
+    </host>
+    <host name='sv163'>
+        <facet uriname='sv163-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv163_NODE_0'>
+            <agent name='SURG-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-5'/>
+            <agent name='SUSTAIN-CO-HQ.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv164'>
+        <facet uriname='sv164-utb'/>
+        <facet service='acme'/>
+        <facet group='02'/>
+        <facet web='0'/>
+        <node name='sv164_NODE_0'>
+            <agent name='ShipPacker.TRANSCOM.MIL'/>
+            <agent name='TRANSCOM-7.TRANSCOM.MIL'/>
+        </node>
+    </host>
+    <host name='sv167'>
+        <facet uriname='sv167-utb'/>
+        <facet service='acme'/>
+        <facet group='03'/>
+        <facet web='1'/>
+        <node name='sv167_NODE_0'>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL'/>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FCS-MV-0'/>
+        </node>
+    </host>
+    <host name='sv168'>
+        <facet uriname='sv168-utb'/>
+        <facet service='acme'/>
+        <facet group='04'/>
+        <facet web='10'/>
+        <node name='sv168_NODE_0'>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FCS-MV-1'/>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FCS-MV-2'/>
+        </node>
+    </host>
+    <host name='sv169'>
+        <facet uriname='sv169-utb'/>
+        <facet service='acme'/>
+        <facet group='10'/>
+        <facet web='3'/>
+        <node name='sv169_NODE_0'>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FTTS-MS-0'/>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-0'/>
+        </node>
+    </host>
+    <host name='sv170'>
+        <facet uriname='sv170-utb'/>
+        <facet service='acme'/>
+        <facet group='12'/>
+        <facet web='5'/>
+        <node name='sv170_NODE_0'>
+            <agent name='TREATMENT-PLT.FSB.1-UA.ARMY.MIL-FTTS-U-SPT-1'/>
+            <agent name='TheaterGround.TRANSCOM.MIL'/>
+        </node>
+    </host>
+    <host name='sv171'>
+        <facet uriname='sv171-utb'/>
+        <facet service='acme'/>
+        <facet group='20'/>
+        <facet web='2'/>
+        <node name='sv171_NODE_0'>
+            <agent name='UA-HHC.1-UA.ARMY.MIL'/>
+            <agent name='UAV-SUSTAIN-MAINT-SECTION.FSB.1-UA.ARMY.MIL'/>
+        </node>
+    </host>
+    <host name='sv172'>
+        <facet uriname='sv172-utb'/>
+        <facet service='acme'/>
+        <facet group='23'/>
+        <facet web='9'/>
+        <node name='sv172_NODE_0'>
+            <agent name='USAEUR.MIL'/>
+            <agent name='USEUCOM.MIL'/>
+        </node>
+    </host>
+</society>

@@ -1,0 +1,9 @@
+Each of the tabs in the CSMARTer window is a separate application.
+Build or apply a rule using the Rule Editor.
+Edit an existing society using the Society Editor.
+Allocate agents to hosts using the Agent Laydown tool.
+When allocating agents to hosts, you can do so either by distributing agents evenly among the available hosts, or you can specify the number of agents to be placed on each host.
+When you place agents on a host automatically (i.e., using the Distribute Agents button in the Agent Laydown tool), nodes are automatically created on each host.
+When allocating agents to hosts in the Agent Laydown tool, you can drag and drop agents and nodes between the windows and within a single window.
+When dragging and dropping agents or nodes in the Agent Laydown tool, you can drag one or several items, but you cannot drag different type items; e.g., you cannot drag a node and only some of its agents, you must take only the agents or the node and all of its agents (by just taking the node, you'll get all the agents as well).
+Forward suggestions to pgardell@bbn.com or damoore@bbn.com

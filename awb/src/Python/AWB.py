@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: AWB.py,v 1.5 2004-11-02 19:22:36 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.6 2004-11-22 18:44:12 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -1117,7 +1117,7 @@ class AWB(wx.Frame):
 class MySplashScreen(wx.SplashScreen):
   def __init__(self, initPane=1):
       self.initPane = initPane # specifies the wxNotebook tabbed pane to be shown initially
-      bmp = wx.Image(opj("bitmaps/ACME2003.gif")).ConvertToBitmap()
+      bmp = wx.Image(opj("bitmaps/AWB.gif")).ConvertToBitmap()
       wx.SplashScreen.__init__(self, bmp,
                               wx.SPLASH_CENTRE_ON_SCREEN|wx.SPLASH_TIMEOUT,
                               500, None, -1,

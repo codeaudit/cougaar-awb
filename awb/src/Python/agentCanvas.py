@@ -131,7 +131,7 @@ class AgentCanvas(ogl.ShapeCanvas):
             shape.SetHeight(boxHeight)
         dc = wx.ClientDC(self)
         self.PrepareDC(dc)
-        self.CreateConnections(dc)
+#        self.CreateConnections(dc)
 
     def AutoLayout(self,):
         laListe = []

@@ -24,6 +24,7 @@ from host import Host
 from node import Node
 from agent import Agent
 from component import Component
+from rule_text import RuleText
 
 from society_factory import SocietyFactory
 from society_factory import TransformationEngine
@@ -113,21 +114,34 @@ rule02 = TransformationRule("Override Parameters.")
 rule02.rule = """
 for host in society.each_host():
 	for node in host.each_node():
+		self.fire()
 		node.remove_parameter(VMParameter("-Dorg.cougaar.control.port"))
 		node.override_parameter("-Dorg.cougaar.node.InitializationComponent","XML")
+		node.set_rule(self.name)
 		for agent in node.each_agent():
 			agent.remove_component("org.cougaar.core.topology.TopologyReaderServlet")
-			print "Agent is ", agent.name
+			agent.set_rule(self.name)
 			for comp in agent.each_component():
 				if (comp.klass == "org.cougaar.mlm.plugin.ldm.LDMSQLPlugin"):
 					comp.arguments[0].value = "fdm_equip_ref.q"
+					comp.set_rule(self.name)
 				if (comp.klass == "org.cougaar.mlm.plugin.organization.GLSInitServlet"):
 					comp.arguments[0].value = "093FF.oplan.noncsmart.q"
-					self.fire()
+					comp.set_rule(self.name)
 """
 
 engine = TransformationEngine(society, 100)
-# engine.add_rule(rule00)
+### the 'real' rules
+newRule = RuleText("C:\\Dana\\Rulebook\\rule1.rul")
+rule00 = TransformationRule(newRule.description)
+rule00.rule = (newRule.rule)
+newRule = RuleText("C:\\Dana\\Rulebook\\args.rul")
+rule01 = TransformationRule(newRule.description,)
+rule01.rule = (newRule.rule)
+newRule = RuleText("C:\\Dana\\Rulebook\\Override.rul")
+rule02 = TransformationRule(newRule.description)
+rule02.rule = (newRule.rule)
+
 engine.add_rule(rule00)
 engine.add_rule(rule01)
 engine.add_rule(rule02)

@@ -37,6 +37,15 @@ class Agent:
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
     
+  def each_component(self):
+    for component in self.components: # only for testing iterators
+      yield component
+
+  def remove_component(self, component_classname):
+    for c in self.components:
+      if (c.klass == component_classname):
+        self.components.remove(c)
+
   def add_component(self, component):
   # plugin is either an actual plugin or a string representing the data for a plugin.
   # handle accordingly!

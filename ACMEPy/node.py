@@ -22,6 +22,7 @@
 from __future__ import generators
 import types
 from agent import Agent
+from parameter import VMParameter
 
 class Node:
   def __init__(self, name=None, rule='BASE'):
@@ -29,7 +30,6 @@ class Node:
     self.host = None
     self.agents = {}
     self.agentlist = []
-    self.parameters = []
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
@@ -51,26 +51,41 @@ class Node:
       self.agents[agent].node = self
       return self.agents[agent]
 
-  def override_parameter(param, value):
-    for p in self.parameters:
-      args = p.split('=')
-      if len(p) > 0 and (args[0] == param):
-	self.parameters.remove(p)
-	self.parameters.append(param +'='+value)
+  def override_parameter(self, param, value):
+    # assumes that "param" is a string like "-D..."
+		#  below only matches on "param"
+    self.remove_parameter(VMParameter(param+"="+value))
+    self.vm_parameters.append(VMParameter(param+"="+value))
 
   def add_vm_parameter(self, parameter):
-    self.vm_parameters.append(parameter)
+    self.add_parameter(parameter)
+
+  def add_env_parameters(self, params):
+    # params is intended to be of type list
+    if isinstance(params, types.ListType):
+      self.env_parameters = self.env_parameters + params
 
   def add_env_parameter(self, parameter):
     self.env_parameters.append(parameter)
 
+  def add_prog_parameters(self, params):
+    # params is intended to be of type list
+    if isinstance(params, types.ListType):
+      self.prog_parameters = self.prog_parameters + params
+ 
   def add_prog_parameter(self, parameter):
     self.prog_parameters.append(parameter)
 
-  def add_parameter(param):
-    parameters.append(param)
+  def remove_parameter(self, param):
+    for p in self.vm_parameters[:]:
+      args = p.value.split('=')
+      if len(p.value) > 0 and (args[0] == param.value):
+        self.vm_parameters.remove(p)
 
-  def add_parameters(params):
+  def add_parameter(self, param):
+    self.vm_parameters.append(param)
+
+  def add_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
       self.parameters = self.parameters + params
@@ -81,6 +96,8 @@ class Node:
     for agent in agents:
       node.add_agent(agent.clone())
     node.add_parameters(self.parameters)
+    node.add_prog_parameters(self.prog_parameters)
+    node.add_env_parameters(self.prog_parameters)
       
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"

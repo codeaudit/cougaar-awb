@@ -270,11 +270,23 @@ class Society:
       agentList.append(agent)
     return agentList
   
-  def countHosts(self):
+  def countHosts(self, onlyIfIncluded=False):
+    if onlyIfIncluded:
+      numHosts = 0
+      for host in self.hostlist:
+        if not host.isExcluded:
+          numHosts += 1
+      return numHosts
     return len(self.hostlist)
   
-  def countNodes(self):
+  def countNodes(self, onlyIfIncluded=False):
     nodelist = self.get_node_list()
+    if onlyIfIncluded:
+      numNodes = 0
+      for node in nodelist:
+        if not node.isExcluded:
+          numNodes += 1
+      return numNodes
     return len(nodelist)
   
   def countAgents(self):

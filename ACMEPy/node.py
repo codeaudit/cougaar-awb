@@ -40,6 +40,7 @@ class Node:
     self.rule = str(rule)
     self.society = None
     self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', "Auto-Create(Node Agent)"))
+    self.isExcluded = False
   
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -57,7 +58,8 @@ class Node:
       self.prog_parameters[0] = ProgParameter(value)
     else:
       raise Exception, "Attempting to set unknown Node attribute: " + attribute.lower()
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def add_agent(self, agent, orderAfterObj=None, reorder=False):
     if isinstance(agent, Agent):
@@ -98,7 +100,8 @@ class Node:
       self.add_component(entity)
     elif isinstance(entity, Agent):
       entity.prev_parent = entity.parent
-      if entity.society.name == self.society.name and not isCopyOperation:  # it's a reordering w/in same society
+      if entity.society is not None and entity.society.name == self.society.name and not isCopyOperation:  
+        # it's a reordering w/in same society
         return self.add_agent(entity, orderAfterObj, True)
       return self.add_agent(entity, orderAfterObj)
     else:
@@ -125,7 +128,8 @@ class Node:
     # node's agentlist
     if agent in self.agentlist:
       self.agentlist.remove(agent)
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
   
   def delete_agent(self, agent):
     # Destroys the agent object
@@ -135,7 +139,8 @@ class Node:
       agent.remove_all_facets()
       self.remove_agent(agent)
       del agent
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
   
   def get_agent(self, index):
     return self.agentlist[index]
@@ -163,26 +168,30 @@ class Node:
     for facet in self.facets:
       if facet.contains_entry(keyValueString):
         facet.remove_entry(keyValueString)
-        self.society.isDirty = True
+        if self.society is not None:
+          self.society.isDirty = True
         break
   
   def replace_facet(self, oldEntry, newEntry):
     for facet in self.facets:
       if facet.contains_entry(oldEntry):
         facet.replace_entry(oldEntry, newEntry)
-        self.society.isDirty = True
+        if self.society is not None:
+          self.society.isDirty = True
         break
   
   def remove_all_facets(self):
     for facet in self.facets: 
       del facet
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
     self.facets = []
 
   def delete_facet(self, facet):
     self.facets.remove(facet)
     del facet
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def add_facets(self, facetList):
     for facet in facetList:
@@ -194,7 +203,8 @@ class Node:
       facet.rule = rule
       facet.parent = self
       self.facets.append(facet)
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
     else:  # it's a Dictionary or String type
       fac = Facet(facet)
       self.add_facet(fac, rule)
@@ -225,12 +235,14 @@ class Node:
     parameter = VMParameter(param+"="+value) #construct a new one
     parameter.parent = self
     self.vm_parameters.append(parameter)
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def add_vm_parameter(self, parameter):
     parameter.parent = self
     self.vm_parameters.append(parameter)
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def add_vm_parameters(self, params):
     # params is intended to be of type list
@@ -238,7 +250,8 @@ class Node:
       for each_param in params:
         each_param.parent = self
       self.vm_parameters = self.vm_parameters + params
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
 
   def add_env_parameters(self, params):
     # params is intended to be of type list
@@ -246,12 +259,14 @@ class Node:
       for each_param in params:
         each_param.parent = self
       self.env_parameters = self.env_parameters + params
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
 
   def add_env_parameter(self, parameter):
     parameter.parent = self
     self.env_parameters.append(parameter)
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def add_prog_parameters(self, params):
     # params is intended to be of type list
@@ -259,12 +274,14 @@ class Node:
       for each_param in params:
         each_param.parent = self
       self.prog_parameters = self.prog_parameters + params
-      self.society.isDirty = True
+      if self.society is not None:
+        self.society.isDirty = True
  
   def add_prog_parameter(self, parameter):
     parameter.parent = self
     self.prog_parameters.append(parameter)
-    self.society.isDirty = True
+    if self.society is not None:
+      self.society.isDirty = True
 
   def remove_parameter(self, param):
     # Assumes that arg "param" is only the key of the parameter, not the value
@@ -348,6 +365,7 @@ class Node:
     node = Node(self.name)
     node.klass = self.klass
     node.rule = self.rule
+    node.isExcluded = self.isExcluded
     for agent in self.agentlist:
       if agent != self.nodeAgent:
         newAgent = agent.clone(inclComponents)

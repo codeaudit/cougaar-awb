@@ -34,6 +34,7 @@ class Host:
     self.nodelist = [] 
     self.facets = []
     self.rule = str(rule)
+    self.isExcluded = False
 
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
@@ -74,7 +75,8 @@ class Host:
         node.parent = self
         node.society = self.parent
         node.nodeAgent.society = self.parent
-        self.parent.isDirty = True
+        if self.parent is not None:
+          self.parent.isDirty = True
         return node
       else:
         print "Unable to add duplicate Node."
@@ -126,7 +128,13 @@ class Host:
         return node
     return None
   
-  def get_nodes(self):
+  def get_nodes(self, onlyIfIncluded=False):
+    if onlyIfIncluded:
+      includedNodes = []
+      for node in self.nodelist:
+        if not node.isExcluded:
+          includedNodes.append(node)
+      return includedNodes
     return self.nodelist
 
   def add_nodes(self, nodes):
@@ -177,7 +185,8 @@ class Host:
       facet.parent = self
       facet.rule = rule
       self.facets.append(facet)
-      self.parent.isDirty = True
+      if self.parent is not None:
+        self.parent.isDirty = True
     else:
       fac = Facet(facet)
       self.add_facet(fac, rule)
@@ -199,7 +208,13 @@ class Host:
     self.rule = str(newRule)
     self.parent.isDirty = True
   
-  def countNodes(self):
+  def countNodes(self, onlyIfIncluded=False):
+    if onlyIfIncluded:
+      numNodes = 0
+      for node in nodelist:
+        if not node.isExcluded:
+          numNodes += 1
+      return numNodes
     return len(self.nodelist)
   
   ##
@@ -235,6 +250,7 @@ class Host:
       new_facet = facet.clone()
       host.add_facet(new_facet)
       new_facet.parent = host
+    host.isExcluded = self.isExcluded
     return host
   
   def set_parent(self, society):

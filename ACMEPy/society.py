@@ -111,7 +111,7 @@ class Society:
 	    print "\t\t\t\t", component
 	    
   def prettyFormat(self):
-    text = str(self)
+    text = str(self)+"\n"
     for host in self.hosts.keys():
       text = text+str(self.hosts[host])+"\n"
       for node in self.hosts[host].nodes.keys():
@@ -120,5 +120,5 @@ class Society:
 	for agent in self.hosts[host].nodes[node].agents.keys():
 	  text = text + str(theNode.agents[agent])+"\n"
 	  for component in theNode.agents[agent].components:
-	    text = text + str(component)
+	    text = text + str(component)+"\n"
     return text

@@ -53,7 +53,7 @@ class Component:
     return xml
     
   def to_python(self):
-    script = "component = Component(name='"+self.name+"', klass='"+self.klass+"', priority='"+self.priority+"', order='"+self.order+"', insertionpoint='"+self.insertionpoint+"')\n"
+    script = "component = Component(name='"+self.name+"', klass='"+self.klass+"', priority='"+str(self.priority)+"', order='"+str(self.order)+"', insertionpoint='"+self.insertionpoint+"')\n"
     script = script + "agent.add_component(component)\n"
     for a in self.arguments:
       script = script + a.to_python()

@@ -2,6 +2,7 @@
 from string import *
 class RuleText:
   def __init__(self, filename, description=None, rule=None):
+    self.description = self.rule = ""
     if filename is None:
       self.description = description
       self.rule = rule
@@ -17,7 +18,7 @@ class RuleText:
 	  self.rule = self.rule + in_line
 	if find (lower(in_line),'description:') == 0:
 	  list = split(in_line, ':')
-	  self.description = str(list[1])
+	  self.description = str(list[1]).strip()
 	if find (lower(in_line),'rule:') == 0:
 	  readingRule = True
 

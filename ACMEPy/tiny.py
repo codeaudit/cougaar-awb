@@ -105,7 +105,14 @@ engine = TransformationEngine(society, 100)
 engine.add_rule(rule01)
 soc = engine.transform()
 
-soc.prettyPrint()
+print soc.prettyFormat()
+
+print "to python-----------------"
+
+script = soc.to_python()
+f = file('tiny-out.py', 'w+')
+f.write(script)
+f.close()
 
 print "transformation ==> xml-----------------"
 xml = soc.to_xml()

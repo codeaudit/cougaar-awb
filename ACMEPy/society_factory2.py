@@ -54,7 +54,7 @@ class SocietyFactory:
       societyElements = societyElement.childNodes
       for societyElem in societyElements:
         if societyElem.nodeType == minidom.Node.ELEMENT_NODE:
-          print societyElem.nodeName, societyElem.nodeValue, societyElem.nodeType
+          #~ print societyElem.nodeName, societyElem.nodeValue, societyElem.nodeType
           if societyElem.nodeName == 'facet':
             #~ print "Facet value ==>", self.attributeDict(societyElem)
             society.add_facet(self.attributeDict(societyElem))

@@ -189,7 +189,7 @@ class AgentControllerViewer(wxPanel):
 
     def OnStopSociety(self, evt):
         #~ signal.signal(signal.SIGINT|signal.SIG_DFL, self.spawnPID)
-        if sys.platform[:3] in ('win', 'os2') or sys.platform=='riscos':
+        if sys.platform[:3] in ('win', 'os2'):
             print 'must use WMI, Win32.all extensions'
         self.ctrlSocietyButton.SetBackgroundColour("BLACK")
         self.ctrlSocietyButton.SetForegroundColour("WHITE")

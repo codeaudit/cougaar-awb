@@ -51,9 +51,14 @@ class Node:
       self.agents[agent].node = self
       return self.agents[agent]
 
+  def get_agent(self, index):
+    for buddy in self.agentlist:
+      print buddy.name
+    return self.agentlist[index]
+
   def override_parameter(self, param, value):
     # assumes that "param" is a string like "-D..."
-		#  below only matches on "param"
+    #  below only matches on "param"
     self.remove_parameter(VMParameter(param+"="+value))
     self.vm_parameters.append(VMParameter(param+"="+value))
 

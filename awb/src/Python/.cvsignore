@@ -28,3 +28,4 @@ awb.urls.p
 facetProperties.pyc
 globalConstants.pyc
 PollingServices
+AWB.log

@@ -61,7 +61,8 @@ class AgentCanvas(ogl.ShapeCanvas):
         self.status = "inactive"
     def getSocietyStatus(self):
         return self.status
-
+    def setSocietyActive(self):
+        self.status = "active"
     def CreateSociety(self, agentList,
             boxWidth= z.viewLevelData[2]["BOXWIDTH"],
             boxHeight=z.viewLevelData[2]["BOXHEIGHT"],
@@ -116,19 +117,19 @@ class AgentCanvas(ogl.ShapeCanvas):
     def removeShape(self, shape):
         self.diagram.RemoveShape(shape) # caution this seems to remove the shape from the canvas but NOT delete it
         shapes.remove(shape)
-
         self.self.GetShape()
-        #~ self.shapeDict[text] = shape
-        #~ return shape
 
-
-
-    def OrganizeAgents(self, level=z.ZEROLEVEL, maxWidth=z.MAXWIDTH,
+    def OrganizeAgents(self,# level=z.ZEROLEVEL, maxWidth=z.MAXWIDTH,
         boxWidth=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"],
         boxHeight=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXHEIGHT"],
         widthspacing=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["WIDTHSPACING"],
         heightspacing= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["HEIGHTSPACING"],
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
+        newfont = wx.Font(fontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
+        for shape in self.shapes:
+            shape.SetFont(newfont)
+            shape.SetWidth(boxWidth)
+            shape.SetHeight(boxHeight)
         dc = wx.ClientDC(self)
         self.PrepareDC(dc)
         self.Redraw(dc)

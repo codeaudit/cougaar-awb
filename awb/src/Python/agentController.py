@@ -154,6 +154,7 @@ class AgentControllerViewer(wx.Panel):
         if self.canvas.getSocietyStatus() == "active":
             print "OnZoomPlus"
             currentLevel = z.getLevel() + 1
+            print z.getLevel()
             z.setLevel(currentLevel)
             self.canvas.OrganizeAgents(boxWidth=z.viewLevelData[currentLevel]["BOXWIDTH"],
             boxHeight=z.viewLevelData[currentLevel]["BOXHEIGHT"],
@@ -192,6 +193,7 @@ class AgentControllerViewer(wx.Panel):
             self.ctrlSocietyButton.SetBackgroundColour("WHITE")
             self.ctrlSocietyButton.SetForegroundColour("BLACK")
             self.ctrlSocietyButton.SetLabel("Stop")
+            self.canvas.setSocietyActive()
             wx.EVT_BUTTON(self, self.ctrlSocietyButtonID, self.OnStopSociety)
 
     def OnStopSociety(self, evt):

@@ -3,9 +3,7 @@
 import sys
 import re
 
-from wxPython.wx import *
-from wxPython.ogl import *
-
+import wx
 
 DEFAULT_ZOOMLEVEL = 1
 

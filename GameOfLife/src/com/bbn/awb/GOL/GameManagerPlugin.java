@@ -20,7 +20,8 @@ import org.cougaar.core.relay.SimpleRelayImpl;
 import org.cougaar.core.service.AgentIdentificationService;
 import org.cougaar.core.service.UIDService;
 import org.cougaar.core.util.UID;
-import org.cougaar.util.UnaryPredicate;
+
+//import org.cougaar.util.UnaryPredicate;
 
 /**
  * @author Dana Moore
@@ -34,6 +35,8 @@ public class GameManagerPlugin extends ComponentPlugin {
 	private boolean initDone = false;
 
 	private Map props;
+
+	private Map targets = new HashMap();
 
 	private IncrementalSubscription cellStatus; // Tasks that I'm interested in
 
@@ -52,27 +55,35 @@ public class GameManagerPlugin extends ComponentPlugin {
 		cellStatus = (IncrementalSubscription) blackboard
 				.subscribe(new CellStatusPredicate(agentId));
 
-		// send relays
-		//	    for (Iterator iter = getParameters().iterator(); iter.hasNext();) {
-		//	      String s = (String) iter.next();
-		//	      if (!s.startsWith("target=")) {
-		//	        continue;
-		//	      }
-		//	      String target_name = s.substring("target=".length());
-		String target_name = "Cell00";
-		MessageAddress target = MessageAddress.getMessageAddress(target_name);
-		if (agentId.equals(target)) {
-			System.out.println(agentId+" :sending to myself..." + agentId);
-			return;
-			//	        continue;
-		}
-		UID uid = uidService.nextUID();
-		GameMessage query = new GameMessage("GO");
-		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+		// send initial relays with initial cell states
+		for (Iterator iter = getParameters().iterator(); iter.hasNext();) {
+			String s = (String) iter.next();
+			if (s.toLowerCase().indexOf("target") < 0)
+				continue;
 
-		blackboard.publishAdd(sr);
-		//	    }
-		// end added code
+			String target_name = s
+					.substring(s.indexOf("=") + 1, s.indexOf(":"));
+			String target_value = s.substring(s.indexOf(":") + 1, s.length());
+
+			targets.put(target_name, target_value);
+			System.out.println(agentId + " :target_name" + target_name
+					+ " target_value " + target_value);
+			MessageAddress target = MessageAddress
+					.getMessageAddress(target_name);
+			if (agentId.equals(target)) {
+				System.out
+						.println(agentId + " :sending to myself..." + agentId);
+				return;
+				//	        continue;
+			}
+			UID uid = uidService.nextUID();
+			GameMessage query = new GameMessage(target_value);
+			SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+
+			blackboard.publishAdd(sr);
+
+		}
+
 	}
 
 	/*
@@ -90,38 +101,67 @@ public class GameManagerPlugin extends ComponentPlugin {
 		// observe added relays
 		for (Enumeration en = cellStatus.getAddedList(); en.hasMoreElements();) {
 			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			System.out.println(agentId+":observe added " + sr);
+			//System.out.println(agentId+":observe added " + sr);
 
 			if (agentId.equals(sr.getTarget())) {
 				// send back reply
 				sr.setReply("echo-" + sr.getQuery());
-				System.out.println(agentId+":REPLY " + sr);
+				//				System.out.println(agentId+":REPLY " + sr);
 				blackboard.publishChange(sr);
 			} else {
-				System.out.println(agentId+":ignoring relays we sent");
+				//				System.out.println(agentId+":ignoring relays we sent");
 			}
 		}
 
 		// observe changed relays
 		for (Enumeration en = cellStatus.getChangedList(); en.hasMoreElements();) {
+
 			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			System.out.println(agentId+":observe changed " + sr);
-			
+			//System.out.println(agentId.toString().toUpperCase()+":observe
+			// changed " + sr);
+
 			if (agentId.equals(sr.getSource())) {
 				// got back answer
-				System.out.println(agentId+":RECIEVED " + sr);
-				
+				// printMessageData("~~~ ", sr);
+				// printMessage(agentId.toString().toUpperCase(), sr);
 				// remove query both locally and at the remote target.
-				//
 				// this is optional, but it's a good idea to clean up and
 				// free some memory.
 				blackboard.publishRemove(sr);
 			} else {
-				System.out.println(agentId+":ignore our reply");
+				//			System.out.println(agentId.toString().toUpperCase()+":RECIEVED
+				// FROM " + sr.getSource()+" TO "+sr.getTarget()+"
+				// getQuery:::"+sr.getQuery());
+				printMessageData("^^^ ", sr);
+				printMessage(agentId.toString().toUpperCase(), sr);
+				//			System.out.println(agentId+":ignore our reply");
 			}
 		}
 
+	}
 
+	private void printMessageData(String extra, SimpleRelay sr) {
+		System.out.println(extra + agentId.toString().toUpperCase()
+				+ " :DST-> " + sr.getTarget() + " :SRC-> " + sr.getSource());
+	}
+
+	/**
+	 * @param sr
+	 */
+	private void printMessage(String me, SimpleRelay sr) {
+		StringBuffer sB = new StringBuffer();
+		sB.append("\t");
+		if (sr.getQuery() != null && sr.getQuery() instanceof GameMessage) {
+			sB.append("Query Message->>>").append(
+					((GameMessage) sr.getQuery()).getState());
+		}
+
+		if (sr.getReply() != null && sr.getReply() instanceof GameMessage) {
+			sB.append(" Query Reply->>>").append(
+					((GameMessage) sr.getReply()).getState());
+		}
+
+		System.out.println(sB.toString());
 	}
 
 	public void load() {
@@ -145,7 +185,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 		// get UID service
 		uidService = (UIDService) getServiceBroker().getService(this,
 				UIDService.class, null);
-		System.out.println(agentId+":UIDService:" + uidService);
+		System.out.println(agentId + ":UIDService:" + uidService);
 		if (uidService == null) {
 			throw new RuntimeException("Unable to obtain Uid service");
 		}
@@ -162,7 +202,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				name = s.substring(0, sep);
 				value = s.substring(sep + 1);
 			}
-			System.out.println(agentId + ":"+ name + "=" + value);
+			//			System.out.println(agentId + ":"+ name + "=" + value);
 			props.put(name, value);
 		}
 

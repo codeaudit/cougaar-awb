@@ -5,16 +5,16 @@
  * Window - Preferences - Java - Code Style - Code Templates
  */
 package com.bbn.awb.GOL;
-import java.io.Serializable;
+//import java.io.Serializable;
 
-import java.util.Set;
-import java.util.Collections;
-
-import org.cougaar.core.relay.*;
-import org.cougaar.core.relay.Relay.TargetFactory;
-import org.cougaar.core.relay.Relay.Token;
-import org.cougaar.core.mts.MessageAddress;
-import org.cougaar.core.util.*;
+//import java.util.Set;
+//import java.util.Collections;
+//
+//import org.cougaar.core.relay.*;
+//import org.cougaar.core.relay.Relay.TargetFactory;
+//import org.cougaar.core.relay.Relay.Token;
+//import org.cougaar.core.mts.MessageAddress;
+//import org.cougaar.core.util.*;
 
 
 

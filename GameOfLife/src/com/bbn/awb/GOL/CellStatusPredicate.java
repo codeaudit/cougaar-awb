@@ -24,7 +24,7 @@ public final class CellStatusPredicate implements UnaryPredicate {
   public boolean execute(Object o) {
     if (o instanceof SimpleRelay) {
       SimpleRelay sr = (SimpleRelay) o;
-      System.out.println("reply..."+sr.getReply());
+//      System.out.println("MESSAGE FROM <<< "+sr.getSource()+" TO >>> "+sr.getTarget()+"...\n\t((("+sr.getReply()+")))");
       return
         (agentId.equals(sr.getSource()) ||
          agentId.equals(sr.getTarget()));

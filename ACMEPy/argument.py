@@ -31,6 +31,10 @@ class Argument:
   def __str__(self):
     return "Argument:"+self.name+":RULE:"+self.rule
 
+  def __eq__(self, arg):
+    return self.name == arg.name
+  
+
   def set_attribute(self, attribute, value):
     # both args must be strings
     if attribute.lower() == 'value':

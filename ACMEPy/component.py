@@ -81,6 +81,17 @@ class Component:
     if self.parent is not None:
       self.parent.society.isDirty = True
 
+  def replace_argument(self, old_arg, new_arg):
+    if (isinstance(old_arg, Argument) and isinstance(new_arg, Argument)):
+      old_arg.parent = self #just in case
+      self.delete_argument(old_arg)
+      new_arg.parent = self
+      self.add_argument(new_arg)
+    elif (isinstance(old_arg, str)):
+      self.replace_argument(Argument(old_arg), new_arg)
+    elif (isinstance(new_arg, str)):
+      self.replace_argument(old_arg, Argument(new_arg))
+
   def add_entity(self, entity):
     if isinstance(entity, Argument):
       entity.prev_parent = entity.parent

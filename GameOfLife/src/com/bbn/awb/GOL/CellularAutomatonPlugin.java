@@ -85,18 +85,98 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 		// observe added relays
 		for (Enumeration en = gameStatus.getAddedList(); en.hasMoreElements();) {
 			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			if (!agentId.equals(sr.getSource())) {
-				printMessageData("^^^ ", sr);
+			String msg_type = ((GameMessage) sr.getQuery()).getType();  
+            String msg_param = ((GameMessage) sr.getQuery()).getParam();
+            MessageAddress msg_src = sr.getSource();
+
+			if (!agentId.equals(msg_src)) { //Ignore messages to self
+     			printMessageData("^^^ ", sr);
 				printMessage(agentId.toString().toUpperCase(), sr);
-				if (sr.getSource().toAddress().equals("GameManager")) {
-					System.out.println("\t\tgot message from GameManager");
-				}
-				setState(((GameMessage) sr.getQuery()).getState());
-				calculateState();
-				returnStateToGameManager(((GameMessage) sr.getQuery()).getState());
+				if (msg_type.equals("GO"))
+					handleGo();
+				else if (msg_type.equals("INIT"))
+					handleInit(msg_param);
+				else if (msg_type.equals("READY"))
+					handleReady();
+				else if (msg_type.equals("QUERY"))
+					handleQuery(msg_src);
+				else if (msg_type.equals("RESPONSE"))
+					handleResponse(msg_param, msg_src.toString());
+				else if (msg_type.equals("NEIGHBOR"))
+					handleNeighbor(msg_param);
 			}
 			blackboard.publishRemove(sr);
 		}		
+	}
+
+
+
+	/**
+	 * @param msg_param
+	 */
+	private void handleNeighbor(String msg_param) {
+		// TODO Auto-generated method stub
+		System.out.println("Creating neighbor connection to "+msg_param);
+	}
+
+	/**
+	 * @param msg_param
+	 * @param msg_src
+	 */
+	private void handleResponse(String msg_param, String msg_src) {
+		// TODO Auto-generated method stub
+		System.out.println("Got response "+msg_param+" from "+msg_src);
+	}
+
+	/**
+	 * @param msg_src
+	 */
+	private void handleQuery(MessageAddress msg_src) {
+		// TODO Auto-generated method stub
+		sendMessage("RESPONSE", myState, msg_src.toString());
+	}
+
+	/**
+	 * 
+	 */
+	private void handleReady() {
+		// TODO Auto-generated method stub
+		System.out.println("Got a READY message.  That shouldn't hapen...");		
+	}
+
+	/**
+	 * @param msg_param
+	 */
+	private void handleInit(String msg_param) {
+		// TODO Auto-generated method stub
+		myState = msg_param;
+		sendMessage("READY", null, "GameManager");		
+	}
+
+	/**
+	 * 
+	 */
+	private void handleGo() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId.toString()+" starting next iteration");
+		
+	}
+
+	/**
+	 * @param msg
+	 * @param target_name
+	 */
+	private void sendMessage(String type, String param, String target_name) {
+		// TODO Auto-generated method stub
+		 MessageAddress target = MessageAddress.getMessageAddress(target_name);
+			if (agentId.equals(target)) {
+				System.out.println(agentId + ":sending to myself..." + agentId);
+				return;
+			}
+			UID uid = uidService.nextUID();
+			GameMessage query = new GameMessage(type, param);
+			SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+			blackboard.publishAdd(sr);
 	}
 
 	/**
@@ -105,25 +185,6 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	private void setState(String state) {
 		// TODO Auto-generated method stub
 		myState = state;
-	}
-
-	/**
-	 * 
-	 */
-	private void returnStateToGameManager(String state) {
-		String target_name = "GameManager";
-				MessageAddress target =
-		 MessageAddress.getMessageAddress(target_name);
-				if (agentId.equals(target)) {
-					System.out.println(agentId + ":sending to myself..." + agentId);
-					return;
-				}
-				UID uid = uidService.nextUID();
-				GameMessage query = new GameMessage(state);
-				SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
-				blackboard.publishAdd(sr);
-
-		
 	}
 
 	/**
@@ -149,12 +210,12 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 		sB.append("\t");
 		if (sr.getQuery() != null && sr.getQuery() instanceof GameMessage) {
 			sB.append("Query Message->>>").append(
-					((GameMessage) sr.getQuery()).getState());
+					((GameMessage) sr.getQuery()).getType());
 		}
 
 		if (sr.getReply() != null && sr.getReply() instanceof GameMessage) {
 			sB.append(" Query Reply->>>").append(
-					((GameMessage) sr.getReply()).getState());
+					((GameMessage) sr.getReply()).getType());
 		}
 
 		System.out.println(sB.toString());

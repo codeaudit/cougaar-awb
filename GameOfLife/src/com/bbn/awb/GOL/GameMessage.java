@@ -27,22 +27,35 @@ package com.bbn.awb.GOL;
  */
 public class GameMessage  { 
 	private String[] stateRegister = {
-			"GO",
-			"ALIVE",
-			"DEAD",
-			"READY",
+			"GO",       //start next iteration
+			"INIT",     //send initial state
+			"READY",    //ready for next iteration 
+			"QUERY",    //Query a state
+			"RESPONSE", //Respond to QUERY
+			"NEIGHBOR"  //Create a neighbor connection between two cells 
 	};
-	private String state  = null;
-
+	private String type  = null;
+	private String param = null;
 	
-	public GameMessage(String state){
-		this.state = state;
+	public GameMessage(String type){
+		this.type = type;
+	}
+	
+	public GameMessage(String type, String param){
+		this.type = type;
+		this.param = param;
+	}
+	
+	/**
+	 * @return Returns the param.
+	 */
+	public String getParam() {
+		return param;
 	}
 	/**
-	 * @return Returns the state.
+	 * @return Returns the type.
 	 */
-	public String getState() {
-		return state;
+	public String getType() {
+		return type;
 	}
-
 }

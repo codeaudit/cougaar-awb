@@ -80,7 +80,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				//	        continue;
 			}
 			UID uid = uidService.nextUID();
-			GameMessage query = new GameMessage(target_value);
+			GameMessage query = new GameMessage("INIT", target_value);
 			SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
 
 			blackboard.publishAdd(sr);
@@ -113,7 +113,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				MessageAddress target = MessageAddress.getMessageAddress(cells[i][j]);
                 for(int k = 0; k < n.length; k++){
                 	UID uid = uidService.nextUID();
-                	GameMessage query = new GameMessage("Neighbor:"+n[k]);
+                	GameMessage query = new GameMessage("NEIGHBOR", n[k]);
                 	SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
                 	blackboard.publishAdd(sr);
                 }
@@ -211,12 +211,12 @@ public class GameManagerPlugin extends ComponentPlugin {
 		sB.append("\t");
 		if (sr.getQuery() != null && sr.getQuery() instanceof GameMessage) {
 			sB.append("Query Message->>>").append(
-					((GameMessage) sr.getQuery()).getState());
+					((GameMessage) sr.getQuery()).getType());
 		}
 
 		if (sr.getReply() != null && sr.getReply() instanceof GameMessage) {
 			sB.append(" Query Reply->>>").append(
-					((GameMessage) sr.getReply()).getState());
+					((GameMessage) sr.getReply()).getType());
 		}
 
 		System.out.println(sB.toString());

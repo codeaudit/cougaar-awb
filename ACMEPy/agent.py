@@ -30,12 +30,9 @@ class Agent:
     self.node = None
     self.uic = None
     self.klass = klass
-    self.cloned = False
     self.facets = []
     self.components = []
     self.rule = str(rule)
-    self.dupe = None
-
       
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
@@ -130,15 +127,18 @@ class Agent:
     return agent.node.host
 
   def clone(self):
-    print "Cloning Agent"
-    if self.dupe is None:
-      self.dupe = Agent(self.name)
-      self.dupe.node = self.node
-      self.dupe.cloned = True
-      self.dupe.uic = self.uic
-      for component in self.components:
-        self.dupe.add_component(component.clone())
-    return self.dupe
+    #~ print "Cloning Agent"
+    agent = Agent(self.name, self.klass, self.rule)
+    agent.uic = self.uic
+    for component in self.components:
+      new_component = component.clone()
+      agent.add_component(new_component)
+      new_component.parent = agent
+    for facet in self.facets:
+      new_facet = facet.clone()
+      agent.add_facet(new_facet)
+      new_facet.parent = agent
+    return agent
     
   def to_xml(self):
     xml = "   <agent name='"+ self.name + "' class='"+str(self.klass)+"'>\n"

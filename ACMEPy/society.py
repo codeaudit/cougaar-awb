@@ -101,9 +101,9 @@ class Society:
           for component in agent.each_component():
             yield component
 
-  def get_agent_list(self):
+  def get_agent_list(self, inclNodeAgent=False):
     agentList = []
-    for agent in self.each_agent():
+    for agent in self.each_agent(inclNodeAgent):
       agentList.append(agent)
     return agentList
   
@@ -115,6 +115,22 @@ class Society:
   
   def countHosts(self):
     return len(self.hostlist)
+  
+  def clone(self):
+    society = Society(self.name, self.rule)
+    for host in self.hostlist:
+      new_host = host.clone()
+      society.add_host(new_host)
+      new_host.society = society
+    return society
+  
+  def remove_agent(self, agentName):
+    for host in self.each_host():
+      for node in host.each_node():
+        agent = node.agents[agentName]
+        if agent is not None:
+          node.delete_agent(agent)
+    
   
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"
@@ -142,25 +158,39 @@ class Society:
 
   def prettyPrint(self):
     print self
-    for host in self.hosts.keys():
-      print "\t", self.hosts[host]
-      for node in self.hosts[host].nodes.keys():
-        theNode = self.hosts[host].nodes[node]
-        print "\t\t", theNode
-        for agent in self.hosts[host].nodes[node].agents.keys():
-          print "\t\t\t", theNode.agents[agent]
-          for component in theNode.agents[agent].components:
+    for host in self.hostlist:
+      print "\t", host
+      for facet in host.facets:
+        print "\t\t", facet
+      for node in host.nodelist:
+        print "\t\t", node
+        for facet in node.facets:  
+          print "\t\t\t", facet
+        for agent in node.agentlist:
+          print "\t\t\t", agent
+          for facet in agent.facets:
+            print "\t\t\t\t", facet
+          for component in agent.components:
             print "\t\t\t\t", component
+            for argument in component.arguments:
+              print "\t\t\t\t\t", argument
     
   def prettyFormat(self):
     text = str(self)+"\n"
     for host in self.hosts.keys():
       text = text+str(self.hosts[host])+"\n"
+      for facet in host.facets:
+        text = text + str(facet) + "\n"
       for node in self.hosts[host].nodes.keys():
         theNode = self.hosts[host].nodes[node]
         text = text+str(theNode)+"\n"
+        for facet in theNode.facets:
+          text = text + str(facet) + "\n"
         for agent in self.hosts[host].nodes[node].agents.keys():
-          text = text + str(theNode.agents[agent])+"\n"
+          theAgent = theNode.agents[agent]
+          text = text + str(theAgent)+"\n"
+          for facet in theAgent.facets:
+            text = text + str(facet) + "\n"
           for component in theNode.agents[agent].components:
             text = text + str(component)+"\n"
             for argument in component.arguments:
@@ -171,10 +201,16 @@ class Society:
     text = str(self)+"\n"
     for host in self.hostlist:
       text = text+str(host)+"\n"
+      for facet in host.facets:
+        text = text + str(facet) + "\n"
       for node in host.nodelist:
         text = text+str(node)+"\n"
+        for facet in node.facets:
+          text = text + str(facet) + "\n"
         for agent in node.agentlist:
           text = text + str(agent)+"\n"
+          for facet in agent.facets:
+            text = text + str(facet) + "\n"
           for component in agent.components:
             text = text + str(component)+"\n"
             for argument in component.arguments:
@@ -189,28 +225,31 @@ class Society:
     for item in rowList:
       data = str(item).split(':')
       if len(data) < 4:
-	print "??? Malformed text ???:<", item, ">" 
-	continue
+        print "??? Malformed text ???:<", item, ">" 
+        continue
       if data[0].lower() == 'society':
-	society = Society(data[1])
+        society = Society(data[1])
       if data[0].lower() == 'host':
-	host = Host(data[1])
-	society.add_host(host)
+        host = Host(data[1])
+        society.add_host(host)
       if data[0].lower() == 'node':
-	node = Node(data[1])
-	host.add_node(node)
+        node = Node(data[1])
+        host.add_node(node)
       if data[0].lower() == 'agent':
-	agent = Agent(data[1])
-	node.add_agent(agent)
+        agent = Agent(data[1])
+        node.add_agent(agent)
       if data[0].lower() == 'component':
-	component = Component(data[1])
-	agent.add_component(component)
+        component = Component(data[1])
+        agent.add_component(component)
       if data[0].lower() == 'argument':
-	argument = Argument(data[1], data[5])
-	component.add_argument(argument)
+        argument = Argument(data[1], data[5])
+        component.add_argument(argument)
     return society
  
   # Causes a society to delete references to all its components (hosts, nodes, agents, etc.).
+  # Note that if we're closing a laydown mapping society, we may not want to delete the 
+  # agents because that would also kill them from the original society from which we
+  # got them, hence the "saveAgents" parameter.
   def close(self, saveAgents=False):
     for host in self.each_host():
       for node in host.each_node():

@@ -34,7 +34,6 @@ class Component:
     self.arguments = []
     self.rule = str(rule)
     self.parent = None
-    self.dupe = None
     
   def set_attribute(self, attribute, value):
     # both args must be strings
@@ -77,13 +76,12 @@ class Component:
         self.rule = str(newRule)
 
   def clone(self):
-    print "Cloning Component"
-    #return Plugin(self.name)
-    if self.dupe is None:
-      self.dupe = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
-      for each_arg in self.arguments:
-        self.dupe.add_argument(each_arg.clone())
-    return self.dupe
+    component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
+    for arg in self.arguments:
+      new_arg = arg.clone()
+      component.add_argument(new_arg)
+      new_arg.component = component
+    return component
   
   def to_xml(self):
     xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"

@@ -26,8 +26,7 @@ class Argument:
     self.value = value
     self.rule = str(rule)
     self.component = None
-    self.dupe = None
-    
+  
   def __str__(self):
     return "Argument:"+self.value+":RULE:"+self.rule
 
@@ -47,10 +46,7 @@ class Argument:
     self.rule = str(newRule)
   
   def clone(self):
-    print "Cloning Argument"
-    if self.dupe is None:
-      self.dupe = Argument(self.value, self.rule)
-    return self.dupe
+    return Argument(self.value, self.rule)
   
   def to_xml(self):
     xml = "<argument>"

@@ -35,10 +35,8 @@ class Host:
     self.facets = []
     self.rule = str(rule)
 
-
   def __str__(self):
     return "Host:"+ self.name+":RULE:"+self.rule
-    
     
   def add_entity(self, entity):  # currently, used only to add facets
     if type(entity) == types.ListType:  # will be a list of facet objects
@@ -69,6 +67,9 @@ class Host:
   
   def get_node(self, index):
     return self.nodelist[index]
+
+  def get_nodes(self):
+    return self.nodelist
 
   def add_nodes(self, nodes):
     if isinstance(nodes, types.ListType):
@@ -109,9 +110,19 @@ class Host:
   def set_rule(self, newRule):
         self.rule = str(newRule)
 
+  def countNodes(self):
+    return len(self.nodelist)
+  
   def clone(self):
-    host = Host(self.name)
-    host.add_nodes(self.nodes)
+    host = Host(self.name, self.rule)
+    for node in self.nodelist:
+      new_node = node.clone()
+      host.add_node(new_node)
+      new_node.host = host
+    for facet in self.facets:
+      new_facet = facet.clone()
+      host.add_facet(new_facet)
+      new_facet.parent = host
     return host
     
   def to_xml(self):
@@ -128,6 +139,8 @@ class Host:
   def to_python(self):
     script = "host = Host('"+self.name+"')\n"
     script = script + "society.add_host(host)\n"
+    for facet in self.facets:
+      script = script + facet.to_python()
     for node in self.nodes.keys():
       script = script + self.nodes[node].to_python()   
     return script

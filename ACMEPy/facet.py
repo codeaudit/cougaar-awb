@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.1 2003-04-24 15:58:05 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.2 2003-05-07 12:47:51 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -31,17 +31,18 @@ import types
 
 class Facet:
   def __init__(self, aFacet, rule='BASE'):
-    # Note that we can construct a Facet by passing in either a Dictionary or a String
+    # Note that we can construct a Facet by passing in either a Dictionary or a String,
+    # but we store them all in a dictionary
     if type(aFacet) == types.DictionaryType:
       self.facets = aFacet
     elif type(aFacet) == types.StringType:
       self.facets = self.to_dictionary(aFacet)
     self.rule = rule
     self.parent = None
-    self.dupe = None
     
   def __str__(self):
-    return str(self.facets)
+    for fp in self.each_facet_pair():
+      return fp + "\n"
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -74,13 +75,10 @@ class Facet:
         self.delete_entity()  # delete self from parent
   
   def clone(self):
-    #print "Cloning Facet"
-    if self.dupe is None:
-      newDict = {}
-      for key in self.facets:
-        newDict[key] = self.facets[key]
-      self.dupe =  Facet(newDict)
-    return self.dupe
+    newDict = {}
+    for key in self.facets.keys():
+      newDict[key] = self.facets[key]
+    return Facet(newDict)
     
   def to_dictionary(self, aString):
     #Format of aString must be "key=value"

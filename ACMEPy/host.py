@@ -55,7 +55,6 @@ class Host:
       node.host = self
       self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
-      print "Host::add_node() done adding node"  # prg debug
       return node
     if isinstance(node, types.StringType):
       newNode = Node(node)

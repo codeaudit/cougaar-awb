@@ -143,7 +143,14 @@ class Agent:
     return agent
     
   def to_xml(self):
-    xml = "   <agent name='"+ self.name + "' class='"+str(self.klass)+"'>\n"
+    xml = "   <agent name='"+ self.name + "'"
+    if self.klass is not None:
+      xml = xml + " class='"+str(self.klass)+"'"
+    if len(self.facets) == 0 and len(self.components) == 0:
+      xml = xml + "/>\n"
+      return xml
+    else:
+      xml = xml + ">\n"
     for facet in self.facets:
       xml = xml + facet.to_xml()
     for component in self.components:

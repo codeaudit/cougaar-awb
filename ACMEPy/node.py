@@ -33,19 +33,16 @@ class Node:
     self.agents = {}
     self.agentlist = []
     self.facets = []
-    #self.components = {}
-    #self.componentlist = []
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
-    self.dupe = None
     self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
-    
+  
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
-    
+  
   def set_attribute(self, attribute, value):
     # both args must be strings
     value = str(value)
@@ -150,8 +147,6 @@ class Node:
     self.nodeAgent.delete_component(component)
   
   def get_component(self, index):
-    #for comp in self.componentlist:
-      #print comp.name
     return self.nodeAgent.get_component(index)
 
   def override_parameter(self, param, value):
@@ -220,7 +215,7 @@ class Node:
   
   def add_parameters(self, params):
     # params is intended to be of type list
-    if isinstance(params, types.ListType):
+    if isinstance(params, types.ListType) and len(params) > 0:
       if isinstance(params[0], VMParameter):
         self.add_vm_parameters(params)
       elif isinstance(params[0], ProgParameter):
@@ -234,19 +229,17 @@ class Node:
         self.rule = str(newRule)
  
   def clone(self):
-    print "Cloning Node"
-    if self.dupe is None:
-      self.dupe = Node(self.name)
-      self.dupe.host = self.host
-      self.dupe.klass = self.klass
-      self.dupe.rule = self.rule
-      for agent in self.agentlist:
-        self.dupe.add_agent(agent.clone())
-      self.dupe.add_parameters(self.clone_parameters('vm'))
-      self.dupe.add_prog_parameters(self.clone_parameters('prog'))
-      #node.add_env_parameters(self.clone_parameters('env'))
-      for comp in self.componentlist:
-        self.dupe.add_component(comp.clone())
+    node = Node(self.name)
+    node.host = self.host
+    node.klass = self.klass
+    node.rule = self.rule
+    for agent in self.agentlist:
+      if agent != self.nodeAgent:
+        node.add_agent(agent.clone())
+    node.add_parameters(self.clone_parameters('vm'))
+    node.add_prog_parameters(self.clone_parameters('prog'))
+    node.add_env_parameters(self.clone_parameters('env'))
+    return node
   
   def clone_parameters(self, type):
     dupe_params = []
@@ -272,16 +265,11 @@ class Node:
       xml = xml + p.to_xml()
     for p in self.vm_parameters[:]:
       xml = xml + p.to_xml()
-    #for component in self.components.keys():
-      #xml = xml + self.components[component].to_xml()
-    #for agent in self.agents.keys():
-      #xml = xml + self.agents[agent].to_xml()
     for agent in self.agentlist:
       if agent == self.nodeAgent:
         for component in agent.components:
           xml = xml + component.to_xml()
       else:
-        #xml = xml + self.agents[agent].to_xml()
         xml = xml + agent.to_xml()
 
     xml = xml +  "  </node>\n"

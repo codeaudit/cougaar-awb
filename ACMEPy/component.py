@@ -40,7 +40,7 @@ class Component:
       self.arguments.append(argument)
 
   def __str__(self):
-    return "Component:"+self.data+":RULE:"+self.rule
+    return "Component:"+self.name+":RULE:"+self.rule
 
 
   def clone(self):

@@ -24,12 +24,13 @@ import sys
 from xml.dom.ext.reader import PyExpat
 from xml.xpath import Evaluate
 
-from society import Society
-from host import Host
-from node import Node
-from agent import Agent
-from component import Component
-from argument import Argument
+from society import *
+from host import *
+from node import *
+from agent import *
+from component import *
+from argument import *
+from parameter import *
 
 class SocietyFactory:
   

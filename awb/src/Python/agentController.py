@@ -174,6 +174,7 @@ class AgentControllerViewer(wx.Panel):
         We are limited to localhost currently!!!
         """
         self.NODE = None
+        self.logfile = None
         win = CtrlDlg(self,wx.NewId(), self.log, "Start a Society", size=wx.Size(400, 300),style = wx.DEFAULT_DIALOG_STYLE)
         win.CenterOnScreen()
         val = win.ShowModal()
@@ -239,7 +240,12 @@ class AgentControllerViewer(wx.Panel):
         try:
             cip = os.environ['COUGAAR_INSTALL_PATH']
             execstring = cip+os.sep+'bin'+os.sep+'XSLNode'
-            self.spawnPID = os.spawnv(os.P_NOWAIT,execstring, (execstring, self.NODE, "> run.log"));
+            args = None
+            if self.logfile is not None:
+                args = (execstring, self.NODE, "> "+self.logfile)
+            else:
+                args = (execstring, self.NODE)
+            self.spawnPID = os.spawnv(os.P_NOWAIT,execstring, args);
             #~ print 'spawned...',execstring , ' ID=', self.spawnPID
         except KeyError:
             dlg = wx.MessageDialog(self.frame, "set 'COUGAAR_INSTALL_PATH' as an environmental variable",

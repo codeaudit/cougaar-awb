@@ -3,7 +3,7 @@
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: ctrlDLG.py,v 1.3 2004-12-06 22:22:46 damoore Exp $
+# RCS-ID:       $Id: ctrlDLG.py,v 1.4 2004-12-16 21:06:56 jnilsson Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -59,6 +59,14 @@ class CtrlDlg(wx.Dialog):
         self.nodeTxtCtrl = wx.TextCtrl(self, NODE_TXTCTRL_ID, default, size=(300, -1), style=wx.TE_PROCESS_ENTER )
 
         wx.EVT_TEXT_ENTER(self, self.nodeTxtCtrl.GetId(), self.OnOk)
+        
+        self.logCheckBox = wx.CheckBox(self, -1, "Direct output to a logfile", style=wx.ALIGN_RIGHT)
+        self.logCheckBox.SetValue(True)
+        wx.EVT_CHECKBOX(self, self.logCheckBox.GetId(), self.OnCheck)
+        
+        logBoxLabel = wx.StaticText(self, -1, "Log File")
+        self.logTxtCtrl = wx.TextCtrl(self, -1, "run.log", size=(300, -1), style=wx.TE_PROCESS_ENTER)
+        #self.logTxtCtrl.SetEditable(False)
 
         self.bg_bmp = images.getGridBGBitmap()
         wx.EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
@@ -83,7 +91,7 @@ class CtrlDlg(wx.Dialog):
         bsizer.Add(bCan, 0, wx.GROW|wx.ALL, 4)
 
         sizer = wx.FlexGridSizer(cols=3, hgap=6, vgap=6)
-        sizer.AddMany([nodeLbl, self.nodeTxtCtrl, (0,0),
+        sizer.AddMany([nodeLbl, self.nodeTxtCtrl, (0,0), (0,0), self.logCheckBox,  (0,0), logBoxLabel, self.logTxtCtrl, (0, 0),
                         (0,0),bsizer,(0,0),])
         border = wx.BoxSizer(wx.VERTICAL)
         border.Add(sizer, 0, wx.ALL, 25)
@@ -104,6 +112,10 @@ class CtrlDlg(wx.Dialog):
     def OnOk(self, evt):
         self.log.WriteText('OnOk: %s, %s\n' % (self.nodeTxtCtrl.GetValue(),  evt.GetId()))
         self.parent.NODE = self.nodeTxtCtrl.GetValue()
+        if (self.logCheckBox.IsChecked()):
+            self.parent.logfile = self.logTxtCtrl.GetValue()
+        else:
+            self.parent.logfile = None
         self.SetReturnCode(wx.ID_OK)
         self.Destroy()
 
@@ -111,6 +123,10 @@ class CtrlDlg(wx.Dialog):
     def OnCancel(self, evt):
         self.SetReturnCode(wx.ID_CANCEL)
         self.Destroy()
+        
+    def OnCheck(self, evt):
+        self.logTxtCtrl.SetEditable(self.logCheckBox.IsChecked())
+    
     def OnEraseBackground(self, evt):
         dc = evt.GetDC()
         if not dc:

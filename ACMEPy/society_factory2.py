@@ -46,34 +46,29 @@ class SocietyFactory:
   def parse(self):
     societyElement = doc.childNodes[0]
     society = Society(societyElement.getAttributeNS(None, "name"))
-    print 'Society==>', society.name
+    #~ print 'Society==>', society.name
     if societyElement.hasChildNodes():
       hosts = societyElement.childNodes
       for host in hosts:
 	if host.nodeType == minidom.Node.ELEMENT_NODE:
 	  newHost = Host(str(host.getAttributeNS(None, "name")))
 	  society_host = society.add_host(newHost)
-	  print "Host Name: ", society_host.name
+	  #~ print "Host Name: ", society_host.name
 	  if host.hasChildNodes():
 	    hostElements = host.childNodes
 	    # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
 	    for xmlNode in hostElements:
 	      if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
-		print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
+		#~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
 		if xmlNode.nodeName == 'facet':
 		  newHost.add_facet(self.attributeDict(xmlNode))
 		elif xmlNode.nodeName == 'node':
-		  print "Node name ==>", xmlNode.getAttributeNS(None, "name")
+		  #~ print "Node name ==>", xmlNode.getAttributeNS(None, "name")
 		  newNode = newHost.add_node(str(xmlNode.getAttributeNS(None, "name")))
 		  if xmlNode.hasChildNodes():
 		    nodeElements = xmlNode.childNodes
 		    self.populateNodeElements(newNode, nodeElements)
     return society
-
-
-
-
-
 
 
   def attributeDict(self, this):
@@ -87,42 +82,49 @@ class SocietyFactory:
   def populateNodeElements(self, thisNode, xmlNodes):
     for xmlNode in xmlNodes:
       if xmlNode.nodeName == 'facet':
-	thisNode.add_facet(self.attributeDict(xmlNode)) 
+        thisNode.add_facet(self.attributeDict(xmlNode)) 
       elif xmlNode.nodeName == 'vm_parameter':
-	thisNode.add_vm_parameter( VMParameter(value=xmlNode.childNodes[0].data.strip()) )
-	print 'vm_parameter:', xmlNode.childNodes[0].data.strip()
+        thisNode.add_vm_parameter( VMParameter(value=xmlNode.childNodes[0].data.strip()) )
+        #~ print 'vm_parameter:', xmlNode.childNodes[0].data.strip()
       elif xmlNode.nodeName == 'env_parameter':
-	thisNode.add_env_parameter( VMParameter(value=xmlNode.childNodes[0].data.strip()) )
-	print 'env_parameter:', xmlNode.childNodes[0].data.strip()
+        thisNode.add_env_parameter( EnvParameter(value=xmlNode.childNodes[0].data.strip()) )
+        #~ print 'env_parameter:', xmlNode.childNodes[0].data.strip()
       elif xmlNode.nodeName == 'prog_parameter':
-	thisNode.add_prog_parameter( VMParameter(value=xmlNode.childNodes[0].data.strip()) )
-	print 'prog_parameter:', xmlNode.childNodes[0].data.strip()
+        thisNode.add_prog_parameter( ProgParameter(value=xmlNode.childNodes[0].data.strip()) )
+        #~ print 'prog_parameter:', xmlNode.childNodes[0].data.strip()
       elif xmlNode.nodeName == 'class':
-	thisNode.klass = xmlNode.childNodes[0].data.strip()
-	print 'class:', xmlNode.childNodes[0].data.strip()
+        thisNode.klass = xmlNode.childNodes[0].data.strip()
+        #~ print 'class:', xmlNode.childNodes[0].data.strip()
       elif xmlNode.nodeName == 'agent':
-	agentDict = self.attributeDict(xmlNode)
-	newAgent = thisNode.add_agent(agentDict['name'])
-	newAgent.klass = agentDict['class']
-	print 'AGENT:', newAgent 
-	self.populateAgentElements(newAgent, xmlNode.childNodes)
+        agentDict = self.attributeDict(xmlNode)
+        newAgent = thisNode.add_agent(agentDict['name'])
+        newAgent.klass = agentDict['class']
+        #~ print 'AGENT:', newAgent 
+        self.populateAgentElements(newAgent, xmlNode.childNodes)
+      elif xmlNode.nodeName == 'component':
+        compAttrs = self.attributeDict(xmlNode)
+        component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
+        thisNode.add_component(component)
+        #~ print 'NODE COMPONENT:', component 
       else:
-	if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
-	  print 'UNKNOWN NODE TYPE:', xmlNode.nodeName 
+        if xmlNode.nodeType == minidom.Node.ELEMENT_NODE:
+          print 'UNKNOWN NODE TYPE:', xmlNode.nodeName 
   
   def populateAgentElements(self, thisAgent, xmlNodes):
     for xmlNode in xmlNodes:
       if xmlNode.nodeName == 'facet':
-	thisAgent.add_facet(self.attributeDict(xmlNode)) 
+        thisAgent.add_facet(self.attributeDict(xmlNode)) 
       elif xmlNode.nodeName == 'component':
-	compAttrs = self.attributeDict(xmlNode)
-	print "component name :", compAttrs['name'], " class :",  compAttrs['class'], " priority :",  compAttrs['priority'], " ip:",  compAttrs['insertionpoint']
-	component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
-	if xmlNode.hasChildNodes():
-	  argNodes = xmlNode.childNodes
-	  for argNode in argNodes:
-	    if argNode.nodeType == minidom.Node.ELEMENT_NODE:
-	      component.add_argument(argNode.childNodes[0].data.strip())
+        compAttrs = self.attributeDict(xmlNode)
+        #~ print "component name :", compAttrs['name'], " class :",  compAttrs['class'], " priority :",  compAttrs['priority'], " ip:",  compAttrs['insertionpoint']
+        component = Component(compAttrs['name'], compAttrs['class'], compAttrs['priority'], compAttrs['insertionpoint'])
+        thisAgent.add_component(component)
+        if xmlNode.hasChildNodes():
+          argNodes = xmlNode.childNodes
+          for argNode in argNodes:
+            if argNode.nodeType == minidom.Node.ELEMENT_NODE:
+              #~ print "argument:", argNode.childNodes[0].data.strip() 
+              component.add_argument(str(argNode.childNodes[0].data.strip()))
 
 def society_from_python(filename):
   globals = {}
@@ -189,7 +191,6 @@ class TransformationEngine:
 transformation did not complete correctly.'''
       #dlg = wxMessageDialog(self.parent, msg, style = wxCAPTION | wxOK |  wxTHICK_FRAME | wxICON_EXCLAMATION)
       #val = dlg.ShowModal()
-      #dlg.Show()
     return self.society
 
 

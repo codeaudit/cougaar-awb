@@ -7,6 +7,7 @@
 package com.bbn.awb.GOL;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Vector;
 
 import org.cougaar.core.blackboard.IncrementalSubscription;
@@ -30,11 +31,16 @@ import com.bbn.awb.GOL.CellStatusPredicate;
 public class CellularAutomatonPlugin extends ComponentPlugin {
 	UIDService uidService;
 
-	Vector neighbors = new Vector();
-
+	private Vector neighbors = new Vector();
+    private Vector neighbor_status = new Vector();
+	
 	private String myState = new String();
 
 	private IncrementalSubscription gameStatus; // Tasks that I'm interested in
+
+	public static final String STATUS_ALIVE = "ALIVE";
+	public static final String STATUS_DEAD = "DEAD";
+	
 
 	public void load() {
 		super.load();
@@ -117,7 +123,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	}
 
 	/**
-	 *  
+	 *  Cells shouldn't recieve NEIGHBOR_ACK messages
 	 */
 	private void handleNeighborAck() {
 		// TODO Auto-generated method stub
@@ -146,6 +152,12 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	private void handleResponse(String msg_param, String msg_src) {
 		// TODO Auto-generated method stub
 		System.out.println("Got response " + msg_param + " from " + msg_src);
+        //Source doesn't mattter. We only care about the number of living neighbors
+		neighbor_status.add(msg_param); 
+	    if (neighbor_status.size() == neighbors.size()){
+	    	setState(calc_state());
+	    	sendMessage(GameMessage.READY_MESSAGE, null, "GameManager");
+	    }	
 	}
 
 	/**
@@ -153,11 +165,11 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	 */
 	private void handleQuery(MessageAddress msg_src) {
 		// TODO Auto-generated method stub
-		sendMessage("RESPONSE", myState, msg_src.toString());
+		sendMessage(GameMessage.RESPONSE_MESSAGE, myState, msg_src);
 	}
 
 	/**
-	 *  
+	 * Cells shouldn't recieve ready messages.  
 	 */
 	private void handleReady() {
 		// TODO Auto-generated method stub
@@ -170,8 +182,8 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	 */
 	private void handleInit(String msg_param) {
 		// TODO Auto-generated method stub
-		myState = msg_param;
-		sendMessage("READY", null, "GameManager");
+		setState(msg_param);
+		sendMessage(GameMessage.READY_MESSAGE, null, "GameManager");		
 	}
 
 	/**
@@ -180,16 +192,52 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	private void handleGo() {
 		// TODO Auto-generated method stub
 		System.out.println(agentId.toString() + " starting next iteration");
-
+        Iterator itr = neighbors.iterator();
+        neighbor_status = new Vector();
+        while (itr.hasNext())
+        	sendMessage(GameMessage.QUERY_MESSAGE, null, (String) itr.next());
+        //We've sent out our qeuries now wait for them to come back        
 	}
 
 	/**
-	 * @param msg
-	 * @param target_name
+	 * Rules for GOL:
+	 * With 3 living neighbors dead cell comes alive
+	 * With 2 or 3 living neighbors living cell stays alive
+	 * Else die/remain dead
+	 * @return State for this iteratrion
 	 */
-	private void sendMessage(String type, String param, String target_name) {
+	private String calc_state() {
 		// TODO Auto-generated method stub
-		MessageAddress target = MessageAddress.getMessageAddress(target_name);
+		int num_alive = 0;
+		Iterator itr = neighbor_status.iterator();
+		while (itr.hasNext()){
+			if (((String)itr.next()).equals("ALIVE"))
+				num_alive++;
+		}
+		if (num_alive == 3)
+			return "ALIVE";
+		if (num_alive == 2)
+			return myState;
+		
+		return "DEAD";
+	}
+
+	/**
+	 * @param string
+	 */
+	private void setState(String state) {
+		myState = state;
+		//Use to put own state on my blackboard.  
+		//Possibly create ASSERT msg type for this purpose
+		sendMessage(GameMessage.RESPONSE_MESSAGE, state, agentId.toString());		
+	}
+	
+	/**
+	 * @param msg
+	 * @param param
+	 * @param target
+	 */
+	private void sendMessage(String type, String param, MessageAddress target) {
 		if (agentId.equals(target)) {
 			System.out.println(agentId + ":sending to myself..." + agentId);
 			return;
@@ -197,26 +245,22 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 		UID uid = uidService.nextUID();
 		GameMessage query = new GameMessage(type, param);
 		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
-		blackboard.publishAdd(sr);
+		blackboard.publishAdd(sr);	
 	}
-
+	
 	/**
-	 * @param state
+	 * Overloading to accept target as a string
+	 * @param msg
+	 * @param param
+	 * @param target_name
 	 */
-	private void setState(String state) {
+	private void sendMessage(String type, String param, String target_name) {
 		// TODO Auto-generated method stub
-		myState = state;
+		MessageAddress target = MessageAddress.getMessageAddress(target_name);
+		sendMessage(type, param, target);
 	}
 
-	/**
-	 * make conversaations with adjacent cells. calculate my state based on
-	 * number of received responses
-	 *  
-	 */
-	private void calculateState() {
-		// TODO Auto-generated method stub
 
-	}
 
 	private void printMessageData(String extra, SimpleRelay sr) {
 		System.out.println(extra + agentId.toString().toUpperCase()

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: CS03.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: CS03.py,v 1.2 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -125,15 +125,15 @@ class AWB(wxFrame):
       self.societyViewer = None # wxTreeCtrl for displaying the society in Society Editor
       self.agentViewer = None  # wxTreeCtrl for displaying initial agent list in Agent Laydown tab
       self.laydownViewer = None  # wxTreeCtrl for displaying host-node-agent laydown
-      self.societyOpen = false  # for the Society Editor
-      self.agentSocietyOpen = false  # for the Agent List in Agent Laydown tab
-      self.mappedSocietyOpen = false  # for the HNA Map in Agent Laydown tab
+      self.societyOpen = False  # for the Society Editor
+      self.agentSocietyOpen = False  # for the Agent List in Agent Laydown tab
+      self.mappedSocietyOpen = False  # for the HNA Map in Agent Laydown tab
       self.societyFile = None  # string name of xml file for self.society
       self.agentSocietyFile = None  # string name of xml file for self.agentSociety
       self.societyHnaFile = None  # string name of xml file for self.mappedSociety
       self.controlFile = None # string name of xml file for self.controlFile
-      self.ruleOpen = false
-      self.ruleApplied = false
+      self.ruleOpen = False
+      self.ruleApplied = False
       self.currentPage = AWB.RULE_EDITOR
       self.currentTree = None
       self.undoBuffer = []
@@ -205,13 +205,13 @@ class AWB(wxFrame):
         EVT_MENU(self, exitID, self.OnFileExit)
 
         if not self.ruleOpen:
-          fileMenu.Enable(AWB.SAVE_RULE, false)
-          fileMenu.Enable(AWB.SAVE_AS_RULE, false)
+          fileMenu.Enable(AWB.SAVE_RULE, False)
+          fileMenu.Enable(AWB.SAVE_AS_RULE, False)
         if not self.societyOpen:
-          fileMenu.Enable(AWB.SAVE_SOCIETY, false)
-          fileMenu.Enable(AWB.SAVE_AS_SOCIETY, false)
+          fileMenu.Enable(AWB.SAVE_SOCIETY, False)
+          fileMenu.Enable(AWB.SAVE_AS_SOCIETY, False)
         if not self.mappedSocietyOpen:
-          fileMenu.Enable(AWB.SAVE_AS_HNA_SOCIETY, false)
+          fileMenu.Enable(AWB.SAVE_AS_HNA_SOCIETY, False)
 
         self.mainmenu.Append(fileMenu, '&File')
 
@@ -222,31 +222,31 @@ class AWB(wxFrame):
 
         self.editMenu.Append(AWB.UNDO, '&Undo\tCtrl+Z', 'Undo last edit')
         EVT_MENU(self, AWB.UNDO, self.OnUndo)
-        self.editMenu.Enable(AWB.UNDO, false)
+        self.editMenu.Enable(AWB.UNDO, False)
 
         self.editMenu.Append(AWB.SORT, '&Sort selected item', 'Sort entities in selected item')
         EVT_MENU(self, AWB.SORT, self.OnSort)
-        self.editMenu.Enable(AWB.SORT, false)
+        self.editMenu.Enable(AWB.SORT, False)
 
         self.editMenu.Append(AWB.CHANGE_NAMESERVER, 'Change &name server', 'Specify a new name server')
         EVT_MENU(self, AWB.CHANGE_NAMESERVER, self.OnChangeNameServer)
-        self.editMenu.Enable(AWB.CHANGE_NAMESERVER, false)
+        self.editMenu.Enable(AWB.CHANGE_NAMESERVER, False)
 
         self.editMenu.Append(AWB.FIND, '&Find\tCtrl+F', 'Find a specific society entity by name')
         EVT_MENU(self, AWB.FIND, self.OnFind)
-        self.editMenu.Enable(AWB.FIND, false)
+        self.editMenu.Enable(AWB.FIND, False)
 
         self.editMenu.Append(AWB.FIND_NEXT, 'Find &Next\tF3', 'Find the next occurrence of a specific society entity by name')
         EVT_MENU(self, AWB.FIND_NEXT, self.OnFindNext)
-        self.editMenu.Enable(AWB.FIND_NEXT, false)
+        self.editMenu.Enable(AWB.FIND_NEXT, False)
 
         self.editMenu.Append(AWB.RENAME_RULE, '&Rename Rule\tCtrl+R', 'Rename a society transformation rule')
         EVT_MENU(self, AWB.RENAME_RULE, self.OnRenameRule)
-        self.editMenu.Enable(AWB.RENAME_RULE, false)
+        self.editMenu.Enable(AWB.RENAME_RULE, False)
 
         self.editMenu.Append(AWB.DELETE_RULE, '&Delete Rule\tAlt+D', 'Delete a society transformation rule')
         EVT_MENU(self, AWB.DELETE_RULE, self.OnDeleteRule)
-        self.editMenu.Enable(AWB.DELETE_RULE, false)
+        self.editMenu.Enable(AWB.DELETE_RULE, False)
 
         self.mainmenu.Append(self.editMenu, '&Edit')
 
@@ -285,15 +285,15 @@ class AWB(wxFrame):
         self.viewMenu.Append(AWB.CLOSE_RULEBOOK, "Close RuleBook\tCtrl+B", helpText)
         EVT_MENU(self, AWB.CLOSE_RULEBOOK, self.OnCloseRulebook)
 
-        self.viewMenu.Enable(AWB.SHOW_SOCIETY, false)
-        self.viewMenu.Enable(AWB.SHOW_NODES, false)
-        self.viewMenu.Enable(AWB.SHOW_AGENTS, false)
-        self.viewMenu.Enable(AWB.SHOW_COMPONENTS, false)
-        self.viewMenu.Enable(AWB.COLLAPSE_HOSTS, false)
-        self.viewMenu.Enable(AWB.COLLAPSE_NODES, false)
-        self.viewMenu.Enable(AWB.COLLAPSE_AGENTS, false)
-        self.viewMenu.Enable(AWB.COLLAPSE_COMPONENTS, false)
-        self.viewMenu.Enable(AWB.CLOSE_RULEBOOK, false)
+        self.viewMenu.Enable(AWB.SHOW_SOCIETY, False)
+        self.viewMenu.Enable(AWB.SHOW_NODES, False)
+        self.viewMenu.Enable(AWB.SHOW_AGENTS, False)
+        self.viewMenu.Enable(AWB.SHOW_COMPONENTS, False)
+        self.viewMenu.Enable(AWB.COLLAPSE_HOSTS, False)
+        self.viewMenu.Enable(AWB.COLLAPSE_NODES, False)
+        self.viewMenu.Enable(AWB.COLLAPSE_AGENTS, False)
+        self.viewMenu.Enable(AWB.COLLAPSE_COMPONENTS, False)
+        self.viewMenu.Enable(AWB.CLOSE_RULEBOOK, False)
 
         self.mainmenu.Append(self.viewMenu, '&View')
 
@@ -392,7 +392,7 @@ class AWB(wxFrame):
         self.societyController = SocietyController(self.nb, self, self.log)
         self.nb.AddPage(self.societyController, 'Society Controller')
 
-        self.Show(true)
+        self.Show(True)
 
         # add the windows to the splitter and split it.
         self.splitter2.SplitHorizontally(self.nb, self.log, 560)
@@ -489,7 +489,7 @@ class AWB(wxFrame):
         pass
       elif lastState[0] == self.societyEditor:
         pass
-      self.mainmenu.Enable(AWB.UNDO, false)
+      self.mainmenu.Enable(AWB.UNDO, False)
 
     def OnSort(self, event):
       if self.currentPage == AWB.AGENT_LAYDOWN:
@@ -554,7 +554,7 @@ class AWB(wxFrame):
       sizer.AddSizer(box, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
       self.win.SetSizer(sizer)
-      self.win.SetAutoLayout(true)
+      self.win.SetAutoLayout(True)
       sizer.Fit(self.win)
 
       val = self.win.ShowModal()
@@ -569,7 +569,7 @@ class AWB(wxFrame):
       FindItemDialog(self, showViewerRadio)
       if len(self.searchLabel) > 0:
         self.currentTree.findItem(self.searchLabel, self.caseSearchDesired)
-        #~ self.mainmenu.Enable(AWB.FIND_NEXT, true)
+        #~ self.mainmenu.Enable(AWB.FIND_NEXT, True)
 
     def OnFindNext(self, event):
       if len(self.searchLabel) > 0:
@@ -644,7 +644,7 @@ class AWB(wxFrame):
       sizer.AddSizer(box, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
 
       closeRulesDialog.SetSizer(sizer)
-      closeRulesDialog.SetAutoLayout(true)
+      closeRulesDialog.SetAutoLayout(True)
       sizer.Fit(closeRulesDialog)
 
       val = closeRulesDialog.ShowModal()
@@ -675,22 +675,22 @@ class AWB(wxFrame):
 
       if self.currentPage == AWB.OVERVIEW:
         self.currentTree = None
-        self.editMenu.Enable(AWB.SORT, false)
-        self.mainmenu.Enable(AWB.FIND, false)
-        self.mainmenu.Enable(AWB.FIND_NEXT, false)
+        self.editMenu.Enable(AWB.SORT, False)
+        self.mainmenu.Enable(AWB.FIND, False)
+        self.mainmenu.Enable(AWB.FIND_NEXT, False)
         self.viewMenu.Enable(AWB.CLOSE_RULEBOOK, False)
         self.enableRuleMenuItems(False)
 
       if self.currentPage == AWB.RULE_EDITOR:
         self.currentTree = None
-        self.enableTreeViews(false)
+        self.enableTreeViews(False)
         if self.societyOpen and self.ruleEditor.aRuleIsChecked:
-          self.ruleEditor.applyRulesButton.Enable(true)
+          self.ruleEditor.applyRulesButton.Enable(True)
         else:
-          self.ruleEditor.applyRulesButton.Enable(false)
-        self.editMenu.Enable(AWB.SORT, false)
-        self.mainmenu.Enable(AWB.FIND, false)
-        self.mainmenu.Enable(AWB.FIND_NEXT, false)
+          self.ruleEditor.applyRulesButton.Enable(False)
+        self.editMenu.Enable(AWB.SORT, False)
+        self.mainmenu.Enable(AWB.FIND, False)
+        self.mainmenu.Enable(AWB.FIND_NEXT, False)
         if self.openRulebookCount > 0:
           self.viewMenu.Enable(AWB.CLOSE_RULEBOOK, True)
         else:
@@ -701,15 +701,15 @@ class AWB(wxFrame):
       elif self.currentPage == AWB.SOCIETY_EDITOR:
         self.currentTree = self.societyViewer
         if self.societyOpen:
-          self.enableTreeViews(true)
-          self.editMenu.Enable(AWB.CHANGE_NAMESERVER, true)
+          self.enableTreeViews(True)
+          self.editMenu.Enable(AWB.CHANGE_NAMESERVER, True)
           if len(self.currentTree.GetSelections()) > 0:
             self.editMenu.Enable(AWB.SORT, True)
           else:
             self.editMenu.Enable(AWB.SORT, False)
-          self.mainmenu.Enable(AWB.FIND, true)
+          self.mainmenu.Enable(AWB.FIND, True)
           if len(self.searchLabel) > 0:
-            self.mainmenu.Enable(AWB.FIND_NEXT, true)
+            self.mainmenu.Enable(AWB.FIND_NEXT, True)
         else:
           self.editMenu.Enable(AWB.SORT, False)
           self.mainmenu.Enable(AWB.FIND, False)
@@ -727,24 +727,24 @@ class AWB(wxFrame):
         else:
           self.editMenu.Enable(AWB.SORT, False)
         if self.mappedSocietyOpen or self.agentSocietyOpen:
-          self.mainmenu.Enable(AWB.FIND, true)
+          self.mainmenu.Enable(AWB.FIND, True)
           if len(self.searchLabel) > 0:
-            self.mainmenu.Enable(AWB.FIND_NEXT, true)
+            self.mainmenu.Enable(AWB.FIND_NEXT, True)
         else:
-          self.mainmenu.Enable(AWB.FIND, false)
-          self.mainmenu.Enable(AWB.FIND_NEXT, false)
+          self.mainmenu.Enable(AWB.FIND, False)
+          self.mainmenu.Enable(AWB.FIND_NEXT, False)
         if self.mappedSocietyOpen:
-          self.enableTreeViews(true)
-          self.mainmenu.Enable(AWB.SHOW_COMPONENTS, false)
-          self.mainmenu.Enable(AWB.COLLAPSE_COMPONENTS, false)
-          self.mainmenu.Enable(AWB.COLLAPSE_AGENTS, false)
+          self.enableTreeViews(True)
+          self.mainmenu.Enable(AWB.SHOW_COMPONENTS, False)
+          self.mainmenu.Enable(AWB.COLLAPSE_COMPONENTS, False)
+          self.mainmenu.Enable(AWB.COLLAPSE_AGENTS, False)
           if self.agentSocietyOpen:
             self.agentLaydown.setSpinnerValue()
-            self.agentLaydown.distroAgentsButton.Enable(true)
+            self.agentLaydown.distroAgentsButton.Enable(True)
         else:
-          self.enableTreeViews(false)
+          self.enableTreeViews(False)
         if self.editMenu.IsEnabled(AWB.CHANGE_NAMESERVER):
-          self.editMenu.Enable(AWB.CHANGE_NAMESERVER, false)
+          self.editMenu.Enable(AWB.CHANGE_NAMESERVER, False)
         self.viewMenu.Enable(AWB.CLOSE_RULEBOOK, False)
         self.enableRuleMenuItems(False)
 
@@ -805,7 +805,7 @@ class AWB(wxFrame):
           self.agentLaydown.tempMappedSociety = None
           if len(self.undoBuffer) > 0:
             self.undoBuffer.pop()  # empty it out
-          self.mainmenu.Enable(AWB.UNDO, false)
+          self.mainmenu.Enable(AWB.UNDO, False)
         societyToSave = self.mappedSociety
         # If this is the first time this society is being saved, prompt user for a file name;
         # i.e., this is a "save as".  For all subsequent saves, just save to same file.
@@ -917,18 +917,18 @@ class AWB(wxFrame):
           self.mappedSociety = None
           self.mappedSocietyOpen = 0
           self.societyHnaFile = None
-          self.enableHnaSaveMenuItems(false)
+          self.enableHnaSaveMenuItems(False)
           if not self.agentSocietyOpen:
-            self.editMenu.Enable(AWB.SORT, false)
+            self.editMenu.Enable(AWB.SORT, False)
         elif societyId == "society":
           self.society = None
           self.societyOpen = 0
           self.societyFile = None
           self.ruleEditor.societyName.SetValue("")
           self.nameServer = None
-          self.enableSocietySaveMenuItems(false)
+          self.enableSocietySaveMenuItems(False)
           if not self.mappedSocietyOpen:
-            self.editMenu.Enable(AWB.SORT, false)
+            self.editMenu.Enable(AWB.SORT, False)
         elif societyId == "controller":
           print "Controller File"
 
@@ -943,26 +943,26 @@ class AWB(wxFrame):
         self.agentSocietyFile = None
         if len(self.undoBuffer) > 0:
           self.undoBuffer.pop()  # empty it out
-        self.mainmenu.Enable(AWB.UNDO, false)
-        self.enableAgentSocietySaveMenuItems(false)
+        self.mainmenu.Enable(AWB.UNDO, False)
+        self.enableAgentSocietySaveMenuItems(False)
         if not self.mappedSocietyOpen:
-          self.editMenu.Enable(AWB.SORT, false)
+          self.editMenu.Enable(AWB.SORT, False)
 
     #------------------------------------------------------------------
 
-    def enableRuleSaveMenuItems(self, enable=true):
+    def enableRuleSaveMenuItems(self, enable=True):
       self.mainmenu.Enable(AWB.SAVE_RULE, enable)
       self.mainmenu.Enable(AWB.SAVE_AS_RULE, enable)
       self.ruleEditor.saveRuleButton.Enable(enable)
 
     #---------------------------------------------
 
-    def enableRuleSaveAs(self, enable=true):
+    def enableRuleSaveAs(self, enable=True):
       self.mainmenu.Enable(AWB.SAVE_AS_RULE, enable)
 
     #---------------------------------------------
 
-    def enableSocietySaveMenuItems(self, enable=true):
+    def enableSocietySaveMenuItems(self, enable=True):
       self.mainmenu.Enable(AWB.SAVE_SOCIETY, enable)
       self.mainmenu.Enable(AWB.SAVE_AS_SOCIETY, enable)
       self.mainmenu.Enable(AWB.CHANGE_NAMESERVER, enable)
@@ -979,7 +979,7 @@ class AWB(wxFrame):
 
     #---------------------------------------------
 
-    def enableAgentSocietySaveMenuItems(self, enable=true):
+    def enableAgentSocietySaveMenuItems(self, enable=True):
       self.agentLaydown.openAgentListButton.Enable(not enable)
       self.agentLaydown.closeAgentSocietyButton.Enable(enable)
       self.mainmenu.Enable(AWB.FIND, enable)
@@ -987,22 +987,22 @@ class AWB(wxFrame):
 
     #---------------------------------------------
 
-    def enableHnaSaveMenuItems(self, enable=true):
+    def enableHnaSaveMenuItems(self, enable=True):
       self.mainmenu.Enable(AWB.SAVE_AS_HNA_SOCIETY, enable)
       self.agentLaydown.saveHnaButton.Enable(enable)
       self.agentLaydown.openHnaButton.Enable(not enable)
       self.agentLaydown.closeHnaButton.Enable(enable)
       self.societyEditor.getHnaMapButton.Enable(enable)
       self.enableTreeViews(enable)
-      self.mainmenu.Enable(AWB.SHOW_COMPONENTS, false)
-      self.mainmenu.Enable(AWB.COLLAPSE_COMPONENTS, false)
-      self.mainmenu.Enable(AWB.COLLAPSE_AGENTS, false)
+      self.mainmenu.Enable(AWB.SHOW_COMPONENTS, False)
+      self.mainmenu.Enable(AWB.COLLAPSE_COMPONENTS, False)
+      self.mainmenu.Enable(AWB.COLLAPSE_AGENTS, False)
       self.mainmenu.Enable(AWB.FIND, enable)
       self.mainmenu.Enable(AWB.FIND_NEXT, False)
 
     #---------------------------------------------
 
-    def enableTreeViews(self, enable=true):
+    def enableTreeViews(self, enable=True):
       self.mainmenu.Enable(AWB.SHOW_SOCIETY, enable)
       self.mainmenu.Enable(AWB.SHOW_NODES, enable)
       self.mainmenu.Enable(AWB.SHOW_AGENTS, enable)
@@ -1069,9 +1069,9 @@ class AWB(wxFrame):
     #---------------------------------------------
     def OnTaskBarActivate(self, evt):
         if self.IsIconized():
-            self.Iconize(false)
+            self.Iconize(False)
         if not self.IsShown():
-            self.Show(true)
+            self.Show(True)
         self.Raise()
 
     #---------------------------------------------
@@ -1123,7 +1123,7 @@ class MySplashScreen(wxSplashScreen):
 
   def OnClose(self, evt):
     frame = AWB(None, -1, "Agent Workbench", 710, self.initPane)
-    frame.Show(true)
+    frame.Show(True)
     evt.Skip()  # Make sure the default handler runs too...
 
 
@@ -1139,7 +1139,7 @@ class MyApp(wxApp):
         wxInitAllImageHandlers()
         splash = MySplashScreen(initPane)
         splash.Show()
-        return true
+        return True
 
 
 

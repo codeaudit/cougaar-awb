@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: editorTextControl.py,v 1.5 2004-11-01 21:53:38 jnilsson Exp $
+# RCS-ID:       $Id: editorTextControl.py,v 1.6 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -26,9 +26,10 @@
 # </copyright>
 #
 
-from wxPython.wx import *
-from wxPython.stc import *
-from wxPython.lib.anchors import LayoutAnchors
+import wx
+import  wx.stc  as  stc
+from  wx.lib.anchors import LayoutAnchors
+
 
 import keyword
 CONVERTED2DOT5 = True
@@ -53,7 +54,7 @@ else:
 
 #---------------------------------------------------------------------
 
-class EditorControl(wx.stc.StyledTextCtrl):
+class EditorControl(stc.StyledTextCtrl):
   def __init__(self, parent,  ID, log, size=None, pos=None):
     self.parent = parent
     self.log = log
@@ -66,55 +67,55 @@ class EditorControl(wx.stc.StyledTextCtrl):
       thePos = pos
     else:
       thePos = wx.Point(10,10)
-    self.stc = wx.StyledTextCtrl.__init__(self, parent, ID, pos=thePos, size=theSize, style = wx.SUNKEN_BORDER)
+    self.stc = stc.StyledTextCtrl.__init__(self, parent, ID, pos=thePos, size=theSize, style = wx.SUNKEN_BORDER)
 
-    self.CmdKeyAssign(ord('B'), wx.STC_SCMOD_CTRL, wx.STC_CMD_ZOOMIN)
-    self.CmdKeyAssign(ord('N'), wx.STC_SCMOD_CTRL, wx.STC_CMD_ZOOMOUT)
+    self.CmdKeyAssign(ord('B'), stc.STC_SCMOD_CTRL, stc.STC_CMD_ZOOMIN)
+    self.CmdKeyAssign(ord('N'), stc.STC_SCMOD_CTRL, stc.STC_CMD_ZOOMOUT)
 
-    self.SetLexer(wx.STC_LEX_PYTHON)
-    #self.SetLexer(wx.STC_LEX_RUBY)
+    self.SetLexer(stc.STC_LEX_PYTHON)
+
     self.SetKeyWords(0, " ".join(keyword.kwlist))
 
     self.SetProperty("fold", "1")
     self.SetProperty("tab.timmy.whinge.level", "1")
     self.SetMargins(0,0)
 
-    self.SetViewWhiteSpace(false)
-    #self.SetBufferedDraw(false)
+    self.SetViewWhiteSpace(False)
 
-    self.SetEdgeMode(wx.STC_EDGE_BACKGROUND)
+
+    self.SetEdgeMode(stc.STC_EDGE_BACKGROUND)
     self.SetEdgeColumn(78)
 
     self.adjustEOL()
     #self.SetViewEOL(1)
     # Setup a margin to hold fold markers
     #self.SetFoldFlags(16)  ###  WHAT IS THIS VALUE?  WHAT ARE THE OTHER FLAGS?  DOES IT MATTER?
-    self.SetMarginType(2, wx.STC_MARGIN_SYMBOL)
-    self.SetMarginMask(2, wx.STC_MASK_FOLDERS)
-    self.SetMarginSensitive(2, true)
+    self.SetMarginType(2, stc.STC_MARGIN_SYMBOL)
+    self.SetMarginMask(2, stc.STC_MASK_FOLDERS)
+    self.SetMarginSensitive(2, True)
     self.SetMarginWidth(2, 12)
 
     if 0: # simple folder marks, like the old version
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDER, wx.STC_MARK_ARROW, "navy", "navy")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDEROPEN, wx.STC_MARK_ARROWDOWN, "navy", "navy")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDER, stc.STC_MARK_ARROW, "navy", "navy")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDEROPEN, stc.STC_MARK_ARROWDOWN, "navy", "navy")
       # Set these to an invisible mark
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDEROPENMID, wx.STC_MARK_BACKGROUND, "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERMIDTAIL, wx.STC_MARK_BACKGROUND, "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERSUB, wx.STC_MARK_BACKGROUND, "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERTAIL, wx.STC_MARK_BACKGROUND, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDEROPENMID, stc.STC_MARK_BACKGROUND, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERMIDTAIL, stc.STC_MARK_BACKGROUND, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERSUB, stc.STC_MARK_BACKGROUND, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERTAIL, stc.STC_MARK_BACKGROUND, "white", "black")
 
     else: # more involved "outlining" folder marks
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDEREND,     wx.STC_MARK_BOXPLUSCONNECTED,  "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDEROPENMID, wx.STC_MARK_BOXMINUSCONNECTED, "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERMIDTAIL, wx.STC_MARK_TCORNER,  "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERTAIL,    wx.STC_MARK_LCORNER,  "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDERSUB,     wx.STC_MARK_VLINE,    "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDER,        wx.STC_MARK_BOXPLUS,  "white", "black")
-      self.MarkerDefine(wx.STC_MARKNUM_FOLDEROPEN,    wx.STC_MARK_BOXMINUS, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDEREND,     stc.STC_MARK_BOXPLUSCONNECTED,  "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDEROPENMID, stc.STC_MARK_BOXMINUSCONNECTED, "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERMIDTAIL, stc.STC_MARK_TCORNER,  "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERTAIL,    stc.STC_MARK_LCORNER,  "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDERSUB,     stc.STC_MARK_VLINE,    "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDER,        stc.STC_MARK_BOXPLUS,  "white", "black")
+      self.MarkerDefine(stc.STC_MARKNUM_FOLDEROPEN,    stc.STC_MARK_BOXMINUS, "white", "black")
 
-    self.Bind(wx.EVT_STC_UPDATEUI,   self.OnUpdateUI, self)
-    self.Bind(wx.EVT_STC_MARGINCLICK,   self.OnMarginClick, self)
-    self.Bind(wx.EVT_STC_MODIFIED,   self.OnModified, self)
+    self.Bind(stc.EVT_STC_UPDATEUI,   self.OnUpdateUI ) 
+    self.Bind(stc.EVT_STC_MARGINCLICK,   self.OnMarginClick) 
+    self.Bind(stc.EVT_STC_MODIFIED,   self.OnModified)
 
     # Make some styles,  The lexer defines what each style is used for, we
     # just have to define what each style looks like.  This set is adapted from
@@ -123,41 +124,41 @@ class EditorControl(wx.stc.StyledTextCtrl):
     self.StyleClearAll()
 
     # Global default styles for all languages
-    self.StyleSetSpec(wx.STC_STYLE_DEFAULT,     "face:%(helv)s,size:%(size)d" % faces)
-    self.StyleSetSpec(wx.STC_STYLE_LINENUMBER,  "back:#C0C0C0,face:%(helv)s,size:%(size2)d" % faces)
-    self.StyleSetSpec(wx.STC_STYLE_CONTROLCHAR, "face:%(other)s" % faces)
-    self.StyleSetSpec(wx.STC_STYLE_BRACELIGHT,  "fore:#FFFFFF,back:#0000FF,bold")
-    self.StyleSetSpec(wx.STC_STYLE_BRACEBAD,    "fore:#000000,back:#FF0000,bold")
+    self.StyleSetSpec(stc.STC_STYLE_DEFAULT,     "face:%(helv)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_STYLE_LINENUMBER,  "back:#C0C0C0,face:%(helv)s,size:%(size2)d" % faces)
+    self.StyleSetSpec(stc.STC_STYLE_CONTROLCHAR, "face:%(other)s" % faces)
+    self.StyleSetSpec(stc.STC_STYLE_BRACELIGHT,  "fore:#FFFFFF,back:#0000FF,bold")
+    self.StyleSetSpec(stc.STC_STYLE_BRACEBAD,    "fore:#000000,back:#FF0000,bold")
 
     # Python styles
     # White space
-    self.StyleSetSpec(wx.STC_P_DEFAULT, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_DEFAULT, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
     # Comment
-    self.StyleSetSpec(wx.STC_P_COMMENTLINE, "fore:#007F00,face:%(other)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_COMMENTLINE, "fore:#007F00,face:%(other)s,size:%(size)d" % faces)
     # Number
-    self.StyleSetSpec(wx.STC_P_NUMBER, "fore:#007F7F,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_NUMBER, "fore:#007F7F,size:%(size)d" % faces)
     # String
-    self.StyleSetSpec(wx.STC_P_STRING, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_STRING, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
     # Single quoted string
-    self.StyleSetSpec(wx.STC_P_CHARACTER, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_CHARACTER, "fore:#7F007F,italic,face:%(times)s,size:%(size)d" % faces)
     # Keyword
-    self.StyleSetSpec(wx.STC_P_WORD, "fore:#00007F,bold,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_WORD, "fore:#00007F,bold,size:%(size)d" % faces)
     # Triple quotes
-    self.StyleSetSpec(wx.STC_P_TRIPLE, "fore:#7F0000,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_TRIPLE, "fore:#7F0000,size:%(size)d" % faces)
     # Triple double quotes
-    self.StyleSetSpec(wx.STC_P_TRIPLEDOUBLE, "fore:#7F0000,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_TRIPLEDOUBLE, "fore:#7F0000,size:%(size)d" % faces)
     # Class name definition
-    self.StyleSetSpec(wx.STC_P_CLASSNAME, "fore:#0000FF,bold,underline,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_CLASSNAME, "fore:#0000FF,bold,underline,size:%(size)d" % faces)
     # Function or method name definition
-    self.StyleSetSpec(wx.STC_P_DEFNAME, "fore:#007F7F,bold,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_DEFNAME, "fore:#007F7F,bold,size:%(size)d" % faces)
     # Operators
-    self.StyleSetSpec(wx.STC_P_OPERATOR, "bold,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_OPERATOR, "bold,size:%(size)d" % faces)
     # Identifiers
-    self.StyleSetSpec(wx.STC_P_IDENTIFIER, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_IDENTIFIER, "fore:#808080,face:%(helv)s,size:%(size)d" % faces)
     # Comment-blocks
-    self.StyleSetSpec(wx.STC_P_COMMENTBLOCK, "fore:#7F7F7F,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_COMMENTBLOCK, "fore:#7F7F7F,size:%(size)d" % faces)
     # End of line where string is not closed
-    self.StyleSetSpec(wx.STC_P_STRINGEOL, "fore:#000000,face:%(mono)s,back:#E0C0E0,eol,size:%(size)d" % faces)
+    self.StyleSetSpec(stc.STC_P_STRINGEOL, "fore:#000000,face:%(mono)s,back:#E0C0E0,eol,size:%(size)d" % faces)
 
 
     self.SetCaretForeground("BLUE")
@@ -167,20 +168,20 @@ class EditorControl(wx.stc.StyledTextCtrl):
 
   def convertEOL(self):
     if wx.Platform == '__WXMSW__':
-      self.ConvertEOLs(wx.STC_EOL_CRLF)
+      self.ConvertEOLs(stc.STC_EOL_CRLF)
     else:
-      self.ConvertEOLs(wx.STC_EOL_CR)
+      self.ConvertEOLs(stc.STC_EOL_CR)
 
   def adjustEOL(self):
     note = """
-    wx.STC_EOL_CR   : CR only
-    wx.STC_EOL_CRLF : CRLF
-    wx.STC_EOL_LF   : LF only
+    stc.STC_EOL_CR   : CR only
+    stc.STC_EOL_CRLF : CRLF
+    stc.STC_EOL_LF   : LF only
     """
     if wx.Platform == '__WXMSW__':
-        self.SetEOLMode(wx.STC_EOL_CRLF)
+        self.SetEOLMode(stc.STC_EOL_CRLF)
     else:
-        self.SetEOLMode(wx.STC_EOL_CR)
+        self.SetEOLMode(stc.STC_EOL_CR)
 
 
   def OnKeyPressed(self, event):
@@ -202,7 +203,7 @@ class EditorControl(wx.stc.StyledTextCtrl):
           #st = " ".join(lst)
           #print len(st)
           #self.AutoCompShow(0, st)
-          #self.AutoCompSetIgnoreCase(false)  # so this needs to match
+          #self.AutoCompSetIgnoreCase(False)  # so this needs to match
     else:
       event.Skip()
 
@@ -217,14 +218,14 @@ class EditorControl(wx.stc.StyledTextCtrl):
         styleBefore = self.GetStyleAt(caretPos - 1)
 
       # check before
-      if charBefore and chr(charBefore) in "[]{}()" and styleBefore == wx.STC_P_OPERATOR:
+      if charBefore and chr(charBefore) in "[]{}()" and styleBefore == stc.STC_P_OPERATOR:
         braceAtCaret = caretPos - 1
 
       # check after
       if braceAtCaret < 0:
         charAfter = self.GetCharAt(caretPos)
         styleAfter = self.GetStyleAt(caretPos)
-        if charAfter and chr(charAfter) in "[]{}()" and styleAfter == wx.STC_P_OPERATOR:
+        if charAfter and chr(charAfter) in "[]{}()" and styleAfter == stc.STC_P_OPERATOR:
           braceAtCaret = caretPos
 
       if braceAtCaret >= 0:
@@ -242,17 +243,17 @@ class EditorControl(wx.stc.StyledTextCtrl):
 	      self.FoldAll()
 	  else:
 	      lineClicked = self.LineFromPosition(evt.GetPosition())
-	      if self.GetFoldLevel(lineClicked) & wx.STC_FOLDLEVELHEADERFLAG:
+	      if self.GetFoldLevel(lineClicked) & stc.STC_FOLDLEVELHEADERFLAG:
 		  if evt.GetShift():
-		      self.SetFoldExpanded(lineClicked, true)
-		      self.Expand(lineClicked, true, true, 1)
+		      self.SetFoldExpanded(lineClicked, True)
+		      self.Expand(lineClicked, True, True, 1)
 		  elif evt.GetControl():
 		      if self.GetFoldExpanded(lineClicked):
-			  self.SetFoldExpanded(lineClicked, false)
-			  self.Expand(lineClicked, false, true, 0)
+			  self.SetFoldExpanded(lineClicked, False)
+			  self.Expand(lineClicked, False, True, 0)
 		      else:
-			  self.SetFoldExpanded(lineClicked, true)
-			  self.Expand(lineClicked, true, true, 100)
+			  self.SetFoldExpanded(lineClicked, True)
+			  self.Expand(lineClicked, True, True, 100)
 		  else:
 		      self.ToggleFold(lineClicked)
 
@@ -263,27 +264,27 @@ class EditorControl(wx.stc.StyledTextCtrl):
 
   def FoldAll(self):
       lineCount = self.GetLineCount()
-      expanding = true
+      expanding = True
 
       # find out if we are folding or unfolding
       for lineNum in range(lineCount):
-	  if self.GetFoldLevel(lineNum) & wx.STC_FOLDLEVELHEADERFLAG:
+	  if self.GetFoldLevel(lineNum) & stc.STC_FOLDLEVELHEADERFLAG:
 	      expanding = not self.GetFoldExpanded(lineNum)
 	      break;
 
       lineNum = 0
       while lineNum < lineCount:
 	  level = self.GetFoldLevel(lineNum)
-	  if level & wx.STC_FOLDLEVELHEADERFLAG and \
-	     (level & wx.STC_FOLDLEVELNUMBERMASK) == wx.STC_FOLDLEVELBASE:
+	  if level & stc.STC_FOLDLEVELHEADERFLAG and \
+	     (level & stc.STC_FOLDLEVELNUMBERMASK) == stc.STC_FOLDLEVELBASE:
 
 	      if expanding:
-		  self.SetFoldExpanded(lineNum, true)
-		  lineNum = self.Expand(lineNum, true)
+		  self.SetFoldExpanded(lineNum, True)
+		  lineNum = self.Expand(lineNum, True)
 		  lineNum = lineNum - 1
 	      else:
 		  lastChild = self.GetLastChild(lineNum, -1)
-		  self.SetFoldExpanded(lineNum, false)
+		  self.SetFoldExpanded(lineNum, False)
 		  if lastChild > lineNum:
 		      self.HideLines(lineNum+1, lastChild)
 
@@ -291,7 +292,7 @@ class EditorControl(wx.stc.StyledTextCtrl):
 
 
 
-  def Expand(self, line, doExpand, force=false, visLevels=0, level=-1):
+  def Expand(self, line, doExpand, force=False, visLevels=0, level=-1):
       lastChild = self.GetLastChild(line, level)
       line = line + 1
       while line <= lastChild:
@@ -307,19 +308,19 @@ class EditorControl(wx.stc.StyledTextCtrl):
 	  if level == -1:
 	      level = self.GetFoldLevel(line)
 
-	  if level & wx.STC_FOLDLEVELHEADERFLAG:
+	  if level & stc.STC_FOLDLEVELHEADERFLAG:
 	      if force:
 		  if visLevels > 1:
-		      self.SetFoldExpanded(line, true)
+		      self.SetFoldExpanded(line, True)
 		  else:
-		      self.SetFoldExpanded(line, false)
+		      self.SetFoldExpanded(line, False)
 		  line = self.Expand(line, doExpand, force, visLevels-1)
 
 	      else:
 		  if doExpand and self.GetFoldExpanded(line):
-		      line = self.Expand(line, true, force, visLevels-1)
+		      line = self.Expand(line, True, force, visLevels-1)
 		  else:
-		      line = self.Expand(line, false, force, visLevels-1)
+		      line = self.Expand(line, False, force, visLevels-1)
 	  else:
 	      line = line + 1;
 

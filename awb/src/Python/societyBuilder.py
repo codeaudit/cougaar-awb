@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.4 2004-11-01 17:43:40 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.5 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -80,7 +80,7 @@ class SocietyBuilderPanel(wx.Panel):
     #RuleBook button
     tID = wx.NewId()
     self.ruleBookButton = wx.Button(self, tID, "Open RuleBook")
-    self.bind(wx.EVT_BUTTON, self.OnOpenRuleBook, self.ruleBookButton)
+    self.Bind(wx.EVT_BUTTON, self.OnOpenRuleBook, self.ruleBookButton)
     self.ruleBookButton.SetBackgroundColour(wx.BLUE)
     self.ruleBookButton.SetForegroundColour(wx.WHITE)
     self.ruleBookButton.SetDefault()
@@ -95,8 +95,8 @@ class SocietyBuilderPanel(wx.Panel):
                                          #~ style=wx.LB_NEEDED_SB|wx.LB_HSCROLL|wx.LB_SORT)
     sizer.Add(self.lb, flag=wx.EXPAND, pos=(2,1), colspan=2, rowspan=11)
 
-    self.bind(wx.EVT_LISTBOX, self.OnListBox, self.lb)
-    self.bind(wx.EVT_CHECKLISTBOX, self.OnChecklistBox, self.lb)
+    self.Bind(wx.EVT_LISTBOX, self.OnListBox, self.lb)
+    self.Bind(wx.EVT_CHECKLISTBOX, self.OnChecklistBox, self.lb)
 ###
 
     self.Bind(EVT_UPDATE_SOCIETY, self.OnUpdate)
@@ -140,7 +140,7 @@ class SocietyBuilderPanel(wx.Panel):
     self.applyRulesButton = wx.Button(self, tID, "Apply Rules")
 #    EVT_BUTTON(self, tID, self.OnApplyRules)
     self.Bind(wx.EVT_BUTTON,self.OnApplyRules, self.applyRulesButton)
-    self.applyRulesButton.Enable(false)
+    self.applyRulesButton.Enable(False)
     sizer.Add(self.applyRulesButton, flag=wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL,
                 pos=(14,1), colspan=2, rowspan=1)
 
@@ -160,7 +160,7 @@ class SocietyBuilderPanel(wx.Panel):
     self.saveRuleButton = wx.Button(self, tID, "Save Rule")
 #    EVT_BUTTON(self, tID, self.OnSaveRule)
     self.Bind(wx.EVT_BUTTON,self.OnSaveRule, self.saveRuleButton) 
-    self.saveRuleButton.Enable(false)
+    self.saveRuleButton.Enable(False)
     self.btnSizer.Add(self.saveRuleButton, flag=wx.LEFT | wx.RIGHT, border=20)
 
     # Open Society button
@@ -176,7 +176,7 @@ class SocietyBuilderPanel(wx.Panel):
     self.saveSocietyButton = wx.Button(self, tID, "Save Society")
 #    EVT_BUTTON(self, tID, self.OnSaveSociety)
     self.Bind(wx.EVT_BUTTON,self.OnSaveSociety, self.saveSocietyButton)
-    self.saveSocietyButton.Enable(false)
+    self.saveSocietyButton.Enable(False)
     self.btnSizer.Add(self.saveSocietyButton, flag=wx.LEFT | wx.RIGHT, border=20)
 
     # Undo Transform button
@@ -184,7 +184,7 @@ class SocietyBuilderPanel(wx.Panel):
     self.undoTransformButton = wx.Button(self, tID, "Undo Transform")
 #    EVT_BUTTON(self, tID, self.OnUndoTransform)
     self.Bind(wx.EVT_BUTTON,self.OnUndoTransform, self.undoTransformButton)
-    self.undoTransformButton.Enable(false)
+    self.undoTransformButton.Enable(False)
     self.btnSizer.Add(self.undoTransformButton, flag=wx.LEFT | wx.RIGHT, border=20)
 
     sizer.Add(self.btnSizer, pos=(16,4), colspan=6)
@@ -206,7 +206,7 @@ class SocietyBuilderPanel(wx.Panel):
     sizer.AddSpacer(10,10, pos=(17,1)) # adds a constant size border along bottom and left side
 
     self.SetSizer(sizer)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
 #    EVT_RIGHT_DOWN(self.lb, self.OnRightDown)  # emits a wx.MouseEvent
     self.lb.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown)
 #    self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightDown) # either this r this one above is right
@@ -282,7 +282,7 @@ class SocietyBuilderPanel(wx.Panel):
   def OnOpenSociety(self, event):
     self.frame.openSocietyFile(self, "society")
     if self.aRuleIsChecked:
-      self.applyRulesButton.Enable(true)
+      self.applyRulesButton.Enable(True)
 
 #------------------------------------------------------------------------------
 
@@ -306,7 +306,7 @@ You will lose all changes made to the society since the transformation.'''
     choice = CougaarMessageDialog(self, 'confirm', msg).getUserInput()
     if choice == wx.ID_YES:
       self.frame.society = self.tempSociety
-      self.frame.societyViewer.UpdateControl(self.frame.society, true)
+      self.frame.societyViewer.UpdateControl(self.frame.society, True)
       self.frame.ruleEditor.societyName.SetValue(self.frame.society.name)
       for node in self.frame.society.each_node():
         node.updateNameServerParam(self.frame.society.get_nameserver())
@@ -351,19 +351,19 @@ You will lose all changes made to the society since the transformation.'''
 #-------------------------------------------------------------------------------
 
   def OnChecklistBox(self,event):
-    # event.IsChecked() returns true regardless of whether checkbox was checked or unchecked!!!
+    # event.IsChecked() returns True regardless of whether checkbox was checked or unchecked!!!
     # So, we'll just have to search the whole list and see if anything is checked.
-    self.aRuleIsChecked = false
+    self.aRuleIsChecked = False
     for item in range(self.lb.GetCount()):
       if self.lb.IsChecked(item):
         # a rule is checked; set the flag and stop searching
-        self.aRuleIsChecked = true
+        self.aRuleIsChecked = True
         break
     if self.frame.societyOpen and self.aRuleIsChecked:
-      self.applyRulesButton.Enable(true)
+      self.applyRulesButton.Enable(True)
     if not self.aRuleIsChecked:
       # no rules were checked; disable the button
-      self.applyRulesButton.Enable(false)
+      self.applyRulesButton.Enable(False)
 
 #-------------------------------------------------------------------------------
 
@@ -667,14 +667,14 @@ Doing so will permanently delete it from disk.'''
     if self.frame.society is not None:
       self.societyName.SetValue(self.frame.society.name)
       viewer = self.frame.societyViewer
-      viewer.UpdateControl(self.frame.society, true)
+      viewer.UpdateControl(self.frame.society, True)
       if self.frame.ruleApplied:  # if we're updating due to rule application, make a log entry
         num = self.frame.societyViewer.getNumEntitiesChanged()
         wx.LogMessage('Number of society entities modified: ' + str(num))
         self.frame.ruleApplied = False
       self.frame.enableSocietySaveMenuItems()
       self.setNextHighlightButton()
-      self.frame.societyOpen = true
+      self.frame.societyOpen = True
 
   #----------------------------------------------------------------------
 

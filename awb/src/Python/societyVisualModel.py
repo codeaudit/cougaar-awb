@@ -26,7 +26,7 @@ class myFacet:
     myFacetBrush = '#800080'
     myFacetText = "Source"
     myFacetTextColour = "LIGHT GREY"
-    myFacetShow = "true"
+    myFacetShow = "True"
     myFacetViewDepth = "-1"
     children = []
         
@@ -156,7 +156,7 @@ class mySociety:
         del self.tempList[0:]
         self.makeLevelIndex()
         for k in self.facetList:
-            if k.myFacetShow == "true":
+            if k.myFacetShow == "True":
                 self.tempList.append(-1)
         self.sortFacets("noparent", len(self.facetList),self.facetList,0)
         #~ del self.facetList[0:]
@@ -166,7 +166,7 @@ class mySociety:
         return self.tempList
     def hideAll(self):
         self.organizeConnections(self.facetList[0].myFacetName, 0)
-        self.facetList[0].myFacetShow = "false"
+        self.facetList[0].myFacetShow = "False"
         self.facetLevelsList[0] = 0    
     def getConnectionsDictionary(self):
         return self.connectionsDictionary
@@ -199,7 +199,7 @@ class mySociety:
         searhStringList = []
         delFacetsList = []
         while (count < theFacetListLength):
-            if (searchString == theFacetList[count].myFacetParent and theFacetList[count].myFacetShow == "true"):
+            if (searchString == theFacetList[count].myFacetParent and theFacetList[count].myFacetShow == "True"):
                 self.tempList[self.levelIndex[depth]] = theFacetList[count]
                 self.levelIndex[depth]+=1
                 searhStringList.append(theFacetList[count].myFacetName)
@@ -252,13 +252,13 @@ class mySociety:
             self.addConn(cN, vD, cD)
             for k in self.facetList:
                 if k.myFacetName in self.addList:
-                    k.myFacetShow = "true"
+                    k.myFacetShow = "True"
             #~ print self.facetLevelsList
         else:
             self.removeConn(cN, vD, cD)
             for i in self.facetList:
                 if i.myFacetName in self.removeList:
-                    i.myFacetShow = "false"
+                    i.myFacetShow = "False"
             #~ print self.facetLevelsList
 
     def removeConn(self, currNode, viewdepth, currdepth=0):

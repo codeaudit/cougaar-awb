@@ -1,22 +1,21 @@
 
 import threading, os
 ##os.putenv('LANG', 'C') # for running on GTK2
-from wxPython.wx import *
-
+#from wxPython.wx import *
+import wx
 # ------------------------------------------------------------------------------
 
-wxEVT_UPDATE_GIZMO = wxNewEventType()
-def EVT_UPDATE_GIZMO(win, func):
-    win.Connect(-1, -1, wxEVT_UPDATE_GIZMO, func)
+wxEVT_UPDATE_GIZMO = wx.NewEventType()
+EVT_UPDATE_GIZMO = wx.PyEventBinder (wxEVT_UPDATE_GIZMO,1)
 
-class UpdateGizmoEvent(wxPyEvent):
+class UpdateGizmoEvent(wx.PyEvent):
     def __init__(self):
-        wxPyEvent.__init__(self)
+        wx.PyEvent.__init__(self)
         self.SetEventType(wxEVT_UPDATE_GIZMO)
 
 # ------------------------------------------------------------------------------
 
-class Gizmo(wxPanel):
+class Gizmo(wx.Panel):
     """
     The first argument is either the name of a file that will be split into frames
     (a composite image) or a list of  strings of image names that will be treated
@@ -29,8 +28,8 @@ class Gizmo(wxPanel):
     """
     def __init__(self, parent, id,
                  bitmap,          # single (composite) bitmap or list of bitmaps
-                 pos = (554,316),	  #wxDefaultPosition,
-                 size = wxDefaultSize,
+                 pos = (554,316),	  #wx.DefaultPosition,
+                 size = wx.DefaultSize,
                  frameDelay = 0.1,# time between frames
                  frames = 0,      # number of frames (only necessary for composite image)
                  frameWidth = 0,  # width of each frame (only necessary for composite image)
@@ -39,7 +38,7 @@ class Gizmo(wxPanel):
                  reverse = 0,     # reverse direction at end of animation
                  style = 0,       # window style
                  name = "gizmo"):
-        wxPanel.__init__(self, parent, id, pos, size, style, name)
+        wx.Panel.__init__(self, parent, id, pos, size, style, name)
         self.name = name
         self.label = label
         _seqTypes = (type([]), type(()))
@@ -98,9 +97,9 @@ class Gizmo(wxPanel):
 
         self.SetClientSize((width, height))
 
-        EVT_PAINT(self, self.OnPaint)
-        EVT_UPDATE_GIZMO(self, self.Rotate)
-        EVT_WINDOW_DESTROY(self, self.OnDestroyWindow)
+        self.Bind(wx.EVT_PAINT, self.OnPaint)
+        self.Bind(EVT_UPDATE_GIZMO, self.Rotate)
+        wx.EVT_WINDOW_DESTROY(self, self.OnDestroyWindow)
 
         self.event = threading.Event()
         self.event.set() # we start out in the "resting" state
@@ -121,27 +120,27 @@ class Gizmo(wxPanel):
 
 
     def Draw(self, dc):
-        dc.DrawBitmap(self.submaps[self.sequence[self.current]], 0, 0, true)
+        dc.DrawBitmap(self.submaps[self.sequence[self.current]], 0, 0, True)
         if self.overlay and self.showOverlay:
-            dc.DrawBitmap(self.overlay, self.overlayX, self.overlayY, true)
+            dc.DrawBitmap(self.overlay, self.overlayX, self.overlayY, True)
         if self.label and self.showLabel:
             dc.DrawText(self.label, self.labelX, self.labelY)
-            dc.SetTextForeground(wxWHITE)
+            dc.SetTextForeground(wx.WHITE)
             dc.DrawText(self.label, self.labelX-1, self.labelY-1)
 
 
     def OnPaint(self, event):
-        self.Draw(wxPaintDC(self))
+        self.Draw(wx.PaintDC(self))
         event.Skip()
 
 
     def UpdateThread(self):
         try:
             while hasattr(self, 'event') and not self.event.isSet():
-                wxPostEvent(self, UpdateGizmoEvent())
+                wx.PostEvent(self, UpdateGizmoEvent())
                 self.event.wait(self.frameDelay)
-        except wxPyDeadObjectError: # BUG: we were destroyed
-            print "Got wxPyDeadObjectError"  # prg debug
+        except wx.PyDeadObjectError: # BUG: we were destroyed
+            print "Got wx.PyDeadObjectError"  # prg debug
             self.Rest()
             #~ return
         except Exception, args:
@@ -166,22 +165,22 @@ class Gizmo(wxPanel):
                 self.current = 1
             else:
                 self.current = len(self.sequence) - 1
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
     # --------- public methods ---------
     def SetFont(self, font):
         """Set the font for the label"""
-        wxPanel.SetFont(self, font)
+        wx.Panel.SetFont(self, font)
         self.SetLabel(self.label)
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
     def Rest(self):
         """Stop the animation and return to frame 0"""
         self.Stop()
         self.current = 0
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
     def Reverse(self):
@@ -190,7 +189,7 @@ class Gizmo(wxPanel):
 
 
     def Running(self):
-        """Returns true if the animation is running"""
+        """Returns True if the animation is running"""
         return not self.event.isSet()
 
 
@@ -221,7 +220,7 @@ class Gizmo(wxPanel):
             self.showOverlay = not self.showOverlay
         else:
             self.showOverlay = state
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
     def ToggleLabel(self, state = None):
@@ -230,7 +229,7 @@ class Gizmo(wxPanel):
             self.showLabel = not self.showLabel
         else:
             self.showLabel = state
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
     def SetLabel(self, label):
@@ -240,7 +239,7 @@ class Gizmo(wxPanel):
             extentX, extentY = self.GetTextExtent(label)
             self.labelX = (self.width - extentX)/2
             self.labelY = (self.height - extentY)/2
-        self.Draw(wxClientDC(self))
+        self.Draw(wx.ClientDC(self))
 
 
 

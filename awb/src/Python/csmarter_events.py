@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/P. Gardella)
 #
-# RCS-ID:       $Id: csmarter_events.py,v 1.2 2004-11-01 21:18:50 jblau Exp $
+# RCS-ID:       $Id: csmarter_events.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -30,8 +30,7 @@ import wx
 
 wxEVT_UPDATE_SOCIETY = wx.NewEventType()
 EVT_UPDATE_SOCIETY = wx.PyEventBinder(wxEVT_UPDATE_SOCIETY, 1)
-#~ def EVT_UPDATE_SOCIETY(win, func):
-    #~ win.Connect(-1, -1, wxEVT_UPDATE_SOCIETY, func)
+
 
 #----------------------------------------------------------------------
 class UpdateSocietyEvent(wx.PyEvent):

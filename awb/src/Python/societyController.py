@@ -48,7 +48,7 @@ CLOSE_SOCIETY_BTN_ID = 701
 #----------------------------------------------------------------------
 # This creates some pens and brushes that the OGL library uses.
 # is this right?
-wx.OGLInitialize()
+
 
 class SocietyController(wx.Panel):
     def __init__(self, parent, frame, log):
@@ -140,6 +140,8 @@ class SocietyController(wx.Panel):
         self.bg_bmp = images.getGridBGBitmap()
 #        EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
+        ogl.OGLInitialize()
+        
     def OnEraseBackground(self, evt):
         pass
     def AgentTaskCountUpdate(self, evt):
@@ -684,7 +686,7 @@ class ServerNotRunning(wx.Dialog):
 #----------------------------------------------------------------------
 
 class __Cleanup:
-    cleanup = wx.OGLCleanUp
+    cleanup = ogl.OGLCleanUp()
     def __del__(self):
         self.cleanup()
 

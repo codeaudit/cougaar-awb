@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: agentLaydown.py,v 1.3 2004-11-01 21:18:50 jblau Exp $
+# RCS-ID:       $Id: agentLaydown.py,v 1.4 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -26,9 +26,9 @@
 # </copyright>
 # CONVERTED2DOT5 = TRUE
 
-import wx.
+import wx
 from wx.lib.rcsizer import RowColSizer
-from wx. import  events
+#from wx import  events
 import images
 from gizmo import Gizmo
 import gizmoImages
@@ -87,7 +87,7 @@ class AgentLaydownPanel(wx.Panel):
     closeAgentSocietyBtnId = wx.NewId()
     self.closeAgentSocietyButton = wx.Button(self, closeAgentSocietyBtnId, "Close Agent List")
     wx.wx.EVT_BUTTON(self, closeAgentSocietyBtnId, self.OnCloseAgentSociety)
-    self.closeAgentSocietyButton.Enable(false)
+    self.closeAgentSocietyButton.Enable(False)
     btnBox.Add(self.closeAgentSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=10)
 
     sizer.Add(btnBox, pos=(1,1),  flag=wx.ALIGN_CENTER, colspan=2)
@@ -102,13 +102,13 @@ class AgentLaydownPanel(wx.Panel):
     saveHnaBtnId = wx.NewId()
     self.saveHnaButton = wx.Button(self, saveHnaBtnId, "Save HNA Map")
     wx.wx.EVT_BUTTON(self, saveHnaBtnId, self.OnSaveHnaMap)
-    self.saveHnaButton.Enable(false)
+    self.saveHnaButton.Enable(False)
     hnaBox.Add(self.saveHnaButton, flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=10)
 
     closeHnaBtnId = wx.NewId()
     self.closeHnaButton = wx.Button(self, closeHnaBtnId, "Close HNA Map")
     wx.wx.EVT_BUTTON(self, closeHnaBtnId, self.OnCloseHnaMap)
-    self.closeHnaButton.Enable(false)
+    self.closeHnaButton.Enable(False)
     hnaBox.Add(self.closeHnaButton, flag=wx.ALIGN_RIGHT | wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=10)
 
     sizer.Add(hnaBox, pos=(1,3), flag=wx.ALIGN_RIGHT, colspan=3)
@@ -149,7 +149,7 @@ class AgentLaydownPanel(wx.Panel):
     distroAgentsID = wx.NewId()
     self.distroAgentsButton = wx.Button(self, distroAgentsID, "Distribute Agents")
     wx.EVT_BUTTON(self, distroAgentsID, self.OnDistroAgents)
-    self.distroAgentsButton.Enable(false)
+    self.distroAgentsButton.Enable(False)
     spinnerBox.Add(self.distroAgentsButton, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM, border=10)
 
     inclNodesID = wx.NewId()
@@ -167,7 +167,7 @@ class AgentLaydownPanel(wx.Panel):
     rbLabel = "Select method of agent distribution"
     buttonTitles = ["Distribute evenly", "Specify number per host", "Distribute by facet", "Maintain same distribution        "]
     self.rb = wx.RadioBox(self, rbID, rbLabel, wx.DefaultPosition, (-1, 110), buttonTitles, 1, wx.RA_SPECIFY_COLS)
-    self.rb.EnableItem(SAME_DISTRO, false)
+    self.rb.EnableItem(SAME_DISTRO, False)
     wx.EVT_RADIOBOX(self, rbID, self.OnEvtRadioBox)
     spinnerBox.Add(self.rb, 0, wx.ALL, 5)
 
@@ -181,7 +181,7 @@ class AgentLaydownPanel(wx.Panel):
 
     agentSpinnerID = wx.NewId()
     self.agentSpinner = wx.SpinCtrl(self, agentSpinnerID, "1", size=wx.Size(50, -1), min=1, max=1000)
-    self.agentSpinner.Enable(false)
+    self.agentSpinner.Enable(False)
     innerBox.Add(self.agentSpinner, flag=wx.ALIGN_CENTER_HORIZONTAL)
 
     staticBox.AddSizer(innerBox, 0, wx.ALIGN_CENTER)
@@ -205,7 +205,7 @@ class AgentLaydownPanel(wx.Panel):
     # Add the "system busy" image
     lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]
     self.gizmo = Gizmo(self, -1, lesImages, size=(36, 36), frameDelay = 0.1)
-    wx.EVT_UPDATE_SOCIETY(self, self.OnUpdate)
+    self.Bind(EVT_UPDATE_SOCIETY, self.OnUpdate)
     spinnerBox.Add(self.gizmo, flag=wx.ALIGN_CENTER | wx.TOP, border=10)
 
     sizer.Add(spinnerBox, pos=(3,3),  flag=wx.ALIGN_CENTER, rowspan=2, colspan=1)
@@ -257,7 +257,7 @@ class AgentLaydownPanel(wx.Panel):
     sizer.AddGrowableRow(3) # makes Society Viewer expand downward on window resize
 
     self.SetSizer(sizer)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
 
   #------------------------------------------------------------
   ### event callbacks
@@ -276,7 +276,7 @@ class AgentLaydownPanel(wx.Panel):
   def openAgentList(self):
     self.frame.openSocietyFile(self, "agentSociety")
     if self.frame.mappedSocietyOpen:
-      self.distroAgentsButton.Enable(true)
+      self.distroAgentsButton.Enable(True)
 
   def OnOpenHnaMap(self, event):
     self.openHnaMap()
@@ -284,7 +284,7 @@ class AgentLaydownPanel(wx.Panel):
     self.frame.currentTree = self.currentViewer
 
   def openHnaMap(self):
-    self.openingHnaMap = true
+    self.openingHnaMap = True
     self.frame.openSocietyFile(self, "mappedSociety")
 
   def openTempAgentSociety(self):
@@ -311,12 +311,12 @@ class AgentLaydownPanel(wx.Panel):
     self.resetAgentSociety()
     self.frame.closeSociety("agentSociety")
     self.agentViewerTotalLabel.SetLabel('Total Agents: 0')
-    self.distroAgentsButton.Enable(false)
+    self.distroAgentsButton.Enable(False)
     if self.inclNodesCheckbox.IsChecked():
-      self.checkInclNodes(false)
+      self.checkInclNodes(False)
 
   def OnCloseHnaMap(self, evt):
-    self.resetMappedSociety(true)  # 'true' means save the agents
+    self.resetMappedSociety(True)  # 'True' means save the agents
     self.laydownViewerTotalLabel.SetLabel('Total Agents: 0')
     self.currentViewer.removeDisplayedFacet('host', 'all')
     self.currentViewer.removeDisplayedFacet('node', 'all')
@@ -325,8 +325,8 @@ class AgentLaydownPanel(wx.Panel):
     self.currentViewer.clearAllLabels(self.currentViewer.GetRootItem())
     #~ self.currentViewer.clearAllLabels()  # this one doesn't work
     self.frame.closeSociety("mappedSociety")
-    self.distroAgentsButton.Enable(false)
-    self.frame.societyEditor.enableButton("getHnaMapButton", false)
+    self.distroAgentsButton.Enable(False)
+    self.frame.societyEditor.enableButton("getHnaMapButton", False)
 
   def OnUpdate(self, event):
     #self.log.WriteText("Stop time: %s\n" % time.ctime())
@@ -339,7 +339,7 @@ class AgentLaydownPanel(wx.Panel):
         self.UpdateControl(self.frame.mappedSociety)
         self.frame.enableHnaSaveMenuItems()
         if self.frame.agentSocietyOpen:
-          self.distroAgentsButton.Enable(true)
+          self.distroAgentsButton.Enable(True)
         else:
           # Open a temp society in agentViewer as a holding area for unassigned nodes & agents
           self.openTempAgentSociety()
@@ -357,7 +357,7 @@ class AgentLaydownPanel(wx.Panel):
       self.laydownViewerTotalLabel.SetLabel('Total Agents: ' + str(self.frame.laydownViewer.society.countAgents()))
       if society == self.frame.mappedSociety:
         self.frame.mappedSocietyOpen = 1
-        self.openingHnaMap = false  # reset
+        self.openingHnaMap = False  # reset
     elif society == self.frame.agentSociety or society == self.tempAgentSociety:
       print "Society Viewer",  self.frame.agentViewer
       self.frame.agentViewer.UpdateControl(society)
@@ -442,7 +442,7 @@ class AgentLaydownPanel(wx.Panel):
       if self.frame.agentSocietyOpen:
         if self.frame.agentSociety.countAgents() > 0 or \
             (self.inclNodeCheckbox.IsChecked() and self.frame.agentSociety.countNodes() > 0):
-          self.distroAgentsButton.Enable(true)
+          self.distroAgentsButton.Enable(True)
 
   def nextSeq(self, seqChar):
     # Sequence could be digits (1, 2, 3, ...), or
@@ -503,7 +503,7 @@ class AgentLaydownPanel(wx.Panel):
     self.tempAgentSociety = self.frame.agentSociety.clone()
     self.frame.undoBuffer.insert(0, [self, [self.frame.laydownViewer, self.frame.mappedSociety],
                                                    [self.frame.agentViewer, self.frame.agentSociety]])
-    self.frame.mainmenu.Enable(self.frame.UNDO, true)
+    self.frame.mainmenu.Enable(self.frame.UNDO, True)
 
     # Check the 'Include Nodes' checkbox to see if we'll be moving nodes or agents
     includeNodes = self.inclNodesCheckbox.IsChecked()
@@ -587,9 +587,9 @@ class AgentLaydownPanel(wx.Panel):
     self.frame.laydownViewer.expandEntireSociety()
     self.UpdateControl(self.tempAgentSociety)
     if includeNodes and self.tempAgentSociety.countNodes() == 0:
-      self.distroAgentsButton.Enable(false)
+      self.distroAgentsButton.Enable(False)
     elif not includeNodes and self.tempAgentSociety.countAgents() == 0:
-      self.distroAgentsButton.Enable(false)
+      self.distroAgentsButton.Enable(False)
 
   def allocateNodes(self, numNodesPerHost, nodeCount, facetList):
     host = None
@@ -681,7 +681,7 @@ class AgentLaydownPanel(wx.Panel):
     if self.inclNodesCheckbox.IsChecked():
       self.checkInclNodes()
     else:
-      self.checkInclNodes(false)
+      self.checkInclNodes(False)
 
   #--------------------------------------------------------------------------------------------------
 
@@ -692,19 +692,19 @@ class AgentLaydownPanel(wx.Panel):
 
   def OnEvtRadioBox(self, event):
     if self.rb.GetSelection() == DISTRO_EVENLY:
-      self.agentSpinner.Enable(false)
+      self.agentSpinner.Enable(False)
       if self.inclNodesCheckbox.IsChecked():
-        self.nodeSpinner.Enable(false)
+        self.nodeSpinner.Enable(False)
     elif self.rb.GetSelection() == SPECIFY_NUM:
       if self.inclNodesCheckbox.IsChecked():
-        self.nodeSpinner.Enable(true)
+        self.nodeSpinner.Enable(True)
       else:
         self.agentSpinner.Enable(True)
     elif self.rb.GetSelection() == DISTRO_BY_FACET:
-      self.agentSpinner.Enable(false)
+      self.agentSpinner.Enable(False)
     elif self.rb.GetSelection() == SAME_DISTRO:
-      self.agentSpinner.Enable(false)
-      self.nodeSpinner.Enable(false)
+      self.agentSpinner.Enable(False)
+      self.nodeSpinner.Enable(False)
 
   #--------------------------------------------------------------------------------------------------
 
@@ -935,14 +935,14 @@ class AgentLaydownPanel(wx.Panel):
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('society')) > 0:
         if self.currentViewer.getDisplayedFacets('society')[0].find('all') > -1:
-          item.Enable(false)
+          item.Enable(False)
 
       hideAllFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, hideAllFacetsMenuId, "Hide All Society Facets")
       item.SetBitmap(societyImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('society')) == 0:
-        item.Enable(false)
+        item.Enable(False)
 
       editFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, editFacetsMenuId, "View/Edit Facets")
@@ -1026,14 +1026,14 @@ class AgentLaydownPanel(wx.Panel):
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('host')) > 0:
         if self.currentViewer.getDisplayedFacets('host')[0].find('all') > -1:
-          item.Enable(false)
+          item.Enable(False)
 
       hideAllFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, hideAllFacetsMenuId, "Hide All Host Facets")
       item.SetBitmap(hostImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('host')) == 0:
-        item.Enable(false)
+        item.Enable(False)
 
       editFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, editFacetsMenuId, "View/Edit Facets")
@@ -1101,7 +1101,7 @@ class AgentLaydownPanel(wx.Panel):
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
       if self.currentViewer == self.frame.agentViewer:
-        item.Enable(false)
+        item.Enable(False)
 
       exclNodeMenuId = wx.NewId()
       if self.entityObj.isExcluded:
@@ -1131,14 +1131,14 @@ class AgentLaydownPanel(wx.Panel):
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('node')) > 0:
         if self.currentViewer.getDisplayedFacets('node')[0].find('all') > -1:
-          item.Enable(false)
+          item.Enable(False)
 
       hideAllFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, hideAllFacetsMenuId, "Hide All Node Facets")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('node')) == 0:
-        item.Enable(false)
+        item.Enable(False)
 
       editFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, editFacetsMenuId, "View/Edit Facets")
@@ -1200,7 +1200,7 @@ class AgentLaydownPanel(wx.Panel):
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
       if self.currentViewer == self.frame.agentViewer:
-        item.Enable(false)
+        item.Enable(False)
 
       exclAgentMenuId = wx.NewId()
       if self.currentViewer == self.frame.agentViewer:
@@ -1222,14 +1222,14 @@ class AgentLaydownPanel(wx.Panel):
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('agent')) > 0:
         if self.currentViewer.getDisplayedFacets('agent')[0].find('all') > -1:
-          item.Enable(false)
+          item.Enable(False)
 
       hideAllFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, hideAllFacetsMenuId, "Hide All Agent Facets")
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('agent')) == 0:
-        item.Enable(false)
+        item.Enable(False)
 
       editFacetsMenuId = wx.NewId()
       item = wx.MenuItem(menu, editFacetsMenuId, "View/Edit Facets")
@@ -1441,7 +1441,7 @@ class AgentLaydownPanel(wx.Panel):
           self.frame.agentViewer.EnsureVisible(newItem)
       bothOfEm = True
       self.updateAgentCounter(bothOfEm)
-      self.distroAgentsButton.Enable(true)
+      self.distroAgentsButton.Enable(True)
 
   # -----------------------------------------------------------------------------
 
@@ -1785,7 +1785,7 @@ class AgentLaydownPanel(wx.Panel):
         self.tempAgentSociety = None
         self.tempMappedSociety.close()
         self.tempMappedSociety = None
-        self.distroAgentsButton.Enable(true)
+        self.distroAgentsButton.Enable(True)
       bothOfEm = True
       self.updateAgentCounter(bothOfEm)
     else:
@@ -1801,7 +1801,7 @@ class AgentLaydownPanel(wx.Panel):
 
   #----------------------------------------------------------------------
 
-  def resetMappedSociety(self, saveAgents=false):
+  def resetMappedSociety(self, saveAgents=False):
     if self.frame.mappedSociety is not None and self.tempMappedSociety is not None:
       self.frame.mappedSociety.close(saveAgents)
       self.frame.mappedSociety = self.tempMappedSociety
@@ -1855,7 +1855,7 @@ class AgentLaydownPanel(wx.Panel):
         sourceViewer.Delete(item) # delete item from the tree
       numAgents = sourceViewer.society.countAgents()
       if numAgents == 0:
-        self.distroAgentsButton.Enable(false)
+        self.distroAgentsButton.Enable(False)
       if sourceViewer == self.frame.agentViewer:
         sourceViewer.parent.agentViewerTotalLabel.SetLabel('Total Agents: ' + str(numAgents))
       else:
@@ -1881,17 +1881,17 @@ class AgentLaydownPanel(wx.Panel):
     if checked:
       self.rb.SetLabel("Select method of node distribution")
       self.distroAgentsButton.SetLabel("Distribute Nodes")
-      self.agentSpinner.Enable(false)
-      self.rb.EnableItem(SAME_DISTRO, true)
+      self.agentSpinner.Enable(False)
+      self.rb.EnableItem(SAME_DISTRO, True)
       if self.rb.GetSelection() == DISTRO_EVENLY:
-        self.nodeSpinner.Enable(false)
+        self.nodeSpinner.Enable(False)
       if self.frame.agentSocietyOpen and self.frame.mappedSocietyOpen:
         if self.tempAgentSociety is not None and self.tempAgentSociety.countNodes() > 0:
-          self.distroAgentsButton.Enable(true)
+          self.distroAgentsButton.Enable(True)
         elif self.frame.agentSociety is not None and self.frame.agentSociety.countNodes() > 0:
-          self.distroAgentsButton.Enable(true)
+          self.distroAgentsButton.Enable(True)
     else:  # uncheck
-      self.inclNodesCheckbox.SetValue(false)
+      self.inclNodesCheckbox.SetValue(False)
       self.rb.SetLabel("Select method of agent distribution")
       self.distroAgentsButton.SetLabel("Distribute Agents")
       self.nodeSpinner.Enable(True)
@@ -1899,12 +1899,12 @@ class AgentLaydownPanel(wx.Panel):
         self.agentSpinner.Enable(True)
       elif self.rb.GetSelection() == SAME_DISTRO:
         self.rb.SetSelection(DISTRO_EVENLY)
-      self.rb.EnableItem(SAME_DISTRO, false)
+      self.rb.EnableItem(SAME_DISTRO, False)
       if self.frame.agentSocietyOpen and self.frame.mappedSocietyOpen:
         if self.tempAgentSociety is not None and self.tempAgentSociety.countAgents() == 0:
-          self.distroAgentsButton.Enable(false)
+          self.distroAgentsButton.Enable(False)
         elif self.frame.agentSociety is not None and self.frame.agentSociety.countAgents() == 0:
-          self.distroAgentsButton.Enable(false)
+          self.distroAgentsButton.Enable(False)
     self.ignoreHostFacetsCheckbox.Enable(checked)
 
   #--------------------------------------------------------------------------------------
@@ -2070,7 +2070,7 @@ class CreateHnaMapDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
 
@@ -2095,26 +2095,26 @@ class CreateHnaMapDialog:
   def OnDisableHostCreation(self, event):
     if self.addHostCheckbox.IsChecked():
       self.numHostsSpinner.SetValue(0)
-      self.numHostsSpinner.Enable(false)
-      self.hostPrefix.Enable(false)
-      self.hostSeq.Enable(false)
+      self.numHostsSpinner.Enable(False)
+      self.hostPrefix.Enable(False)
+      self.hostSeq.Enable(False)
     else:
       self.numHostsSpinner.SetValue(1)
-      self.numHostsSpinner.Enable(true)
-      self.hostPrefix.Enable(true)
-      self.hostSeq.Enable(true)
+      self.numHostsSpinner.Enable(True)
+      self.hostPrefix.Enable(True)
+      self.hostSeq.Enable(True)
 
   def OnDisableNodeCreation(self, event):
     if self.addNodeCheckbox.IsChecked():
       self.numNodesSpinner.SetValue(0)
-      self.numNodesSpinner.Enable(false)
-      self.nodePrefix.Enable(false)
-      self.nodeSeq.Enable(false)
+      self.numNodesSpinner.Enable(False)
+      self.nodePrefix.Enable(False)
+      self.nodeSeq.Enable(False)
     else:
       self.numNodesSpinner.SetValue(1)
-      self.numNodesSpinner.Enable(true)
-      self.nodePrefix.Enable(true)
-      self.nodeSeq.Enable(true)
+      self.numNodesSpinner.Enable(True)
+      self.nodePrefix.Enable(True)
+      self.nodeSeq.Enable(True)
 
   def OnHelp(self, event):
     text = '''Create a new or edit an existing HNA society by adding hosts
@@ -2189,7 +2189,7 @@ class FacetDisplayDialog:
     wx.EVT_LIST_ITEM_RIGHT_CLICK(self.win, tID, self.OnItemRightClick)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
 
@@ -2434,7 +2434,7 @@ the change, or Cancel to discard.'''
       sizer.Add(btnBox, 0, wx.ALIGN_CENTER|wx.ALL, 5)  # add buttons at the bottom
 
       self.dlg.SetSizer(sizer)
-      self.dlg.SetAutoLayout(true)
+      self.dlg.SetAutoLayout(True)
       sizer.Fit(self.dlg)
       self.dlg.CenterOnParent()
 
@@ -2707,7 +2707,7 @@ class FacetDistroDialog:
     sizer.Add(btnBox, 0, wx.ALIGN_CENTER|wx.ALL, 5)  # add buttons at the bottom
 
     self.dlg.SetSizer(sizer)
-    self.dlg.SetAutoLayout(true)
+    self.dlg.SetAutoLayout(True)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
 
@@ -2967,7 +2967,7 @@ class ShowFacetSelectionDialog:
     sizer.Add(btnBox, 0, wx.ALIGN_CENTER|wx.ALL, 5)  # add buttons at the bottom
 
     self.dlg.SetSizer(sizer)
-    self.dlg.SetAutoLayout(true)
+    self.dlg.SetAutoLayout(True)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
 
@@ -3109,7 +3109,7 @@ class FacetSelectionPanel(wx.Panel):
       self.Disable()
 
     self.SetSizer(sizer)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
     sizer.Fit(self)
 
   # --------------------------------------------------------------------
@@ -3243,7 +3243,7 @@ class SummaryDialog:
     sizer.Add(btn, 0, wx.ALIGN_CENTER|wx.ALL, 5)  # add buttons at the bottom
 
     self.dlg.SetSizer(sizer)
-    self.dlg.SetAutoLayout(true)
+    self.dlg.SetAutoLayout(True)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
 

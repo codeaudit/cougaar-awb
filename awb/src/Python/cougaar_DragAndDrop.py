@@ -4,7 +4,7 @@
 #
 # Author:       ISAT (P. Gardella)
 #
-# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.2 2004-11-01 21:18:50 jblau Exp $
+# RCS-ID:       $Id: cougaar_DragAndDrop.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -153,10 +153,10 @@ class CougaarDropTarget(wx.PyDropTarget):
       #~ print "OnDrop: %d %d\n" % (x, y)
       self.viewer.removeHighlighting(self.mouseOverItem)
       self.viewer.SelectItem(self.mouseOverItem)
-    return true
+    return True
   
   def OnData(self, x, y, d):  # multi drag & drop
-    # Called when OnDrop returns true.  Gets the data and does something with it.
+    # Called when OnDrop returns True.  Gets the data and does something with it.
     #~ self.log.WriteText("OnData: %d, %d, %d\n" % (x, y, d))
     #~ print "OnData: %d" % d
     entity = None

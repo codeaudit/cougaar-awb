@@ -25,7 +25,7 @@ from informationPanel import InformationPanel
 #~ from PollingServices.ServletDataReceiver import *
 #~ from insertion_dialog import *
 from csmarter_events import *
-from eventFactory import EventFactory
+#from eventFactory import EventFactory
 
 from servletProperties import ServletProperties
 from globalConstants import *
@@ -41,7 +41,7 @@ GLOBAL_WIDGET_ID_BASE = 10
 #----------------------------------------------------------------------
 # This creates some pens and brushes that the OGL library uses.
 
-wx.OGLInitialize()
+
 
 class AgentControllerViewer(wx.Panel):
     def __init__(self, parent, frame, log):
@@ -82,7 +82,7 @@ class AgentControllerViewer(wx.Panel):
 
         # ------
 
-        wx.EVT_AGENT_TASK_COUNT(self, self.AgentTaskCountUpdate)
+        self.Bind(EVT_AGENT_TASK_COUNT, self.AgentTaskCountUpdate)
 
         # ------
         # ------
@@ -122,7 +122,7 @@ class AgentControllerViewer(wx.Panel):
         self.SetSizer(self.box)
         self.bg_bmp = images.getGridBGBitmap()
         wx.EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
-
+        ogl.OGLInitialize()
 
     def OnEraseBackground(self, evt):
         pass
@@ -480,7 +480,7 @@ class ServerNotRunning(wx.Dialog):
 #----------------------------------------------------------------------
 
 class __Cleanup:
-    cleanup = wx.OGLCleanUp
+    cleanup = ogl.OGLCleanUp()
     def __del__(self):
         self.cleanup()
 

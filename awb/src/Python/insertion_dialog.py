@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: insertion_dialog.py,v 1.3 2004-11-01 21:53:38 jnilsson Exp $
+# RCS-ID:       $Id: insertion_dialog.py,v 1.4 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -118,7 +118,7 @@ class NewNodeDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
     
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
     
@@ -187,7 +187,7 @@ class NewAgentDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
@@ -277,7 +277,7 @@ class NewComponentDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
@@ -349,7 +349,7 @@ class AddMultipleValuesDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
 
@@ -426,8 +426,8 @@ class AddParameterPanel(wx.Panel):
     elif nodeCreation is True and self.paramType == "vm":
       self.defaultParam = '''
 -Dorg.cougaar.core.agent.startTime=08/10/2005
--Dorg.cougaar.core.persistence.clear=true
--Dorg.cougaar.core.persistence.enable=false
+-Dorg.cougaar.core.persistence.clear=True
+-Dorg.cougaar.core.persistence.enable=False
 -Dorg.cougaar.planning.ldm.lps.ComplainingLP.level=0
 -Duser.timezone=GMT'''
     box = wx.BoxSizer(wx.VERTICAL)
@@ -445,7 +445,7 @@ class AddParameterPanel(wx.Panel):
     box.Add(self.params, 1, wx.GROW | wx.ALIGN_CENTRE | wx.ALL, 5)
 
     self.SetSizer(box)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
     box.Fit(self)
 
 #**************************************************************
@@ -531,7 +531,7 @@ class FindItemDialog:
     self.rb = wx.RadioBox(self.win, rbID, rbLabel, wx.DefaultPosition, (-1, 80), buttonTitles, 1, wx.RA_SPECIFY_COLS)
     self.rb.SetSelection(1)  # HNA Map is default selection
     if not showViewerRadio:
-      self.rb.Enable(false)
+      self.rb.Enable(False)
       self.viewerToSearch = self.parent.societyViewer
     else:
       self.viewerToSearch = self.parent.laydownViewer
@@ -554,7 +554,7 @@ class FindItemDialog:
     sizer.AddSizer(box, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.win.SetSizer(sizer)
-    self.win.SetAutoLayout(true)
+    self.win.SetAutoLayout(True)
     sizer.Fit(self.win)
 
     val = self.win.ShowModal()
@@ -700,7 +700,7 @@ class NodeInfoEditor(wx.Frame):
     sizer.Add(btnBox, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 
     self.SetSizer(sizer)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
     self.CenterOnParent()
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -767,12 +767,12 @@ class NodeInfoEditor(wx.Frame):
       else:
         change[1].add_entity(change[2])
     self.changesToMake = []  # empty it out
-    self.Close(true)
+    self.Close(True)
     self.parent.infoFrameOpen = 0
     
   def OnCancel(self, event):
     self.changesToMake = []  # empty it out
-    self.Close(true)
+    self.Close(True)
     self.parent.infoFrameOpen = 0
     
   def OnCloseWindow(self, event):
@@ -801,7 +801,7 @@ class NodeInfoEditor(wx.Frame):
       sizer.AddSizer(box, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
       
       dlg.SetSizer(sizer)
-      dlg.SetAutoLayout(true)
+      dlg.SetAutoLayout(True)
       sizer.Fit(dlg)
       val = dlg.ShowModal()
       if val == wx.ID_OK:

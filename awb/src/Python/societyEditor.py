@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyEditor.py,v 1.2 2004-11-01 15:00:41 damoore Exp $
+# RCS-ID:       $Id: societyEditor.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -29,15 +29,14 @@
 
 import wx
 import wx.lib.rcsizer  as rcs
-# from wxPython import  events
+
 
 import images
 from gizmo import Gizmo
 import gizmoImages
 
-#import threading
+
 import thread
-#import Queue
 import os
 
 from ACMEPy.society import Society
@@ -60,7 +59,7 @@ class SocietyEditorPanel(wx.Panel):
   def __init__( self, parent, frame, log ):
     wx.Panel.__init__( self, parent, -1 )
     self.log = log
-    sizer = RowColSizer()
+    sizer = rcs.RowColSizer()
     self.frame = frame # top-level frame that contains this wx.Panel
     self.frame.societyOpen = 0
     self.infoFrameOpen = 0
@@ -74,7 +73,7 @@ class SocietyEditorPanel(wx.Panel):
 
     self.openSocietyButton = wx.Button(self, 10, "Open Society")
 #    EVT_BUTTON(self, 10, self.OnOpenSociety)
-    self.Bind(self.EVT_BUTTON, self.OnOpenSociety, self.openSocietyButton) 
+    self.Bind(wx.EVT_BUTTON, self.OnOpenSociety, self.openSocietyButton) 
     self.openSocietyButton.SetBackgroundColour(wx.BLUE)
     self.openSocietyButton.SetForegroundColour(wx.WHITE)
     self.openSocietyButton.SetDefault()
@@ -82,27 +81,27 @@ class SocietyEditorPanel(wx.Panel):
 
     self.saveSocietyButton = wx.Button(self, 20, "Save Society")
 #    EVT_BUTTON(self, 20, self.OnSaveSociety)
-    self.Bind(self.EVT_BUTTON, self.OnSaveSociety, self.saveSocietyButton) 
+    self.Bind(wx.EVT_BUTTON, self.OnSaveSociety, self.saveSocietyButton) 
 
     self.saveSocietyButton.Enable(False)
     btnBox.Add(self.saveSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
     self.closeSocietyButton = wx.Button(self, 15, "Close Society")
 #    EVT_BUTTON(self, 15, self.OnCloseSociety)
-    self.Bind(self.EVT_BUTTON, self.OnCloseSociety, self.closeSocietyButton) 
+    self.Bind(wx.EVT_BUTTON, self.OnCloseSociety, self.closeSocietyButton) 
     self.closeSocietyButton.Enable(False)
     btnBox.Add(self.closeSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
     nextHighlightBtnId = wx.NewId()
     self.nextHighlightButton = wx.Button(self, nextHighlightBtnId, "Next Highlight")
 #    EVT_BUTTON(self, nextHighlightBtnId, self.OnShowNextHighlight)
-    self.Bind(self.EVT_BUTTON, self.OnShowNextHighlight, self.nextHighlightButton) 
+    self.Bind(wx.EVT_BUTTON, self.OnShowNextHighlight, self.nextHighlightButton) 
     self.nextHighlightButton.Enable(False)
     btnBox.Add(self.nextHighlightButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
     self.getHnaMapButton = wx.Button(self, 25, "Get HNA Map")
 #    EVT_BUTTON(self, 25, self.OnGetHnaMap)
-    self.Bind(self.EVT_BUTTON, self.OnGetHnaMap, self.getHnaMapButton) 
+    self.Bind(wx.EVT_BUTTON, self.OnGetHnaMap, self.getHnaMapButton) 
     self.getHnaMapButton.Enable(False)
     btnBox.Add(self.getHnaMapButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
@@ -111,7 +110,7 @@ class SocietyEditorPanel(wx.Panel):
     lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]
     self.gizmo = Gizmo(self, -1, lesImages, size=(36, 36), frameDelay = 0.1)
 #    EVT_UPDATE_SOCIETY(self, self.OnUpdate)
-    self.Bind(EVT_UPDATE_SOCIETY, self.OnUpdate, self.gizmo)
+    self.Bind(EVT_UPDATE_SOCIETY, self.OnUpdate)
     sizer.Add(self.gizmo, pos=(1,2), flag=wx.BOTTOM | wx.ALIGN_RIGHT, border=20)
 
     self.il = wx.ImageList(16,16)
@@ -128,14 +127,14 @@ class SocietyEditorPanel(wx.Panel):
                                style=wx.TR_HAS_BUTTONS | wx.TR_EDIT_LABELS | wx.TR_MULTIPLE,
                                log=self.log)
     sizer.Add(self.frame.societyViewer, flag=wx.EXPAND, pos=(2,1), colspan=2)
-    dropTarget = CougaarDropTarget(self.frame.societyViewer, self.log, self.frame, true)
+    dropTarget = CougaarDropTarget(self.frame.societyViewer, self.log, self.frame, True)
     self.frame.societyViewer.SetDropTarget(dropTarget)
 
 ### Event handlers for various
 #    EVT_TREE_END_LABEL_EDIT(self, tID, self.OnEndLabelEdit) #fired by call to wx.TreeCtrl.EditLabel()
     self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.OnEndLabelEdit, self.frame.societyViewer)
 #    EVT_TREE_SEL_CHANGED    (self, tID, self.OnSelChanged)
-    self.Bind(wx.EVT_TREE_SEL_CHANGE, self.OnSelChanged,  self.frame.societyViewer)
+    self.Bind(wx.EVT_TREE_SEL_CHANGED, self.OnSelChanged,  self.frame.societyViewer)
 #    EVT_TREE_SEL_CHANGING(self, tID, self.OnSelChanging)
     self.Bind(wx.EVT_TREE_SEL_CHANGING, self.OnSelChanging,  self.frame.societyViewer)
 #    EVT_RIGHT_DOWN(self.frame.societyViewer, self.OnRightClick)  # emits a wx.MouseEvent
@@ -159,7 +158,7 @@ class SocietyEditorPanel(wx.Panel):
     sizer.AddGrowableRow(2) # makes Society Viewer expand downward on window resize
 
     self.SetSizer(sizer)
-    self.SetAutoLayout(true)
+    self.SetAutoLayout(True)
 
   #*****************************************************************
   ###
@@ -253,7 +252,7 @@ class SocietyEditorPanel(wx.Panel):
     self.frame.server.Stop()
     self.frame.society = event.msg
     if self.frame.society:
-      self.frame.societyViewer.UpdateControl(self.frame.society, true)
+      self.frame.societyViewer.UpdateControl(self.frame.society, True)
       self.frame.enableSocietySaveMenuItems()
       self.frame.ruleEditor.societyName.SetValue(self.frame.society.name)
       for node in self.frame.society.each_node():
@@ -482,7 +481,7 @@ class SocietyEditorPanel(wx.Panel):
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
       if self.entityObj == self.entityObj.parent.nodeAgent:
-        item.Enable(false)
+        item.Enable(False)
       item = wx.MenuItem(menu, tID14, "View/Edit Info")
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
@@ -610,7 +609,7 @@ class SocietyEditorPanel(wx.Panel):
     #Bring up a separate Frame to view/edit other info
     if not self.infoFrameOpen:  # only one may be open at a time
       nodeInfoEditor = NodeInfoEditor(self, self.log)
-      nodeInfoEditor.Show(true)
+      nodeInfoEditor.Show(True)
       self.infoFrameOpen = 1
 
 #----------------------------------------------------------------------
@@ -620,7 +619,7 @@ class SocietyEditorPanel(wx.Panel):
 
 #----------------------------------------------------------------------
 
-  def enableButton(self, buttonName, enable=true):
+  def enableButton(self, buttonName, enable=True):
     if buttonName == "openSocietyButton":
       self.openSocietyButton.Enable(enable)
     elif buttonName == "saveSocietyButton":

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyFactoryServer.py,v 1.2 2004-11-01 15:00:04 damoore Exp $
+# RCS-ID:       $Id: societyFactoryServer.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -28,7 +28,7 @@
 
 
 import wx
-import wx.events as events
+#import wx.events as events
 
 
 import sys, thread, traceback
@@ -54,11 +54,11 @@ class SocietyFactoryServer:
       self.xmlString = xmlString
       
     def Start(self):
-      self.keepGoing = self.running = true
+      self.keepGoing = self.running = True
       thread.start_new_thread(self.Run, ())
 
     def Stop(self):
-      self.keepGoing = false
+      self.keepGoing = False
       #~ self.log.WriteText("Thread done...\n")
       
     def IsRunning(self):
@@ -84,8 +84,8 @@ class SocietyFactoryServer:
           self.log.WriteText("%s\n" % str(args))   
         evt = UpdateSocietyEvent(society)
         wx.PostEvent(self._parent, evt)
-        self.keepGoing = false  #  ?
-      self.running = false
+        self.keepGoing = False  #  ?
+      self.running = False
  
 
 #----------------------------------------------------------------------
@@ -114,11 +114,11 @@ class SocietyTransformServer:
 ###
 
     def Start(self):
-      self.keepGoing = self.running = true
+      self.keepGoing = self.running = True
       thread.start_new_thread(self.Run, ())
 #---------------------------------------
     def Stop(self):
-      self.keepGoing = false
+      self.keepGoing = False
       self.log.WriteText("transform Thread done...\n")
       
     def IsRunning(self):
@@ -154,4 +154,4 @@ class SocietyTransformServer:
         evt = UpdateSocietyEvent(soc)
         wx.PostEvent(self._parent, evt)
         self.keepGoing = False  #  ?
-      self.running = false
+      self.running = False

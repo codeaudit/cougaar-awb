@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyViewer.py,v 1.2 2004-11-01 14:58:04 damoore Exp $
+# RCS-ID:       $Id: societyViewer.py,v 1.3 2004-11-02 17:01:56 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -96,7 +96,7 @@ class SocietyViewer(wx.TreeCtrl):
     return self.questionImage
 ###
 
-  def UpdateControl(self, society, inclNodeAgent=false):   
+  def UpdateControl(self, society, inclNodeAgent=False):   
     # Pull the objects that make up the society out of memory and build a tree. 
     # The PyData associated with each tree item is the object from the 
     # underlying society model that represents the tree item.
@@ -761,7 +761,7 @@ class SocietyViewer(wx.TreeCtrl):
       else:
         self.showNotFoundDialog()
         moreToFind = False
-        self.parent.frame.enableFindNextMenuItem(false)
+        self.parent.frame.enableFindNextMenuItem(False)
   
   def searchTree(self, labelToFind, treeNode, cookie, caseSearchDesired):
     if treeNode.IsOk():

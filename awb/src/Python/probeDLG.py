@@ -7,7 +7,7 @@ import os
 import wx
 
 import images
-import pickles
+import pickle
 CONVERTED2DOT5 = True
 #---------------------------------------------------------------------------
 

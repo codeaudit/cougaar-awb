@@ -1,5 +1,4 @@
 import sys
-
 import wx
 import wx.html as html
 import wxPython.lib.wxpTag

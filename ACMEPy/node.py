@@ -236,6 +236,14 @@ class Node:
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
+  def updateNameServerParam(self, nameServer):
+    nameServerParam = "-Dorg.cougaar.name.server="
+    for vmParam in self.vm_parameters:
+      if vmParam.value.startswith(nameServerParam):
+        vmParam.value = nameServerParam + nameServer
+        break
+    
+  
   def clone(self):
     node = Node(self.name)
     node.parent = self.parent

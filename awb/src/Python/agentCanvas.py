@@ -1,28 +1,5 @@
-# Name:
-# Purpose:
-#
-# Author:       D. Moore
-#
-# RCS-ID:       $Id: agentCanvas.py,v 1.12 2004-12-06 22:22:46 damoore Exp $
-#  <copyright>
-#  Copyright 2002 BBN Technologies, LLC
-#  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the Cougaar Open Source License as published by
-#  DARPA on the Cougaar Open Source Website (www.cougaar.org).
-#
-#  THE COUGAAR SOFTWARE AND ANY DERIVATIVE SUPPLIED BY LICENSOR IS
-#  PROVIDED 'AS IS' WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR
-#  IMPLIED, INCLUDING (BUT NOT LIMITED TO) ALL IMPLIED WARRANTIES OF
-#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND WITHOUT
-#  ANY WARRANTIES AS TO NON-INFRINGEMENT.  IN NO EVENT SHALL COPYRIGHT
-#  HOLDER BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL
-#  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE OF DATA OR PROFITS,
-#  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-#  PERFORMANCE OF THE COUGAAR SOFTWARE.
-# </copyright>
-#
+# CONVERTED2DOT5 = TRUE
+
 import sys
 import re
 import urllib
@@ -110,7 +87,8 @@ class AgentCanvas(ogl.ShapeCanvas):
             #~ self.addShape(s, x, y, None, None, str(agent), "YELLOW")
 
     def addShape(self, shape, x, y, pen, brush, text, textColour):
-        FontParameters = wx.Font(10, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
+        FontParameters = wx.Font(10, wx.SWISS,wx.NORMAL, wx.BOLD)
+        
         print "SHAPE==>", shape
         shape.SetDraggable(True, True)
         shape.SetCanvas(self)
@@ -121,7 +99,7 @@ class AgentCanvas(ogl.ShapeCanvas):
         if textColour:    shape.SetTextColour(textColour)
         if text:
             shape.AddText(text)
-            shape.SetFormatMode(ogl.FORMAT_CENTRE_VERT)
+            shape.SetFormatMode(ogl.FORMAT_CENTRE_HORIZ&ogl.FORMAT_CENTRE_VERT)
             shape.SetRegionName(text)
             # shape.SetShadowMode(SHADOW_RIGHT)
             self.diagram.AddShape(shape)
@@ -135,6 +113,7 @@ class AgentCanvas(ogl.ShapeCanvas):
         self.shapes.append(shape)
         self.shapeDict[text] = shape
         #~ return shape
+        
     def removeShape(self, shape):
         self.diagram.RemoveShape(shape) # caution this seems to remove the shape from the canvas but NOT delete it
         shapes.remove(shape)
@@ -143,20 +122,22 @@ class AgentCanvas(ogl.ShapeCanvas):
     def OrganizeAgents(self,# level=z.ZEROLEVEL, maxWidth=z.MAXWIDTH,
         boxWidth=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"],
         boxHeight=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXHEIGHT"],
-        widthspacing=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["WIDTHSPACING"],
-        heightspacing= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["HEIGHTSPACING"],
+        pixelLevel=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["PIXELLEVEL"],
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
-        newfont = wx.Font(fontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
+        newfont = wx.Font(fontSize, wx.SWISS,wx.NORMAL, wx.NORMAL, 0, "Lucida Console")
         self.Refresh(True) 
         for shape in self.shapes:
+            numOfLetters = len(shape.GetRegionName(0))
+            print pixelLevel
+            dynamicBoxWidth = (numOfLetters)*(3+pixelLevel*3)
             shape.SetFont(newfont)
-            shape.SetWidth(boxWidth)
+            shape.SetWidth(dynamicBoxWidth)
             shape.SetHeight(boxHeight)
         dc = wx.ClientDC(self)
         self.PrepareDC(dc)
 #        self.CreateConnections(dc)
 
-    def AutoLayout(self,):
+    def AutoLayout(self):
         laListe = []
         radius = 200
         centreOffset = 400

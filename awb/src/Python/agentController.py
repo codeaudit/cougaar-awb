@@ -1,28 +1,5 @@
-# Name:
-# Purpose:
-#
-# Author:       D. Moore
-#
-# RCS-ID:       $Id: agentController.py,v 1.12 2004-12-06 22:22:46 damoore Exp $
-#  <copyright>
-#  Copyright 2002 BBN Technologies, LLC
-#  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
-#
-#  This program is free software; you can redistribute it and/or modify
-#  it under the terms of the Cougaar Open Source License as published by
-#  DARPA on the Cougaar Open Source Website (www.cougaar.org).
-#
-#  THE COUGAAR SOFTWARE AND ANY DERIVATIVE SUPPLIED BY LICENSOR IS
-#  PROVIDED 'AS IS' WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR
-#  IMPLIED, INCLUDING (BUT NOT LIMITED TO) ALL IMPLIED WARRANTIES OF
-#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE, AND WITHOUT
-#  ANY WARRANTIES AS TO NON-INFRINGEMENT.  IN NO EVENT SHALL COPYRIGHT
-#  HOLDER BE LIABLE FOR ANY DIRECT, SPECIAL, INDIRECT OR CONSEQUENTIAL
-#  DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE OF DATA OR PROFITS,
-#  TORTIOUS CONDUCT, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
-#  PERFORMANCE OF THE COUGAAR SOFTWARE.
-# </copyright>
-#
+# CONVERTED2DOT5 = TRUE
+
 import sys
 import re
 import urllib
@@ -168,27 +145,22 @@ class AgentControllerViewer(wx.Panel):
 
     def OnZoomPlus(self, evt):
         if self.canvas.getSocietyStatus() == "active":
-            print "OnZoomPlus"
-            currentLevel = z.getLevel() + 1
-            print z.getLevel()
-            z.setLevel(currentLevel)
+            z.setLevel(z.getLevel()   + 1)
+            currentLevel = z.getLevel()
             self.canvas.OrganizeAgents(boxWidth=z.viewLevelData[currentLevel]["BOXWIDTH"],
             boxHeight=z.viewLevelData[currentLevel]["BOXHEIGHT"],
-            widthspacing=z.viewLevelData[currentLevel]["WIDTHSPACING"],
-            heightspacing= z.viewLevelData[currentLevel]["HEIGHTSPACING"],
+            pixelLevel=z.viewLevelData[currentLevel]["PIXELLEVEL"],
             fontSize=z.viewLevelData[currentLevel]["FONTSIZE"])
         else:
             self.ErrorWindow()
 
     def OnZoomMinus(self, evt):
         if self.canvas.getSocietyStatus() == "active":
-            print "OnZoomMinus"
-            currentLevel = z.getLevel() - 1
-            z.setLevel(currentLevel)
+            z.setLevel(z.getLevel()-1)
+            currentLevel = z.getLevel()
             self.canvas.OrganizeAgents(boxWidth=z.viewLevelData[currentLevel]["BOXWIDTH"],
             boxHeight=z.viewLevelData[currentLevel]["BOXHEIGHT"],
-            widthspacing=z.viewLevelData[currentLevel]["WIDTHSPACING"],
-            heightspacing= z.viewLevelData[currentLevel]["HEIGHTSPACING"],
+            pixelLevel=z.viewLevelData[currentLevel]["PIXELLEVEL"],
             fontSize=z.viewLevelData[currentLevel]["FONTSIZE"])
         else:
             self.ErrorWindow()
@@ -214,11 +186,8 @@ class AgentControllerViewer(wx.Panel):
 
     def OnStopSociety(self, evt):
         #~ signal.signal(signal.SIGINT|signal.SIG_DFL, self.spawnPID)
-#        if sys.platform[:3] in ('win', 'os2'):
-        dlg = wx.MessageDialog(self.frame, "This Feature Not Available in demo version\nFor further information visit http://awb.bbn.com",
-                          'Non-fatal Error', wx.OK|wx.ICON_ERROR)
-        dlg.ShowModal()
-        dlg.Destroy()
+        if sys.platform[:3] in ('win', 'os2'):
+            print 'must use WMI, Win32.all extensions'
         self.ctrlSocietyButton.SetBackgroundColour("BLACK")
         self.ctrlSocietyButton.SetForegroundColour("WHITE")
         self.ctrlSocietyButton.SetLabel("Start")
@@ -475,7 +444,7 @@ class MyEvtHandler(ogl.ShapeEvtHandler):
         canvas = shape.GetCanvas()
         dc = wx.ClientDC(canvas)
         canvas.PrepareDC(dc)
-        FacetPropertiesID = shape.GetClientData() + " Properties"
+        FacetPropertiesID = shape.GetRegionName(0) + " Properties"
 
         win = FacetProperties(shape, canvas, -1, FacetPropertiesID, size=wx.Size(300, 400),style = wx.DEFAULT_DIALOG_STYLE)
                          #style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME

@@ -60,7 +60,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 		for (Iterator iter = getParameters().iterator(); iter.hasNext();) {
 			String s = (String) iter.next();
 			if (s.toLowerCase().indexOf("rows") >= 0)
-				rows = Integer.parseInt(s.substring(s.indexOf("="), s.length()));
+				rows = Integer.parseInt(s.substring(s.indexOf("=")+1, s.length()));
 			if (s.toLowerCase().indexOf("target") < 0)
 				continue;
 
@@ -86,6 +86,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 			blackboard.publishAdd(sr);
 
 		}
+		sendNeighborList(); // initial knowledge of who each cell's neighbor is
 
 	}
 
@@ -132,15 +133,21 @@ public class GameManagerPlugin extends ComponentPlugin {
 	 */
 	private String[] neighborList(int i, int j, String[][] cells, int cols) {
 		// TODO Auto-generated method stub
+		System.out.println ("iteration:"+i+" "+j);
 		String[] n = new String[8];
-		n[0] = cells[(i-1)%rows][(j-1)%cols];
-		n[0] = cells[(i-1)%rows][j];
-		n[0] = cells[(i-1)%rows][(j+1)%cols];
-		n[0] = cells[i][(j-1)%cols];
-		n[0] = cells[i][(j+1)%cols];
-		n[0] = cells[(i+1)%rows][(j-1)%cols];
-		n[0] = cells[(i+1)%rows][j];
-		n[0] = cells[(i+1)%rows][(j+1)%cols];
+		int prevrow = (i-1+rows) % rows;
+		int prevcol = (j-1+cols) % cols;
+		int nextrow = (i+1) % rows;
+		int nextcol = (j+1) % cols;
+		
+		n[0] = cells[prevrow][prevcol];
+		n[1] = cells[prevrow][j];
+		n[2] = cells[prevrow][nextcol];
+		n[3] = cells[i][prevcol];
+		n[4] = cells[i][nextcol];
+		n[5] = cells[nextrow][prevcol];
+		n[6] = cells[nextrow][j];
+		n[7] = cells[nextrow][nextcol];
 		return n;
 	}
 

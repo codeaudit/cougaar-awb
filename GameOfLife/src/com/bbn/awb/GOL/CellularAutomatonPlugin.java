@@ -7,6 +7,7 @@
 package com.bbn.awb.GOL;
 
 import java.util.Enumeration;
+import java.util.Vector;
 
 import org.cougaar.core.blackboard.IncrementalSubscription;
 import org.cougaar.core.mts.MessageAddress;
@@ -28,7 +29,11 @@ import com.bbn.awb.GOL.CellStatusPredicate;
  */
 public class CellularAutomatonPlugin extends ComponentPlugin {
 	UIDService uidService;
+
+	Vector neighbors = new Vector();
+
 	private String myState = new String();
+
 	private IncrementalSubscription gameStatus; // Tasks that I'm interested in
 
 	public void load() {
@@ -85,38 +90,53 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 		// observe added relays
 		for (Enumeration en = gameStatus.getAddedList(); en.hasMoreElements();) {
 			SimpleRelay sr = (SimpleRelay) en.nextElement();
-			String msg_type = ((GameMessage) sr.getQuery()).getType();  
-            String msg_param = ((GameMessage) sr.getQuery()).getParam();
-            MessageAddress msg_src = sr.getSource();
+			String msg_type = ((GameMessage) sr.getQuery()).getType();
+			String msg_param = ((GameMessage) sr.getQuery()).getParam();
+			MessageAddress msg_src = sr.getSource();
 
 			if (!agentId.equals(msg_src)) { //Ignore messages to self
-     			printMessageData("^^^ ", sr);
+				printMessageData("^^^ ", sr);
 				printMessage(agentId.toString().toUpperCase(), sr);
-				if (msg_type.equals("GO"))
+				if (msg_type.equals(GameMessage.GO_MESSAGE))
 					handleGo();
-				else if (msg_type.equals("INIT"))
+				else if (msg_type.equals(GameMessage.INIT_MESSAGE))
 					handleInit(msg_param);
-				else if (msg_type.equals("READY"))
+				else if (msg_type.equals(GameMessage.READY_MESSAGE))
 					handleReady();
-				else if (msg_type.equals("QUERY"))
+				else if (msg_type.equals(GameMessage.QUERY_MESSAGE))
 					handleQuery(msg_src);
-				else if (msg_type.equals("RESPONSE"))
+				else if (msg_type.equals(GameMessage.RESPONSE_MESSAGE))
 					handleResponse(msg_param, msg_src.toString());
-				else if (msg_type.equals("NEIGHBOR"))
+				else if (msg_type.equals(GameMessage.NEIGHBOR_MESSAGE))
 					handleNeighbor(msg_param);
+				else if (msg_type.equals(GameMessage.NEIGHBOR_ACK_MESSAGE))
+					handleNeighborAck();
 			}
 			blackboard.publishRemove(sr);
-		}		
+		}
 	}
 
-
+	/**
+	 *  
+	 */
+	private void handleNeighborAck() {
+		// TODO Auto-generated method stub
+		System.out.println(agentId + ":Got a "
+				+ GameMessage.NEIGHBOR_ACK_MESSAGE
+				+ "  That shouldn't hapen...");
+	}
 
 	/**
 	 * @param msg_param
 	 */
 	private void handleNeighbor(String msg_param) {
 		// TODO Auto-generated method stub
-		System.out.println("Creating neighbor connection to "+msg_param);
+		System.out.println(agentId + ":Creating neighbor connection to "
+				+ msg_param);
+		neighbors.add(msg_param);
+		sendMessage(GameMessage.NEIGHBOR_ACK_MESSAGE,
+				msg_param /* here, taken to mean my neighbor */, 
+				"GameManager");
 	}
 
 	/**
@@ -125,7 +145,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	 */
 	private void handleResponse(String msg_param, String msg_src) {
 		// TODO Auto-generated method stub
-		System.out.println("Got response "+msg_param+" from "+msg_src);
+		System.out.println("Got response " + msg_param + " from " + msg_src);
 	}
 
 	/**
@@ -137,11 +157,12 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	}
 
 	/**
-	 * 
+	 *  
 	 */
 	private void handleReady() {
 		// TODO Auto-generated method stub
-		System.out.println("Got a READY message.  That shouldn't hapen...");		
+		System.out.println(agentId
+				+ ":Got a READY message.  That shouldn't hapen...");
 	}
 
 	/**
@@ -150,16 +171,16 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	private void handleInit(String msg_param) {
 		// TODO Auto-generated method stub
 		myState = msg_param;
-		sendMessage("READY", null, "GameManager");		
+		sendMessage("READY", null, "GameManager");
 	}
 
 	/**
-	 * 
+	 *  
 	 */
 	private void handleGo() {
 		// TODO Auto-generated method stub
-		System.out.println(agentId.toString()+" starting next iteration");
-		
+		System.out.println(agentId.toString() + " starting next iteration");
+
 	}
 
 	/**
@@ -168,15 +189,15 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	 */
 	private void sendMessage(String type, String param, String target_name) {
 		// TODO Auto-generated method stub
-		 MessageAddress target = MessageAddress.getMessageAddress(target_name);
-			if (agentId.equals(target)) {
-				System.out.println(agentId + ":sending to myself..." + agentId);
-				return;
-			}
-			UID uid = uidService.nextUID();
-			GameMessage query = new GameMessage(type, param);
-			SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
-			blackboard.publishAdd(sr);
+		MessageAddress target = MessageAddress.getMessageAddress(target_name);
+		if (agentId.equals(target)) {
+			System.out.println(agentId + ":sending to myself..." + agentId);
+			return;
+		}
+		UID uid = uidService.nextUID();
+		GameMessage query = new GameMessage(type, param);
+		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+		blackboard.publishAdd(sr);
 	}
 
 	/**
@@ -188,13 +209,13 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 	}
 
 	/**
-	 * make conversaations with adjacent cells.
-	 * calculate my state based on number of received responses
+	 * make conversaations with adjacent cells. calculate my state based on
+	 * number of received responses
 	 *  
 	 */
 	private void calculateState() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void printMessageData(String extra, SimpleRelay sr) {

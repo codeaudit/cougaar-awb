@@ -29,26 +29,65 @@ class AgentMetadata:
         return "AgentMetadata:Agent:"+str(self.agentName)+" organisation: "+str(self.org_id)+" superior "+str(self.superior)+  " subordinates: "+str(self.subordinates)+"Level "+str(self.level)+"\n"
         #~ return "AgentMetadata:Agent:"+self.agentName+"organisation:"+self.org_id+"\n"
 
+class LevelData:
+    def __init__(self, agentName):
+        self.numberOfAgents = 1
+        self.agents = [agentName]
+    def __str__(self):
+        rtnString = "\tLevelData: "+str(self.numberOfAgents)+" agents.\n\t\t"
+        for a in self.agents:
+            rtnString += a+" "
+        return rtnString
 
+class LevelMap:
+    def __init__(self):
+        self.levelMap = {}
+        self.highestLevel = 0
+    def addLevelData(self,AgentName=None, Level=1):
+        if self.levelMap.has_key(Level):
+            l = self.levelMap[Level]
+            l.agents.append(AgentName)
+            l.numberOfAgents += 1
+            self.levelMap[Level] = l
+        else: 
+            l = LevelData(AgentName)
+            self.levelMap[Level] = l
+    def __str__(self):
+        rtnString =  "LevelMap==>\n"
+        for iter in self.levelMap.iterkeys():
+            levelData = self.levelMap[iter]
+            rtnString += "level"+str(iter)+","+str(levelData)
+            rtnString += "\n"
+        return rtnString
+
+
+        
 
 
 class MilitaryHierarchy:
     def __init__(self, society): # consumes a python society model
         self.hierarchy = {}
-        self.levelMap = {}
+        self.levelMap = LevelMap()
         for a in society.each_agent():
             self.addAgent(a)
         self.highestLevel = 0
+        self.createLevelMap()
+        #~ print "Highest Level:", self.highestLevel
+        print "levelMap:", self.levelMap
+
+    def createLevelMap(self):
+        """
+        returns a dictionary whose keys are a level number, and whose elements are a list of agents at that level
+        """
         for a in self.hierarchy.iterkeys():
             self.lvl = 0
             self.calcLevel(a)
-            if self.lvl > self.highestLevel: self.highestLevel = self.lvl
-            if self.levelMap.has_key(self.lvl):
-                self.levelMap[self.lvl] += 1
-            else: self.levelMap[self.lvl] = 1
-            self.hierarchy[a].setLevel(self.lvl)
-        print "Highest Level:", self.highestLevel
-        print "levelMap:", self.levelMap
+            if self.lvl > self.levelMap.highestLevel: self.levelMap.highestLevel = self.lvl
+            self.levelMap.addLevelData(AgentName=a, Level=self.lvl)
+            #~ if self.LevelMap.has_key(self.lvl):
+                #~ self.levelMap[self.lvl] += 1
+            #~ else: self.levelMap[self.lvl] = 1
+            #~ self.hierarchy[a].setLevel(self.lvl)
 
     def addAgent(self, agent):
         org = agent.get_facet_values("org_id")
@@ -68,6 +107,6 @@ class MilitaryHierarchy:
     def __str__(self):
         rtnString =  "MilitaryHierarchy==>\n"
         for iter in self.hierarchy.iterkeys(): 
-            rtnString = rtnString +  str(self.hierarchy[iter])
+            rtnString = rtnString +  str(self.hierarchy[iter])+"\n"
         return rtnString
 

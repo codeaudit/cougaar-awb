@@ -152,7 +152,8 @@ class AgentControllerViewer(wx.Panel):
             self.canvas.OrganizeAgents(boxWidth=z.viewLevelData[currentLevel]["BOXWIDTH"],
             boxHeight=z.viewLevelData[currentLevel]["BOXHEIGHT"],
             pixelLevel=z.viewLevelData[currentLevel]["PIXELLEVEL"],
-            fontSize=z.viewLevelData[currentLevel]["FONTSIZE"])
+            fontSize=z.viewLevelData[currentLevel]["FONTSIZE"],
+            theradius=z.viewLevelData[currentLevel]["RADIUS"])
         else:
             self.ErrorWindow()
 
@@ -163,7 +164,8 @@ class AgentControllerViewer(wx.Panel):
             self.canvas.OrganizeAgents(boxWidth=z.viewLevelData[currentLevel]["BOXWIDTH"],
             boxHeight=z.viewLevelData[currentLevel]["BOXHEIGHT"],
             pixelLevel=z.viewLevelData[currentLevel]["PIXELLEVEL"],
-            fontSize=z.viewLevelData[currentLevel]["FONTSIZE"])
+            fontSize=z.viewLevelData[currentLevel]["FONTSIZE"],
+            theradius=z.viewLevelData[currentLevel]["RADIUS"])
         else:
             self.ErrorWindow()
 

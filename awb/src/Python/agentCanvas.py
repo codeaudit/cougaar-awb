@@ -61,21 +61,22 @@ class AgentCanvas(ogl.ShapeCanvas):
     def setSocietyActive(self):
         self.status = "active"
     def CreateSociety(self, agentList,
-            boxWidth= z.viewLevelData[2]["BOXWIDTH"],
-            boxHeight=z.viewLevelData[2]["BOXHEIGHT"],
+            boxWidth= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"],
+            boxHeight=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXHEIGHT"],
+            theradius=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["RADIUS"]
             ):
         self.diagram.RemoveAllShapes()
 
         self.agentList = agentList
-        leList = self.AutoLayout()
+        leList = self.AutoLayout(theradius)
         i = 0
         for agent in agentList:
             x = leList[i][0]
             y = leList[i][1]
             i += 1
             print "at ", x, y
-            w = z.viewLevelData[2]["BOXWIDTH"]*3
-            h = z.viewLevelData[2]["BOXHEIGHT"]
+            w = z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"]*3
+            h = z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXHEIGHT"]
             self.addShape(
             ogl.RectangleShape(w,h), x,y, wx.BLACK_PEN,
             wx.Brush("GREY", wx.SOLID),
@@ -123,10 +124,19 @@ class AgentCanvas(ogl.ShapeCanvas):
         boxWidth=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXWIDTH"],
         boxHeight=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["BOXHEIGHT"],
         pixelLevel=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["PIXELLEVEL"],
-        fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
+        fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"],        
+        theradius=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["RADIUS"]
+        ):
         newfont = wx.Font(fontSize, wx.SWISS,wx.NORMAL, wx.NORMAL, 0, "Lucida Console")
+        leList = self.AutoLayout(theradius)
         self.Refresh(True) 
+        i = 0
         for shape in self.shapes:
+            x = leList[i][0]
+            y = leList[i][1]
+            i += 1
+            shape.SetX(x)
+            shape.SetY(y)
             numOfLetters = len(shape.GetRegionName(0))
             print pixelLevel
             dynamicBoxWidth = (numOfLetters)*(3+pixelLevel*3)
@@ -137,9 +147,9 @@ class AgentCanvas(ogl.ShapeCanvas):
         self.PrepareDC(dc)
 #        self.CreateConnections(dc)
 
-    def AutoLayout(self):
+    def AutoLayout(self, tRad):
         laListe = []
-        radius = 200
+        radius = tRad
         centreOffset = 400
         listLen = len(self.agentList)
         rightAscent = (2 * math.pi) / listLen

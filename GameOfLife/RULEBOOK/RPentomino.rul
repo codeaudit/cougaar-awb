@@ -1,0 +1,26 @@
+#Sets initial state to R-Pentoino
+#This pattern stabalizes after 1103 generations
+def setArgs(component):
+  args = []
+  living = ['Cell44', 'Cell45', 'Cell53', 'Cell54',  'Cell64']
+  for i in range(0, 100):
+    cell = 'Cell'+str(i)
+    argString = "target="+cell+":Dead"
+    if living.count(cell) > 0:
+      argString = "target="+cell+":Alive"
+    arg = Argument(argString)
+    arg.parent = component
+    args.append(arg)
+  arg = Argument("rows=10")
+  arg.parent = component
+  args.append(arg)
+  #ugly absolutly hideous way of doing this.  Erases all arguments
+  #need API in ACMEPy to replace args  
+  component.arguments = args
+
+for node in society.each_node():
+#Tell game manager about new agents
+  for agent in node.each_agent():
+    for component in agent.each_component():
+      if (component.klass == 'com.bbn.awb.GOL.GameManagerPlugin'):
+        setArgs(component)

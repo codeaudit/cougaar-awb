@@ -151,10 +151,11 @@ class ULHierarchy:
 						if node.nodeName == 'Rel':
 							if node.getAttributeNS(None, "Rel") == "Superior":
 								hierarchyElement.addSuperior([str(node.getAttributeNS(None, "OrgID"))])
-								#~ print  "superior org..", node.getAttributeNS(None, "OrgID")
+								print  "superior org..", node.getAttributeNS(None, "OrgID")
 							if node.getAttributeNS(None, "Rel") == "Subordinate":
 								hierarchyElement.addSubordinates( [str(node.getAttributeNS(None, "OrgID"))])
-								#~ print  "subordinate org..", node.getAttributeNS(None, "OrgID")
+							#~ print  "1"
+
 							self.hierarchy[orgName] = hierarchyElement
 
 	def createLevelMap(self):

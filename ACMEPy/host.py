@@ -211,7 +211,7 @@ class Host:
   def countNodes(self, onlyIfIncluded=False):
     if onlyIfIncluded:
       numNodes = 0
-      for node in nodelist:
+      for node in self.nodelist:
         if not node.isExcluded:
           numNodes += 1
       return numNodes

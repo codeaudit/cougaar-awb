@@ -35,6 +35,7 @@ class Agent:
     self.facets = []
     self.components = []
     self.rule = str(rule)
+    self.isExcluded = False
       
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
@@ -203,6 +204,7 @@ class Agent:
   def clone(self, inclComponents=True):
     agent = Agent(self.name, self.klass, self.rule)
     agent.uic = self.uic
+    agent.isExcluded = self.isExcluded
     if inclComponents:
       for component in self.components:
         new_component = component.clone()

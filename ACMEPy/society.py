@@ -258,16 +258,18 @@ class Society:
           for component in agent.each_component():
             yield component
 
-  def get_node_list(self):
+  def get_node_list(self, onlyIfIncluded=False):
     nodeList = []
     for node in self.each_node():
-      nodeList.append(node)
+      if not onlyIfIncluded or (onlyIfIncluded and not node.isExcluded):
+        nodeList.append(node)
     return nodeList
   
-  def get_agent_list(self, inclNodeAgent=False):
+  def get_agent_list(self, inclNodeAgent=False, onlyIfIncluded=False):
     agentList = []
     for agent in self.each_agent(inclNodeAgent):
-      agentList.append(agent)
+      if not onlyIfIncluded or (onlyIfIncluded and not agent.isExcluded):
+        agentList.append(agent)
     return agentList
   
   def countHosts(self, onlyIfIncluded=False):
@@ -289,10 +291,11 @@ class Society:
       return numNodes
     return len(nodelist)
   
-  def countAgents(self):
+  def countAgents(self, onlyIfIncluded=False):
     count = 0
     for agent in self.each_agent():
-      count += 1
+      if not onlyIfIncluded or (onlyIfIncluded and not agent.isExcluded):
+        count += 1
     return count
   
   def clone(self, inclComponents=True):

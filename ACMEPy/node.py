@@ -64,7 +64,7 @@ class Node:
   def add_agent(self, agent, orderAfterObj=None, reorder=False):
     if isinstance(agent, Agent):
       isDupe = False
-      # Check if we've already got a node by that name; but if this
+      # Check if we've already got an agent by that name; but if this
       # is a reordering, dupes are ok, so we leave isDupe set to false
       if not reorder and self.society is not None:
         for existingAgent in self.society.each_agent():
@@ -154,7 +154,13 @@ class Node:
         return True
     return False
   
-  def countAgents(self):
+  def countAgents(self, onlyIfIncluded=False):
+    if onlyIfIncluded:
+      numAgents = 0
+      for agent in self.agentlist:
+        if not agent.isExcluded:
+          numAgents += 1
+      return numAgents
     return len(self.agentlist)
   
   ##

@@ -7,9 +7,12 @@ import os
 import thread
 import httplib
 
-from wxPython.wx import *
-from wxPython.ogl import *
-from wxPython.lib.dialogs import wxMultipleChoiceDialog
+#from wxPython.wx import *
+#from wxPython.ogl import *
+#from wxPython.lib.dialogs import wxMultipleChoiceDialog
+import wx
+import wx.lib.ogl as ogl
+from wx.lib.dialogs import wxMultipleChoiceDialog
 
 from ACMEPy.society import Society
 from ACMEPy.host import Host
@@ -38,97 +41,105 @@ import images
 
 import zoomer as z
 from PollingServices import *
-
+CONVERTED2DOT5 = True
 #---------------------------------------------------------------------
 #~ GLOBAL VARS
 CLOSE_SOCIETY_BTN_ID = 701
 #----------------------------------------------------------------------
 # This creates some pens and brushes that the OGL library uses.
+# is this right?
+wx.OGLInitialize()
 
-wxOGLInitialize()
-
-class SocietyController(wxPanel):
+class SocietyController(wx.Panel):
     def __init__(self, parent, frame, log):
-        wxPanel.__init__(self, parent, -1)
+        wx.Panel.__init__(self, parent, -1)
         self.society = None
         self.hierarchy = None
         self.URL = None
         self.log = log
         self.frame = frame
-        self.printData = wxPrintData()
-        self.printData.SetPaperId(wxPAPER_LETTER)
+        self.printData = wx.PrintData()
+        self.printData.SetPaperId(wx.PAPER_LETTER)
         self.heatRange  = {50:"PURPLE", 100:"BLUE", 125:"SEA GREEN", 150:"ORANGE", 1000:"RED" }
 #--------
-        self.box = wxBoxSizer(wxVERTICAL)
+        self.box = wx.BoxSizer(wx.VERTICAL)
         self.canvas = SocietyControllerCanvas(self, frame, log)
-        self.box.Add(self.canvas, 1, wxGROW)
-        subbox = wxBoxSizer(wxHORIZONTAL)
+        self.box.Add(self.canvas, 1, wx.GROW)
+        subbox = wx.BoxSizer(wx.HORIZONTAL)
         # ----- new experimental code
 
-        self.openSocietyButton = wxButton(self, 10, "Open Society")
-        EVT_BUTTON(self, 10, self.OnOpenSociety)
-        self.openSocietyButton.SetBackgroundColour(wxBLUE)
-        self.openSocietyButton.SetForegroundColour(wxWHITE)
+        self.openSocietyButton = wx.Button(self, 10, "Open Society")
+#        EVT_BUTTON(self, 10, self.OnOpenSociety)
+        self.Bind(wx.EVT_BUTTON, self.OnOpenSociety, self.openSocietyButton)
+
+        self.openSocietyButton.SetBackgroundColour(wx.BLUE)
+        self.openSocietyButton.SetForegroundColour(wx.WHITE)
         self.openSocietyButton.SetDefault()
-        subbox.Add(self.openSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.openSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
 
         # ------
-        self.viewSocietyButton = wxButton(self, 11, "View Society")
-        EVT_BUTTON(self, 11, self.OnViewSociety)
-        self.viewSocietyButton.SetBackgroundColour(wxGREEN)
-        self.viewSocietyButton.SetForegroundColour(wxWHITE)
+        self.viewSocietyButton = wx.Button(self, 11, "View Society")
+#        EVT_BUTTON(self, 11, self.OnViewSociety)
+        self.Bind(wx.EVT_BUTTON, self.OnViewSociety, self.viewSocietyButton)
+        self.viewSocietyButton.SetBackgroundColour(wx.GREEN)
+        self.viewSocietyButton.SetForegroundColour(wx.WHITE)
         #~ self.viewSocietyButton.SetDefault()
-        subbox.Add(self.viewSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.viewSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
         #~ EVT_SOCIETYCONTROLLER_TEST(self, self.EventUpdate)
         EVT_AGENT_TASK_COUNT(self, self.AgentTaskCountUpdate)
-
+        self.Bind(EVT_AGENT_TASK_COUNT,self.AgentTaskCountUpdate )
         # ------
-        self.closeSocietyButton = wxButton(self, CLOSE_SOCIETY_BTN_ID, "Close Society")
-        EVT_BUTTON(self, CLOSE_SOCIETY_BTN_ID, self.OnCloseSociety)
-        self.closeSocietyButton.SetBackgroundColour(wxBLACK)
-        self.closeSocietyButton.SetForegroundColour(wxWHITE)
+        self.closeSocietyButton = wx.Button(self, CLOSE_SOCIETY_BTN_ID, "Close Society")
+#        EVT_BUTTON(self, CLOSE_SOCIETY_BTN_ID, self.OnCloseSociety)
+        self.Bind(wx.EVT_BUTTON, self.OnCloseSociety, self.closeSocietyButton)
+        self.closeSocietyButton.SetBackgroundColour(wx.BLACK)
+        self.closeSocietyButton.SetForegroundColour(wx.WHITE)
         #~ self.viewSocietyButton.SetDefault()
-        subbox.Add(self.closeSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.closeSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
         #~ EVT_SOCIETYCONTROLLER_TEST(self, self.EventUpdate)
 
         # ------
-        self.ZoomPlusButton = wxButton(self, 12, "+")
-        EVT_BUTTON(self, 12, self.OnZoomPlus)
-        self.ZoomPlusButton.SetBackgroundColour(wxGREEN)
-        self.ZoomPlusButton.SetForegroundColour(wxWHITE)
+        self.ZoomPlusButton = wx.Button(self, 12, "+")
+#        EVT_BUTTON(self, 12, self.OnZoomPlus)
+        self.Bind(wx.EVT_BUTTON, self.OnZoomPlus, self.ZoomPlusButton)
+        self.ZoomPlusButton.SetBackgroundColour(wx.GREEN)
+        self.ZoomPlusButton.SetForegroundColour(wx.WHITE)
 
-        subbox.Add(self.ZoomPlusButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.ZoomPlusButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
 
        # ------
-        self.ZoomMinusButton = wxButton(self, 13, "-")
-        EVT_BUTTON(self, 13, self.OnZoomMinus)
-        self.ZoomMinusButton.SetBackgroundColour(wxRED)
-        self.ZoomMinusButton.SetForegroundColour(wxWHITE)
-        subbox.Add(self.ZoomMinusButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        self.ZoomMinusButton = wx.Button(self, 13, "-")
+#        EVT_BUTTON(self, 13, self.OnZoomMinus)
+        self.Bind(wx.EVT_BUTTON, self.OnZoomMinus, self.ZoomMinusButton)
+        self.ZoomMinusButton.SetBackgroundColour(wx.RED)
+        self.ZoomMinusButton.SetForegroundColour(wx.WHITE)
+        subbox.Add(self.ZoomMinusButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
        # ------
-        self.viewServletButton = wxButton(self, 15, "Servlet Options")
-        EVT_BUTTON(self, 15, self.viewServletOptions)
-        self.viewServletButton.SetBackgroundColour(wxBLACK)
-        self.viewServletButton.SetForegroundColour(wxWHITE)
+        self.viewServletButton = wx.Button(self, 15, "Servlet Options")
+#        EVT_BUTTON(self, 15, self.viewServletOptions)
+        self.Bind(wx.EVT_BUTTON, self.viewServletOptions, self.viewServletButton)
+        self.viewServletButton.SetBackgroundColour(wx.BLACK)
+        self.viewServletButton.SetForegroundColour(wx.WHITE)
         #~ self.viewSocietyButton.SetDefault()
-        subbox.Add(self.viewServletButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.viewServletButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
 
         # ------
-        self.testServletButton = wxButton(self, 16, "Task Probe")
-        EVT_BUTTON(self, 16, self.testServletPolling)
-        self.testServletButton.SetBackgroundColour(wxCYAN)
-        self.testServletButton.SetForegroundColour(wxBLACK)
+        self.testServletButton = wx.Button(self, 16, "Task Probe")
+#        EVT_BUTTON(self, 16, self.testServletPolling)
+        self.Bind(wx.EVT_BUTTON, self.testServletPolling, self.testServletButton)
+        self.testServletButton.SetBackgroundColour(wx.CYAN)
+        self.testServletButton.SetForegroundColour(wx.BLACK)
         #~ self.viewSocietyButton.SetDefault()
-        subbox.Add(self.testServletButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+        subbox.Add(self.testServletButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
 
         #~ EVT_SOCIETYCONTROLLER_TEST(self, self.EventUpdate)
-        self.box.Add(subbox, 0, wxGROW)
+        self.box.Add(subbox, 0, wx.GROW)
 
         self.SetAutoLayout(True)
         self.SetSizer(self.box)
         self.bg_bmp = images.getGridBGBitmap()
-        EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
-
+#        EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
+        self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
     def OnEraseBackground(self, evt):
         pass
     def AgentTaskCountUpdate(self, evt):
@@ -148,9 +159,9 @@ class SocietyController(wxPanel):
         heats.sort()
         for h in heats:
                 if int(evt.msg[1]) <= h:
-                        shape.SetBrush(wxBrush(self.heatRange[h], wxSOLID))
+                        shape.SetBrush(wx.Brush(self.heatRange[h], wx.SOLID))
                         break
-        dc = wxClientDC(self.canvas)
+        dc = wx.ClientDC(self.canvas)
         self.canvas.PrepareDC(dc)
         self.canvas.Redraw(dc)
 
@@ -186,8 +197,8 @@ class SocietyController(wxPanel):
         """
         #self.frame.openSocietyFile(self, "controller")
         # stub code to exercise parsing and layour engine...
-        fileDialog = wxFileDialog(self, message="Choose a parseable file (*.xml", wildcard = "*.*", style=wxOPEN  )
-        if fileDialog.ShowModal() == wxID_OK:
+        fileDialog = wx.FileDialog(self, message="Choose a parseable file (*.xml", wildcard = "*.*", style=wx.OPEN  )
+        if fileDialog.ShowModal() == wx.ID_OK:
             path = fileDialog.GetPath()
         fileDialog.Destroy()
         self.hierarchy = self.viewSociety(path)
@@ -197,10 +208,10 @@ class SocietyController(wxPanel):
 
 
     def OnViewSociety(self, evt):
-        win = URLDlg(self,wxNewId(), self.log, "Society Ping", size=wxSize(400, 300),style = wxDEFAULT_DIALOG_STYLE)
+        win = URLDlg(self,wx.NewId(), self.log, "Society Ping", size=wx.Size(400, 300),style = wx.DEFAULT_DIALOG_STYLE)
         win.CenterOnScreen()
         val = win.ShowModal()
-        if val == wxID_OK:
+        if val == wx.ID_OK:
             self.log.WriteText("URLDlg OK\n")
             self.log.WriteText(self.URL)
             self.hierarchy = ULHierarchy(uri=self.URL)
@@ -237,7 +248,7 @@ class SocietyController(wxPanel):
     def OnEraseBackground(self, evt):
         dc = evt.GetDC()
         if not dc:
-          dc = wxClientDC(self.GetClientWindow())
+          dc = wx.ClientDC(self.GetClientWindow())
 
         # tile the background bitmap
         sz = self.GetClientSize()
@@ -258,7 +269,7 @@ class SocietyController(wxPanel):
         """
         This wants to be nicely integrated with the GUI, such that
         When you select the file, an animation starts (similar to a busy watch cursor) and when the society is
-        complete, an wxEvent is sent to the GUI. see exmaples in other parts of the application.
+        complete, an wx.Event is sent to the GUI. see exmaples in other parts of the application.
         use SocietyFactoryServer instead of SocietyFactory
         """
         m = re.compile('\.', re.IGNORECASE).split(str(generator_file))
@@ -279,7 +290,7 @@ class SocietyController(wxPanel):
 
     def viewServletOptions(self, evt):
         if self.canvas.getSocietyStatus() == "active":
-            win = ServletProperties(self.canvas, -1, "Servlet Properties", size=wxSize(300, 400),style = wxDEFAULT_DIALOG_STYLE)
+            win = ServletProperties(self.canvas, -1, "Servlet Properties", size=wx.Size(300, 400),style = wx.DEFAULT_DIALOG_STYLE)
             win.CenterOnScreen()
             val = win.ShowModal()
         else:
@@ -300,22 +311,22 @@ class SocietyController(wxPanel):
                 tasks = aPeer.getGeneratedData(agent)
                 print "iteration:", limit, agent,  tasks
                 evt = AgentTaskCountEvent((agent, tasks))
-                wxPostEvent(self, evt)
+                wx.PostEvent(self, evt)
 
 
     def _ServletPoller(self):
             pass
     #~ def PlayRedraw(self, name):
         #~ shape = self.canvas.shapeDict[name]
-        #~ shape.SetBrush(wxBrush(COLOURDB[r.randint(0, len(COLOURDB)) % len(COLOURDB )], wxCROSSDIAG_HATCH))
-        #~ dc = wxClientDC(self.canvas)
+        #~ shape.SetBrush(wx.Brush(COLOURDB[r.randint(0, len(COLOURDB)) % len(COLOURDB )], wx.CROSSDIAG_HATCH))
+        #~ dc = wx.ClientDC(self.canvas)
         #~ self.canvas.PrepareDC(dc)
         #~ self.canvas.Redraw(dc)
 
     def ErrorWindow(self):
-        #~ def __init__(self, parent, ID, title, pos=wxDefaultPosition, size=wxDefaultSize, style=wxDEFAULT_DIALOG_STYLE):
-        win = ServerNotRunning(self.canvas, -1, "Server Inactive", pos=wxDefaultPosition, size=wxSize(500, 100), style = wxDEFAULT_DIALOG_STYLE)
-                         #style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME
+        #~ def __init__(self, parent, ID, title, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE):
+        win = ServerNotRunning(self.canvas, -1, "Server Inactive", pos=wx.DefaultPosition, size=wx.Size(500, 100), style = wx.DEFAULT_DIALOG_STYLE)
+                         #style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME
         win.CenterOnScreen()
         val = win.ShowModal()
 
@@ -324,17 +335,17 @@ class SocietyController(wxPanel):
 #----------------------------------------------------------------------
 
 
-class SocietyControllerCanvas(wxShapeCanvas):
+class SocietyControllerCanvas(wx.ShapeCanvas):
 
     def __init__(self, parent, frame, log):
 
-        wxShapeCanvas.__init__(self, parent)
+        wx.ShapeCanvas.__init__(self, parent)
         self.log = log
         self.parent = parent
         self.frame = frame
-        self.SetBackgroundColour("LIGHT BLUE") #wxWHITE)
+        self.SetBackgroundColour("LIGHT BLUE") #wx.WHITE)
         self.status = "inactive"
-        self.diagram = wxDiagram()
+        self.diagram = wx.Diagram()
         self.SetDiagram(self.diagram)
         self.diagram.SetCanvas(self)
         self.AgentInfoDict = {}
@@ -343,14 +354,14 @@ class SocietyControllerCanvas(wxShapeCanvas):
         self.save_gdi = []
 	#~ Joe -- what is purpose of this vvvvvvvvvvvvvvvvv  ?
         self.TheSociety = mySociety() # create the society
-        rRectBrush = wxBrush("MEDIUM TURQUOISE", wxSOLID)
-        dsBrush = wxBrush("WHEAT", wxSOLID)
+        rRectBrush = wx.Brush("MEDIUM TURQUOISE", wx.SOLID)
+        dsBrush = wx.Brush("WHEAT", wx.SOLID)
         #~ self.CreateSocieties()
         #~ self.OrganizeLevels()
         self.SetScrollbars(20, 20, z.MAXWIDTH/20, z.MAXWIDTH/20)
 
-        EVT_WINDOW_DESTROY(self, self.OnDestroy)
-        #~ EVT_RIGHT_UP(self, self.OnRightClick)
+#        EVT_WINDOW_DESTROY(self, self.OnDestroy)
+        self.Bind(wx.EVT_WINDOW_DESTROY, self.OnDestroy)
 
     def MySocietyInit(self):
         self.TheSociety.hideAll()         # Hide all the old nodes
@@ -358,7 +369,7 @@ class SocietyControllerCanvas(wxShapeCanvas):
         self.shapeDict.clear()             # Clear dictionary list
         del self.shapes[0:]                # Delete the shapes list
         del self.diagram                    # delete the diagram
-        self.diagram = wxDiagram()     #make a new diagram
+        self.diagram = wx.Diagram()     #make a new diagram
         self.SetDiagram(self.diagram)
         self.diagram.SetCanvas(self)
         # Reset the society
@@ -408,12 +419,12 @@ class SocietyControllerCanvas(wxShapeCanvas):
                 facetList = self.TheSociety.getFacetList()
                 factListLength = len(facetList)
                 while (tempctr < factListLength):
-                    #self.MyAddShape(wxRectangleShape(boxWidth, boxHeight), 0, 0, wxBLACK_PEN, wxBLACK_BRUSH, "22", "#AA0000"
+                    #self.MyAddShape(wx.RectangleShape(boxWidth, boxHeight), 0, 0, wx.BLACK_PEN, wx.BLACK_BRUSH, "22", "#AA0000"
                     w = z.viewLevelData[1]["BOXWIDTH"]
                     h = z.viewLevelData[1]["BOXHEIGHT"]
                     self.MyAddShape(
-                    wxRectangleShape(w,h), 100, 100, wxBLACK_PEN,
-                    wxBrush("WHEAT", wxSOLID),
+                    wx.RectangleShape(w,h), 100, 100, wx.BLACK_PEN,
+                    wx.Brush("WHEAT", wx.SOLID),
                     #~ facetList[tempctr].myFacetBrush,
                     facetList[tempctr].myFacetName,
                     "DARK GREEN"
@@ -427,7 +438,7 @@ class SocietyControllerCanvas(wxShapeCanvas):
                 #~ evtFactory.Start()
 
     def MyAddShape(self, shape, x, y, pen, brush, text, textColour):
-        FontParameters = wxFont(10, wxDEFAULT,wxNORMAL, wxNORMAL)
+        FontParameters = wx.Font(10, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
 
         shape.SetDraggable(True, True)
         shape.SetCanvas(self)
@@ -462,7 +473,7 @@ class SocietyControllerCanvas(wxShapeCanvas):
         heightspacing= z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["HEIGHTSPACING"],
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
         #~ print "organiseLevels", "boxwidth", boxWidth, 'boxhieght', 'boxheight', boxHeight
-        dc = wxClientDC(self)
+        dc = wx.ClientDC(self)
         self.PrepareDC(dc)
         self.Clear()
 
@@ -522,10 +533,10 @@ class SocietyControllerCanvas(wxShapeCanvas):
                     for possibleToShape in self.shapes:
                         if str(possibleToShape.GetClientData()) == str(connection):
                                 toShape = possibleToShape
-                                line = wxLineShape()
+                                line = wx.LineShape()
                                 line.SetCanvas(self)
-                                line.SetPen(wxBLACK_PEN)
-                                line.SetBrush(wxBLACK_BRUSH)
+                                line.SetPen(wx.BLACK_PEN)
+                                line.SetBrush(wx.BLACK_BRUSH)
                                 line.AddArrow(ARROW_ARROW)
                                 line.MakeLineControlPoints(2)
                                 fromShape.AddLine(line, toShape)
@@ -558,7 +569,7 @@ class SocietyControllerCanvas(wxShapeCanvas):
         self.diagram.Destroy()
 
     def ResizeBoxes(self, nWidth, nHeight, nFontSize):
-        FontParameters = wxFont(nFontSize, wxDEFAULT,wxNORMAL, wxNORMAL)
+        FontParameters = wx.Font(nFontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
         for i in self.diagram.GetShapeList():
             i.SetSize(nWidth, nHeight)
             i.SetFont(FontParameters)
@@ -571,59 +582,11 @@ class SocietyControllerCanvas(wxShapeCanvas):
         self.log.write("OnEndDragLeft: %s, %s, %s\n" % (x, y, keys))
 
 #----------------------------------------------------------------------
-class DividedShape(wxDividedShape):
-    def __init__(self, width, height, canvas):
-        wxDividedShape.__init__(self, width, height)
-
-        region1 = wxShapeRegion()
-        region1.SetText('wxDividedShape')
-        region1.SetProportions(0.0, 0.2)
-        region1.SetFormatMode(FORMAT_CENTRE_HORIZ)
-        self.AddRegion(region1)
-
-        region2 = wxShapeRegion()
-        region2.SetText('This is Region number two.')
-        region2.SetProportions(0.0, 0.3)
-        region2.SetFormatMode(FORMAT_CENTRE_HORIZ|FORMAT_CENTRE_VERT)
-        self.AddRegion(region2)
-
-        region3 = wxShapeRegion()
-        region3.SetText('Region 3\nwith embedded\nline breaks')
-        region3.SetProportions(0.0, 0.5)
-        region3.SetFormatMode(FORMAT_NONE)
-        self.AddRegion(region3)
-
-        self.SetRegionSizes()
-        self.ReformatRegions(canvas)
-
-
-    def ReformatRegions(self, canvas=None):
-        rnum = 0
-        if canvas is None:
-            canvas = self.GetCanvas()
-        dc = wxClientDC(canvas)  # used for measuring
-        for region in self.GetRegions():
-            text = region.GetText()
-            self.FormatText(dc, text, rnum)
-            rnum += 1
-
-
-    def OnSizingEndDragLeft(self, pt, x, y, keys, attch):
-        self.base_OnSizingEndDragLeft(pt, x, y, keys, attch)
-        self.SetRegionSizes()
-        self.ReformatRegions()
-        self.GetCanvas().Refresh()
 
 #----------------------------------------------------------------------
-class RoundedRectangleShape(wxRectangleShape):
-    def __init__(self, w=0.0, h=0.0):
-        wxRectangleShape.__init__(self, w, h)
-        self.SetCornerRadius(-0.3)
-
-#----------------------------------------------------------------------
-class MyEvtHandler(wxShapeEvtHandler):
+class MyEvtHandler(wx.ShapeEvtHandler):
     def __init__(self, frame, log):
-        wxShapeEvtHandler.__init__(self)
+        wx.ShapeEvtHandler.__init__(self)
         self.log = log
         self.statbarFrame = frame
 
@@ -631,7 +594,7 @@ class MyEvtHandler(wxShapeEvtHandler):
         shape = self.GetShape()
         print shape.__class__, shape.GetClassName()
         canvas = shape.GetCanvas()
-        dc = wxClientDC(canvas)
+        dc = wx.ClientDC(canvas)
         canvas.PrepareDC(dc)
 
         if shape.Selected():
@@ -683,37 +646,37 @@ class MyEvtHandler(wxShapeEvtHandler):
         print shape.__class__, shape.GetClassName()
 
         canvas = shape.GetCanvas()
-        dc = wxClientDC(canvas)
+        dc = wx.ClientDC(canvas)
         canvas.PrepareDC(dc)
         FacetPropertiesID = shape.GetClientData() + " Properties"
 
-        win = FacetProperties(shape, canvas, -1, FacetPropertiesID, size=wxSize(300, 400),style = wxDEFAULT_DIALOG_STYLE)
-                         #style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME
+        win = FacetProperties(shape, canvas, -1, FacetPropertiesID, size=wx.Size(300, 400),style = wx.DEFAULT_DIALOG_STYLE)
+                         #style = wx.CAPTION | wx.SYSTEM_MENU | wx.THICK_FRAME
 
         win.CenterOnScreen()
-        if win.ShowModal() == wxID_OK:
+        if win.ShowModal() == wx.ID_OK:
             self.log.WriteText("You pressed OK\n")
         else:
             self.log.WriteText("You pressed Cancel\n")
 
 
-class ServerNotRunning(wxDialog):
-    def __init__(self, parent, ID, title, pos=wxDefaultPosition, size=wxDefaultSize, style=wxDEFAULT_DIALOG_STYLE):
-        pre = wxPreDialog()
+class ServerNotRunning(wx.Dialog):
+    def __init__(self, parent, ID, title, pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE):
+        pre = wx.PreDialog()
         pre.Create(parent, ID, title, pos, size, style)
         self.this = pre.this
 
         # Now continue with the normal construction of the dialog
         # contents
-        sizer = wxBoxSizer(wxVERTICAL)
-        label = wxStaticText(self, -1, "The Society is inactive")
-        sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
-        box = wxBoxSizer(wxHORIZONTAL)
-        btn = wxButton(self, wxID_OK, " OK ")
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        label = wx.StaticText(self, -1, "The Society is inactive")
+        sizer.Add(label, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+        box = wx.BoxSizer(wx.HORIZONTAL)
+        btn = wx.Button(self, wx.ID_OK, " OK ")
         btn.SetDefault()
         btn.SetHelpText("The OK button completes the dialog")
-        box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-        sizer.AddSizer(box, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5)
+        box.Add(btn, 0, wx.ALIGN_CENTRE|wx.ALL, 5)
+        sizer.AddSizer(box, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 
         self.SetSizer(sizer)
         self.SetAutoLayout(True)
@@ -721,11 +684,11 @@ class ServerNotRunning(wxDialog):
 #----------------------------------------------------------------------
 
 class __Cleanup:
-    cleanup = wxOGLCleanUp
+    cleanup = wx.OGLCleanUp
     def __del__(self):
         self.cleanup()
 
-# when this module gets cleaned up then wxOGLCleanUp() will get called
+# when this module gets cleaned up then wx.OGLCleanUp() will get called
 __cu = __Cleanup()
 
 overview = """\

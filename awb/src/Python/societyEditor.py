@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyEditor.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: societyEditor.py,v 1.2 2004-11-01 15:00:41 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -26,9 +26,11 @@
 # </copyright>
 #
 
-from wxPython.wx import *
-from wxPython.lib.rcsizer import RowColSizer
-from wxPython import  events
+
+import wx
+import wx.lib.rcsizer  as rcs
+# from wxPython import  events
+
 import images
 from gizmo import Gizmo
 import gizmoImages
@@ -51,15 +53,15 @@ from csmarter_events import *
 from societyViewer import SocietyViewer
 from societyFactoryServer import SocietyFactoryServer
 from cougaar_DragAndDrop import *
-
+CONVERTED2DOT5 = True
 #----------------------------------------------------------------------
 
-class SocietyEditorPanel(wxPanel):
+class SocietyEditorPanel(wx.Panel):
   def __init__( self, parent, frame, log ):
-    wxPanel.__init__( self, parent, -1 )
+    wx.Panel.__init__( self, parent, -1 )
     self.log = log
     sizer = RowColSizer()
-    self.frame = frame # top-level frame that contains this wxPanel
+    self.frame = frame # top-level frame that contains this wx.Panel
     self.frame.societyOpen = 0
     self.infoFrameOpen = 0
     self.societyFile = None
@@ -68,44 +70,51 @@ class SocietyEditorPanel(wxPanel):
 
 ### static controls:
 
-    btnBox = wxBoxSizer(wxHORIZONTAL)
+    btnBox = wx.BoxSizer(wx.HORIZONTAL)
 
-    self.openSocietyButton = wxButton(self, 10, "Open Society")
-    EVT_BUTTON(self, 10, self.OnOpenSociety)
-    self.openSocietyButton.SetBackgroundColour(wxBLUE)
-    self.openSocietyButton.SetForegroundColour(wxWHITE)
+    self.openSocietyButton = wx.Button(self, 10, "Open Society")
+#    EVT_BUTTON(self, 10, self.OnOpenSociety)
+    self.Bind(self.EVT_BUTTON, self.OnOpenSociety, self.openSocietyButton) 
+    self.openSocietyButton.SetBackgroundColour(wx.BLUE)
+    self.openSocietyButton.SetForegroundColour(wx.WHITE)
     self.openSocietyButton.SetDefault()
-    btnBox.Add(self.openSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=20)
+    btnBox.Add(self.openSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.BOTTOM, border=20)
 
-    self.saveSocietyButton = wxButton(self, 20, "Save Society")
-    EVT_BUTTON(self, 20, self.OnSaveSociety)
+    self.saveSocietyButton = wx.Button(self, 20, "Save Society")
+#    EVT_BUTTON(self, 20, self.OnSaveSociety)
+    self.Bind(self.EVT_BUTTON, self.OnSaveSociety, self.saveSocietyButton) 
+
     self.saveSocietyButton.Enable(False)
-    btnBox.Add(self.saveSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=20)
+    btnBox.Add(self.saveSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
-    self.closeSocietyButton = wxButton(self, 15, "Close Society")
-    EVT_BUTTON(self, 15, self.OnCloseSociety)
+    self.closeSocietyButton = wx.Button(self, 15, "Close Society")
+#    EVT_BUTTON(self, 15, self.OnCloseSociety)
+    self.Bind(self.EVT_BUTTON, self.OnCloseSociety, self.closeSocietyButton) 
     self.closeSocietyButton.Enable(False)
-    btnBox.Add(self.closeSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=20)
+    btnBox.Add(self.closeSocietyButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
-    nextHighlightBtnId = wxNewId()
-    self.nextHighlightButton = wxButton(self, nextHighlightBtnId, "Next Highlight")
-    EVT_BUTTON(self, nextHighlightBtnId, self.OnShowNextHighlight)
+    nextHighlightBtnId = wx.NewId()
+    self.nextHighlightButton = wx.Button(self, nextHighlightBtnId, "Next Highlight")
+#    EVT_BUTTON(self, nextHighlightBtnId, self.OnShowNextHighlight)
+    self.Bind(self.EVT_BUTTON, self.OnShowNextHighlight, self.nextHighlightButton) 
     self.nextHighlightButton.Enable(False)
-    btnBox.Add(self.nextHighlightButton, flag=wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=20)
+    btnBox.Add(self.nextHighlightButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
-    self.getHnaMapButton = wxButton(self, 25, "Get HNA Map")
-    EVT_BUTTON(self, 25, self.OnGetHnaMap)
+    self.getHnaMapButton = wx.Button(self, 25, "Get HNA Map")
+#    EVT_BUTTON(self, 25, self.OnGetHnaMap)
+    self.Bind(self.EVT_BUTTON, self.OnGetHnaMap, self.getHnaMapButton) 
     self.getHnaMapButton.Enable(False)
-    btnBox.Add(self.getHnaMapButton, flag=wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=20)
+    btnBox.Add(self.getHnaMapButton, flag=wx.ALIGN_CENTER_VERTICAL | wx.LEFT | wx.BOTTOM, border=20)
 
-    sizer.Add(btnBox, pos=(1,1),  flag=wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL)
+    sizer.Add(btnBox, pos=(1,1),  flag=wx.ALIGN_LEFT|wx.ALIGN_CENTER_VERTICAL)
 
     lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]
     self.gizmo = Gizmo(self, -1, lesImages, size=(36, 36), frameDelay = 0.1)
-    EVT_UPDATE_SOCIETY(self, self.OnUpdate)
-    sizer.Add(self.gizmo, pos=(1,2), flag=wxBOTTOM | wxALIGN_RIGHT, border=20)
+#    EVT_UPDATE_SOCIETY(self, self.OnUpdate)
+    self.Bind(EVT_UPDATE_SOCIETY, self.OnUpdate, self.gizmo)
+    sizer.Add(self.gizmo, pos=(1,2), flag=wx.BOTTOM | wx.ALIGN_RIGHT, border=20)
 
-    self.il = wxImageList(16,16)
+    self.il = wx.ImageList(16,16)
     self.societyImage   = self.il.Add(images.getSocietyBitmap())
     self.hostImage      = self.il.Add(images.getHostBitmap())
     self.nodeImage      = self.il.Add(images.getNodeBitmap())
@@ -114,29 +123,36 @@ class SocietyEditorPanel(wxPanel):
     self.argumentImage  = self.il.Add(images.getArgumentBitmap())
     self.questionImage  = self.il.Add(images.getQuestionBitmap())
 
-    tID = wxNewId()
+    tID = wx.NewId()
     self.frame.societyViewer = SocietyViewer(self, tID, 'societyViewer', size=(240, 100),
-                               style=wxTR_HAS_BUTTONS | wxTR_EDIT_LABELS | wxTR_MULTIPLE,
+                               style=wx.TR_HAS_BUTTONS | wx.TR_EDIT_LABELS | wx.TR_MULTIPLE,
                                log=self.log)
-    sizer.Add(self.frame.societyViewer, flag=wxEXPAND, pos=(2,1), colspan=2)
+    sizer.Add(self.frame.societyViewer, flag=wx.EXPAND, pos=(2,1), colspan=2)
     dropTarget = CougaarDropTarget(self.frame.societyViewer, self.log, self.frame, true)
     self.frame.societyViewer.SetDropTarget(dropTarget)
 
 ### Event handlers for various
-    EVT_TREE_END_LABEL_EDIT(self, tID, self.OnEndLabelEdit) #fired by call to wxTreeCtrl.EditLabel()
-    EVT_TREE_SEL_CHANGED    (self, tID, self.OnSelChanged)
-    EVT_TREE_SEL_CHANGING(self, tID, self.OnSelChanging)
-    EVT_RIGHT_DOWN(self.frame.societyViewer, self.OnRightClick)  # emits a wxMouseEvent
-    EVT_RIGHT_UP(self.frame.societyViewer, self.OnRightUp)  # emits a wxMouseEvent
-    EVT_LEFT_DOWN(self.frame.societyViewer, self.OnLeftDown)  # emits a wxMouseEvent
-    EVT_LEFT_UP(self.frame.societyViewer, self.OnLeftUp)  # emits a wxMouseEvent
-    EVT_MOTION(self.frame.societyViewer, self.OnMotion)  # emits a wxMouseEvent
-
+#    EVT_TREE_END_LABEL_EDIT(self, tID, self.OnEndLabelEdit) #fired by call to wx.TreeCtrl.EditLabel()
+    self.Bind(wx.EVT_TREE_END_LABEL_EDIT, self.OnEndLabelEdit, self.frame.societyViewer)
+#    EVT_TREE_SEL_CHANGED    (self, tID, self.OnSelChanged)
+    self.Bind(wx.EVT_TREE_SEL_CHANGE, self.OnSelChanged,  self.frame.societyViewer)
+#    EVT_TREE_SEL_CHANGING(self, tID, self.OnSelChanging)
+    self.Bind(wx.EVT_TREE_SEL_CHANGING, self.OnSelChanging,  self.frame.societyViewer)
+#    EVT_RIGHT_DOWN(self.frame.societyViewer, self.OnRightClick)  # emits a wx.MouseEvent
+    self.Bind(wx.EVT_RIGHT_DOWN, self.OnRightClick,  self.frame.societyViewer)
+#    EVT_RIGHT_UP(self.frame.societyViewer, self.OnRightUp)  # emits a wx.MouseEvent
+    self.Bind(wx.EVT_RIGHT_UP, self.OnRightUp,  self.frame.societyViewer)
+#    EVT_LEFT_DOWN(self.frame.societyViewer, self.OnLeftDown)  # emits a wx.MouseEvent
+    self.Bind(wx.EVT_LEFT_DOWN, self.OnLeftDown,  self.frame.societyViewer)
+#    EVT_LEFT_UP(self.frame.societyViewer, self.OnLeftUp)  # emits a wx.MouseEvent
+    self.Bind(wx.EVT_LEFT_UP, self.OnLeftUp,  self.frame.societyViewer)
+#    EVT_MOTION(self.frame.societyViewer, self.OnMotion)  # emits a wx.MouseEvent
+    self.Bind(wx.EVT_MOTION, self.OnMotion,  self.frame.societyViewer)
 ###
 
     self.bg_bmp = images.getGridBGBitmap()
-    EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
-
+#    EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
+    self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
     sizer.AddSpacer(10,10, pos=(1,3)) # adds a constant size space along the right edge
     sizer.AddSpacer(10,10, pos=(3,1)) # adds a constant size space along the bottom
     sizer.AddGrowableCol(1) # makes rule styled text box and Society Viewer expand to the right on window resize
@@ -163,8 +179,8 @@ class SocietyEditorPanel(wxPanel):
 
   def OnSaveSociety(self, event):
     if not self.frame.societyOpen:
-        dlg = wxMessageDialog(self, 'No society is open. You must open a society before you can save it.',
-                'No Society Open', wxOK | wxICON_EXCLAMATION)
+        dlg = wx.MessageDialog(self, 'No society is open. You must open a society before you can save it.',
+                'No Society Open', wx.OK | wx.ICON_EXCLAMATION)
         dlg.ShowModal()
         dlg.Destroy()
     else:
@@ -269,7 +285,7 @@ class SocietyEditorPanel(wxPanel):
     event.Skip()
 
   def OnRightClick(self, event):
-    # 'event' is an instance of wxMouseEvent
+    # 'event' is an instance of wx.MouseEvent
     self.x = event.GetX()
     self.y = event.GetY()
     pt = event.GetPosition();
@@ -370,128 +386,152 @@ class SocietyEditorPanel(wxPanel):
     tID24 = 23
     tID25 = 24
 
-    menu = wxMenu()
+    menu = wx.Menu()
 
     if self.frame.societyViewer.isEmptyTree():
-      item = wxMenuItem(menu, tID24, "Open Society")
+      item = wx.MenuItem(menu, tID24, "Open Society")
       item.SetBitmap(images.getSocietyBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID25, "Create New Society")
+      item = wx.MenuItem(menu, tID25, "Create New Society")
       item.SetBitmap(images.getSocietyBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID24, self.OnOpenSociety)
-      EVT_MENU(self, tID25, self.OnCreateSociety)
+#      EVT_MENU(self, tID24, self.OnOpenSociety)
+      self.Bind(wx.EVT_MENU, output.OnOpenSociety, id=tID24)
+#      EVT_MENU(self, tID25, self.OnCreateSociety)
+      self.Bind(wx.EVT_MENU, output.OnCreateSociety, id=tID25)
       return menu
 
     if isinstance(self.entityObj, Society):
       # we either want to add a host or delete the society and all its subs.
-      item = wxMenuItem(menu, tID1, "Add Host")
+      item = wx.MenuItem(menu, tID1, "Add Host")
       item.SetBitmap(images.getHostBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID2, "Delete This Society")
+      item = wx.MenuItem(menu, tID2, "Delete This Society")
       item.SetBitmap(images.getSocietyBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID3, "Rename Society")
+      item = wx.MenuItem(menu, tID3, "Rename Society")
       item.SetBitmap(images.getSocietyBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID1, self.OnAddHost)
-      EVT_MENU(self, tID2, self.OnDeleteSociety)
-      EVT_MENU(self, tID3, self.OnRename)
+#      EVT_MENU(self, tID1, self.OnAddHost)
+      self.Bind(wx.EVT_MENU, self.OnAddHost, id=tID1)
+#      EVT_MENU(self, tID2, self.OnDeleteSociety)
+      self.Bind(wx.EVT_MENU, self.OnDeleteSociety, id=tID2)
+#      EVT_MENU(self, tID3, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID3)
       return menu
 
     if isinstance(self.entityObj, Host):
       # we either want to add a node or delete the host and all its subs.
-      item = wxMenuItem(menu, tID4, "Add Node")
+      item = wx.MenuItem(menu, tID4, "Add Node")
       item.SetBitmap(images.getNodeBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID5, "Delete This Host")
+      item = wx.MenuItem(menu, tID5, "Delete This Host")
       item.SetBitmap(images.getHostBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID6, "Rename Host")
+      item = wx.MenuItem(menu, tID6, "Rename Host")
       item.SetBitmap(images.getHostBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID23, "View/Edit Info")
+      item = wx.MenuItem(menu, tID23, "View/Edit Info")
       item.SetBitmap(images.getHostBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID4, self.OnAddNode)
-      EVT_MENU(self, tID5, self.OnDeleteEntity)
-      EVT_MENU(self, tID6, self.OnRename)
-      EVT_MENU(self, tID23, self.OnEditNodeInfo)
+#      EVT_MENU(self, tID4, self.OnAddNode)
+      self.Bind(wx.EVT_MENU, self.OnAddNode, id=tID4)
+#      EVT_MENU(self, tID5, self.OnDeleteEntity)
+      self.Bind(wx.EVT_MENU, self.OnDeleteEntity, id=tID5)
+#      EVT_MENU(self, tID6, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID6)
+#      EVT_MENU(self, tID23, self.OnEditNodeInfo)
+      self.Bind(wx.EVT_MENU, self.OnEditNodeInfo, id=tID23)
       return menu
 
     if isinstance(self.entityObj, Node):
       # we either want to add a agent or delete the node and all its subs.
-      item = wxMenuItem(menu, tID7, "Add Agent")
+      item = wx.MenuItem(menu, tID7, "Add Agent")
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID8, "Delete This Node")
+      item = wx.MenuItem(menu, tID8, "Delete This Node")
       item.SetBitmap(images.getNodeBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID9, "Rename Node")
+      item = wx.MenuItem(menu, tID9, "Rename Node")
       item.SetBitmap(images.getNodeBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID10, "View/Edit Info")
+      item = wx.MenuItem(menu, tID10, "View/Edit Info")
       item.SetBitmap(images.getNodeBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID7, self.OnAddAgent)
-      EVT_MENU(self, tID8, self.OnDeleteEntity)
-      EVT_MENU(self, tID9, self.OnRename)
-      EVT_MENU(self, tID10, self.OnEditNodeInfo)
-      EVT_MENU(self, tID22, self.OnAddComponent)
+#      EVT_MENU(self, tID7, self.OnAddAgent)
+      self.Bind(wx.EVT_MENU, self.OnAddAgent, id=tID7)
+#      EVT_MENU(self, tID8, self.OnDeleteEntity)
+      self.Bind(wx.EVT_MENU, self.OnDeleteEntity, id=tID8)
+#      EVT_MENU(self, tID9, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID9)
+#      EVT_MENU(self, tID10, self.OnEditNodeInfo)
+      self.Bind(wx.EVT_MENU, self.OnEditNodeInfo, id=tID10)      
+#      EVT_MENU(self, tID22, self.OnAddComponent)
+      self.Bind(wx.EVT_MENU, self.OnAddComponent, id=tID22)
       return menu
 
     if isinstance(self.entityObj, Agent):
       # we either want to add a component or delete the agent and all its subs.
-      item = wxMenuItem(menu, tID11, "Add Component")
+      item = wx.MenuItem(menu, tID11, "Add Component")
       item.SetBitmap(images.getComponentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID12, "Delete This Agent")
+      item = wx.MenuItem(menu, tID12, "Delete This Agent")
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID13, "Rename Agent")
+      item = wx.MenuItem(menu, tID13, "Rename Agent")
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
       if self.entityObj == self.entityObj.parent.nodeAgent:
         item.Enable(false)
-      item = wxMenuItem(menu, tID14, "View/Edit Info")
+      item = wx.MenuItem(menu, tID14, "View/Edit Info")
       item.SetBitmap(images.getAgentBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID11, self.OnAddComponent)
-      EVT_MENU(self, tID12, self.OnDeleteEntity)
-      EVT_MENU(self, tID13, self.OnRename)
-      EVT_MENU(self, tID14, self.OnEditNodeInfo)
+#      EVT_MENU(self, tID11, self.OnAddComponent)
+      self.Bind(wx.EVT_MENU, self.OnAddComponent, id=tID11)
+#      EVT_MENU(self, tID12, self.OnDeleteEntity)
+      self.Bind(wx.EVT_MENU, self.OnDeleteEntity, id=tID12)      
+#      EVT_MENU(self, tID13, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID13)
+#      EVT_MENU(self, tID14, self.OnEditNodeInfo)
+      self.Bind(wx.EVT_MENU, self.OnEditNodeInfo, id=tID14)
       return menu
 
     if isinstance(self.entityObj, Component):
       # we either want to add a argument or delete the component and all its subs.
-      item = wxMenuItem(menu, tID15, "Add Argument")
+      item = wx.MenuItem(menu, tID15, "Add Argument")
       item.SetBitmap(images.getArgumentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID16, "Delete This Component")
+      item = wx.MenuItem(menu, tID16, "Delete This Component")
       item.SetBitmap(images.getComponentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID17, "Rename Component")
+      item = wx.MenuItem(menu, tID17, "Rename Component")
       item.SetBitmap(images.getComponentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID18, "View/Edit Info")
+      item = wx.MenuItem(menu, tID18, "View/Edit Info")
       item.SetBitmap(images.getComponentBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID15, self.OnAddArgument)
-      EVT_MENU(self, tID16, self.OnDeleteEntity)
-      EVT_MENU(self, tID17, self.OnRename)
-      EVT_MENU(self, tID18, self.OnEditNodeInfo)
+#      EVT_MENU(self, tID15, self.OnAddArgument)
+      self.Bind(wx.EVT_MENU, self.OnAddArgument, id=tID15)
+#      EVT_MENU(self, tID16, self.OnDeleteEntity)
+      self.Bind(wx.EVT_MENU, self.OnDeleteEntity, id=tID16)
+#      EVT_MENU(self, tID17, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID17)
+#      EVT_MENU(self, tID18, self.OnEditNodeInfo)
+      self.Bind(wx.EVT_MENU, self.OnEditNodeInfo, id=tID18)
       return menu
 
     if isinstance(self.entityObj, Argument):
       # we either want to add a argument or delete the component and all its subs.
-      item = wxMenuItem(menu, tID19, "Delete This Argument")
+      item = wx.MenuItem(menu, tID19, "Delete This Argument")
       item.SetBitmap(images.getArgumentBitmap())
       menu.AppendItem(item)
-      item = wxMenuItem(menu, tID20, "Edit Argument")
+      item = wx.MenuItem(menu, tID20, "Edit Argument")
       item.SetBitmap(images.getArgumentBitmap())
       menu.AppendItem(item)
-      EVT_MENU(self, tID19, self.OnDeleteEntity)
-      EVT_MENU(self, tID20, self.OnRename)
+#      EVT_MENU(self, tID19, self.OnDeleteEntity)
+      self.Bind(wx.EVT_MENU, self.OnDeleteEntity, id=tID19)
+#      EVT_MENU(self, tID20, self.OnRename)
+      self.Bind(wx.EVT_MENU, self.OnRename, id=tID20)
       return menu
 
   #************************************************************************
@@ -499,7 +539,7 @@ class SocietyEditorPanel(wxPanel):
   def OnEraseBackground(self, evt):
     dc = evt.GetDC()
     if not dc:
-      dc = wxClientDC(self.GetClientWindow())
+      dc = wx.ClientDC(self.GetClientWindow())
 
     # tile the background bitmap
     sz = self.GetClientSize()
@@ -555,7 +595,7 @@ class SocietyEditorPanel(wxPanel):
   def OnDeleteSociety(self, event):
     dlg = CougaarMessageDialog(self, "delete")
     self.KillIt = dlg.getUserInput()
-    if self.KillIt == wxID_YES:
+    if self.KillIt == wx.ID_YES:
       self.frame.closeSociety("society")
       os.remove(self.frame.societyFile)  # delete the XML file from disk
 
@@ -615,22 +655,22 @@ class SocietyEditorPanel(wxPanel):
 
     # Create the object that will be dragged & dropped (and which will contain the
     # Cougaar entity we want to move or copy).
-    dataObj = wxCustomDataObject(wxCustomDataFormat("CougaarComponent"))
+    dataObj = wx.CustomDataObject(wx.CustomDataFormat("CougaarComponent"))
     dataObj.SetData(dataString)
 
     # Create the drop source and begin the drag and drop operation
     sourceViewer.setDropResult(0)  # reset
-    dragSource = wxDropSource(self)
+    dragSource = wx.DropSource(self)
     dragSource.SetData(dataObj)
     self.frame.setDragSource(sourceViewer)
-    result = dragSource.DoDragDrop(wxDrag_DefaultMove)
+    result = dragSource.DoDragDrop(wx.Drag_DefaultMove)
     altResult = sourceViewer.getDropResult()
-    if altResult == wxDragNone:
+    if altResult == wx.DragNone:
       result = altResult
     sourceViewer.isDragSource = False
 
     # Tell the drag source what to do with the object that was dragged
-    if result == wxDragMove:
+    if result == wx.DragMove:
       self.log.WriteText("DragDrop completed: %d item(s) moved\n" % len(treeItemList))  # debug
       for itemData in treeItemList:
         item = itemData[0]
@@ -640,15 +680,15 @@ class SocietyEditorPanel(wxPanel):
           entity.delete_from_prev_parent()  # delete object from the underlying society model
         sourceViewer.Delete(item) # delete item from the tree
 
-    elif result == wxDragCopy:
+    elif result == wx.DragCopy:
       self.log.WriteText("Item copied\n")
-    elif result == wxDragError:
+    elif result == wx.DragError:
       self.frame.objCloset.clear()  # empty the closet
       self.log.WriteText("Drag & Drop Error\n")
-    elif result == wxDragNone:
+    elif result == wx.DragNone:
       self.frame.objCloset.clear()  # empty the closet
       self.log.WriteText("Drop Rejected\n")
-    elif result == wxDragCancel:
+    elif result == wx.DragCancel:
       self.frame.objCloset.clear()  # empty the closet
       self.log.WriteText("Drag Cancelled")
     else:

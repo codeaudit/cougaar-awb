@@ -1,7 +1,19 @@
 import sys
 import os
-from wxPython.wx import *
-from wxPython.ogl import *
+
+import wx
+#import wx.html as html
+#import wx.lib.wxpTag
+import wx.lib.ogl as ogl
+CONVERTED2DOT5 = True
+TODO = '''
+Is this used in the AWB implementation?
+external references
+agentController.py:#~ from societyVisualModel import *
+facetProperties.py:from societyVisualModel import *
+servletProperties.py:from societyVisualModel import *
+societyController.py:from societyVisualModel import *
+'''
 #---------------------------------------------------------------------------
 # The class which is a representation of the Facets in the society
 class myFacet:
@@ -10,7 +22,7 @@ class myFacet:
     myFacetParent = "noparent"
     myFacetType = "SOURCEFACET"
     myFacetLevel = "0"
-    myFacetPen = wxBLACK_PEN
+    myFacetPen = wx.BLACK_PEN
     myFacetBrush = '#800080'
     myFacetText = "Source"
     myFacetTextColour = "LIGHT GREY"
@@ -25,7 +37,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "SOURCEFACET"
             self.myFacetLevel = "0"
-            self.myFacetBrush = wxBrush("#800080", wxSOLID)
+            self.myFacetBrush = wx.Brush("#800080", wx.SOLID)
             self.myFacetText = "Source"
             self.myFacetTextColour = "LIGHT GREY"
         elif (facettype == "HOSTFACET"):
@@ -33,7 +45,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "HOSTFACET"
             self.myFacetLevel = "1"
-            self.myFacetBrush = wxBrush("#0000FF", wxSOLID)
+            self.myFacetBrush = wx.Brush("#0000FF", wx.SOLID)
             self.myFacetText = "Host"
             self.myFacetTextColour = "YELLOW"
         elif (facettype == "NODEFACET"):
@@ -41,7 +53,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "NODEFACET"
             self.myFacetLevel = "2"
-            self.myFacetBrush = wxBrush("#FF0000", wxSOLID)
+            self.myFacetBrush = wx.Brush("#FF0000", wx.SOLID)
             self.myFacetText = "Node"
             self.myFacetTextColour = "YELLOW"
         elif  (facettype == "AGENTFACET"):
@@ -49,7 +61,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "AGENTFACET"
             self.myFacetLevel = "3"
-            self.myFacetBrush = wxBrush("#008000", wxSOLID)
+            self.myFacetBrush = wx.Brush("#008000", wx.SOLID)
             self.myFacetText = "Agent"
             self.myFacetTextColour = "YELLOW"
         elif(facettype == "COMPONENTFACET"):
@@ -57,7 +69,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "COMPONENTFACET"
             self.myFacetLevel = "4"
-            self.myFacetBrush = wxBrush("#FFFF00", wxSOLID)
+            self.myFacetBrush = wx.Brush("#FFFF00", wx.SOLID)
             self.myFacetText = "Component"
             self.myFacetTextColour = "DARK GREEN"
         elif(facettype == "Level6"):
@@ -65,7 +77,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "Level6"
             self.myFacetLevel = "5"
-            self.myFacetBrush = wxBrush("#FFFF11", wxSOLID)
+            self.myFacetBrush = wx.Brush("#FFFF11", wx.SOLID)
             self.myFacetText = "Component"
             self.myFacetTextColour = "DARK GREEN"
         elif(facettype == "Level7"):
@@ -73,7 +85,7 @@ class myFacet:
             self.myFacetParent = facetparent
             self.myFacetType = "Level7"
             self.myFacetLevel = "5"
-            self.myFacetBrush = wxBrush("#11FF11", wxSOLID)
+            self.myFacetBrush = wx.Brush("#11FF11", wx.SOLID)
             self.myFacetText = "Component"
             self.myFacetTextColour = "DARK GREEN"
 

@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyFactoryServer.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: societyFactoryServer.py,v 1.2 2004-11-01 15:00:04 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -26,22 +26,20 @@
 # </copyright>
 #
 
-from wxPython.wx import *
-from wxPython import  events
+
+import wx
+import wx.events as events
 
 
-#import threading 
 import sys, thread, traceback
-#~ import Queue
+
 
 from ACMEPy.rule_text import RuleText
 from ACMEPy.society_factory2 import *
-#~ from ACMEPy import SocietyFactory
-#~ from ACMEPy import TransformationRule
-#~ from ACMEPy import TransformationEngine
+
 from csmarter_events import *
 from insertion_dialog import CougaarMessageDialog
-
+CONVERTED2DOT5 = True
 #----------------------------------------------------------------------
 class SocietyFactoryServer:
     def __init__(self, path, parent, log, xmlString=None):
@@ -85,7 +83,7 @@ class SocietyFactoryServer:
           self.log.WriteText("*** ERROR parsing XML document; society creation aborted.  See next line for details. ***\n")
           self.log.WriteText("%s\n" % str(args))   
         evt = UpdateSocietyEvent(society)
-        wxPostEvent(self._parent, evt)
+        wx.PostEvent(self._parent, evt)
         self.keepGoing = false  #  ?
       self.running = false
  
@@ -154,6 +152,6 @@ class SocietyTransformServer:
           errorDialog.display()
         
         evt = UpdateSocietyEvent(soc)
-        wxPostEvent(self._parent, evt)
+        wx.PostEvent(self._parent, evt)
         self.keepGoing = False  #  ?
       self.running = false

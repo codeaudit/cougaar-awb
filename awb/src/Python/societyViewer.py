@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyViewer.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: societyViewer.py,v 1.2 2004-11-01 14:58:04 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -27,7 +27,8 @@
 #
 
 from __future__ import generators
-from wxPython.wx import *
+
+import wx
 import images
 from societyFactoryServer import *
 import string
@@ -40,11 +41,12 @@ NODE = 'node'
 AGENT = 'agent'
 COMPONENT = 'component'
 ARGUMENT = 'argument'
+CONVERTED2DOT5 = True
 
-class SocietyViewer(wxTreeCtrl):
-  def __init__(self, parent, id, name, pos = wxDefaultPosition, size = wxDefaultSize, 
-                     style = wxTR_HAS_BUTTONS, log = None, inclComponents=True):
-    wxTreeCtrl.__init__(self, parent, id, pos, size, style)
+class SocietyViewer(wx.TreeCtrl):
+  def __init__(self, parent, id, name, pos = wx.DefaultPosition, size = wx.DefaultSize, 
+                     style = wx.TR_HAS_BUTTONS, log = None, inclComponents=True):
+    wx.TreeCtrl.__init__(self, parent, id, pos, size, style)
     self.parent = parent
     self.id = id
     self.name = name
@@ -69,11 +71,10 @@ class SocietyViewer(wxTreeCtrl):
     self.displayedFacetDict['host'] = []
     self.displayedFacetDict['node'] = []
     self.displayedFacetDict['agent'] = []    
-    
 ###
   
   def addImages(self):
-    self.il = wxImageList(16,16)
+    self.il = wx.ImageList(16,16)
     self.societyImage   = self.il.Add(images.getSocietyBitmap())
     self.hostImage      = self.il.Add(images.getHostBitmap())
     self.nodeImage      = self.il.Add(images.getNodeBitmap())
@@ -122,8 +123,8 @@ class SocietyViewer(wxTreeCtrl):
       hostLabel = host.name
       self.hostItem = self.AppendItem(self.societyNode, hostLabel, 1)
       if not self.inclNodeAgent and host.isExcluded:
-        self.SetItemBackgroundColour(self.hostItem, wxRED)
-        self.SetItemTextColour(self.hostItem, wxWHITE)
+        self.SetItemBackgroundColour(self.hostItem, wx.RED)
+        self.SetItemTextColour(self.hostItem, wx.WHITE)
       self.SetPyData(self.hostItem, host)
       self.Colourise(self.hostItem)
       numItems += 1
@@ -131,8 +132,8 @@ class SocietyViewer(wxTreeCtrl):
         nodeLabel = node.name
         self.nodeItem = self.AppendItem(self.hostItem, nodeLabel, 2)
         if not self.inclNodeAgent and node.isExcluded:
-          self.SetItemBackgroundColour(self.nodeItem, wxRED)
-          self.SetItemTextColour(self.nodeItem, wxWHITE)
+          self.SetItemBackgroundColour(self.nodeItem, wx.RED)
+          self.SetItemTextColour(self.nodeItem, wx.WHITE)
         self.SetPyData(self.nodeItem, node)
         self.Colourise(self.nodeItem)
         numItems += 1
@@ -146,8 +147,8 @@ class SocietyViewer(wxTreeCtrl):
           else:
             agentItem = self.AppendItem(self.nodeItem, agentDisplayName, 3)
             if not self.inclNodeAgent and agent.isExcluded:
-              self.SetItemBackgroundColour(agentItem, wxRED)
-              self.SetItemTextColour(agentItem, wxWHITE)
+              self.SetItemBackgroundColour(agentItem, wx.RED)
+              self.SetItemTextColour(agentItem, wx.WHITE)
           self.SetPyData(agentItem, agent)
           self.Colourise(agentItem)
           numItems += 1
@@ -168,7 +169,7 @@ class SocietyViewer(wxTreeCtrl):
     #~ self.log.WriteText("Populated tree with %d items\n" % numItems )
     
     self.Expand(self.societyNode)
-    #~ wxLogMessage('Number of society entities modified: ' + str(len(self.colourisedItemsList)))
+    #~ wx.LogMessage('Number of society entities modified: ' + str(len(self.colourisedItemsList)))
 
   #---------------------------------------------
   
@@ -179,8 +180,8 @@ class SocietyViewer(wxTreeCtrl):
     
     if ruleDescription.upper() in boringRules:
       return
-    self.SetItemBackgroundColour(item, wxCYAN)
-    self.SetItemTextColour(item, wxRED)
+    self.SetItemBackgroundColour(item, wx.CYAN)
+    self.SetItemTextColour(item, wx.RED)
     self.colourisedItemsList.append(item) # keep a list of colourised items
   
   #---------------------------------------------
@@ -191,7 +192,7 @@ class SocietyViewer(wxTreeCtrl):
   #---------------------------------------------
   
   def DeleteAllItems(self):
-    wxTreeCtrl.DeleteAllItems(self)
+    wx.TreeCtrl.DeleteAllItems(self)
     self.emptyTree = True
   
   #---------------------------------------------
@@ -320,7 +321,7 @@ class SocietyViewer(wxTreeCtrl):
   ##
   # Returns a list of tree item id's for all the children of the argument item.
   #
-  # item::[wxTreeItemId] The tree item for which a list of children is desired
+  # item::[wx.TreeItemId] The tree item for which a list of children is desired
   #
   def getChildren(self, item):
     children = []
@@ -333,7 +334,7 @@ class SocietyViewer(wxTreeCtrl):
   # Returns a list of tree item id's for all the siblings of the argument item.
   # The list includes the tree item id for the argument item.
   #
-  # item::[wxTreeItemId] The tree item for which a list of siblings is desired
+  # item::[wx.TreeItemId] The tree item for which a list of siblings is desired
   #
   def getSiblings(self, item):
     parentItem = self.GetItemParent(item)
@@ -345,7 +346,7 @@ class SocietyViewer(wxTreeCtrl):
   # sibling.  Return value is identical to what you would get with getSiblings(),
   # but this skips the steps of first finding the parent and then the first child.
   #
-  # item::[wxTreeItemId] The tree item for which a list of siblings is desired
+  # item::[wx.TreeItemId] The tree item for which a list of siblings is desired
   #  
   def addSiblings(self, item):
     itemList = []
@@ -357,7 +358,7 @@ class SocietyViewer(wxTreeCtrl):
   ##
   # Replaces one item in the tree with another.
   #
-  # itemToBeReplaced::[wxTreeItemId] The tree item to be replaced
+  # itemToBeReplaced::[wx.TreeItemId] The tree item to be replaced
   # newItemLabel::[TreeItemLabel] The text label for the new item to be inserted
   # iconType::[integer] The int representing the image icon associated with
   #                                    the entity object type
@@ -379,8 +380,8 @@ class SocietyViewer(wxTreeCtrl):
   # recursively, so the children's children get transferred, too.  PyData gets
   # transferred, too.
   #
-  # fromParentItem::[wxTreeItemId] The tree item from which children are transferred
-  # toParentItem:: [wxTreeItemId] The tree item to which children are transferred.
+  # fromParentItem::[wx.TreeItemId] The tree item from which children are transferred
+  # toParentItem:: [wx.TreeItemId] The tree item to which children are transferred.
   # iconType:: [integer] The int representing the image icon associated with the parent item
   #
   def transferChildren(self, fromParentItem, toParentItem, iconType):
@@ -430,7 +431,7 @@ class SocietyViewer(wxTreeCtrl):
                     'it will be destroyed.\n\nAre you sure you want to delete this agent?'
         dlg = CougaarMessageDialog(self, 'delete', msg)
         choice = dlg.getUserInput()
-        if choice == wxID_NO:
+        if choice == wx.ID_NO:
           okToDelete = False
         
       if okToDelete:
@@ -614,8 +615,8 @@ class SocietyViewer(wxTreeCtrl):
         baseClass = item.__class__
       elif item.__class__ != baseClass:
         msg = '''When selecting multiple items, all the items must be of the same type.'''
-        dlg = wxMessageDialog(self, msg, style = wxCAPTION | wxOK | 
-             wxTHICK_FRAME | wxICON_EXCLAMATION)
+        dlg = wx.MessageDialog(self, msg, style = wx.CAPTION | wx.OK | 
+             wx.THICK_FRAME | wx.ICON_EXCLAMATION)
         dlg.ShowModal()
         return False
     return True
@@ -660,7 +661,7 @@ class SocietyViewer(wxTreeCtrl):
           try:
             self.SetItemText(agent, self.toTreeItemLabel(newLabel.getItemName()))
           except AssertionError:
-            # wxTreeCtrl.SetItemText(item, label) is only supposed to work with single 
+            # wx.TreeCtrl.SetItemText(item, label) is only supposed to work with single 
             # selection controls, but this is a valid use of that method and it seems to
             # work even though this is a multiple selection control, so just swallow the 
             # exception.
@@ -782,27 +783,27 @@ class SocietyViewer(wxTreeCtrl):
   def highlightItem(self, item, color='blue'):
     self.EnsureVisible(item)
     if color == 'blue':
-      bgcolor = wxNamedColour('BLUE')
+      bgcolor = wx.NamedColour('BLUE')
     elif color == 'gray':
-      bgcolor = wxNamedColour('LIGHT GREY')
+      bgcolor = wx.NamedColour('LIGHT GREY')
     else:
-      bgcolor = wxColour(24, 28, 123)  # dark navy blue
+      bgcolor = wx.Colour(24, 28, 123)  # dark navy blue
     self.SetItemBackgroundColour(item, bgcolor)
-    self.SetItemTextColour(item, wxWHITE)
+    self.SetItemTextColour(item, wx.WHITE)
   
   def removeHighlighting(self, item):
-    self.SetItemBackgroundColour(item, wxWHITE)
-    self.SetItemTextColour(item, wxBLACK)
+    self.SetItemBackgroundColour(item, wx.WHITE)
+    self.SetItemTextColour(item, wx.BLACK)
   
   def itemIsHighlighted(self, item):
-    return self.GetItemBackgroundColour(item) != wxWHITE
+    return self.GetItemBackgroundColour(item) != wx.WHITE
   
   def showNotFoundDialog(self):
     dlg = CougaarMessageDialog(self, "info", "Item not found")
     dlg.display()
   
   ##
-  # Returns a two-tuple containing the wxTreeItemId of the item and its PyData object
+  # Returns a two-tuple containing the wx.TreeItemId of the item and its PyData object
   # or None if the item was not found
   #
   def getItemByLabel(self, label, parentNode):
@@ -819,7 +820,7 @@ class SocietyViewer(wxTreeCtrl):
   
   # ---------------------------------------------------------------------------------------------
   
-  # Converts the society in the wxTreeCtrl into a string in XML format.
+  # Converts the society in the wx.TreeCtrl into a string in XML format.
   #
   # lowestLevel::[String] A type of Cougaar entity that is the lowest level in 
   # the hierarchy that will be included in the resulting XML string.  Valid
@@ -956,7 +957,7 @@ class SocietyViewer(wxTreeCtrl):
   # Strips off any facets that may be displayed in the tree label.  Also
   # strips off any spaces that may be at either end of the entity name.
   #
-  # treeNode::[wxTreeItemId] The ID of the current tree item
+  # treeNode::[wx.TreeItemId] The ID of the current tree item
   #
   def getLabel(self, treeNode):
     return self.GetItemText(treeNode).getItemName()
@@ -1039,46 +1040,46 @@ class SocietyViewer(wxTreeCtrl):
   
   #----------------------------------------------------------------------
   
-  # Overrides wxTreeCtrl::GetItemText(wxTreeItemId) to allow use of 
-  # a TreeItemLabel obj rather than a wxString as the item text.
+  # Overrides wx.TreeCtrl::GetItemText(wx.TreeItemId) to allow use of 
+  # a TreeItemLabel obj rather than a wx.String as the item text.
   # Returns the TreeItemLabel obj associated with the specified item.
   #
-  # itemId:: [wxTreeItemId]  The item whose text is sought
+  # itemId:: [wx.TreeItemId]  The item whose text is sought
   #
   def GetItemText(self, itemId):
     entity = self.GetPyData(itemId)
     if self.itemTextDict.has_key(entity.name):
       return self.itemTextDict[entity.name]
-    return self.toTreeItemLabel(wxTreeCtrl.GetItemText(self, itemId))
+    return self.toTreeItemLabel(wx.TreeCtrl.GetItemText(self, itemId))
   
   #----------------------------------------------------------------------
   
-  # Overrides wxTreeCtrl::SetItemText(wxTreeItemId, wxString) to allow use of a TreeItemLabel 
-  # obj rather than a wxString as the item text.
+  # Overrides wx.TreeCtrl::SetItemText(wx.TreeItemId, wx.String) to allow use of a TreeItemLabel 
+  # obj rather than a wx.String as the item text.
   # 
-  # itemId:: [wxTreeItemId]  The tree item whose text is to be set
+  # itemId:: [wx.TreeItemId]  The tree item whose text is to be set
   # treeItemLabel:: [TreeItemLabel]  The new text to be associated with the given tree item.
   #
   def SetItemText(self, itemId, treeItemLabel):
     try:
-      wxTreeCtrl.SetItemText(self, itemId, treeItemLabel.getAllText())
+      wx.TreeCtrl.SetItemText(self, itemId, treeItemLabel.getAllText())
     except AssertionError:
       #~ pass  # swallow this annoying exception, which shouldn't be raised in the first place
-      print "AssertionError raised by wxPython on wxTreeCtrl::SetItemText()"
+      print "AssertionError raised by wx.Python on wx.TreeCtrl::SetItemText()"
     self.itemTextDict[treeItemLabel.getItemName()] = treeItemLabel  # hang onto a ref to this TreeItemLabel
   
   #----------------------------------------------------------------------
   
-  # Overrides wxTreeCtrl::Delete(wxTreeItemId) to allow a TreeItemLabel that may have
+  # Overrides wx.TreeCtrl::Delete(wx.TreeItemId) to allow a TreeItemLabel that may have
   # been associated with the specified item to be removed before the item is deleted.
   #
-  # itemId:: [wxTreeItemId]  The tree item to be deleted.
+  # itemId:: [wx.TreeItemId]  The tree item to be deleted.
   def Delete(self, itemId):
     label = self.GetItemText(itemId)
     itemName = label.getItemName()
     if self.itemTextDict.has_key(itemName):
       del self.itemTextDict[itemName]
-    wxTreeCtrl.Delete(self, itemId)
+    wx.TreeCtrl.Delete(self, itemId)
   
   #----------------------------------------------------------------------
   
@@ -1113,7 +1114,7 @@ class SocietyViewer(wxTreeCtrl):
   # THIS IS NOT WORKING FOR SOME REASON
   #~ def each_item(self, startNode):
     #~ '''Recursively traverses a tree and yields 
-      #~ each wxTreeItemId at and below startNode.'''
+      #~ each wx.TreeItemId at and below startNode.'''
     #~ if startNode:
       #~ yield startNode
       #~ print "yielding an item"  #  debug
@@ -1158,7 +1159,7 @@ class SocietyViewer(wxTreeCtrl):
 
 class TreeItemLabel:
 
-  # This class represents the text label associated with a wxTreeCtrl item.  It consists of a
+  # This class represents the text label associated with a wx.TreeCtrl item.  It consists of a
   # String item name and zero or more text elements.  These text elements are extra info 
   # about the item.  In the CSMARTer context, the elements represent facets.  When
   # displayed, each element (other than the item name) is surrounded by parentheses.
@@ -1250,3 +1251,4 @@ if __name__ == '__main__':
     import sys,os
     import run
     run.main(['', os.path.basename(sys.argv[0])])
+

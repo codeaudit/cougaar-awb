@@ -23,6 +23,7 @@ from __future__ import generators
 import types
 from agent import Agent
 from parameter import *
+from component import *
 
 class Node:
   def __init__(self, name=None, rule='BASE'):
@@ -30,6 +31,8 @@ class Node:
     self.host = None
     self.agents = {}
     self.agentlist = []
+    self.components = {}
+    self.componentlist = []
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
@@ -53,9 +56,27 @@ class Node:
       return self.agents[agent]
 
   def get_agent(self, index):
-    for buddy in self.agentlist:
-      print buddy.name
+    #for buddy in self.agentlist:
+      #print buddy.name
     return self.agentlist[index]
+
+  def add_component(self, component):
+    if isinstance(component, Component):
+      component.parent = self
+      self.components[component.name] = component
+      self.componentlist.append(component)
+      return component
+    if isinstance(component, types.StringType):
+      newComponent = Component(component)
+      self.components[component] = newComponent
+      self.componentlist.append(newComponent)
+      self.components[component].parent = self
+      return self.components[component]
+
+  def get_component(self, index):
+    #for comp in self.componentlist:
+      #print comp.name
+    return self.componentlist[index]
 
   def override_parameter(self, param, value):
     # assumes that "param" is a string like "-D..."
@@ -65,6 +86,12 @@ class Node:
 
   def add_vm_parameter(self, parameter):
     self.add_parameter(parameter)
+
+  def add_vm_parameters(self, params):
+    # params is intended to be of type list
+    if isinstance(params, types.ListType):
+      #for eachItem in params:
+      self.vm_parameters = self.vm_parameters + params
 
   def add_env_parameters(self, params):
     # params is intended to be of type list
@@ -96,12 +123,6 @@ class Node:
     if isinstance(params, types.ListType):
       self.parameters = self.parameters + params
 
-  def set_klass(self, klass):
-    self.klass = klass
-
-  def get_klass(self):
-    return self.klass
-
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
@@ -124,6 +145,8 @@ class Node:
       xml = xml + p.to_xml()
     for p in self.vm_parameters[:]:
       xml = xml + p.to_xml()
+    for component in self.components.keys():
+      xml = xml + self.components[component].to_xml()
     for agent in self.agents.keys():
       xml = xml + self.agents[agent].to_xml()
 

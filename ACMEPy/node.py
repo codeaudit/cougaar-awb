@@ -172,16 +172,6 @@ class Node:
       dupe_params.append(each_param.clone())
     return dupe_params
   
-  def commit(self):
-    self.dupe = None
-  
-  def restore(self):
-    print "Restoring Node"
-    if self.dupe is not None:
-      self = self.dupe
-      self.dupe = None  # may not be necessary
-      self.host.nodes[self.name] = self
-  
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
     xml = xml + "   <class>" + self.klass + "</class>\n"

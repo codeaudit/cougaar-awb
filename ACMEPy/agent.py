@@ -93,15 +93,6 @@ class Agent:
         self.dupe.add_component(component.clone())
     return self.dupe
     
-  def commit(self):
-    self.dupe = None
-  
-  def restore(self):
-    print "Restoring Agent"
-    if self.dupe is not None:
-      self = self.dupe
-      self.dupe = None
-  
   def each_component(self):
     for component in self.components: # iterators
       yield component

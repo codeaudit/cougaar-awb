@@ -48,15 +48,6 @@ class Argument:
       self.dupe = Argument(self.value, self.rule)
     return self.dupe
   
-  def commit(self):
-    self.dupe = None
-  
-  def restore(self):
-    print "Restoring Argument"
-    if self.dupe is not None:
-      self = self.dupe
-      self.dupe = None
-  
   def to_xml(self):
     xml = "<argument>"
     xml = xml + str(self.value) + "</argument>\n"

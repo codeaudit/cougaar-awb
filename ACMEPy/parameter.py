@@ -57,15 +57,6 @@ class Parameter:
         self.dupe =  EnvParameter(self.value)
     return self.dupe
     
-  def commit(self):
-    self.dupe = None
-  
-  def restore(self):
-    print "Restoring Parameter"
-    if self.dupe is not None:
-      self = self.dupe
-      self.dupe = None
-  
 class VMParameter(Parameter):
   def __init__(self, value=None, type="VMParameter"):
     Parameter.__init__(self, value=value, type=type)

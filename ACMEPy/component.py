@@ -74,15 +74,6 @@ class Component:
         self.dupe.add_argument(each_arg.clone())
     return self.dupe
   
-  def commit(self):
-    self.dupe = None
-  
-  def restore(self):
-    print "Restoring Component"
-    if self.dupe is not None:
-      self = self.dupe
-      self.dupe = None
-  
   def to_xml(self):
     xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
     for a in self.arguments[:]:

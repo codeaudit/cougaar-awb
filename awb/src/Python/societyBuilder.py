@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: societyBuilder.py,v 1.6 2004-11-02 19:22:36 damoore Exp $
+# RCS-ID:       $Id: societyBuilder.py,v 1.8 2004-11-15 16:25:20 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -395,7 +395,7 @@ You will lose all changes made to the society since the transformation.'''
         if self.lb.IsChecked(item):
           ruleFilename = self.lb.GetString(item)
           wx.LogMessage("Applying rule " + str(item) + ": " + ruleFilename + "\n")
-          if self.lb.Selected(item) and self.rule.textIsDirty == True:
+          if self.lb.IsSelected(item) and self.rule.textIsDirty == True:
             msg = "The rule you are applying has been changed. If you wish " + \
                       "to apply the changed version, you must first save the rule. "  + \
                       "Would you like to save the rule now?"

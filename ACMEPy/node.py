@@ -31,7 +31,7 @@ class Node:
     self.name = name
     #~ self.host = None
     self.parent = None
-    self.agents = {}
+    #~ self.agents = {}
     self.agentlist = []
     self.facets = []
     self.vm_parameters = []
@@ -61,15 +61,15 @@ class Node:
   def add_agent(self, agent, klass = None):
     if isinstance(agent, Agent):
       agent.parent = self
-      self.agents[agent.name] = agent
+      #~ self.agents[agent.name] = agent
       self.agentlist.append(agent)
       return agent
     if isinstance(agent, types.StringType):
       newAgent = Agent(agent)
-      self.agents[agent] = newAgent
+      #~ self.agents[agent] = newAgent
       self.agentlist.append(newAgent)
-      self.agents[agent].parent = self
-      return self.agents[agent]
+      newAgent.parent = self
+      return newAgent
 
   def delete_entity(self):
     '''Deletes itself from node list of parent host.'''
@@ -86,16 +86,17 @@ class Node:
       raise Exception, "Attempting to add unknown Node attribute"
   
   def get_agent(self, index):
-    #for buddy in self.agentlist:
-      #print buddy.name
     return self.agentlist[index]
 
   def delete_agent(self, agent):
-    del self.agents[agent.name]
+    #~ del self.agents[agent.name]
     self.agentlist.remove(agent)
 
   def has_agent(self, agentName):
-    return self.agents.has_key(agentName)
+    for agent in self.agentlist:
+      if agent.name == agentName:
+        return True
+    return False
   
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
@@ -300,8 +301,8 @@ class Node:
       script = script + "node.add_env_parameter('" + str(p) +"')\n"
     for p in self.vm_parameters[:]:
       script = script + "node.add_vm_parameter('" + str(p) +"')\n"
-    for agent in self.agents.keys():
-      script = script + self.agents[agent].to_python()  
+    for agent in self.agentlist:
+      script = script + agent.to_python()  
     return script
 
   def each_agent(self, inclNodeAgent=False):

@@ -23,18 +23,17 @@
 class Argument:
   
   def __init__(self, value, rule='BASE'):
-    self.value = value
+    self.name = value
     self.rule = str(rule)
-    #~ self.component = None
     self.parent = None
   
   def __str__(self):
-    return "Argument:"+self.value+":RULE:"+self.rule
+    return "Argument:"+self.name+":RULE:"+self.rule
 
   def set_attribute(self, attribute, value):
     # both args must be strings
     if attribute.lower() == 'value':
-      self.value = value
+      self.name = value
     elif attribute.lower() == 'rule':
       self.rule = value
     else:
@@ -47,14 +46,14 @@ class Argument:
     self.rule = str(newRule)
   
   def clone(self):
-    return Argument(self.value, self.rule)
+    return Argument(self.name, self.rule)
   
   def to_xml(self):
     xml = "<argument>"
-    xml = xml + str(self.value) + "</argument>\n"
+    xml = xml + str(self.name) + "</argument>\n"
     return xml
     
   def to_python(self):
-    script = "argument = Argument('"+self.value+"','"+self.rule+"')\n"
+    script = "argument = Argument('"+self.name+"','"+self.rule+"')\n"
     script = script + "component.add_argument(argument)\n"
     return script

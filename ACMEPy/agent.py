@@ -108,6 +108,12 @@ class Agent:
   def get_component(self, index):
     return self.components[index]
 
+  def has_component(self, componentName):
+    for component in self.components:
+      if component.getStrippedName() == componentName:
+        return True
+    return False
+  
   def set_rule(self, newRule):
         self.rule = str(newRule)
 

@@ -31,7 +31,7 @@ class Host:
     self.name = name
     #~ self.society = None
     self.parent = None
-    self.nodes = {}
+    #~ self.nodes = {}
     self.nodelist = [] # for testing iterators
     self.facets = []
     self.rule = str(rule)
@@ -55,18 +55,18 @@ class Host:
   def add_node(self, node):
     if isinstance(node, Node):
       node.parent = self
-      self.nodes[node.name] = node
+      #~ self.nodes[node.name] = node
       self.nodelist.append(node) # only for testing iterators
       return node
     if isinstance(node, types.StringType):
       newNode = Node(node)
-      self.nodes[node] = newNode
+      #~ self.nodes[node] = newNode
       self.nodelist.append(newNode) # only for testing iterators     
-      self.nodes[node].parent = self
-      return self.nodes[node]
+      newNode.parent = self
+      return newNode
 
   def delete_node(self, node):
-    del self.nodes[node.name]
+    #~ del self.nodes[node.name]
     self.nodelist.remove(node)
   
   def get_node(self, index):
@@ -80,7 +80,10 @@ class Host:
       for n in nodes: self.add_node(n)
 
   def has_node(self, nodeName):
-    return self.nodes.has_key(nodeName)
+    for node in self.nodelist:
+      if node.name == nodeName:
+        return True
+    return False
   
   def each_facet(self):
     for facet in self.facets: # only for testing iterators
@@ -148,8 +151,8 @@ class Host:
     script = script + "society.add_host(host)\n"
     for facet in self.facets:
       script = script + facet.to_python()
-    for node in self.nodes.keys():
-      script = script + self.nodes[node].to_python()   
+    for node in self.nodelist:
+      script = script + node.to_python()   
     return script
     
     

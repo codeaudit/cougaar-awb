@@ -19,6 +19,7 @@
 #  PERFORMANCE OF THE COUGAAR SOFTWARE.
 # </copyright>
 #
+from __future__ import generators
 import types
 from argument import Argument
 
@@ -73,17 +74,33 @@ class Component:
       self.add_argument(arg)
     else:
       raise Exception, "Attempting to add invalid Argument type"
-
+  
   def get_argument(self, index):
     return self.arguments[index]
-
+  
+  def each_argument(self):
+    for argument in self.arguments: # only for testing iterators
+      yield argument
+  
+  def has_argument(self, argValue):
+    for argument in self.arguments:
+      if argument.name == argValue:
+        return True
+    return False
+  
   def __str__(self):
     return "Component:"+self.name+":RULE:"+self.rule
-
-
+  
   def set_rule(self, newRule):
         self.rule = str(newRule)
-
+  
+  def getStrippedName(self):
+    index = self.name.find('|')
+    if index == -1:
+      return self.name
+    else:
+      return self.name[index+1:]
+  
   def clone(self):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
     for arg in self.arguments:

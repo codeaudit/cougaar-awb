@@ -24,6 +24,7 @@ import types
 from agent import Agent
 from parameter import *
 from component import *
+from facet import Facet
 
 class Node:
   def __init__(self, name=None, rule='BASE'):
@@ -31,6 +32,7 @@ class Node:
     self.host = None
     self.agents = {}
     self.agentlist = []
+    self.facets = []
     #self.components = {}
     #self.componentlist = []
     self.vm_parameters = []
@@ -89,6 +91,45 @@ class Node:
   def delete_agent(self, agent):
     del self.agents[agent.name]
     self.agentlist.remove(agent)
+
+  def each_facet(self):
+    for facet in self.facets: # only for testing iterators
+      yield facet
+
+  def remove_facet(self, component_classname):
+    print "Node::remove_facet() not implemented"
+
+  def remove_all_facets(self):
+    self.facets = []
+
+  def delete_facet(self, facet):
+    self.facets.remove(facet)
+
+  def add_facets(self, facetList):
+    for facet in facetList:
+      self.add_facet(facet)
+
+  def add_facet(self, facet):
+    #facet arg could be either a Facet instance or a facet value string of format "key=value"
+    if isinstance(facet, Facet):
+      facet.parent = self
+      self.facets.append(facet)
+    else:
+      facetDict = {}
+      facetList = facet.split("=")
+      facetDict[facetList[0]] = facetList[1]
+      fac = Facet(facetDict)
+      fac.parent = self
+      self.facets.append(fac)
+
+  def get_facet(self, index):
+    return self.facets[index]
+
+  def get_facet_value(self, key):
+    for facet in self.facets:
+      if facet.has_key(key):
+        return facet[key]
+    return None
 
   def add_component_old(self, component):
     if isinstance(component, Component):
@@ -194,8 +235,10 @@ class Node:
         self.add_vm_parameters(params)
       elif isinstance(params[0], ProgParameter):
         self.add_prog_parameters(params)
-      else:
+      elif isinstance(params[0], EnvParameter):
         self.add_env_parameters(params)
+      else:  # must be a facet
+        self.add_facets(params)
   
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -230,6 +273,8 @@ class Node:
     xml = "  <node name='"+ self.name + "'>\n"
     xml = xml + "   <class>" + self.klass + "</class>\n"
     # add parameters and agents
+    for facet in self.facets:
+      xml = xml + facet.to_xml()
     for p in self.prog_parameters[:]:
       xml = xml + p.to_xml()
     for p in self.env_parameters[:]:

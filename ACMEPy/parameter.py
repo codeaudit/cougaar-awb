@@ -67,7 +67,7 @@ class VMParameter(Parameter):
     Parameter.__init__(self, value=value, type=type)
   
   def to_xml(self):
-    return "<vm_parameter>" + self.value +"</vm_parameter>\n"    
+    return "   <vm_parameter>" + self.value +"</vm_parameter>\n"    
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -77,7 +77,7 @@ class ProgParameter(Parameter):
     Parameter.__init__(self, value=value, type=type)
   
   def to_xml(self):
-    return "<prog_parameter>" + self.value +"</prog_parameter>\n"
+    return "   <prog_parameter>" + self.value +"</prog_parameter>\n"
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -87,7 +87,7 @@ class EnvParameter(Parameter):
     Parameter.__init__(self, value=value, type=type)
   
   def to_xml(self):
-    return "<env_parameter>" + self.value +"</env_parameter>\n"    
+    return "   <env_parameter>" + self.value +"</env_parameter>\n"    
 
   def set_rule(self, newRule):
         self.rule = str(newRule)

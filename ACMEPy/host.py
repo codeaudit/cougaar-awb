@@ -22,6 +22,8 @@
 from __future__ import generators
 import types
 from node import Node
+from facet import Facet
+
 class Host:
 
   def __init__(self, name=None, rule='BASE'):
@@ -30,6 +32,7 @@ class Host:
     self.society = None
     self.nodes = {}
     self.nodelist = [] # for testing iterators
+    self.facets = []
     self.rule = str(rule)
 
 
@@ -37,6 +40,13 @@ class Host:
     return "Host:"+ self.name+":RULE:"+self.rule
     
     
+  def add_entity(self, entity):  # currently, used only to add facets
+    if type(entity) == types.ListType:  # will be a list of facet objects
+      for each_thing in entity:
+        self.add_facet(each_thing)
+    else:
+      raise Exception, "Attempting to add unknown Host attribute"
+  
   def delete_entity(self):
     self.society.delete_host(self)
   
@@ -64,6 +74,37 @@ class Host:
     if isinstance(nodes, types.ListType):
       for n in nodes: self.add_node(n)
 
+  def each_facet(self):
+    for facet in self.facets: # only for testing iterators
+      yield facet
+
+  def remove_facet(self, component_classname):
+    print "Host::remove_facet() not implemented"
+
+  def remove_all_facets(self):
+    self.facets = []
+
+  def delete_facet(self, facet):
+    self.facets.remove(facet)
+
+  def add_facet(self, facet):
+    #facet arg could be either a Facet instance or a facet value string
+    if isinstance(facet, Facet):
+      facet.parent = self
+      self.facets.append(facet)
+    else:
+      fac = Facet(facet)
+      fac.parent = self
+      self.facets.append(fac)
+
+  def get_facet(self, index):
+    return self.facets[index]
+
+  def get_facet_value(self, key):
+    for facet in self.facets:
+      if facet.has_key(key):
+        return facet[key]
+    return None
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
@@ -77,6 +118,8 @@ class Host:
     xml = "  <host name='"+ self.name + "'>\n"
     #for node in self.nodes.keys():
       #xml = xml + self.nodes[node].to_xml()
+    for facet in self.facets:
+      xml = xml + facet.to_xml()
     for node in self.nodelist:
       xml = xml + node.to_xml()
     xml = xml +  "  </host>\n"

@@ -22,6 +22,7 @@
 from __future__ import generators
 import types
 from component import Component
+from facet import Facet
 
 class Agent:
   def __init__(self, name=None, klass=None, rule='BASE'):
@@ -30,6 +31,7 @@ class Agent:
     self.uic = None
     self.klass = klass
     self.cloned = False
+    self.facets = []
     self.components = []
     self.rule = str(rule)
     self.dupe = None
@@ -38,9 +40,48 @@ class Agent:
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
     
+  def add_entity(self, entity):  # currently, used only to add facets
+    if type(entity) == types.ListType:  # will be a list of facet objects
+      for each_thing in entity:
+        self.add_facet(each_thing)
+    else:
+      raise Exception, "Attempting to add unknown Agent attribute"
+  
   def delete_entity(self):
     self.node.delete_agent(self)
   
+  def each_facet(self):
+    for facet in self.facets: # only for testing iterators
+      yield facet
+
+  def remove_facet(self, component_classname):
+    print "Agent::remove_facet() not implemented"
+
+  def remove_all_facets(self):
+    self.facets = []
+
+  def delete_facet(self, facet):
+    self.facets.remove(facet)
+
+  def add_facet(self, facet):
+    #facet arg could be either a Facet instance or a facet value string
+    if isinstance(facet, Facet):
+      facet.parent = self
+      self.facets.append(facet)
+    else:
+      fac = Facet(facet)
+      fac.parent = self
+      self.facets.append(fac)
+
+  def get_facet(self, index):
+    return self.facets[index]
+
+  def get_facet_value(self, key):
+    for facet in self.facets:
+      if facet.has_key(key):
+        return facet[key]
+    return None
+
   def each_component(self):
     for component in self.components: # only for testing iterators
       yield component
@@ -99,20 +140,20 @@ class Agent:
         self.dupe.add_component(component.clone())
     return self.dupe
     
-  def each_component(self):
-    for component in self.components: # iterators
-      yield component
-
   def to_xml(self):
-    xml = "  <agent name='"+ self.name + "' class='"+str(self.klass)+"'>\n"
+    xml = "   <agent name='"+ self.name + "' class='"+str(self.klass)+"'>\n"
+    for facet in self.facets:
+      xml = xml + facet.to_xml()
     for component in self.components:
       xml = xml + component.to_xml()
-    xml = xml +  "  </agent>\n"
+    xml = xml +  "   </agent>\n"
     return xml   
 
   def to_python(self):
     script = "agent = Agent('"+self.name+"')\n"
     script = script + "node.add_agent(agent)\n"
+    for f in self.facets:
+      script = script + f.to_python()
     for c in self.components:
       script = script + c.to_python()
     return script

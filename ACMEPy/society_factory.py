@@ -28,6 +28,7 @@ from society import *
 from host import *
 from node import *
 from agent import *
+from facet import *
 from component import *
 from argument import *
 from parameter import *
@@ -49,6 +50,17 @@ class SocietyFactory:
     for host in hosts:
       society_host = society.add_host(str(host.getAttribute('name')))
       #print "Host Name: ", society_host.name
+      
+      hostFacets = Evaluate('facet', host)
+      facetDict = {}
+      for facet in hostFacets:  # facet is an Element instance
+        facetMap = facet.attributes  # facetMap is a NamedNodeMap instance
+        for index in range(0, facetMap.length):
+          attrib = facetMap.item(index)  # attrib is an Attr instance
+          facetDict[attrib.name] = attrib.value
+        f = Facet(facetDict)
+        society_host.add_facet(f)
+          
       nodes = Evaluate( 'node', host)
       for node in nodes:
         host_node = society_host.add_node(str(node.getAttribute('name')))
@@ -74,6 +86,16 @@ class SocietyFactory:
           host_node.klass = klass.nodeValue.strip()  # there should only be one
           #print "klass Value:"+ klass.nodeValue.strip()
           
+        nodeFacets = Evaluate('facet', node)
+        facetDict = {}
+        for facet in nodeFacets:  # facet is an Element instance
+          facetMap = facet.attributes  # facetMap is a NamedNodeMap instance
+          for index in range(0, facetMap.length):
+            attrib = facetMap.item(index)  # attrib is an Attr instance
+            facetDict[attrib.name] = attrib.value
+          f = Facet(facetDict)
+          host_node.add_facet(f)
+          
         components = Evaluate( 'component', node)
         for component in components:
           name = component.getAttribute('name')
@@ -89,6 +111,16 @@ class SocietyFactory:
           node_agent = host_node.add_agent(str(agent.getAttribute('name')))
           node_agent.klass = str(agent.getAttribute('class'))
           #print "\nAgent: ", agent.getAttribute('name')," Class:", agent.getAttribute('class')
+          
+          agentFacets = Evaluate('facet', agent)
+          for facet in agentFacets:  # facet is an Element instance
+            facetDict = {}
+            facetMap = facet.attributes  # facetMap is a NamedNodeMap instance
+            for index in range(0, facetMap.length):
+              attrib = facetMap.item(index)  # attrib is an Attr instance
+              facetDict[attrib.name] = attrib.value
+            f = Facet(facetDict)
+            node_agent.add_facet(f)
           
           components = Evaluate( 'component', agent)
           for component in components:

@@ -31,14 +31,15 @@ class Node:
     self.host = None
     self.agents = {}
     self.agentlist = []
-    self.components = {}
-    self.componentlist = []
+    #self.components = {}
+    #self.componentlist = []
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
     self.dupe = None
+    self.nodeAgent = self.add_agent(Agent(self.name, 'org.cougaar.core.agent.SimpleAgent', self.rule))
     
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
@@ -76,8 +77,8 @@ class Node:
   
   def add_entity(self, entity):
     if type(entity) == types.ListType:
-      self.add_vm_parameters(entity)
-    elif type(entity) == types.InstanceType:
+      self.add_parameters(entity)
+    elif type(entity) == types.InstanceType: # this may no longer be called
       self.add_component(entity)
   
   def get_agent(self, index):
@@ -89,7 +90,7 @@ class Node:
     del self.agents[agent.name]
     self.agentlist.remove(agent)
 
-  def add_component(self, component):
+  def add_component_old(self, component):
     if isinstance(component, Component):
       component.parent = self
       self.components[component.name] = component
@@ -102,14 +103,25 @@ class Node:
       self.components[component].parent = self
       return self.components[component]
 
-  def delete_component(self, component):
+  def add_component(self, component):
+    self.nodeAgent.add_component(component)
+  
+  def delete_component_old(self, component):
     self.componentlist.remove(component)
     del self.components[component.name]
+
+  def delete_component(self, component):
+    self.nodeAgent.delete_component(component)
+  
+  def get_component_old(self, index):
+    #for comp in self.componentlist:
+      #print comp.name
+    return self.componentlist[index]
 
   def get_component(self, index):
     #for comp in self.componentlist:
       #print comp.name
-    return self.componentlist[index]
+    return self.nodeAgent.get_component(index)
 
   def override_parameter(self, param, value):
     # assumes that "param" is a string like "-D..."
@@ -120,7 +132,8 @@ class Node:
     self.vm_parameters.append(parameter)
 
   def add_vm_parameter(self, parameter):
-    self.add_parameter(parameter)
+    parameter.parent = self
+    self.vm_parameters.append(parameter)
 
   def add_vm_parameters(self, params):
     # params is intended to be of type list
@@ -132,6 +145,8 @@ class Node:
   def add_env_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
+      for each_param in params:
+        each_param.parent = self
       self.env_parameters = self.env_parameters + params
 
   def add_env_parameter(self, parameter):
@@ -141,6 +156,8 @@ class Node:
   def add_prog_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
+      for each_param in params:
+        each_param.parent = self
       self.prog_parameters = self.prog_parameters + params
  
   def add_prog_parameter(self, parameter):
@@ -163,15 +180,23 @@ class Node:
 
   def add_parameter(self, param):
     param.parent = self
-    self.vm_parameters.append(param)
-
+    if isinstance(param, VMParameter):
+      self.add_vm_parameter(param)
+    elif isinstance(param, ProgParameter):
+      self.add_prog_parameter(param)
+    elif isinstance(param, EnvParameter):
+      self.add_env_parameter(param)
+  
   def add_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
-      for each_param in params:
-        each_param.parent = self
-      self.vm_parameters = self.vm_parameters + params
-
+      if isinstance(params[0], VMParameter):
+        self.add_vm_parameters(params)
+      elif isinstance(params[0], ProgParameter):
+        self.add_prog_parameters(params)
+      else:
+        self.add_env_parameters(params)
+  
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
@@ -211,10 +236,17 @@ class Node:
       xml = xml + p.to_xml()
     for p in self.vm_parameters[:]:
       xml = xml + p.to_xml()
-    for component in self.components.keys():
-      xml = xml + self.components[component].to_xml()
-    for agent in self.agents.keys():
-      xml = xml + self.agents[agent].to_xml()
+    #for component in self.components.keys():
+      #xml = xml + self.components[component].to_xml()
+    #for agent in self.agents.keys():
+      #xml = xml + self.agents[agent].to_xml()
+    for agent in self.agentlist:
+      if agent == self.nodeAgent:
+        for component in agent.components:
+          xml = xml + component.to_xml()
+      else:
+        #xml = xml + self.agents[agent].to_xml()
+        xml = xml + agent.to_xml()
 
     xml = xml +  "  </node>\n"
     return xml

@@ -75,8 +75,10 @@ class Host:
     
   def to_xml(self):
     xml = "  <host name='"+ self.name + "'>\n"
-    for node in self.nodes.keys():
-      xml = xml + self.nodes[node].to_xml()
+    #for node in self.nodes.keys():
+      #xml = xml + self.nodes[node].to_xml()
+    for node in self.nodelist:
+      xml = xml + node.to_xml()
     xml = xml +  "  </host>\n"
     return xml
 

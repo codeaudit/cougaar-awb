@@ -104,8 +104,10 @@ class Society:
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
     xml = xml + "  xsi:schemaLocation='society.xsd'>\n"
-    for host in self.hosts.keys():
-      xml = xml + self.hosts[host].to_xml()
+    #for host in self.hosts.keys():
+      #xml = xml + self.hosts[host].to_xml()
+    for host in self.hostlist:
+      xml = xml + host.to_xml()
     xml = xml + "</society>"
     return xml
 

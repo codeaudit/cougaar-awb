@@ -134,6 +134,7 @@ def society_from_python(filename):
   society = locals['society']
   return society
 
+
 class TransformationRule:
   def __init__(self, name):
     global society
@@ -142,9 +143,11 @@ class TransformationRule:
     self.rule = None
     self.fired = False
     self.society = None
+    self.isRubyRule = False
 
-  def set_rule(ruleText):
-    self.rule = ruleText
+  def set_rule(self, ruleText):
+    self.rule = str(ruleText.rule)
+    self.isRubyRule = ruleText.isRubyRule
     
   def fire(self):
     self.fire_count = self.fire_count + 1
@@ -159,9 +162,6 @@ class TransformationRule:
   def execute(self, society):
     print "running rule "+ str(self.name)+ " on society "+ str(society.name)
     exec self.rule
-
-
-
 
 
 class TransformationEngine:

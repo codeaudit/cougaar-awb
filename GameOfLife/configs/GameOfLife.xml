@@ -68,6 +68,16 @@
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
         </component>
       </agent>
+
+      <agent name='Cell02'>
+        <!-- A Cell in the game-->
+        <component
+          name='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          class='com.bbn.awb.GOL.CellularAutomatonPlugin'
+          priority='COMPONENT'
+          insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+        </component>
+      </agent>
       <agent name='Cell03'>
         <!-- A Cell in the game-->
         <component

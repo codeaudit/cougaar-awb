@@ -203,7 +203,14 @@ class Node:
     return i
 
   def delete_parameter(self, param):
-    self.vm_parameters.remove(param)
+    if isinstance(param, VMParameter):
+      self.vm_parameters.remove(param)
+    elif isinstance(param, EnvParameter):
+      self.env_parameters.remove(param)
+    elif isinstance(param, ProgParameter):
+      self.prog_parameters.remove(param)
+    else:
+      raise Exception, "Attempting to delete parameter of unknown type"
 
   def add_parameter(self, param):
     param.parent = self

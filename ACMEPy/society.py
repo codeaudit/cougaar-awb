@@ -79,6 +79,9 @@ class Society:
       self.nameserver_host = nameserver[:colon]
       self.nameserver_suffix = nameserver[colon:]
   
+  def set_nameserver_host(self, hostname):
+    self.nameserver_host = hostname
+  
   def has_host(self, host):
     return self.hosts[host] is not None
   
@@ -118,17 +121,41 @@ class Society:
     for host in self.hostlist:
       yield host
 
+  def has_node(self, nodeName):
+    for node in self.each_node():
+      if node.name == nodeName:
+        return True
+    return False
+  
   def each_node(self):
     for host in self.each_host():
       for node in host.each_node():
         yield node
 
+  def get_node(self, nodeName):
+    for node in self.each_node():
+      if node.name == nodeName:
+        return node
+    return None
+  
+  def has_agent(self, agentName):
+    for agent in self.each_agent():
+      if agent.name == agentName:
+        return True
+    return False
+  
   def each_agent(self, inclNodeAgent=False):
     for host in self.each_host():
       for node in host.each_node():
         for agent in node.each_agent(inclNodeAgent):
           yield agent
 
+  def get_agent(self, agentName):
+    for agent in self.each_agent():
+      if agent.name == agentName:
+        return agent
+    return None
+  
   def each_component(self, inclNodeAgent=False):
     for host in self.each_host():
       for node in host.each_node():

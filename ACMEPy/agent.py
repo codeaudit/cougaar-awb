@@ -69,6 +69,9 @@ class Agent:
       agent.add_component(component.clone())
     return agent
     
+ def each_component(self):
+    for component in self.components: # iterators
+      yield component
 
   def to_xml(self):
     xml = "  <agent name='"+ self.name + "' class='"+str(self.klass)+"'>\n"

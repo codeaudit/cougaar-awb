@@ -178,7 +178,6 @@ class TransformationRule:
     return self.fired
     
   def execute(self, society):
-    #~ print "running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     wxLogMessage("Running rule '"+ str(self.name)+ "' on society "+ str(society.name))
     exec self.rule
 
@@ -206,7 +205,6 @@ class TransformationEngine:
       count = count + 1
       print "loop ", count
     for rule in self.rules: 
-      #~ print "Rule '"+ rule.name + "' fired ", rule.fire_count, " times."
       wxLogMessage("Rule '" + rule.name + "' fired " + str(rule.fire_count) + " times.")
     if count == self.MAXLOOP:
       msg = '''The transformation ran to the loop limit.  This may indicate there was an error and the

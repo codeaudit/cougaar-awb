@@ -51,17 +51,17 @@ class SocietyFactory:
 	# get parameters for nodes
 	vm_parameters = Evaluate('vm_parameter/text()', node)
 	for vm_parameter in vm_parameters:
-	  host_node.add_vm_parameter(vm_parameter.nodeValue.strip())
+	  host_node.add_vm_parameter( VMParameter(value=vm_parameter.nodeValue.strip()) )
 	  #print "vm_parameters Value:"+ vm_parameter.nodeValue.strip()
 	
 	env_parameters = Evaluate('env_parameter/text()', node)
 	for env_parameter in env_parameters:
-	  host_node.add_env_parameter(env_parameter.nodeValue.strip())
+	  host_node.add_env_parameter( EnvParameter(value=env_parameter.nodeValue.strip()) )
 	  #print "env_parameters Value:"+ env_parameter.nodeValue.strip()    
 	
 	prog_parameters = Evaluate('prog_parameter/text()', node)
 	for prog_parameter in prog_parameters:
-	  host_node.add_prog_parameter(prog_parameter.nodeValue.strip())
+	  host_node.add_prog_parameter( ProgParameter(value=prog_parameter.nodeValue.strip()) )
 	  #print "prog_parameters Value:"+ prog_parameter.nodeValue.strip()   
 	    
 	klasses = Evaluate('class/text()', node)
@@ -119,7 +119,13 @@ class TransformationRule:
   def execute(self, society):
     print "running rule "+ str(self.name)+ " on society "+ str(society.name)
     exec self.rule
-  
+
+
+
+
+
+
+
 class TransformationEngine:
   def __init__(self, society, max_loop=300):
     self.MAXLOOP = max_loop

@@ -35,6 +35,7 @@ class Society:
     self.cougaar_port  = DEFAULT_PORT
     self.controller = None
     self.hostlist = []
+    self.rule = "BASE"
     
   def add_host(self, host):
     # is this really a 'Host' instance?

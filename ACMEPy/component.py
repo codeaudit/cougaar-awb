@@ -33,6 +33,7 @@ class Component:
     self.order = order
     self.insertionpoint = insertionpoint
     self.arguments = []
+    self.rule = "BASE"
     
   def add_argument(self, argument):
     if isinstance(argument, Argument):

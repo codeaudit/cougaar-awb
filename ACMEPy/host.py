@@ -29,7 +29,8 @@ class Host:
     self.name = name
     self.society = None
     self.nodes = {}
-    self.nodelist = [] # only for testing iterators
+    self.nodelist = [] # for testing iterators
+    self.rule = "BASE"
 
 
   def __str__(self):
@@ -73,7 +74,7 @@ class Host:
     
     
   def each_node(self):
-    for node in self.nodelist: # only for testing iterators
+    for node in self.nodelist: # for testing iterators
       yield node
 
 

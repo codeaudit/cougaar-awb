@@ -24,6 +24,7 @@ class Argument:
   def __init__(self, value, ord):
     self.value = value
     self.ord = ord
+    self.rule = "BASE"
           
   def to_xml(self):
     xml = "<argument order='"+ str(self.ord)+ "'>\n"

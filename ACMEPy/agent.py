@@ -31,6 +31,7 @@ class Agent:
     self.klass = klass
     self.cloned = False
     self.components = []
+    self.rule = "BASE"
 
       
   def __str__(self):

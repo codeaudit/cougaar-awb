@@ -33,7 +33,7 @@ class Node:
     self.vm_parameters = []
     self.prog_parameters = []
     self.env_parameters = []
-    
+    self.rule = "BASE"
     
   def __str__(self):
     return ("Node:"+self.name)

@@ -133,7 +133,7 @@ class AgentCanvas(ogl.ShapeCanvas):
         fontSize=z.viewLevelData[z.DEFAULT_ZOOMLEVEL]["FONTSIZE"]):
         dc = wx.ClientDC(self)
         self.PrepareDC(dc)
-        self.Clear()
+        self.Redraw(dc)
         self.CreateConnections(dc)
 
     def AutoLayout(self,):
@@ -158,7 +158,7 @@ class AgentCanvas(ogl.ShapeCanvas):
                 for that in those:
                         toShape = self.shapeDict[that]
 
-                        line = wx.LineShape()
+                        line = ogl.LineShape()
                         line.SetCanvas(self)
                         line.SetPen(wx.BLACK_PEN)
                         line.SetBrush(wx.BLACK_BRUSH)
@@ -213,6 +213,12 @@ class MyEvtHandler(ogl.ShapeEvtHandler):
         self.log = log
         self.statbarFrame = frame
 
+    #~ def UpdateStatusBar(self, shape):
+        #~ x, y = shape.GetX(), shape.GetY()
+        #~ width, height = shape.GetBoundingBoxMax()
+        #~ self.statbarFrame.SetStatusText("Pos: (%d, %d)  Size: (%d, %d)" %
+                                        #~ (x, y, width, height))
+
     def OnLeftClick(self, x, y, keys = 0, attachment = 0):
         shape = self.GetShape()
         #~ print "CLICK: X,Y >>>", x,y
@@ -248,21 +254,19 @@ class MyEvtHandler(ogl.ShapeEvtHandler):
 
     def OnEndDragLeft(self, x, y, keys = 0, attachment = 0):
         shape = self.GetShape()
-        self.base_OnEndDragLeft(x, y, keys, attachment)
+        ogl.ShapeEvtHandler.OnEndDragLeft(self, x, y, keys, attachment)
         if not shape.Selected():
             self.OnLeftClick(x, y, keys, attachment)
         #~ self.UpdateStatusBar(shape)
 
 
     def OnSizingEndDragLeft(self, pt, x, y, keys, attch):
-
-        self.base_OnSizingEndDragLeft(pt, x, y, keys, attch)
+        ogl.ShapeEvtHandler.OnSizingEndDragLeft(self, pt, x, y, keys, attch)
         #~ self.UpdateStatusBar(self.GetShape())
 
 
     def OnMovePost(self, dc, x, y, oldX, oldY, display):
-
-        self.base_OnMovePost(dc, x, y, oldX, oldY, display)
+        ogl.ShapeEvtHandler.OnMovePost(self, dc, x, y, oldX, oldY, display)
         #~ self.UpdateStatusBar(self.GetShape())
 
     def OnRightClick(self, x, y, keys = 0, attachment = 0):

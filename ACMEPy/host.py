@@ -52,6 +52,7 @@ class Host:
          #~ return self.add_node(entity, orderAfterObj, True)
       return self.add_node(entity, orderAfterObj, reorder)
     else:
+      print '********\n' + str(entity.__class__) + '********\n'  # debug
       raise Exception, "Attempting to add unknown Host attribute"
   
   def add_node(self, node, orderAfterObj=None, reorder=False):

@@ -21,7 +21,7 @@
 #
 
 from __future__ import generators
-import os, sys
+import os, sys, traceback
 from wxPython.wx import *
 from xml.dom import minidom 
 from Ft.Xml.Domlette import Print, PrettyPrint
@@ -178,8 +178,13 @@ class TransformationRule:
     return self.fired
     
   def execute(self, society):
-    wxLogMessage("Running rule '"+ str(self.name)+ "' on society "+ str(society.name))
-    exec self.rule
+    #~ wxLogMessage("Running rule '"+ str(self.name)+ "' on society "+ str(society.name))
+    print "Running rule '"+ str(self.name)+ "' on society "+ str(society.name)
+    try:
+      exec self.rule
+    except Exception, args:
+      print "exec self.rule exception"
+      print str(args)
 
 
 class TransformationEngine:
@@ -198,14 +203,24 @@ class TransformationEngine:
     while loop is True and count < self.MAXLOOP:
       loop = False
       for rule in self.rules:
-        rule.execute(self.society)
+        try:
+          rule.execute(self.society)
+        except Exception, args:
+          print "ERROR transforming the Society."
+          traceback.print_exc()
+          self.log.WriteText("Transformation failed.\n")
+          self.log.WriteText("%s\n" % str(args))   
+          
         if rule.fired == True:  # if rule fired, we'll fire it again...until it doesn't fire any longer
           rule.reset()
           loop = True
       count = count + 1
       print "loop ", count
     for rule in self.rules: 
-      wxLogMessage("Rule '" + rule.name + "' fired " + str(rule.fire_count) + " times.")
+      # Sending the following msg to the log file seems to cause Linux to hang, perhaps
+      # because this is running in a separate thread and a deadlock occurs (see wxPython bug 496697).
+      #~ wxLogMessage("Rule '" + rule.name + "' fired " + str(rule.fire_count) + " times.")
+      print "Rule '" + rule.name + "' fired " + str(rule.fire_count) + " times."
     if count == self.MAXLOOP:
       msg = '''The transformation ran to the loop limit.  This may indicate there was an error and the
 transformation did not complete correctly.'''

@@ -40,15 +40,23 @@ class Agent:
   def __str__(self):
     return "Agent:"+self.name+":RULE:"+self.rule
     
-  def add_entity(self, entity):  
+  def add_entity(self, entity, orderAfterObj=None, isCopyOperation=False):
     if type(entity) == types.ListType:  # will be a list of Facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Component):
       entity.prev_parent = entity.parent
-      self.add_component(entity)
+      isReordering = False
+      print "isCopyOperation:", isCopyOperation  # prg debug
+      if entity.parent == self and not isCopyOperation:  
+        print "It's a reordering w/in the same agent" # prg debug  ## Just take out 'print' stmt ##
+        self.remove_component(entity)  # we'll be adding it back again in a new location
+        isReordering = True
+        #~ return self.add_component(entity, orderAfterObj, True)
+      print "isReordering =", isReordering  # prg debug
+      return self.add_component(entity, orderAfterObj, isReordering)
     else:
-      raise Exception, "Attempting to add unknown Agent attribute"
+      raise Exception, "Attempting to add unknown Node attribute"
   
   def delete_entity(self):
     self.parent.delete_agent(self)
@@ -200,17 +208,41 @@ class Agent:
     else:
       print "WARNING: Attempt to delete non-existent Component. Could be an error."
 
-  def add_component(self, component):
-    # plugin is either an actual plugin or a string representing the data for a plugin.
-    # handle accordingly!
+  def add_component(self, component, orderAfterObj=None, reorder=False):
     if isinstance(component, Component):
-      component.parent = self
-      self.components.append(component)
-      self.society.isDirty = True
+      isDupe = False
+      # Check if we've already got a component by that name; but if this
+      # is a reordering, dupes are ok, so we leave isDupe set to false
+      #~ if not reorder and self.society is not None:
+      if not reorder:
+        for existingComp in self.components:
+          if component.name == existingComp.name:
+            isDupe = True
+            break
+      if not isDupe:
+        # We don't have it, so add it
+        if orderAfterObj is not None:
+          # User  wants to add it at a particular place
+          index = -1
+          if isinstance(orderAfterObj, Component) and orderAfterObj in self.components:
+            index = self.components.index(orderAfterObj)
+          self.components.insert(index + 1, component)
+        else:
+          # User doesn't care where it's added , so add at the end
+          self.components.append(component)
+        component.parent = self
+        if self.society is not None:
+          self.society.isDirty = True
+        return component
+      else:
+        print "Unable to add duplicate component:", component.name
+        return None
+    elif isinstance(component, types.StringType):
+      newComp = Component(component)
+      return self.add_component(newComp)
     else:
-      comp = Component(component)
-      self.add_component(comp)
-  
+      raise Exception, "Attempting to add unknown type as a component"
+
   def get_component(self, index):
     if len(self.components) > index:
       return self.components[index]

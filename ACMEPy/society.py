@@ -477,13 +477,29 @@ class Society:
           self.isDirty = True
           return
   
+  
   def rename(self, newName):
     self.name = newName
     self.isDirty = True
     return self.name
   
+  
   def getType(self):
     return 'society'
+  
+  
+  def isDupeName(self, entityType, name):
+    if entityType == 'host':
+      if self.has_host(name):
+        return True
+    elif entityType == 'node':
+      if self.has_node(name):
+        return True
+    elif entityType == 'agent':
+      if self.has_agent(name):
+        return True
+    return False
+  
   
   ##
   # A standby method for printing a simple list of agent names in the society.  May be

@@ -89,6 +89,9 @@ class Node:
     # params is intended to be of type list
     if isinstance(params, types.ListType):
       self.parameters = self.parameters + params
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
  
   def clone(self):
     node = Node(self.name)

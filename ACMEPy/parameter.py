@@ -33,24 +33,36 @@ class Parameter:
   def __str__(self):
     return (self.type+":"+self.value)
 
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
+
 
 class VMParameter(Parameter):
   def __init__(self, value=None, type="VMParameter"):
     Parameter.__init__(self, value=value, type=type)
   def to_xml(self):
     return "<vm_parameter>" + self.value +"</vm_parameter>\n"    
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
     
 class ProgParameter(Parameter):
   def __init__(self, value=None, type="ProgParameter"):
     Parameter.__init__(self, value=value, type=type)
   def to_xml(self):
     return "<prog_parameter>" + self.value +"</prog_parameter>\n"
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
     
 class EnvParameter(Parameter):
   def __init__(self, value=None, type="EnvParameter"):
     Parameter.__init__(self, value=value, type=type)
   def to_xml(self):
     return "<env_parameter>" + self.value +"</env_parameter>\n"    
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
   
 def unitTest():
   p = Parameter(value='Test-Parameter')

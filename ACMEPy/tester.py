@@ -109,11 +109,28 @@ for agent in society.each_agent():
       component.add_argument(Argument("Parameter2", "1.0", rule=self.name))
       self.fire()
 """
+rule02 = TransformationRule("Override Parameters.")
+rule02.rule = """
+for host in society.each_host():
+	for node in host.each_node():
+		node.remove_parameter(VMParameter("-Dorg.cougaar.control.port"))
+		node.override_parameter("-Dorg.cougaar.node.InitializationComponent","XML")
+		for agent in node.each_agent():
+			agent.remove_component("org.cougaar.core.topology.TopologyReaderServlet")
+			print "Agent is ", agent.name
+			for comp in agent.each_component():
+				if (comp.klass == "org.cougaar.mlm.plugin.ldm.LDMSQLPlugin"):
+					comp.arguments[0].value = "fdm_equip_ref.q"
+				if (comp.klass == "org.cougaar.mlm.plugin.organization.GLSInitServlet"):
+					comp.arguments[0].value = "093FF.oplan.noncsmart.q"
+					self.fire()
+"""
 
 engine = TransformationEngine(society, 100)
 # engine.add_rule(rule00)
 engine.add_rule(rule00)
 engine.add_rule(rule01)
+engine.add_rule(rule02)
 soc = engine.transform()
 
 text = soc.prettyFormat()

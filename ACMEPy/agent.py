@@ -54,6 +54,9 @@ class Agent:
     else:
       self.components.append(Component(component))
 
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
+
   def host(self):
     return agent.node.host
 

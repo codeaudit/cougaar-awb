@@ -56,6 +56,9 @@ class Society:
       self.hostlist.append(h) # (host)      
       self.hosts[host].society = self
       return self.hosts[host]
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
       
   def active_hosts():
     actives = []

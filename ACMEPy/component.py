@@ -43,6 +43,9 @@ class Component:
     return "Component:"+self.name+":RULE:"+self.rule
 
 
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
+
   def clone(self):
     return Plugin(self.name)
   def to_xml(self):

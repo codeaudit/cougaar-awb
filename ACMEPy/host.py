@@ -54,6 +54,10 @@ class Host:
     if isinstance(nodes, types.ListType):
       for n in nodes: self.add_node(n)
 
+
+  def set_rule(self, newRule):
+        self.rule = str(newRule)
+
   def clone(self):
     host = Host(self.name)
     host.add_nodes

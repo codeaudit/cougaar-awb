@@ -32,6 +32,7 @@ class Agent:
     self.cloned = False
     self.components = []
     self.rule = str(rule)
+    self.dupe = None
 
       
   def __str__(self):
@@ -63,18 +64,44 @@ class Agent:
   def set_rule(self, newRule):
         self.rule = str(newRule)
 
+  def set_attribute(self, attribute, value):
+    # both args must be strings
+    if attribute.lower() == 'name':
+      self.name = value
+    elif attribute.lower() == 'node':
+      self.node == value
+    elif attribute.lower() == 'uic':
+      self.uic == value
+    elif attribute.lower() == 'klass':
+      self.klass = value
+    elif attribute.lower() == 'rule':
+      self.rule = value
+    else:
+      raise Exception, "Attempting to set unknown Agent attribute: " + attribute.lower()
+  
   def host(self):
     return agent.node.host
 
   def clone(self):
-    agent = Agent(self.name)
-    agent.node = self.node
-    agent.cloned = True
-    agent.uic = self.uic
-    for component in self.components:
-      agent.add_component(component.clone())
-    return agent
+    print "Cloning Agent"
+    if self.dupe is None:
+      self.dupe = Agent(self.name)
+      self.dupe.node = self.node
+      self.dupe.cloned = True
+      self.dupe.uic = self.uic
+      for component in self.components:
+        self.dupe.add_component(component.clone())
+    return self.dupe
     
+  def commit(self):
+    self.dupe = None
+  
+  def restore(self):
+    print "Restoring Agent"
+    if self.dupe is not None:
+      self = self.dupe
+      self.dupe = None
+  
   def each_component(self):
     for component in self.components: # iterators
       yield component

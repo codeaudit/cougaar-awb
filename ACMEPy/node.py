@@ -38,10 +38,25 @@ class Node:
     self.env_parameters = []
     self.klass = None
     self.rule = str(rule)
+    self.dupe = None
     
   def __str__(self):
     return "Node:"+self.name+":RULE:"+self.rule
     
+  def set_attribute(self, attribute, value):
+    # both args must be strings
+    value = str(value)
+    if attribute.lower() == 'name':
+      self.name = value
+    elif attribute.lower() == 'klass':
+      self.klass = value
+    elif attribute.lower() == 'rule':
+      self.rule = value
+    elif attribute.lower() == 'prog_parameter':
+      self.prog_parameters[0] = ProgParameter(value)
+    else:
+      raise Exception, "Attempting to set unknown Node attribute: " + attribute.lower()
+
   def add_agent(self, agent, klass = None):
     if isinstance(agent, Agent):
       agent.node = self
@@ -110,10 +125,15 @@ class Node:
     self.prog_parameters.append(parameter)
 
   def remove_parameter(self, param):
+    # Assumes that arg "param" is only the key of the parameter, not the value
+    i = -1  # we'll return the index of the removed item
     for p in self.vm_parameters[:]:
+      i += 1
       args = p.value.split('=')
-      if len(p.value) > 0 and (args[0] == param.value):
+      if len(p.value) > 0 and (args[0] == param):
         self.vm_parameters.remove(p)
+        break
+    return i
 
   def add_parameter(self, param):
     self.vm_parameters.append(param)
@@ -121,20 +141,47 @@ class Node:
   def add_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
-      self.parameters = self.parameters + params
+      self.vm_parameters = self.vm_parameters + params
 
   def set_rule(self, newRule):
         self.rule = str(newRule)
  
   def clone(self):
-    node = Node(self.name)
-    node.host = self.host
-    for agent in agents:
-      node.add_agent(agent.clone())
-    node.add_parameters(self.parameters)
-    node.add_prog_parameters(self.prog_parameters)
-    node.add_env_parameters(self.prog_parameters)
-      
+    print "Cloning Node"
+    if self.dupe is None:
+      self.dupe = Node(self.name)
+      self.dupe.host = self.host
+      self.dupe.klass = self.klass
+      self.dupe.rule = self.rule
+      for agent in self.agentlist:
+        self.dupe.add_agent(agent.clone())
+      self.dupe.add_parameters(self.clone_parameters('vm'))
+      self.dupe.add_prog_parameters(self.clone_parameters('prog'))
+      #node.add_env_parameters(self.clone_parameters('env'))
+      for comp in self.componentlist:
+        self.dupe.add_component(comp.clone())
+  
+  def clone_parameters(self, type):
+    dupe_params = []
+    paramsList = self.vm_parameters
+    if type == 'prog':
+      paramsList = self.prog_parameters
+    elif type == 'env':
+      paramsList = self.env_parameters
+    for each_param in paramsList:
+      dupe_params.append(each_param.clone())
+    return dupe_params
+  
+  def commit(self):
+    self.dupe = None
+  
+  def restore(self):
+    print "Restoring Node"
+    if self.dupe is not None:
+      self = self.dupe
+      self.dupe = None  # may not be necessary
+      self.host.nodes[self.name] = self
+  
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
     xml = xml + "   <class>" + self.klass + "</class>\n"

@@ -34,7 +34,23 @@ class Component:
     self.arguments = []
     self.rule = str(rule)
     self.parent = None
+    self.dupe = None
     
+  def set_attribute(self, attribute, value):
+    # both args must be strings
+    if attribute.lower() == 'name':
+      self.name = value
+    elif attribute.lower() == 'klass':
+      self.klass = value
+    elif attribute.lower() == 'priority':
+      self.priority = value
+    elif attribute.lower() == 'insertionpoint':
+      self.insertionpoint = value
+    elif attribute.lower() == 'rule':
+      self.rule = value
+    else:
+      raise Exception, "Attempting to set unknown Component attribute: " + attribute.lower()
+
   def add_argument(self, argument):
     if isinstance(argument, Argument):
       self.arguments.append(argument)
@@ -50,7 +66,23 @@ class Component:
         self.rule = str(newRule)
 
   def clone(self):
-    return Plugin(self.name)
+    print "Cloning Component"
+    #return Plugin(self.name)
+    if self.dupe is None:
+      self.dupe = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
+      for each_arg in self.arguments:
+        self.dupe.add_argument(each_arg.clone())
+    return self.dupe
+  
+  def commit(self):
+    self.dupe = None
+  
+  def restore(self):
+    print "Restoring Component"
+    if self.dupe is not None:
+      self = self.dupe
+      self.dupe = None
+  
   def to_xml(self):
     xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
     for a in self.arguments[:]:

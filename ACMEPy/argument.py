@@ -25,13 +25,38 @@ class Argument:
   def __init__(self, value, rule='BASE'):
     self.value = value
     self.rule = str(rule)
+    self.dupe = None
     
   def __str__(self):
     return "Argument:"+self.value+":RULE:"+self.rule
 
+  def set_attribute(self, attribute, value):
+    # both args must be strings
+    if attribute.lower() == 'value':
+      self.value = value
+    elif attribute.lower() == 'rule':
+      self.rule = value
+    else:
+      raise Exception, "Attempting to set unknown Argument attribute: " + attribute.lower()
+
   def set_rule(self, newRule):
-        self.rule = str(newRule)
-          
+    self.rule = str(newRule)
+  
+  def clone(self):
+    print "Cloning Argument"
+    if self.dupe is None:
+      self.dupe = Argument(self.value, self.rule)
+    return self.dupe
+  
+  def commit(self):
+    self.dupe = None
+  
+  def restore(self):
+    print "Restoring Argument"
+    if self.dupe is not None:
+      self = self.dupe
+      self.dupe = None
+  
   def to_xml(self):
     xml = "<argument>"
     xml = xml + str(self.value) + "</argument>\n"

@@ -136,20 +136,30 @@ class Society:
           for component in agent.each_component():
             yield component
 
+  def get_node_list(self):
+    nodeList = []
+    for node in self.each_node():
+      nodeList.append(node)
+    return nodeList
+  
   def get_agent_list(self, inclNodeAgent=False):
     agentList = []
     for agent in self.each_agent(inclNodeAgent):
       agentList.append(agent)
     return agentList
   
+  def countHosts(self):
+    return len(self.hostlist)
+  
+  def countNodes(self):
+    nodelist = self.get_node_list()
+    return len(nodelist)
+  
   def countAgents(self):
     count = 0
     for agent in self.each_agent():
       count += 1
     return count
-  
-  def countHosts(self):
-    return len(self.hostlist)
   
   def clone(self):
     society = Society(self.name, self.rule)
@@ -159,8 +169,20 @@ class Society:
       new_host.society = society
     return society
   
+  def remove_node(self, node):
+    # This does not delete the node object,
+    # but just removes it from the nodelist of its host.  The node obj may continue
+    # to exist in the nodelist of another host. Even if the node obj is NOT in the
+    # nodelist of another host, it will survive because its agents and facets
+    # (if any) hold references to it, thus preventing it from being garbage
+    # collected.  This can be a memory leak if not properly managed.
+    for host in self.each_host():
+      if host.has_node(node.name):
+        host.remove_node(node)
+        return
+  
   def remove_agent(self, agent):
-    # Diff betw this and delete_agent( ) is that this does not delete the agent object,
+    # This does not delete the agent object,
     # but just removes it from the agentlist of its node.  The agent obj may continue
     # to exist in the agentlist of another node. Even if the agent obj is NOT in the
     # agentlist of another node, it will survive because its components and facets

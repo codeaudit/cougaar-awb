@@ -30,6 +30,7 @@ class Node:
   def __init__(self, name=None, rule='BASE'):
     self.name = name
     self.parent = None
+    self.prev_parent = None
     self.agentlist = []
     self.facets = []
     self.vm_parameters = []
@@ -93,16 +94,25 @@ class Node:
     elif isinstance(entity, Component):
       self.add_component(entity)
     elif isinstance(entity, Agent):
+      entity.prev_parent = entity.parent
       if entity.society.name == self.society.name:  # it's a reordering w/in same society
         return self.add_agent(entity, orderAfterObj, True)
-      else:
-        return self.add_agent(entity, orderAfterObj)
+      return self.add_agent(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Node attribute"
   
   def delete_entity(self, saveAgents=False):
     '''Deletes itself from node list of parent host.'''
     self.parent.delete_node(self, saveAgents)
+  
+  def delete_from_prev_parent(self, saveAgents=False):
+    if self.prev_parent is not None:
+      self.prev_parent.remove_node(self)
+    else:
+      self.remove_entity()
+  
+  def has_changed_parent(self):
+    return self.parent != self.prev_parent
   
   def remove_entity(self):
     self.parent.remove_node(self)
@@ -124,6 +134,9 @@ class Node:
   
   def get_agent(self, index):
     return self.agentlist[index]
+  
+  def get_node_agent(self):
+    return self.nodeAgent
   
   def has_agent(self, agentName):
     for agent in self.agentlist:
@@ -307,17 +320,18 @@ class Node:
       self.nodeAgent.rename(newName)
     return self.name
   
-  def clone(self):
+  def clone(self, inclComponents=True):
     node = Node(self.name)
     node.klass = self.klass
     node.rule = self.rule
     for agent in self.agentlist:
       if agent != self.nodeAgent:
-        newAgent = agent.clone()
+        newAgent = agent.clone(inclComponents)
         node.add_agent(newAgent)
-    node.add_parameters(self.clone_parameters('vm'))
-    node.add_prog_parameters(self.clone_parameters('prog'))
-    node.add_env_parameters(self.clone_parameters('env'))
+    if inclComponents:
+      node.add_parameters(self.clone_parameters('vm'))
+      node.add_prog_parameters(self.clone_parameters('prog'))
+      node.add_env_parameters(self.clone_parameters('env'))
     return node
   
   def set_society(self, society):
@@ -345,26 +359,26 @@ class Node:
   
   def to_xml(self, hnaOnly=False, inclNameserverFacet=False):
     xml = "    <node name='"+ self.name + "'"
-    if len(self.agentlist) == 0 and (hnaOnly or (self.klass is None and len(self.facets) == 0 \
+    if len(self.agentlist) == 0 and len(self.facets) == 0 and (hnaOnly or (self.klass is None  \
             and len(self.prog_parameters) == 0 and len(self.env_parameters) == 0 \
             and len(vm_parameters) == 0)):
       xml = xml + "/>\n"
       return xml
     xml = xml + ">\n"
-    if inclNameserverFacet:
-      xml = xml + "      <facet role='NameServer'/>\n"
     if not hnaOnly:
       if self.klass is not None:
         xml = xml + "   <class>" + self.klass + "</class>\n"
       # add parameters and agents
-      for facet in self.facets:
-        xml = xml + facet.to_xml()
       for p in self.prog_parameters[:]:
         xml = xml + p.to_xml()
       for p in self.env_parameters[:]:
         xml = xml + p.to_xml()
       for p in self.vm_parameters[:]:
         xml = xml + p.to_xml()
+    if inclNameserverFacet:
+      xml = xml + "      <facet role='NameServer'/>\n"
+    for facet in self.facets:
+      xml = xml + facet.to_xml()
     for agent in self.agentlist:
       if agent == self.nodeAgent:
         for component in agent.components:
@@ -401,9 +415,6 @@ class Node:
       script = script + "      node.add_facet do |facet|\n"
       script = script + facet.to_ruby(4)
       script = script + "      end\n"
-    #~ for facet in self.facets:
-      #~ for keyvalue in facet.each_facet_pair():
-        #~ script = script + "      node.add_facet('" + keyvalue + "')\n"
     for c in self.nodeAgent.each_component():
       script = script + c.to_ruby(4)
     for agent in self.each_agent(False):  # exclude node agent

@@ -36,6 +36,7 @@ class Component:
     self.arguments = []
     self.rule = str(rule)
     self.parent = None
+    self.prev_parent = None
     
   def set_attribute(self, attribute, value):
     # both args must be strings
@@ -56,12 +57,22 @@ class Component:
     '''Deletes itself from component list of parent node or agent.'''
     self.parent.delete_component(self)
   
+  def delete_from_prev_parent(self):
+    if self.prev_parent is not None:
+      self.prev_parent.delete_component(self)
+    else:
+      self.delete_entity()
+  
+  def has_changed_parent(self):
+    return self.parent != self.prev_parent
+  
   def delete_argument(self, argument):
     self.arguments.remove(argument)
     del argument
   
   def add_entity(self, entity):
     if isinstance(entity, Argument):
+      entity.prev_parent = entity.parent
       self.add_argument(entity)
     else:
       raise Exception, "Attempting to add unknown Component attribute"
@@ -115,10 +126,10 @@ class Component:
     return component
   
   def to_xml(self):
-    xml =  "<component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
+    xml =  "        <component name='"+str(self.name)+"' class='"+str(self.klass)+"' priority='"+str(self.priority)+"' insertionpoint='"+str(self.insertionpoint)+"'>\n"
     for a in self.arguments[:]:
       xml = xml + a.to_xml()
-    xml = xml + "</component>\n"
+    xml = xml + "        </component>\n"
     return xml
     
   def to_python(self):

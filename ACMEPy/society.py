@@ -82,8 +82,9 @@ class Society:
     if isinstance(host, Host):
       if host.parent.name == self.name:  # it's a reordering
         return self.add_host(host, orderAfterObj, True)
-      else:  #  we're adding a new host
-        return self.add_host(host, orderAfterObj)
+      if host.parent is not None:  # host just moved here from another society
+        host.prev_parent = host.parent
+      return self.add_host(host, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
   
@@ -111,6 +112,12 @@ class Society:
   def get_host(self, index):
     return self.hostlist[index]
 
+  def get_host_by_name(self, hostName):
+    for host in self.hostlist:
+      if host.name == hostName:
+        return host
+    return None
+  
   def delete_host(self, host, saveAgents=False):
     for node in host.each_node():
       host.delete_node(node, saveAgents)
@@ -211,10 +218,10 @@ class Society:
       count += 1
     return count
   
-  def clone(self):
+  def clone(self, inclComponents=True):
     society = Society(self.name, self.rule)
     for host in self.hostlist:
-      new_host = host.clone()
+      new_host = host.clone(inclComponents)
       society.add_host(new_host)
       new_host.set_parent(society)
     return society
@@ -256,6 +263,7 @@ class Society:
   # file consisting of a list of agent names.
   #
   def to_xml_agentNameList_only(self, hnaOnly=False):
+  #~ def to_xml(self, hnaOnly=False):
     xml = "Society name: " + self.name + "\n"
     xml = xml + "  Agents:\n"
     for agent in self.each_agent():
@@ -264,6 +272,7 @@ class Society:
     return xml
   
   def to_xml(self, hnaOnly=False):
+  #~ def to_xml_real(self, hnaOnly=False):
     xml = "<?xml version='1.0'?>\n"
     xml = xml + "<society name='"+ self.name +"'\n"
     xml = xml + "  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'\n" 
@@ -313,6 +322,25 @@ class Society:
             print "\t\t\t\t", component
             for argument in component.arguments:
               print "\t\t\t\t\t", argument
+    
+  def prettyPrintNamesOnly(self):
+    print self.name
+    for host in self.hostlist:
+      print "\t", host.name
+      for facet in host.facets:
+        print "\t\t", facet
+      for node in host.nodelist:
+        print "\t\t", node.name
+        for facet in node.facets:  
+          print "\t\t\t", facet
+        for agent in node.agentlist:
+          print "\t\t\t", agent.name
+          for facet in agent.facets:
+            print "\t\t\t\t", facet
+          for component in agent.components:
+            print "\t\t\t\t", component.name
+            for argument in component.arguments:
+              print "\t\t\t\t\t", argument.name
     
   def prettyFormat(self):
     text = str(self)+"\n"

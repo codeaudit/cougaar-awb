@@ -28,6 +28,7 @@ class Agent:
   def __init__(self, name=None, klass=None, rule='BASE'):
     self.name = name
     self.parent = None
+    self.prev_parent = None
     self.society = None
     self.uic = None
     self.klass = klass
@@ -43,12 +44,22 @@ class Agent:
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Component):
+      entity.prev_parent = entity.parent
       self.add_component(entity)
     else:
       raise Exception, "Attempting to add unknown Agent attribute"
   
   def delete_entity(self):
     self.parent.delete_agent(self)
+  
+  def delete_from_prev_parent(self):
+    if self.prev_parent is not None:
+      self.prev_parent.remove_agent(self)
+    else:
+      self.remove_entity()
+  
+  def has_changed_parent(self):
+    return self.parent != self.prev_parent
   
   def remove_entity(self):
     self.parent.remove_agent(self)
@@ -170,13 +181,14 @@ class Agent:
       return True
     return False
   
-  def clone(self):
+  def clone(self, inclComponents=True):
     agent = Agent(self.name, self.klass, self.rule)
     agent.uic = self.uic
-    for component in self.components:
-      new_component = component.clone()
-      agent.add_component(new_component)
-      new_component.parent = agent
+    if inclComponents:
+      for component in self.components:
+        new_component = component.clone()
+        agent.add_component(new_component)
+        new_component.parent = agent
     for facet in self.facets:
       new_facet = facet.clone()
       agent.add_facet(new_facet)
@@ -203,7 +215,7 @@ class Agent:
         xml = xml + facet.to_xml()
       for component in self.components:
         xml = xml + component.to_xml()
-      xml = xml +  "   </agent>\n"
+      xml = xml +  "      </agent>\n"
       return xml   
 
   def to_python(self):

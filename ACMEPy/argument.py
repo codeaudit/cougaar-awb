@@ -26,6 +26,7 @@ class Argument:
     self.name = value
     self.rule = str(rule)
     self.parent = None
+    self.prev_parent = None
   
   def __str__(self):
     return "Argument:"+self.name+":RULE:"+self.rule
@@ -42,6 +43,15 @@ class Argument:
   def delete_entity(self):
     self.parent.delete_argument(self)
   
+  def delete_from_prev_parent(self):
+    if self.prev_parent is not None:
+      self.prev_parent.delete_argument(self)
+    else:
+      self.delete_entity()
+  
+  def has_changed_parent(self):
+    return self.parent != self.prev_parent
+  
   def set_rule(self, newRule):
     self.rule = str(newRule)
   
@@ -53,7 +63,7 @@ class Argument:
     return Argument(self.name, self.rule)
   
   def to_xml(self):
-    return "<argument>" + str(self.name) + "</argument>\n"
+    return "          <argument>" + str(self.name) + "</argument>\n"
     
   def to_python(self):
     script = "argument = Argument('"+self.name+"','"+self.rule+"')\n"

@@ -30,6 +30,7 @@ class Host:
     """Constructs a host with the optional name  """
     self.name = name
     self.parent = None
+    self.prev_parent = None
     self.nodelist = [] 
     self.facets = []
     self.rule = str(rule)
@@ -42,10 +43,10 @@ class Host:
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Node):
+      entity.prev_parent = entity.parent
       if entity.society.name == self.parent.name:  # it's a reordering w/in same society
          return self.add_node(entity, orderAfterObj, True)
-      else:
-        return self.add_node(entity, orderAfterObj)
+      return self.add_node(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
@@ -85,6 +86,15 @@ class Host:
     '''Deletes itself from its parent society'''
     self.parent.delete_host(self, saveAgents)
   
+  def delete_from_prev_parent(self, saveAgents=False):
+    if self.prev_parent is not None:
+      self.prev_parent.remove_host(self)
+    else:
+      self.remove_entity()
+  
+  def has_changed_parent(self):
+    return self.parent != self.prev_parent
+  
   def delete_node(self, node, saveAgents=False):
     if node in self.nodelist:
       for agent in node.each_agent():
@@ -107,6 +117,12 @@ class Host:
   def get_node(self, index):
     return self.nodelist[index]
 
+  def get_node_by_name(self, nodeName):
+    for node in self.nodelist:
+      if node.name == nodeName:
+        return node
+    return None
+  
   def get_nodes(self):
     return self.nodelist
 
@@ -190,10 +206,10 @@ class Host:
     for node in self.nodelist: 
       yield node
 
-  def clone(self):
+  def clone(self, inclComponents=True):
     host = Host(self.name, self.rule)
     for node in self.nodelist:
-      new_node = node.clone()
+      new_node = node.clone(inclComponents)
       host.add_node(new_node)
       new_node.parent = host
     for facet in self.facets:
@@ -209,12 +225,11 @@ class Host:
   
   def to_xml(self, hnaOnly=False, isNameserver=False):
     xml = "  <host name='"+ self.name + "'"
-    if len(self.nodelist) == 0:
+    if len(self.nodelist) == 0 and len(self.facets) == 0:
       xml = xml + "/"
     xml = xml + ">\n"
-    if not hnaOnly:
-      for facet in self.facets:
-        xml = xml + facet.to_xml()
+    for facet in self.facets:
+      xml = xml + facet.to_xml()
     isFirstNode = True
     for node in self.nodelist:
       inclNameserverFacet = False
@@ -222,7 +237,7 @@ class Host:
         inclNameserverFacet = True
       xml = xml + node.to_xml(hnaOnly, inclNameserverFacet)
       isFirstNode = False
-    if len(self.nodelist) > 0:
+    if len(self.nodelist) > 0 or len(self.facets) > 0:
       xml = xml +  "  </host>\n"
     return xml
   
@@ -241,11 +256,8 @@ class Host:
       script = script + "    host.add_facet do |facet|\n"
       script = script + facet.to_ruby(3)
       script = script + "    end\n"
-      #~ for keyvalue in facet.each_facet_pair():
-        #~ script = script + "host.add_facet(\"" + keyvalue + "\")\n"
     for node in self.nodelist:
       script = script + node.to_ruby()
-    #~ script = script + "society.add_host(host)\n"
     script = script + "  end\n"
     return script
   

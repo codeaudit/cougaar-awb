@@ -50,9 +50,12 @@ class Agent:
   # plugin is either an actual plugin or a string representing the data for a plugin.
   # handle accordingly!
     if isinstance(component, Component):
+      component.parent = self
       self.components.append(component)
     else:
-      self.components.append(Component(component))
+      comp = Component(component)
+      comp.parent = self
+      self.components.append(comp)
 
   def get_component(self, index):
     return self.components[index]

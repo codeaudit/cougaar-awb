@@ -52,7 +52,6 @@ class Parameter:
     self.parent.delete_parameter(self)
   
   def clone(self):
-    print "Cloning Parameter"
     if self.dupe is None:
       if self.type == 'VMParameter':
         self.dupe =  VMParameter(self.value)

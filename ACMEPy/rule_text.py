@@ -4,7 +4,7 @@
 #
 # Author:       ISAT (D. Moore/P. Gardella)
 #
-# RCS-ID:       $Id: rule_text.py,v 1.8 2003-07-01 16:15:37 pgardella Exp $
+# RCS-ID:       $Id: rule_text.py,v 1.9 2003-07-02 14:27:54 pgardella Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -32,6 +32,7 @@ class RuleText:
 
   def __init__(self, filename, description=None, rule=None):
     self.description = self.rule = ""
+    self.filename = filename
     if filename is None:
       # for use when saving a rule (rather than reading one)
       self.description = description
@@ -75,6 +76,7 @@ class RuleText:
       self.rule = self.rule + "\n"
   
   def saveRule(self, filename):
+    self.filename = filename
     f = open(filename, 'w+')
     f.writelines(str(self.rule))
     f.close()

@@ -268,6 +268,9 @@ class Society:
   def get_host(self, index):
     return self.hostlist[index]
 
+  def get_hosts(self):
+    return self.hostlist
+  
   def get_host_by_name(self, hostName):
     for host in self.hostlist:
       if host.name == hostName:

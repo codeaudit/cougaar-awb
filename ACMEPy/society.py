@@ -70,7 +70,9 @@ class Society:
           index = -1
           if isinstance(orderAfterObj, Host) and orderAfterObj in self.hostlist:
             index = self.hostlist.index(orderAfterObj)
-          self.hostlist.insert(index + 1, host)
+          if not host.has_changed_parent() and host in self.hostlist:
+            self.hostlist.remove(host)  # remove it from its original location in the hostlist
+          self.hostlist.insert(index + 1, host)  # add it back in at its new location
         else:
           # User doesn't care where it's added, so add at the end
           self.hostlist.append(host)
@@ -86,11 +88,11 @@ class Society:
   
   def add_entity(self, host, orderAfterObj=None, isCopyOperation=False):
     if isinstance(host, Host):
+      host.prev_parent = host.parent
       if host.parent.name == self.name and not isCopyOperation:  # it's a reordering
         return self.add_host(host, orderAfterObj, True)
       if host.parent is not None:  # host just moved here from another society
-        host.prev_parent = host.parent
-      return self.add_host(host, orderAfterObj)
+        return self.add_host(host, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
   

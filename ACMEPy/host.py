@@ -63,19 +63,21 @@ class Host:
             isDupe = True 
             break
       if not isDupe:
+        node.parent = self
+        node.society = self.parent
+        node.nodeAgent.society = self.parent
         # We don't have it, so add it
         if orderAfterObj is not None:
           # User  wants to add it at a particular place
           index = -1
           if isinstance(orderAfterObj, Node) and orderAfterObj in self.nodelist:
             index = self.nodelist.index(orderAfterObj)
-          self.nodelist.insert(index + 1, node)
+          if not node.has_changed_parent() and node in self.nodelist:
+            self.nodelist.remove(node)  # remove it from its original location in the nodelist
+          self.nodelist.insert(index + 1, node)  # then add it back in its new location
         else:
           # User doesn't care where it's added, so add at the end
           self.nodelist.append(node) 
-        node.parent = self
-        node.society = self.parent
-        node.nodeAgent.society = self.parent
         if self.parent is not None:
           self.parent.isDirty = True
         return node

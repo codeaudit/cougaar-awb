@@ -68,7 +68,7 @@ class SocietyFactory:
               # note we need to reflect facets too  differentiate between facets and nodes in the node.nodeValue
               for xmlNode in hostElements:
                 if xmlNode.nodeType == minidom.Node.ELEMENT_NODE: 
-                  print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
+                  #~ print xmlNode.nodeName, xmlNode.nodeValue, xmlNode.nodeType
                   if xmlNode.nodeName == 'facet':
                     newHost.add_facet(self.attributeDict(xmlNode))
                   elif xmlNode.nodeName == 'node':

@@ -172,11 +172,7 @@ class AgentCanvas(ogl.ShapeCanvas):
 
     def OnDestroy(self, evt):
         # Do some cleanup
-        for shape in self.diagram.GetShapeList():
-            if shape.GetParent() == None:
-                shape.SetCanvas(None)
-                shape.Destroy()
-        self.diagram.Destroy()
+        print "agentCanvas:OnDestroy - Check for running society and give option to terminate"
 
     def ResizeBoxes(self, nWidth, nHeight, nFontSize):
         FontParameters = wx.Font(nFontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)

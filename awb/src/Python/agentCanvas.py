@@ -13,8 +13,6 @@ import httplib
 import wx
 import wx.lib.ogl as ogl
 import wx.lib.dialogs
-import zoomer as z
-
 
 #----------------------------------------------------------------------
 

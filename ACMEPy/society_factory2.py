@@ -179,6 +179,7 @@ class TransformationRule:
   def execute(self, society):
     print "running rule '"+ str(self.name)+ "' on society "+ str(society.name)
     exec self.rule
+    print "completing rule.execute()"  # prg debug
 
 
 class TransformationEngine:
@@ -207,8 +208,9 @@ class TransformationEngine:
     if count == self.MAXLOOP:
       msg = '''The transformation ran to the loop limit.  This may indicate there was an error and the
 transformation did not complete correctly.'''
-      #dlg = wxMessageDialog(self.parent, msg, style = wxCAPTION | wxOK |  wxTHICK_FRAME | wxICON_EXCLAMATION)
-      #val = dlg.ShowModal()
+      dlg = wxMessageDialog(self.parent, msg, style = wxCAPTION | wxOK |  wxTHICK_FRAME | wxICON_EXCLAMATION)
+      val = dlg.ShowModal()
+      dlg.Destroy()
     return self.society
 
 

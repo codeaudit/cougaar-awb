@@ -29,6 +29,7 @@ class Parameter:
     self.type = str(type)
     self.value = str(value)
     self.rule = rule
+    self.parent = None
     self.dupe = None
     
   def __str__(self):
@@ -46,6 +47,10 @@ class Parameter:
     else:
       raise Exception, "Attempting to set unknown Parameter attribute: " + attribute.lower()
 
+  def delete_entity(self):
+    '''Deletes itself from parameter list of parent node.'''
+    self.parent.delete_parameter(self)
+  
   def clone(self):
     print "Cloning Parameter"
     if self.dupe is None:

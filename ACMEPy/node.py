@@ -70,6 +70,11 @@ class Node:
       self.agents[agent].node = self
       return self.agents[agent]
 
+  def delete_entity(self, attribute, parent):
+    '''Deletes itself from parameter list of parent node.'''
+    #parent.delete_entity(attribute, self)
+    pass
+  
   def get_agent(self, index):
     #for buddy in self.agentlist:
       #print buddy.name
@@ -88,6 +93,10 @@ class Node:
       self.components[component].parent = self
       return self.components[component]
 
+  def delete_component(self, component):
+    self.componentlist.remove(component)
+    del self.components[component.name]
+
   def get_component(self, index):
     #for comp in self.componentlist:
       #print comp.name
@@ -96,8 +105,10 @@ class Node:
   def override_parameter(self, param, value):
     # assumes that "param" is a string like "-D..."
     #  below only matches on "param"
-    self.remove_parameter(VMParameter(param+"="+value))
-    self.vm_parameters.append(VMParameter(param+"="+value))
+    self.remove_parameter(param)
+    parameter = VMParameter(param+"="+value) #construct a new one
+    parameter.parent = self
+    self.vm_parameters.append(parameter)
 
   def add_vm_parameter(self, parameter):
     self.add_parameter(parameter)
@@ -105,7 +116,8 @@ class Node:
   def add_vm_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
-      #for eachItem in params:
+      for each_param in params:
+        each_param.parent = self
       self.vm_parameters = self.vm_parameters + params
 
   def add_env_parameters(self, params):
@@ -114,6 +126,7 @@ class Node:
       self.env_parameters = self.env_parameters + params
 
   def add_env_parameter(self, parameter):
+    parameter.parent = self
     self.env_parameters.append(parameter)
 
   def add_prog_parameters(self, params):
@@ -122,6 +135,7 @@ class Node:
       self.prog_parameters = self.prog_parameters + params
  
   def add_prog_parameter(self, parameter):
+    parameter.parent = self
     self.prog_parameters.append(parameter)
 
   def remove_parameter(self, param):
@@ -135,12 +149,18 @@ class Node:
         break
     return i
 
+  def delete_parameter(self, param):
+    self.vm_parameters.remove(param)
+
   def add_parameter(self, param):
+    param.parent = self
     self.vm_parameters.append(param)
 
   def add_parameters(self, params):
     # params is intended to be of type list
     if isinstance(params, types.ListType):
+      for each_param in params:
+        each_param.parent = self
       self.vm_parameters = self.vm_parameters + params
 
   def set_rule(self, newRule):

@@ -51,6 +51,10 @@ class Component:
     else:
       raise Exception, "Attempting to set unknown Component attribute: " + attribute.lower()
 
+  def delete_entity(self):
+    '''Deletes itself from component list of parent node or agent.'''
+    self.parent.delete_component(self)
+  
   def add_argument(self, argument):
     if isinstance(argument, Argument):
       self.arguments.append(argument)

@@ -43,7 +43,7 @@ class AgentCanvas(ogl.ShapeCanvas):
         #~ self.agentBmp = earthImage.getBitmap()
         #~ mask = wxMaskColour(self.agentBmp, wxColour(red=254, green=254, blue=254))
         #~ self.agentBmp.SetMask(mask)
-        wx.EVT_WINDOW_DESTROY(self, self.OnDestroy)
+        
         #~ EVT_RIGHT_UP(self, self.OnRightClick)
 
     def MySocietyInit(self):
@@ -169,10 +169,6 @@ class AgentCanvas(ogl.ShapeCanvas):
                         line.Show(True)
                         fromShape.Move(dc, fromShape.GetX(), fromShape.GetY())
         self.Redraw(dc)
-
-    def OnDestroy(self, evt):
-        # Do some cleanup
-        print "agentCanvas:OnDestroy - Check for running society and give option to terminate"
 
     def ResizeBoxes(self, nWidth, nHeight, nFontSize):
         FontParameters = wx.Font(nFontSize, wx.DEFAULT,wx.NORMAL, wx.NORMAL)

@@ -53,6 +53,7 @@ class AgentControllerViewer(wx.Panel):
         self.printData = wx.PrintData()
         self.printData.SetPaperId(wx.PAPER_LETTER)
         self.heatRange  = {50:"PURPLE", 100:"BLUE", 125:"SEA GREEN", 150:"ORANGE", 1000:"RED" }
+        self.societyRunning = False
 #--------
         self.box = wx.BoxSizer(wx.VERTICAL)
         self.canvas = AgentCanvas(self, frame, log)
@@ -116,6 +117,7 @@ class AgentControllerViewer(wx.Panel):
         self.SetSizer(self.box)
         self.bg_bmp = images.getGridBGBitmap()
         wx.EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
+        wx.EVT_WINDOW_DESTROY(self, self.OnDestroy)
         ogl.OGLInitialize()
 
     def OnEraseBackground(self, evt):
@@ -178,6 +180,7 @@ class AgentControllerViewer(wx.Panel):
         print "OK::", self.NODE
         rtn = self.startNode()
         if (rtn):
+            self.societyRunning = True
             self.ctrlSocietyButton.SetBackgroundColour("WHITE")
             self.ctrlSocietyButton.SetForegroundColour("BLACK")
             self.ctrlSocietyButton.SetLabel("Stop")
@@ -302,6 +305,18 @@ class AgentControllerViewer(wx.Panel):
                 y = y + h
             x = x + w
 
+    def OnDestroy(self, evt):
+        # Do some cleanup
+        print "agentController:OnDestroy - Check for running society and give option to terminate"
+        if (self.societyRunning):
+            dlg = wx.MessageDialog(self.frame, "A society is currently running.  Would you like AWB to stop it before you exit? " +
+                                                                 "If you choose 'No' it will remain running in the background", 'Non-fatal Error', wx.YES_NO|wx.ICON_ERROR)
+            val = dlg.ShowModal()
+            if (val == wx.ID_YES):
+                self.stopSociety()
+            dlg.Destroy()
+            
+        
     def loadSociety(self, generator_file):
         """
         This wants to be nicely integrated with the GUI, such that
@@ -314,6 +329,12 @@ class AgentControllerViewer(wx.Panel):
         #~ print "creating society from  %s" % baseName ### DEBUG -- remove this!
         self.log.WriteText("file:" + generator_file)
         return SocietyFactory("file:" + generator_file).parse()
+        
+    def stopSociety(self):
+        if (not self.societyRunning):
+            return
+        print "We still need code to stop a running society!"
+        
 #----------------------------------------------------------------------
 
     def OnCloseSociety(self,evt):

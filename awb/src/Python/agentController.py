@@ -46,7 +46,7 @@ GLOBAL_WIDGET_ID_BASE = 10
 
 wxOGLInitialize()
 
-class AgentViewer(wxPanel):
+class AgentControllerViewer(wxPanel):
     def __init__(self, parent, frame, log):
         wxPanel.__init__(self, parent, -1)
         self.society = None
@@ -497,7 +497,7 @@ manipulation of simple and complex graphic images on a canvas.
 #----------------------------------------------------------------------
 
 def runTest(frame, nb, log):
-    win = AgentViewer(nb,frame,  log)
+    win = AgentControllerViewer(nb,frame,  log)
     return win
 
 if __name__ == '__main__':

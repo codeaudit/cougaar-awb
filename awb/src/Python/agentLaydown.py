@@ -1,11 +1,11 @@
 #!/bin/env python
 #----------------------------------------------------------------------------
-# Name:         
-# Purpose:      
+# Name:
+# Purpose:
 #
-# Author:       ISAT (D. Moore/M. Barger/P. Gardella)
+# Author:       ISAT (D. Moore)
 #
-# RCS-ID:       $Id: agentLaydown.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: agentLaydown.py,v 1.2 2004-09-29 14:11:59 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -53,7 +53,7 @@ DISTRO_EVENLY = 0
 SPECIFY_NUM = 1
 DISTRO_BY_FACET = 2
 SAME_DISTRO = 3
-  
+
 class AgentLaydownPanel(wxPanel):
 
   def __init__( self, parent, frame, log ):
@@ -70,12 +70,12 @@ class AgentLaydownPanel(wxPanel):
     self.currentViewer = None      # SocietyViewer
     self.facetClipboard = None     # List
     self.labelEditActivated = True
-    
+
     ### static controls:
-    
-    sizer = RowColSizer()    
+
+    sizer = RowColSizer()
     btnBox = wxBoxSizer(wxHORIZONTAL)
-    
+
     openAgentListBtnId = wxNewId()
     self.openAgentListButton = wxButton(self, openAgentListBtnId, "Open Agent List")
     EVT_BUTTON(self, openAgentListBtnId, self.OnOpenAgentList)
@@ -83,36 +83,36 @@ class AgentLaydownPanel(wxPanel):
     self.openAgentListButton.SetForegroundColour(wxWHITE)
     self.openAgentListButton.SetDefault()
     btnBox.Add(self.openAgentListButton, flag=wxALIGN_CENTER_VERTICAL | wxBOTTOM, border=10)
-    
+
     closeAgentSocietyBtnId = wxNewId()
     self.closeAgentSocietyButton = wxButton(self, closeAgentSocietyBtnId, "Close Agent List")
     EVT_BUTTON(self, closeAgentSocietyBtnId, self.OnCloseAgentSociety)
     self.closeAgentSocietyButton.Enable(false)
     btnBox.Add(self.closeAgentSocietyButton, flag=wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=10)
-    
+
     sizer.Add(btnBox, pos=(1,1),  flag=wxALIGN_CENTER, colspan=2)
-    
+
     hnaBox = wxBoxSizer(wxHORIZONTAL)
-    
+
     openHnaBtnId = wxNewId()
     self.openHnaButton = wxButton(self, openHnaBtnId, "Open HNA Map")
     EVT_BUTTON(self, openHnaBtnId, self.OnOpenHnaMap)
     hnaBox.Add(self.openHnaButton, flag=wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=10)
-    
+
     saveHnaBtnId = wxNewId()
     self.saveHnaButton = wxButton(self, saveHnaBtnId, "Save HNA Map")
     EVT_BUTTON(self, saveHnaBtnId, self.OnSaveHnaMap)
     self.saveHnaButton.Enable(false)
     hnaBox.Add(self.saveHnaButton, flag=wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=10)
-    
+
     closeHnaBtnId = wxNewId()
     self.closeHnaButton = wxButton(self, closeHnaBtnId, "Close HNA Map")
     EVT_BUTTON(self, closeHnaBtnId, self.OnCloseHnaMap)
     self.closeHnaButton.Enable(false)
     hnaBox.Add(self.closeHnaButton, flag=wxALIGN_RIGHT | wxALIGN_CENTER_VERTICAL | wxLEFT | wxBOTTOM, border=10)
-    
+
     sizer.Add(hnaBox, pos=(1,3), flag=wxALIGN_RIGHT, colspan=3)
-    
+
     self.il = wxImageList(16,16)
     self.societyImage   = self.il.Add(images.getSocietyBitmap())
     self.hostImage      = self.il.Add(images.getHostBitmap())
@@ -121,47 +121,48 @@ class AgentLaydownPanel(wxPanel):
     self.componentImage = self.il.Add(images.getComponentBitmap())
     self.argumentImage  = self.il.Add(images.getArgumentBitmap())
     self.questionImage  = self.il.Add(images.getQuestionBitmap())
-    
+
     societyLabel = wxStaticText(self, -1, "Agent List:")
-    sizer.Add(societyLabel, flag=wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(societyLabel, flag=wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=5, pos=(2, 1))
-    
+
     self.agentViewerTotalLabel = wxStaticText(self, -1, "Total Agents: 0")
-    sizer.Add(self.agentViewerTotalLabel, flag = wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(self.agentViewerTotalLabel, flag = wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=5, pos=(2, 2))
-    
+
     agentViewerID = wxNewId()
     self.frame.agentViewer = SocietyViewer(self, agentViewerID, 'agentViewer', size=(200, 100),
                                  style=wxTR_HAS_BUTTONS | wxTR_EDIT_LABELS | wxTR_MULTIPLE, log=self.log, inclComponents=False)
+    print "Society Viewer (__init__):", self.frame.agentViewer
     agentDropTarget = CougaarDropTarget(self.frame.agentViewer, self.log, self.frame)
     self.frame.agentViewer.SetDropTarget(agentDropTarget)
     sizer.Add(self.frame.agentViewer, flag=wxEXPAND, pos=(3,1), rowspan=2, colspan=2)
     EVT_LEFT_DOWN(self.frame.agentViewer, self.OnLeftDown)
-    
+
     spinnerBox = wxBoxSizer(wxVERTICAL)
-    
+
     buildHnaMapID = wxNewId()
     self.buildHnaMapButton = wxButton(self, buildHnaMapID, "Build HNA Map...")
     EVT_BUTTON(self, buildHnaMapID, self.OnBuildHnaMap)
     spinnerBox.Add(self.buildHnaMapButton, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     distroAgentsID = wxNewId()
     self.distroAgentsButton = wxButton(self, distroAgentsID, "Distribute Agents")
     EVT_BUTTON(self, distroAgentsID, self.OnDistroAgents)
     self.distroAgentsButton.Enable(false)
     spinnerBox.Add(self.distroAgentsButton, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     inclNodesID = wxNewId()
     self.inclNodesCheckbox = wxCheckBox(self, inclNodesID, "Include Nodes from Agent List")
     EVT_CHECKBOX(self, inclNodesID, self.OnInclNodesChecked)
     spinnerBox.Add(self.inclNodesCheckbox, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=7)
-    
+
     ignoreHostFacetsId = wxNewId()
     self.ignoreHostFacetsCheckbox = wxCheckBox(self, ignoreHostFacetsId, "Ignore Host Facets")
     EVT_CHECKBOX(self, ignoreHostFacetsId, self.OnIgnoreHostFacetsChecked)
     spinnerBox.Add(self.ignoreHostFacetsCheckbox, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=7)
     self.ignoreHostFacetsCheckbox.Enable(False)
-    
+
     rbID = wxNewId()
     rbLabel = "Select method of agent distribution"
     buttonTitles = ["Distribute evenly", "Specify number per host", "Distribute by facet", "Maintain same distribution        "]
@@ -169,63 +170,63 @@ class AgentLaydownPanel(wxPanel):
     self.rb.EnableItem(SAME_DISTRO, false)
     EVT_RADIOBOX(self, rbID, self.OnEvtRadioBox)
     spinnerBox.Add(self.rb, 0, wxALL, 5)
-    
+
     # Add the agent per node selection box
     staticBoxTitle = wxStaticBox( self, -1, "" )
     staticBox = wxStaticBoxSizer( staticBoxTitle, wxVERTICAL )
     innerBox = wxBoxSizer(wxVERTICAL)
-    
-    self.agentSpinnerLabel = wxStaticText(self, -1, "Select initial number\nof agents per host") 
+
+    self.agentSpinnerLabel = wxStaticText(self, -1, "Select initial number\nof agents per host")
     innerBox.Add(self.agentSpinnerLabel, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     agentSpinnerID = wxNewId()
     self.agentSpinner = wxSpinCtrl(self, agentSpinnerID, "1", size=wxSize(50, -1), min=1, max=1000)
     self.agentSpinner.Enable(false)
     innerBox.Add(self.agentSpinner, flag=wxALIGN_CENTER_HORIZONTAL)
-    
+
     staticBox.AddSizer(innerBox, 0, wxALIGN_CENTER)
     spinnerBox.AddSizer(staticBox, 0, wxALIGN_CENTER)
-    
+
     # Add the node per host selection box
     staticBoxTitle = wxStaticBox( self, -1, "" )
     staticBox = wxStaticBoxSizer( staticBoxTitle, wxVERTICAL )
     innerBox = wxBoxSizer(wxVERTICAL)
-    
-    self.nodeSpinnerLabel = wxStaticText(self, -1, "Select initial number\nof nodes per host") 
+
+    self.nodeSpinnerLabel = wxStaticText(self, -1, "Select initial number\nof nodes per host")
     innerBox.Add(self.nodeSpinnerLabel, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     nodeSpinnerID = wxNewId()
     self.nodeSpinner = wxSpinCtrl(self, nodeSpinnerID, "1", size=wxSize(50, -1), min=1, max=100)
     innerBox.Add(self.nodeSpinner, flag=wxALIGN_CENTER_HORIZONTAL)
-    
+
     staticBox.AddSizer(innerBox, 0, wxALIGN_CENTER)
     spinnerBox.AddSizer(staticBox, 0, wxALIGN_CENTER)
-    
+
     # Add the "system busy" image
-    lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]    
+    lesImages = [gizmoImages.catalog[i].getBitmap() for i in gizmoImages.index]
     self.gizmo = Gizmo(self, -1, lesImages, size=(36, 36), frameDelay = 0.1)
     EVT_UPDATE_SOCIETY(self, self.OnUpdate)
     spinnerBox.Add(self.gizmo, flag=wxALIGN_CENTER | wxTOP, border=10)
-    
+
     sizer.Add(spinnerBox, pos=(3,3),  flag=wxALIGN_CENTER, rowspan=2, colspan=1)
-    
+
     hnaMapLabel = wxStaticText(self, -1, "HNA Map:")
-    sizer.Add(hnaMapLabel, flag=wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(hnaMapLabel, flag=wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=5, pos=(2, 4))
-    
+
     self.laydownViewerTotalLabel = wxStaticText(self, -1, "Total Agents: 0")
-    sizer.Add(self.laydownViewerTotalLabel, flag = wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, 
+    sizer.Add(self.laydownViewerTotalLabel, flag = wxBOTTOM | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT,
                   border=5, pos=(2, 5))
-    
+
     laydownViewerID = wxNewId()
     self.frame.laydownViewer = SocietyViewer(self, laydownViewerID, 'laydownViewer', size=(200, 100),
                                  style=wxTR_HAS_BUTTONS | wxTR_EDIT_LABELS | wxTR_MULTIPLE, log=self.log, inclComponents=False)
     laydownDropTarget = CougaarDropTarget(self.frame.laydownViewer, self.log, self.frame)
     self.frame.laydownViewer.SetDropTarget(laydownDropTarget)
     EVT_LEFT_DOWN(self.frame.laydownViewer, self.OnLeftDown)
-    
+
     sizer.Add(self.frame.laydownViewer, flag=wxEXPAND, pos=(3,4), rowspan=2, colspan=2)
-    
+
     ### Event handlers for various
     EVT_TREE_BEGIN_LABEL_EDIT(self, agentViewerID, self.OnBeginLabelEdit) #fired by call to wxTreeCtrl.EditLabel()
     EVT_TREE_BEGIN_LABEL_EDIT(self, laydownViewerID, self.OnBeginLabelEdit) #fired by call to wxTreeCtrl.EditLabel()
@@ -243,22 +244,22 @@ class AgentLaydownPanel(wxPanel):
     EVT_LEFT_UP(self.frame.laydownViewer, self.OnLeftUp)  # emits a wxMouseEvent
     EVT_MOTION(self.frame.laydownViewer, self.OnMotion)  # emits a wxMouseEvent
     EVT_MOTION(self.frame.agentViewer, self.OnMotion)  # emits a wxMouseEvent
-    
+
     ###
-    
+
     self.bg_bmp = images.getGridBGBitmap()
     EVT_ERASE_BACKGROUND(self, self.OnEraseBackground)
-    
+
     sizer.AddSpacer(10,10, pos=(1,6)) # adds a constant size space along the right edge
     sizer.AddSpacer(10,10, pos=(5,1)) # adds a constant size space along the bottom
     sizer.AddGrowableCol(1) # makes rule styled text box and Society Viewer expand to the right on window resize
     sizer.AddGrowableCol(4) # makes rule styled text box and Society Viewer expand to the right on window resize
     sizer.AddGrowableRow(3) # makes Society Viewer expand downward on window resize
-    
+
     self.SetSizer(sizer)
     self.SetAutoLayout(true)
 
-  #------------------------------------------------------------  
+  #------------------------------------------------------------
   ### event callbacks
 
   def OnOpenSociety(self, event):
@@ -266,26 +267,26 @@ class AgentLaydownPanel(wxPanel):
       self.openAgentList()
     else:
       self.openHnaMap()
-    
+
   def OnOpenAgentList(self, evt):
     self.openAgentList()
     self.currentViewer = self.frame.agentViewer
     self.frame.currentTree = self.currentViewer
-  
+
   def openAgentList(self):
     self.frame.openSocietyFile(self, "agentSociety")
     if self.frame.mappedSocietyOpen:
       self.distroAgentsButton.Enable(true)
-  
+
   def OnOpenHnaMap(self, event):
     self.openHnaMap()
     self.currentViewer = self.frame.laydownViewer
     self.frame.currentTree = self.currentViewer
-  
+
   def openHnaMap(self):
     self.openingHnaMap = true
     self.frame.openSocietyFile(self, "mappedSociety")
-  
+
   def openTempAgentSociety(self):
     self.frame.agentSociety = Society("TempSociety", "Auto-Create")
     tempHost = self.frame.agentSociety.add_host("TempHost", "Auto-Create")
@@ -294,18 +295,18 @@ class AgentLaydownPanel(wxPanel):
     self.frame.agentViewer.expandNodes()
     self.frame.enableAgentSocietySaveMenuItems()
     self.frame.agentSocietyOpen = True
-  
+
   def StartAnimation(self):
     self.gizmo.Start()
 
   def StopAnimation(self):
     self.gizmo.Rest()
 
-  #------------------------------------------------------------  
-  
+  #------------------------------------------------------------
+
   def OnSaveHnaMap(self, event):
     self.frame.saveSociety("mappedSociety")
-  
+
   def OnCloseAgentSociety(self, evt):
     self.resetAgentSociety()
     self.frame.closeSociety("agentSociety")
@@ -313,7 +314,7 @@ class AgentLaydownPanel(wxPanel):
     self.distroAgentsButton.Enable(false)
     if self.inclNodesCheckbox.IsChecked():
       self.checkInclNodes(false)
-  
+
   def OnCloseHnaMap(self, evt):
     self.resetMappedSociety(true)  # 'true' means save the agents
     self.laydownViewerTotalLabel.SetLabel('Total Agents: 0')
@@ -321,15 +322,15 @@ class AgentLaydownPanel(wxPanel):
     self.currentViewer.removeDisplayedFacet('node', 'all')
     self.currentViewer.removeDisplayedFacet('agent', 'all')
     # Remove text elements from TreeItemLabel objects
-    self.currentViewer.clearAllLabels(self.currentViewer.GetRootItem())  
+    self.currentViewer.clearAllLabels(self.currentViewer.GetRootItem())
     #~ self.currentViewer.clearAllLabels()  # this one doesn't work
     self.frame.closeSociety("mappedSociety")
     self.distroAgentsButton.Enable(false)
     self.frame.societyEditor.enableButton("getHnaMapButton", false)
-    
+
   def OnUpdate(self, event):
     #self.log.WriteText("Stop time: %s\n" % time.ctime())
-    self.StopAnimation() 
+    self.StopAnimation()
     self.frame.server.Stop()
     if self.openingHnaMap:
       self.frame.mappedSociety = event.msg
@@ -349,7 +350,7 @@ class AgentLaydownPanel(wxPanel):
         self.frame.agentSociety.isDirty = False
         self.UpdateControl(self.frame.agentSociety)
         self.frame.enableAgentSocietySaveMenuItems()
-    
+
   def UpdateControl(self, society):
     if society == self.frame.mappedSociety or society == self.tempMappedSociety:
       self.frame.laydownViewer.UpdateControl(society)
@@ -358,6 +359,7 @@ class AgentLaydownPanel(wxPanel):
         self.frame.mappedSocietyOpen = 1
         self.openingHnaMap = false  # reset
     elif society == self.frame.agentSociety or society == self.tempAgentSociety:
+      print "Society Viewer",  self.frame.agentViewer
       self.frame.agentViewer.UpdateControl(society)
       self.frame.agentViewer.expandEntireSociety()
       self.agentViewerTotalLabel.SetLabel('Total Agents: ' + str(self.frame.agentViewer.society.countAgents()))
@@ -367,14 +369,14 @@ class AgentLaydownPanel(wxPanel):
       if self.frame.agentSociety.name == self.frame.mappedSociety.name:
         # This is necessary when we open the same society in both viewers...we must be
         # able to drag and drop entities from one viewer to the other and recognize
-        # the entities as being from outside the drop target society.  We need this to 
-        # determine if the entity is a real duplicate or simply a temporary duplicate 
+        # the entities as being from outside the drop target society.  We need this to
+        # determine if the entity is a real duplicate or simply a temporary duplicate
         # (moving within the same society).  The below name change will be transparent
         # to the user.
         self.frame.agentSociety.rename(self.frame.agentSociety.name + "_SRC")
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnBuildHnaMap(self, event):
     self.societyName = None
     self.numHostsToCreate = None
@@ -386,7 +388,7 @@ class AgentLaydownPanel(wxPanel):
     self.resetMappedSociety()  # empty the Undo buffer
     # Get user input using a dialog box
     CreateHnaMapDialog(self, self.frame.mappedSociety)  # populates the variables listed above
-    
+
     # Now create hosts and/or nodes, and/or allocate nodes to hosts
     successful = False
     if self.societyName is None or len(self.societyName) == 0:
@@ -395,7 +397,7 @@ class AgentLaydownPanel(wxPanel):
       if self.frame.mappedSociety is None:
         self.frame.mappedSociety = Society(self.societyName)
       hostNameSeq = str(self.hostNameSeqStart)
-      
+
       # Create the hosts
       for i in range(self.numHostsToCreate):
         hostName = str(self.hostNamePrefix + hostNameSeq)
@@ -413,14 +415,14 @@ class AgentLaydownPanel(wxPanel):
         # if there are no hosts, create one
         self.frame.mappedSociety.add_host(Host('host1', 'AUTO-BUILT'))
         numHosts = 1
-      
+
       # Now create the nodes
       # First, establish the number of nodes we want on each host before we start doubling up
       numUncreatedNodes = self.numNodesToCreate
-      nodePopulationCount = 0  
+      nodePopulationCount = 0
       while numUncreatedNodes > 0:
         for index in range(numHosts):
-          if index == 0: 
+          if index == 0:
             nodePopulationCount += 1
           host = self.frame.mappedSociety.get_host(index)
           if host.countNodes() < nodePopulationCount:
@@ -441,7 +443,7 @@ class AgentLaydownPanel(wxPanel):
         if self.frame.agentSociety.countAgents() > 0 or \
             (self.inclNodeCheckbox.IsChecked() and self.frame.agentSociety.countNodes() > 0):
           self.distroAgentsButton.Enable(true)
-  
+
   def nextSeq(self, seqChar):
     # Sequence could be digits (1, 2, 3, ...), or
     # letters (A, B, C, ... Z, AA, AB, ... AZ, BA, BB, etc.)
@@ -467,7 +469,7 @@ class AgentLaydownPanel(wxPanel):
           newChar = 'a'
           useLowerCase = True
         newSeqChar = newChar + newSeqChar
-        if newChar.upper() == 'A':          
+        if newChar.upper() == 'A':
           if len(seqChar) > (i + 1):  # if there's a previous char
             index -= 1
           else:
@@ -484,9 +486,9 @@ class AgentLaydownPanel(wxPanel):
       # add the dash back in if there was one
       newSeqChar = "-" + newSeqChar
     return newSeqChar
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnDistroAgents(self, event):
     #Save a copy of the current view to allow "undo"
     # First, if we're already working with a copy, assume the user is making an
@@ -499,13 +501,13 @@ class AgentLaydownPanel(wxPanel):
       self.resetMappedSociety()
     self.tempMappedSociety = self.frame.mappedSociety.clone()
     self.tempAgentSociety = self.frame.agentSociety.clone()
-    self.frame.undoBuffer.insert(0, [self, [self.frame.laydownViewer, self.frame.mappedSociety], 
+    self.frame.undoBuffer.insert(0, [self, [self.frame.laydownViewer, self.frame.mappedSociety],
                                                    [self.frame.agentViewer, self.frame.agentSociety]])
     self.frame.mainmenu.Enable(self.frame.UNDO, true)
-      
+
     # Check the 'Include Nodes' checkbox to see if we'll be moving nodes or agents
     includeNodes = self.inclNodesCheckbox.IsChecked()
-    
+
     if self.rb.GetSelection() == DISTRO_BY_FACET:
       FacetDistroDialog(self, self.tempAgentSociety, self.tempMappedSociety, includeNodes)
     else:
@@ -527,7 +529,7 @@ class AgentLaydownPanel(wxPanel):
       # update count of agents in agentSociety and hosts in mappedSociety:
       onlyIfIncluded = True
       hostCount = self.tempMappedSociety.countHosts(onlyIfIncluded)
-      
+
       self.entityList = []  # a list of the things (nodes or agents) that we're allocating
       if includeNodes:
         self.entityList = self.tempAgentSociety.get_node_list(onlyIfIncluded)  # get the list of nodes to allocate
@@ -536,7 +538,7 @@ class AgentLaydownPanel(wxPanel):
       entityCount = len(self.entityList)
       if entityCount == 0:
         return
-      
+
       # User elects to evenly distribute entities
       if self.rb.GetSelection() == DISTRO_EVENLY:
         # Figure out how many entities to put on each host
@@ -552,13 +554,13 @@ class AgentLaydownPanel(wxPanel):
               self.allocateNodes(grossEntitiesPerHost, entityCount, None)
             else:
               self.allocateAgents(grossEntitiesPerHost, nodesPerHost, entityCount)
-      
+
       # User elects to specify number of entities per host
       elif self.rb.GetSelection() == SPECIFY_NUM:
         hostsNeeded, numEntitiesUnassigned = divmod(entityCount, entitiesPerHost)
         if numEntitiesUnassigned > 0:
           hostsNeeded += 1
-        if hostsNeeded > hostCount:  
+        if hostsNeeded > hostCount:
           # we ran out of hosts before running out of entities
           entityCount = entitiesPerHost * hostCount  # limit the number of entities allocated
         else:
@@ -568,7 +570,7 @@ class AgentLaydownPanel(wxPanel):
             self.allocateNodes(entitiesPerHost, entityCount, None)
           else:
             self.allocateAgents(entitiesPerHost, nodesPerHost, entityCount)
-      
+
       # User elects to maintain current distribution of nodes (only works when "incl nodes" is checked)
       elif self.rb.GetSelection() == SAME_DISTRO:
         if self.tempAgentSociety.countHosts() > self.tempMappedSociety.countHosts(onlyIfIncluded):
@@ -580,7 +582,7 @@ class AgentLaydownPanel(wxPanel):
           entitiesPerHost = host.countNodes(onlyIfIncluded)
           # Note that, below, we are transferring host facets along with the node(s):
           self.allocateNodes(entitiesPerHost, entityCount, host.get_facets())
-      
+
     self.UpdateControl(self.tempMappedSociety)  # update the treeCtrl
     self.frame.laydownViewer.expandEntireSociety()
     self.UpdateControl(self.tempAgentSociety)
@@ -588,10 +590,10 @@ class AgentLaydownPanel(wxPanel):
       self.distroAgentsButton.Enable(false)
     elif not includeNodes and self.tempAgentSociety.countAgents() == 0:
       self.distroAgentsButton.Enable(false)
-  
+
   def allocateNodes(self, numNodesPerHost, nodeCount, facetList):
     host = None
-    while host is None or host.isExcluded: 
+    while host is None or host.isExcluded:
       # cycle through hosts till we find one that's not excluded
       if host is not None:
         self.hostIndex += 1
@@ -622,8 +624,8 @@ class AgentLaydownPanel(wxPanel):
           if self.tempMappedSociety.has_agent(agent.name) or agent.isExcluded:
             mappedNode.delete_agent(agent)
             if agent.isExcluded:
-              # Find a node in agentSociety called localnode and put the excluded agent there.  
-              localnode = node.parent.get_node_by_name('localnode')  
+              # Find a node in agentSociety called localnode and put the excluded agent there.
+              localnode = node.parent.get_node_by_name('localnode')
               if localnode is None:
                 # if there isn't one, create it
                 newNodeName = 'localnode-' + node.parent.name
@@ -637,11 +639,11 @@ class AgentLaydownPanel(wxPanel):
       if i >= (numNodesPerHost):
         break
     self.hostIndex += 1
-  
+
   def allocateAgents(self, numAgentsPerHost, nodesPerHost, agentCount):
     host = None
     onlyIfIncluded = True
-    while host is None or host.isExcluded: 
+    while host is None or host.isExcluded:
       if host is not None:
         self.hostIndex += 1
         self.hostOffset += 1
@@ -664,7 +666,7 @@ class AgentLaydownPanel(wxPanel):
         if i >= (numAgentsPerHost):
           break
     self.hostIndex += 1
-  
+
   def validInput(self, anInputValue):
     if type(anInputValue) != IntType or anInputValue <= 0:
       dlg = wxMessageDialog(self, 'Agents per Host and Nodes per Host values must be integers greater than zero.',
@@ -672,22 +674,22 @@ class AgentLaydownPanel(wxPanel):
       dlg.ShowModal()
       return False
     return True
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnInclNodesChecked(self, event):
     if self.inclNodesCheckbox.IsChecked():
       self.checkInclNodes()
     else:
       self.checkInclNodes(false)
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnIgnoreHostFacetsChecked(self, event):
       pass
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnEvtRadioBox(self, event):
     if self.rb.GetSelection() == DISTRO_EVENLY:
       self.agentSpinner.Enable(false)
@@ -703,20 +705,20 @@ class AgentLaydownPanel(wxPanel):
     elif self.rb.GetSelection() == SAME_DISTRO:
       self.agentSpinner.Enable(false)
       self.nodeSpinner.Enable(false)
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnSize(self, event):
     w,h = self.GetClientSizeTuple()
     self.list.SetDimensions(0, 0, w, h)
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnSelChanging(self, event):
     self.frame.editMenu.Enable(16, False)
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnSelChanged(self, event):
     # Turns out that OnSelChanged event is issued before OnRightDown and OnRightUp,
     # so to ensure we've got currentViewer, currentTree, and currentItem properly set,
@@ -732,7 +734,7 @@ class AgentLaydownPanel(wxPanel):
       if not self.entityObj:
         event.Skip()
         return
-      
+
       name = self.entityObj.name
       self.log.WriteText("Selected item: %s   " % name)
       self.log.WriteText("Rule: %s\n" % self.entityObj.rule)
@@ -741,9 +743,9 @@ class AgentLaydownPanel(wxPanel):
       #~ self.log.WriteText("\n")  # prg debug
       self.frame.editMenu.Enable(16, True)
     event.Skip()
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnRightDown(self, event):
     #~ print "OnRightDown"  # debug
     self.currentViewer = event.GetEventObject()
@@ -758,7 +760,7 @@ class AgentLaydownPanel(wxPanel):
     #~ event.Skip()
 
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnRightUp(self, event):
     self.currentViewer = event.GetEventObject()  # may not need this here
     self.frame.currentTree = self.currentViewer  # may not need this here
@@ -775,7 +777,7 @@ class AgentLaydownPanel(wxPanel):
     event.Skip()
 
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnLeftDown(self, event):
     self.itemGrabbed = False  # reset
     self.currentViewer = event.GetEventObject()
@@ -784,26 +786,26 @@ class AgentLaydownPanel(wxPanel):
     item, flags = self.currentViewer.HitTest(pt)
     self.itemGrabbed = (flags == 16 or flags == 64 or flags == 2112 or \
                         flags == 4112 or flags == 4160)
-    # wxPython is not selecting an item till LeftUp, but there is no LeftUp when 
-    # we're dragging, leaving nothing selected during the drag.  The next 
+    # wxPython is not selecting an item till LeftUp, but there is no LeftUp when
+    # we're dragging, leaving nothing selected during the drag.  The next
     # couple lines of code force a selection (Windows only).
     if wxPlatform == '__WXMSW__':
       if self.itemGrabbed:
-        self.currentViewer.SelectItem(item) 
+        self.currentViewer.SelectItem(item)
     if item.IsOk():  # need this to prevent sys crash when tree has no items
       self.entityObj = self.currentViewer.GetPyData(item)
     event.Skip()
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnLeftUp(self, event):
-    #~ # Need the following line to ensure that currentViewer changes to the drop target viewer 
+    #~ # Need the following line to ensure that currentViewer changes to the drop target viewer
     #~ # when dragging from the other viewer.
     #~ self.currentViewer = event.GetEventObject()
     event.Skip()
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnMotion(self, event):
     if event.Dragging() and event.LeftIsDown() and self.itemGrabbed:
       self.currentViewer = event.GetEventObject()
@@ -834,7 +836,7 @@ class AgentLaydownPanel(wxPanel):
     event.Skip()
 
   #--------------------------------------------------------------------------------------------------
-  
+
   def OnBeginLabelEdit(self, event):
     label = self.currentViewer.GetItemText(self.currentItem)  # get the current label
     if label.hasTextElements() and not wxPlatform == '__WXMSW__':  # if facets are showing and it's a Linux box
@@ -842,24 +844,24 @@ class AgentLaydownPanel(wxPanel):
       errorMsg = "Cannot rename while facets are displayed.\nPlease hide facets first."
       dlg = CougaarMessageDialog(self, "error", errorMsg)
       dlg.display()
-  
+
   #--------------------------------------------------------------------------------------------------
-  
-  def OnEndLabelEdit(self, event):    
+
+  def OnEndLabelEdit(self, event):
     # NOTE:  When user finishes editing a label, the EVT_TREE_END_LABEL_EDIT event is emitted
     # twice, at least under Linux  (not sure why), and it's apparently emitted while the first event has
     # not yet finished being handled.  This causes a Seg Fault in Linux when two modal wxDialogs are
-    # open at the same time (which happens under certain circumstances...see code below).  So the 
-    # instance variable 'labelEditActivated' is meant to filter out the second event if the first event is 
+    # open at the same time (which happens under certain circumstances...see code below).  So the
+    # instance variable 'labelEditActivated' is meant to filter out the second event if the first event is
     # still being handled.
     if self.labelEditActivated:
       self.labelEditActivated = False
-      
+
       if not event.IsEditCancelled():
         oldLabel = self.currentViewer.GetItemText(self.currentItem)  # still has the old label
         newLabel = self.currentViewer.toTreeItemLabel(event.GetLabel())
         entityType = self.currentViewer.GetPyData(self.currentItem).getType()
-        
+
         if not self.currentViewer.getSociety().isDupeName(entityType, event.GetLabel()):
           self.currentViewer.editLabelText(oldLabel, newLabel)
           self.log.WriteText("Old label: " + oldLabel.getItemName() + \
@@ -871,16 +873,16 @@ class AgentLaydownPanel(wxPanel):
           print errorMsg  # debug
           dlg = CougaarMessageDialog(self, "error", errorMsg)
           dlg.display()
-      
+
     else:
       event.Veto()
-    
+
     self.labelEditActivated = True
-  
+
   #--------------------------------------------------------------------------------------------------
-  
+
   def SetMenu(self):
-        
+
     menu = wxMenu()
     societyImage = images.getSocietyBitmap()
     hostImage = images.getHostBitmap()
@@ -899,64 +901,64 @@ class AgentLaydownPanel(wxPanel):
       EVT_MENU(self, openSocMenuId, self.OnOpenSociety)
       EVT_MENU(self, createSocMenuId, self.OnCreateSociety)
       return menu
-    
-    if isinstance(self.entityObj, Society): 
+
+    if isinstance(self.entityObj, Society):
       # we either want to add a host or delete the society and all its subs.
       addHostMenuId = wxNewId()
       item = wxMenuItem(menu, addHostMenuId, "Add Host")
-      item.SetBitmap(hostImage) 
-      menu.AppendItem(item)  
-      
+      item.SetBitmap(hostImage)
+      menu.AppendItem(item)
+
       summaryMenuId = wxNewId()
       item = wxMenuItem(menu, summaryMenuId, "View Society Summary")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       delSocMenuId = wxNewId()
       item = wxMenuItem(menu, delSocMenuId, "Delete This Society")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       renameSocMenuId = wxNewId()
       item = wxMenuItem(menu, renameSocMenuId, "Rename Society")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       showSpecFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showSpecFacetsMenuId, "Show Specified Facets")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       showFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showFacetsMenuId, "Show All Facets")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
+      menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('society')) > 0:
         if self.currentViewer.getDisplayedFacets('society')[0].find('all') > -1:
           item.Enable(false)
-      
+
       hideAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, hideAllFacetsMenuId, "Hide All Society Facets")
       item.SetBitmap(societyImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('society')) == 0:
         item.Enable(false)
-      
+
       editFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, editFacetsMenuId, "View/Edit Facets")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       addFacetMenuId = wxNewId()
       item = wxMenuItem(menu, addFacetMenuId, "Add Facet")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       deleteFacetMenuId = wxNewId()
       item = wxMenuItem(menu, deleteFacetMenuId, "Delete Facet")
       item.SetBitmap(societyImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       EVT_MENU(self, addHostMenuId, self.OnAddHost)
       EVT_MENU(self, summaryMenuId, self.OnSummary)
       EVT_MENU(self, delSocMenuId, self.OnDeleteSociety)
@@ -968,24 +970,24 @@ class AgentLaydownPanel(wxPanel):
       EVT_MENU(self, showFacetsMenuId, self.OnShowAllSocietyFacets)
       EVT_MENU(self, hideAllFacetsMenuId, self.OnHideAllSocietyFacets)
       return menu
-      
-    if isinstance(self.entityObj, Host): 
+
+    if isinstance(self.entityObj, Host):
       # we either want to add a node or delete the host and all its subs.
       addNodeMenuId = wxNewId()
       item = wxMenuItem(menu, addNodeMenuId, "Add Node")
-      item.SetBitmap(nodeImage) 
-      menu.AppendItem(item)  
-      
+      item.SetBitmap(nodeImage)
+      menu.AppendItem(item)
+
       summaryMenuId = wxNewId()
       item = wxMenuItem(menu, summaryMenuId, "View Society Summary")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       renameHostMenuId = wxNewId()
       item = wxMenuItem(menu, renameHostMenuId, "Rename Host")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       exclHostMenuId = wxNewId()
       if self.currentViewer == self.frame.laydownViewer:
         if self.entityObj.isExcluded:
@@ -993,8 +995,8 @@ class AgentLaydownPanel(wxPanel):
         else:
           item = wxMenuItem(menu, exclHostMenuId, "Exclude Host from Distro")
         item.SetBitmap(hostImage)
-        menu.AppendItem(item)        
-      
+        menu.AppendItem(item)
+
       if "enclave" in self.currentViewer.getDisplayedFacets('host'):
         enclaveFacetMenuText = "Hide Enclave Facet"
       else:
@@ -1002,8 +1004,8 @@ class AgentLaydownPanel(wxPanel):
       showEncFacetMenuId = wxNewId()
       item = wxMenuItem(menu, showEncFacetMenuId, enclaveFacetMenuText)
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       if "service" in self.currentViewer.getDisplayedFacets('host'):
         serviceFacetMenuText = "Hide Service Facet"
       else:
@@ -1011,60 +1013,60 @@ class AgentLaydownPanel(wxPanel):
       showServFacetMenuId = wxNewId()
       item = wxMenuItem(menu, showServFacetMenuId, serviceFacetMenuText)
       item.SetBitmap(hostImage)
-      menu.AppendItem(item) 
-      
+      menu.AppendItem(item)
+
       showSpecFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showSpecFacetsMenuId, "Show Specified Facets")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       showAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showAllFacetsMenuId, "Show All Facets")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
+      menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('host')) > 0:
         if self.currentViewer.getDisplayedFacets('host')[0].find('all') > -1:
           item.Enable(false)
-      
+
       hideAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, hideAllFacetsMenuId, "Hide All Host Facets")
       item.SetBitmap(hostImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('host')) == 0:
         item.Enable(false)
-      
+
       editFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, editFacetsMenuId, "View/Edit Facets")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       addFacetMenuId = wxNewId()
       item = wxMenuItem(menu, addFacetMenuId, "Add Facet")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       deleteFacetMenuId = wxNewId()
       item = wxMenuItem(menu, deleteFacetMenuId, "Delete Facet")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       copyFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, copyFacetsMenuId, "Copy Facets")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       pasteFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, pasteFacetsMenuId, "Paste Facets")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)  
+      menu.AppendItem(item)
       if self.facetClipboard is None or len(self.facetClipboard) == 0:
         item.Enable(False)
-      
+
       delHostMenuId = wxNewId()
       item = wxMenuItem(menu, delHostMenuId, "Delete This Host")
       item.SetBitmap(hostImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       EVT_MENU(self, addNodeMenuId, self.OnAddNode)
       EVT_MENU(self, summaryMenuId, self.OnSummary)
       EVT_MENU(self, delHostMenuId, self.OnDeleteEntity)
@@ -1081,34 +1083,34 @@ class AgentLaydownPanel(wxPanel):
       EVT_MENU(self, pasteFacetsMenuId, self.OnPasteFacets)
       EVT_MENU(self, showSpecFacetsMenuId, self.OnShowSpecifiedHostFacets)
       return menu
-      
-    if isinstance(self.entityObj, Node): 
+
+    if isinstance(self.entityObj, Node):
       # we either want to add a agent or delete the node and all its subs.
       addAgentMenuId = wxNewId()
       item = wxMenuItem(menu, addAgentMenuId, "Add Agent")
-      item.SetBitmap(agentImage) 
-      menu.AppendItem(item)  
-      
+      item.SetBitmap(agentImage)
+      menu.AppendItem(item)
+
       renameNodeMenuId = wxNewId()
       item = wxMenuItem(menu, renameNodeMenuId, "Rename Node")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       unassignNodeMenuId = wxNewId()
       item = wxMenuItem(menu, unassignNodeMenuId, "Unassign Node")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
       if self.currentViewer == self.frame.agentViewer:
         item.Enable(false)
-      
+
       exclNodeMenuId = wxNewId()
       if self.entityObj.isExcluded:
         item = wxMenuItem(menu, exclNodeMenuId, "Include Node in Distro")
       else:
         item = wxMenuItem(menu, exclNodeMenuId, "Exclude Node from Distro")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       roleFacetMenuId = wxNewId()
       if "role" in self.currentViewer.getDisplayedFacets('node'):
         roleFacetMenuText = "Hide Role Facet"
@@ -1116,13 +1118,13 @@ class AgentLaydownPanel(wxPanel):
         roleFacetMenuText = "Show Role Facet"
       item = wxMenuItem(menu, roleFacetMenuId, roleFacetMenuText)
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       showSpecFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showSpecFacetsMenuId, "Show Specified Facets")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       showAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showAllFacetsMenuId, "Show All Facets")
       item.SetBitmap(nodeImage)
@@ -1130,46 +1132,46 @@ class AgentLaydownPanel(wxPanel):
       if len(self.currentViewer.getDisplayedFacets('node')) > 0:
         if self.currentViewer.getDisplayedFacets('node')[0].find('all') > -1:
           item.Enable(false)
-      
+
       hideAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, hideAllFacetsMenuId, "Hide All Node Facets")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('node')) == 0:
         item.Enable(false)
-      
+
       editFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, editFacetsMenuId, "View/Edit Facets")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
-      
+
       addFacetMenuId = wxNewId()
       item = wxMenuItem(menu, addFacetMenuId, "Add Facet")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
-      
+
       deleteFacetMenuId = wxNewId()
       item = wxMenuItem(menu, deleteFacetMenuId, "Delete Facet")
       item.SetBitmap(nodeImage)
       menu.AppendItem(item)
-      
+
       copyFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, copyFacetsMenuId, "Copy Facets")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       pasteFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, pasteFacetsMenuId, "Paste Facets")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)  
+      menu.AppendItem(item)
       if self.facetClipboard is None or len(self.facetClipboard) == 0:
         item.Enable(False)
-      
+
       delNodeMenuId = wxNewId()
       item = wxMenuItem(menu, delNodeMenuId, "Delete This Node")
       item.SetBitmap(nodeImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       EVT_MENU(self, addAgentMenuId, self.OnAddAgent)
       EVT_MENU(self, delNodeMenuId, self.OnDeleteEntity)
       EVT_MENU(self, renameNodeMenuId, self.OnRename)
@@ -1186,20 +1188,20 @@ class AgentLaydownPanel(wxPanel):
       EVT_MENU(self, showSpecFacetsMenuId, self.OnShowSpecifiedNodeFacets)
       return menu
 
-    if isinstance(self.entityObj, Agent): 
+    if isinstance(self.entityObj, Agent):
       # we either want to add a component or delete the agent and all its subs.
       renameAgentMenuId = wxNewId()
       item = wxMenuItem(menu, renameAgentMenuId, "Rename Agent")
       item.SetBitmap(agentImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       unassignAgentMenuId = wxNewId()
       item = wxMenuItem(menu, unassignAgentMenuId, "Unassign Agent")
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
       if self.currentViewer == self.frame.agentViewer:
         item.Enable(false)
-      
+
       exclAgentMenuId = wxNewId()
       if self.currentViewer == self.frame.agentViewer:
         if self.entityObj.isExcluded:
@@ -1207,13 +1209,13 @@ class AgentLaydownPanel(wxPanel):
         else:
           item = wxMenuItem(menu, exclAgentMenuId, "Exclude Agent from Distro")
         item.SetBitmap(agentImage)
-        menu.AppendItem(item)        
-      
+        menu.AppendItem(item)
+
       showSpecFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showSpecFacetsMenuId, "Show Specified Facets")
       item.SetBitmap(agentImage)
-      menu.AppendItem(item)  
-      
+      menu.AppendItem(item)
+
       showAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, showAllFacetsMenuId, "Show All Facets")
       item.SetBitmap(agentImage)
@@ -1221,34 +1223,34 @@ class AgentLaydownPanel(wxPanel):
       if len(self.currentViewer.getDisplayedFacets('agent')) > 0:
         if self.currentViewer.getDisplayedFacets('agent')[0].find('all') > -1:
           item.Enable(false)
-      
+
       hideAllFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, hideAllFacetsMenuId, "Hide All Agent Facets")
       item.SetBitmap(agentImage)
-      menu.AppendItem(item)        
+      menu.AppendItem(item)
       if len(self.currentViewer.getDisplayedFacets('agent')) == 0:
         item.Enable(false)
-      
+
       editFacetsMenuId = wxNewId()
       item = wxMenuItem(menu, editFacetsMenuId, "View/Edit Facets")
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
-      
+
       addFacetMenuId = wxNewId()
       item = wxMenuItem(menu, addFacetMenuId, "Add Facet")
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
-      
+
       deleteFacetMenuId = wxNewId()
       item = wxMenuItem(menu, deleteFacetMenuId, "Delete Facet")
       item.SetBitmap(agentImage)
       menu.AppendItem(item)
-      
+
       delAgentMenuId = wxNewId()
       item = wxMenuItem(menu, delAgentMenuId, "Delete This Agent")
       item.SetBitmap(agentImage)
-      menu.AppendItem(item)        
-      
+      menu.AppendItem(item)
+
       EVT_MENU(self, delAgentMenuId, self.OnDeleteEntity)
       EVT_MENU(self, renameAgentMenuId, self.OnRename)
       EVT_MENU(self, unassignAgentMenuId, self.OnUnassign)
@@ -1260,7 +1262,7 @@ class AgentLaydownPanel(wxPanel):
       EVT_MENU(self, exclAgentMenuId, self.OnExcludeEntity)
       EVT_MENU(self, showSpecFacetsMenuId, self.OnShowSpecifiedAgentFacets)
       return menu
-      
+
   #************************************************************************
 
   def OnEraseBackground(self, evt):
@@ -1279,33 +1281,33 @@ class AgentLaydownPanel(wxPanel):
           dc.DrawBitmap(self.bg_bmp, x, y)
           y = y + h
       x = x + w
-  
+
   def GetBitmap(self, text):
     txt = str(text).lower()
     if txt == 'society':   return self.societyImage
-    if txt == 'host':      return self.hostImage 
+    if txt == 'host':      return self.hostImage
     if txt == 'node':      return self.nodeImage
-    if txt == 'agent':     return self.agentImage 
+    if txt == 'agent':     return self.agentImage
     return self.questionImage
-  
+
 ###
-  
+
   def OnCreateSociety(self, event):
     self.newEntityName = None
     NewEntityDialog(self, "New Society:")  # assigns a value to the above variable
     if self.newEntityName is not None:
       self.createSociety()
-  
+
   def OnAddHost(self, event):
     self.currentViewer.addHost(self.currentViewer.society)
-  
+
   def OnAddNode(self, event):
     self.currentViewer.addNode(self.currentItem)
-  
+
   def OnAddAgent(self, event):
     self.currentViewer.addAgent(self.currentItem)
     self.updateAgentCounter()
-  
+
   def OnDeleteSociety(self, event):
     dlg = CougaarMessageDialog(self, "delete")
     self.KillIt = dlg.getUserInput()
@@ -1322,7 +1324,7 @@ class AgentLaydownPanel(wxPanel):
       # delete the XML file from disk:
       if societyFile is not None:
         os.remove(self.societyFile)
-  
+
   def OnDeleteEntity(self, event):
     deletedItems = self.currentViewer.GetSelections()
     if self.currentViewer == self.frame.agentViewer or \
@@ -1332,19 +1334,19 @@ class AgentLaydownPanel(wxPanel):
     else:
       delete = True
       self.unassignEntity(delete)
-  
+
   def OnRename(self, event):
     self.currentViewer.EditLabel(self.currentItem)
 
   def OnUnassign(self, event):
     self.unassignEntity()
-  
+
   # -----------------------------------------------------------------------------
-  
+
   def unassignEntity(self, delete=False):
     okToContinue = True
     selectedItems = self.currentViewer.GetSelections()
-    
+
     # Verify that selected items are all of the same type
     selectedObjects = []
     for item in selectedItems:
@@ -1352,7 +1354,7 @@ class AgentLaydownPanel(wxPanel):
     itemsAreSameType = self.currentViewer.verifyMultiSelectTypes(selectedObjects)
     if not itemsAreSameType:
       return
-    
+
     # Set up warning dialogs to warn user when he/she tries to delete an entity
     thisEntity = 'this entity'
     it = 'it'
@@ -1369,12 +1371,12 @@ class AgentLaydownPanel(wxPanel):
       choice = dlg.getUserInput()
       if choice == wxID_NO:
         okToContinue = False
-        
-    if okToContinue:    
+
+    if okToContinue:
       # Do some setup first
       # Just in case the user closed the agentSociety, check and open a new one, if nec.
       if not self.frame.agentSocietyOpen:
-        self.openTempAgentSociety()      
+        self.openTempAgentSociety()
       # Is there a temp host?  If not, create one.
       self.frame.agentViewer.searchResultSet = []  # empty it out
       rootItem = self.frame.agentViewer.GetRootItem()
@@ -1383,7 +1385,7 @@ class AgentLaydownPanel(wxPanel):
         tempHostItem = self.frame.agentViewer.PrependItem(rootItem, "localhost", self.hostImage)
         tempHost = self.frame.agentSociety.add_host("localhost", "Auto-Create")
         self.frame.agentViewer.SetPyData(tempHostItem, tempHost)
-      
+
       # Now do the unassigning
       destParentItem = None
       for item in selectedItems:
@@ -1395,15 +1397,15 @@ class AgentLaydownPanel(wxPanel):
         elif isinstance(entity, Agent) or (isinstance(entity, Node) and delete):
           destParentItem, destParentObj = self.frame.agentViewer.getItemByLabel("localnode", tempHostItem)
           itemImage = self.agentImage
-          if not destParentItem or not destParentItem.IsOk():  
+          if not destParentItem or not destParentItem.IsOk():
             # looked for tempNode on tempHost but found none, so create it
             destParentItem = self.frame.agentViewer.PrependItem(tempHostItem, "localnode", self.nodeImage)
             destParentObj = tempHost.add_node("localnode", "Auto-Create")
             self.frame.agentViewer.SetPyData(destParentItem, destParentObj)
-          # we've found (or created) a node 
+          # we've found (or created) a node
         self.currentViewer.Delete(item)  # delete from laydownViewer tree
         entity.remove_entity()  # remove from laydownViewer society model
-        
+
         newItem = None
         if isinstance(entity, Host):
           for node in entity.each_node():
@@ -1440,69 +1442,69 @@ class AgentLaydownPanel(wxPanel):
       bothOfEm = True
       self.updateAgentCounter(bothOfEm)
       self.distroAgentsButton.Enable(true)
-  
-  # -----------------------------------------------------------------------------  
-  
+
+  # -----------------------------------------------------------------------------
+
   def OnSummary(self, event):
     SummaryDialog(self, self.currentViewer.society)
-  
-  # -----------------------------------------------------------------------------  
-  
+
+  # -----------------------------------------------------------------------------
+
   def OnShowEnclaveFacet(self, event):
     self.showFacet("enclave", "host")
-  
+
   def OnShowServiceFacet(self, event):
     self.showFacet("service", "host")
-  
+
   def OnShowRoleFacet(self, event):
     self.showFacet("role", "node")
-  
+
   def OnShowSpecifiedSocietyFacets(self, event):
     facetDialog = ShowFacetSelectionDialog(self, self.currentViewer.society, 'society')
     if facetDialog.facetList:
       self.showFacet('', 'society', facetList=facetDialog.facetList)
-  
+
   def OnShowAllSocietyFacets(self, event):
     self.showFacet('society-all', 'society')
-  
+
   def OnShowSpecifiedHostFacets(self, event):
     facetDialog = ShowFacetSelectionDialog(self, self.currentViewer.society, 'host')
     if facetDialog.facetList:
       self.showFacet('', 'host', facetList=facetDialog.facetList)
-  
+
   def OnShowAllHostFacets(self, event):
     self.showFacet('host-all', 'host')
-  
+
   def OnShowSpecifiedNodeFacets(self, event):
     facetDialog = ShowFacetSelectionDialog(self, self.currentViewer.society, 'node')
-    if facetDialog.facetList: 
+    if facetDialog.facetList:
       self.showFacet('', 'node', facetList=facetDialog.facetList)
-  
+
   def OnShowAllNodeFacets(self, event):
     self.showFacet('node-all', 'node')
-  
+
   def OnShowSpecifiedAgentFacets(self, event):
     facetDialog = ShowFacetSelectionDialog(self, self.currentViewer.society, 'agent')
-    if facetDialog.facetList: 
+    if facetDialog.facetList:
       self.showFacet('', 'agent', facetList=facetDialog.facetList)
-  
+
   def OnShowAllAgentFacets(self, event):
     self.showFacet('agent-all', 'agent')
-  
+
   def OnHideAllSocietyFacets(self, event):
     self.showFacet('society-all', 'society', hideAll=True)
-  
+
   def OnHideAllHostFacets(self, event):
     self.showFacet('host-all', 'host', hideAll=True)
-  
+
   def OnHideAllNodeFacets(self, event):
     self.showFacet('node-all', 'node', hideAll=True)
-  
+
   def OnHideAllAgentFacets(self, event):
     self.showFacet('agent-all', 'agent', hideAll=True)
-  
-  # -----------------------------------------------------------------------------  
-  
+
+  # -----------------------------------------------------------------------------
+
   def showFacet(self, facetType, entityType=None, update=False, hideAll=False, facetList=None, itemList = None):
     # Note: self.masterFacetList holds a list of all the 'facetType=value' pairs already specified by the user and displayed.
     updatingDroppedItem = False
@@ -1512,7 +1514,7 @@ class AgentLaydownPanel(wxPanel):
       # Build a list of all the relevant items in the tree
       itemList = self.currentViewer.getItemList(entityType)
     facetsDisplayed = self.currentViewer.getDisplayedFacets(entityType)
-    
+
     # Now either hide or show facets
     # Hide facets:
     if facetType in facetsDisplayed or hideAll:
@@ -1532,10 +1534,10 @@ class AgentLaydownPanel(wxPanel):
         for facet in facetsDisplayed:
           # 'facet' is a String facet type
           self.displayFacet(facet, itemList)
-    
-    # Either we just added a facet to an entity or we just dropped an entity into a viewer 
+
+    # Either we just added a facet to an entity or we just dropped an entity into a viewer
     # that had facets showing, so add facet display to the entity
-    elif updatingDroppedItem:  
+    elif updatingDroppedItem:
       for facet in facetsDisplayed:
         # 'facet' is a String facet type
         if facet != 'specified':
@@ -1545,7 +1547,7 @@ class AgentLaydownPanel(wxPanel):
         # are present in the items in the itemList; display them.
         matchingItemList, facetDict = self.getMatchingFacetItems(self.currentViewer.masterFacetList, itemList)
         self.displayFacet('specified', matchingItemList, facetDict)
-    
+
     # Show facets:
     else:
       # Show ALL facets.
@@ -1554,13 +1556,13 @@ class AgentLaydownPanel(wxPanel):
           self.showFacet(facetType, entityType, hideAll=True)  # hide existing ones first
         self.currentViewer.addDisplayedFacet(entityType, facetType)  # just adds it to the list
         self.displayFacet(facetType, itemList)  # update the display
-      
+
       else:
         # if ALL facets are currently displayed, hide them first
         for facet in facetsDisplayed:
           if facet.find('all') > -1:
             self.showFacet(facetType, entityType, hideAll=True)
-        
+
         # Show user-specified facets
         if facetList:   # 'facetList' is a List of 'type=value' strings
           # Get the list of tree items that have the specified 'type=value' facet and a dictionary
@@ -1569,14 +1571,14 @@ class AgentLaydownPanel(wxPanel):
           self.currentViewer.addDisplayedFacet(entityType, 'specified')
           self.displayFacet('specified', matchingItemList, facetDict)
           self.currentViewer.masterFacetList.extend(facetList)
-        
+
         # Show only the menu-specified facet
-        else:  
+        else:
           self.currentViewer.addDisplayedFacet(entityType, facetType)
           self.displayFacet(facetType, itemList)
-      
+
   # --------------------------------------------------------------------------------
-  
+
   def displayFacet(self, facetType, itemList, facetDict = None):
     for item in itemList:
       facetString = ""
@@ -1585,33 +1587,33 @@ class AgentLaydownPanel(wxPanel):
       entity = self.currentViewer.GetPyData(item)
       separator = ""
       valueList = []
-      
+
       # Display user-specified facets
       if facetType == 'specified':
         if facetDict:
           # facetDict is a Dictionary where key is an item name and value is a List of 'type=value' Strings
           valueList = facetDict[itemName]
-      
+
       # Display ALL facets
       elif facetType.endswith('all'):
         facetList = entity.get_facets()
         for facet in facetList:
           for facetPair in facet.each_facet_pair():
             valueList.append(facetPair)
-      
+
       else:  # display only the menu-specified facet
         valueList = entity.get_facet_values(facetType)
-      
+
       label.addTextElement(facetType, valueList)
       self.currentViewer.SetItemText(item, label)
-  
+
   # --------------------------------------------------------------------------------
-  
+
   def getMatchingFacetItems(self, facetList, itemList):
     # Returns a two-tuple consisting of a List of items that have one or more
     # of the facet types listed in facetList, and a Dictionary where the key
     # is an entity name and the value is a List of 'type=value' facet strings.
-    
+
     matchingItemList = []
     facetDict = {}
     for item in itemList:
@@ -1641,62 +1643,62 @@ class AgentLaydownPanel(wxPanel):
             matchingFacetList.append(facet)
       facetDict[itemName] = matchingFacetList
     return matchingItemList, facetDict
-  
-  
+
+
   #*******************************************************************
-  
+
   def OnAddFacet(self, event):
     self.addDeleteFacet()
-  
+
   #*******************************************************************
-  
+
   def OnDeleteFacet(self, event):
     self.addDeleteFacet('delete')
-  
+
   #*******************************************************************
-  
+
   def addDeleteFacet(self, action='add'):
     entityObjList = self.currentViewer.getSelectedObjects()
     AddDeleteFacetDialog(self, self.currentViewer.society, entityObjList, action)
-  
+
   #*******************************************************************
-  
+
   def OnEditFacets(self, event):
     FacetDisplayDialog(self, self.log)
-  
+
   #*******************************************************************
-  
+
   def OnExcludeEntity(self, event):
     selectedItems = self.currentViewer.GetSelections()
-    
+
     for item in selectedItems:
       entity = self.currentViewer.GetPyData(item)
       if isinstance(entity, Host) or isinstance(entity, Node) or isinstance(entity, Agent):
-        
+
         if entity.isExcluded:   # re-include it
-          
+
           if self.currentViewer.GetItemBackgroundColour(item) == wxRED:
             # unmark the tree item label of the selected hosts
             self.currentViewer.SetItemBackgroundColour(item, wxWHITE)
             self.currentViewer.SetItemTextColour(item, wxBLACK)
           # mark the host objects as included again
           entity.isExcluded = False
-        
+
         else:  # exclude it
           # mark the tree item labels of the hosts excluded
           self.currentViewer.SetItemBackgroundColour(item, wxRED)
           self.currentViewer.SetItemTextColour(item, wxWHITE)
-          
+
           # mark the host objects as excluded so we don't give them agents
           entity.isExcluded = True
       else:
         self.log.WriteText("Exclude operation failed: can only exclude hosts, nodes, and agents")
     self.currentViewer.UnselectAll()  # removes the selection highlight so we can see item color
-    
+
     self.setSpinnerValue()  # update value now that there may be fewer hosts
-  
+
   #*******************************************************************
-  
+
   def OnCopyFacets(self, event):
     selectedEntities = self.currentViewer.GetSelections()
     if len(selectedEntities) > 1:
@@ -1709,9 +1711,9 @@ class AgentLaydownPanel(wxPanel):
       selectedEntity = self.currentViewer.GetPyData(entity)
       # facetClipboard is a List of Facet objects
       self.facetClipboard = selectedEntity.get_facets()
-  
+
   #*******************************************************************
-  
+
   def OnPasteFacets(self, event):
     selectedItems = self.currentViewer.GetSelections()
     entity = None
@@ -1722,10 +1724,10 @@ class AgentLaydownPanel(wxPanel):
     # Update the item label facet display, if it's showing:
     entityType = entity.getType()
     facetType = entityType + '-all'
-    self.showFacet(facetType, entityType, True)  
-  
+    self.showFacet(facetType, entityType, True)
+
   #*******************************************************************
-  
+
   def createSociety(self):
     newSociety = Society(str(self.newEntityName), "Hand edit")
     if self.currentViewer == self.frame.agentViewer:
@@ -1739,16 +1741,16 @@ class AgentLaydownPanel(wxPanel):
       self.frame.enableHnaSaveMenuItems()
     newSociety.isDirty = True
     self.UpdateControl(newSociety)
-  
+
   #*******************************************************************
-  
+
   def getEntityObj(self, item=None):
     if item is None:
       item = self.currentItem
     return self.currentViewer.GetPyData(item)
-  
+
   #----------------------------------------------------------------------
-  
+
   def setSpinnerValue(self):
     if self.frame.agentSociety and self.frame.mappedSociety:
       self.minAgentsPerHost = 1
@@ -1762,9 +1764,9 @@ class AgentLaydownPanel(wxPanel):
           self.minAgentsPerHost += 1
       self.agentSpinner.SetRange(int(self.minAgentsPerHost), agentCount)
       self.agentSpinner.SetValue(int(self.minAgentsPerHost))
-  
+
   #----------------------------------------------------------------------
-  
+
   def undo(self, lastState):
     if isinstance(lastState[1][0], SocietyViewer):
       i = 1
@@ -1788,32 +1790,32 @@ class AgentLaydownPanel(wxPanel):
       self.updateAgentCounter(bothOfEm)
     else:
       self.log.WriteText("Unable to undo last edit\n")
-  
+
   #----------------------------------------------------------------------
-  
+
   def resetAgentSociety(self):
     if self.frame.agentSociety is not None and self.tempAgentSociety is not None:
       self.frame.agentSociety.close()
       self.frame.agentSociety = self.tempAgentSociety
       self.tempAgentSociety = None
-  
+
   #----------------------------------------------------------------------
-  
+
   def resetMappedSociety(self, saveAgents=false):
     if self.frame.mappedSociety is not None and self.tempMappedSociety is not None:
       self.frame.mappedSociety.close(saveAgents)
       self.frame.mappedSociety = self.tempMappedSociety
       self.tempMappedSociety = None
-  
+
   #----------------------------------------------------------------------
 
   def StartDrag(self, dataList):
-    
+
     # The 'dataList' argument is a list, the first element of which is a reference to the
-    # viewer which is the source of the drag.  The second element is list of lists, with each 
-    # of the element lists containing a tree item id plus the associated entity of a 
-    # Cougaar society to be dragged. 
-    # We want to store the entity in a Dictionary (the "object closet") using entity.name as 
+    # viewer which is the source of the drag.  The second element is list of lists, with each
+    # of the element lists containing a tree item id plus the associated entity of a
+    # Cougaar society to be dragged.
+    # We want to store the entity in a Dictionary (the "object closet") using entity.name as
     # the key.  Then we only want to pickle the entity name, not the whole entity obj.
     sourceViewer = dataList[0]
     treeItemList = dataList[1]
@@ -1825,23 +1827,23 @@ class AgentLaydownPanel(wxPanel):
       self.frame.objCloset[entityObj.name] = item[1]  # store associated obj in the closet
     # Pickle the object first...results in a String obj
     dataString = cPickle.dumps(itemNameList)
-    
-    # Create the object that will be dragged & dropped (and which will contain the 
+
+    # Create the object that will be dragged & dropped (and which will contain the
     # Cougaar entity we want to move or copy).
     dataObj = wxCustomDataObject(wxCustomDataFormat("CougaarComponent"))
     dataObj.SetData(dataString)
-    
+
     # Create the drop source and begin the drag and drop operation
     sourceViewer.setDropResult(0)  # reset
     dragSource = wxDropSource(self)
     dragSource.SetData(dataObj)
-    self.frame.setDragSource(sourceViewer) 
+    self.frame.setDragSource(sourceViewer)
     result = dragSource.DoDragDrop(wxDrag_DefaultMove)
     altResult = sourceViewer.getDropResult()
     if altResult == wxDragNone:
       result = altResult
     sourceViewer.isDragSource = False
-    
+
     # Tell the drag source what to do with the object that was dragged
     if result == wxDragMove:
       self.log.WriteText("DragDrop completed: %d item(s) moved\n" % len(treeItemList))  # debug
@@ -1858,7 +1860,7 @@ class AgentLaydownPanel(wxPanel):
         sourceViewer.parent.agentViewerTotalLabel.SetLabel('Total Agents: ' + str(numAgents))
       else:
         sourceViewer.parent.laydownViewerTotalLabel.SetLabel('Total Agents: ' + str(numAgents))
-      
+
     elif result == wxDragCopy:
       self.log.WriteText("Item copied\n")
     elif result == wxDragError:
@@ -1872,9 +1874,9 @@ class AgentLaydownPanel(wxPanel):
       self.log.WriteText("Drag Cancelled")
     else:
       self.log.WriteText("Drag & Drop totally hosed")
-  
+
   #----------------------------------------------------------------------
-  
+
   def checkInclNodes(self, checked=True):
     if checked:
       self.rb.SetLabel("Select method of node distribution")
@@ -1904,9 +1906,9 @@ class AgentLaydownPanel(wxPanel):
         elif self.frame.agentSociety is not None and self.frame.agentSociety.countAgents() == 0:
           self.distroAgentsButton.Enable(false)
     self.ignoreHostFacetsCheckbox.Enable(checked)
-  
+
   #--------------------------------------------------------------------------------------
-  
+
   def updateAgentCounter(self, updateBothCounters=False):
     if updateBothCounters:
       self.agentViewerTotalLabel.SetLabel('Total Agents: ' + str(self.frame.agentViewer.society.countAgents()))
@@ -1928,11 +1930,11 @@ class CreateHnaMapDialog:
     self.parent = parent
     self.currentSociety = society
     sizer = wxBoxSizer(wxVERTICAL)
-    
+
     societyBox = wxBoxSizer(wxHORIZONTAL)
     societyNameLabel = wxStaticText(self.win, -1, "Current HNA society name:")
     societyBox.Add(societyNameLabel, flag=wxALIGN_CENTER | wxALL, border=5)
-    
+
     societyNameID = wxNewId()
     societyName = ""
     hostPrefix = "HOST"
@@ -1950,48 +1952,48 @@ class CreateHnaMapDialog:
     else:
       self.societyNameText = wxTextCtrl(self.win, societyNameID, societyName, size=(150,-1))
     societyBox.Add(self.societyNameText, 1, wxALIGN_CENTER | wxALL, 5)
-    
+
     sizer.AddSizer(societyBox, 0, wxALIGN_CENTER)
-    
+
     # ******************
-    #      Host Creation    
+    #      Host Creation
     # ******************
     # Add the number of hosts spinner control
     staticBoxTitle = wxStaticBox(self.win, -1, "Host Creation")
     staticBox = wxStaticBoxSizer(staticBoxTitle, wxVERTICAL)
     innerBox = wxBoxSizer(wxVERTICAL)
-    
-    numHostsLabel = wxStaticText(self.win, -1, "Specify number of hosts to create") 
+
+    numHostsLabel = wxStaticText(self.win, -1, "Specify number of hosts to create")
     innerBox.Add(numHostsLabel, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     numHostsSpinnerID = wxNewId()
     self.numHostsSpinner = wxSpinCtrl(self.win, numHostsSpinnerID, "1", size=wxSize(50, -1), min=0, max=500)
     innerBox.Add(self.numHostsSpinner, flag=wxALIGN_CENTER_HORIZONTAL)
-    
+
     # Add text boxes
     # Host names
     hostNameLabel = wxStaticText(self.win, -1, "Host names:")
     innerBox.Add(hostNameLabel, 0, wxALIGN_CENTRE|wxTOP, 5)
-    
+
     # host name prefix
     hostNameBox = wxBoxSizer(wxHORIZONTAL)
     prefixLabel = wxStaticText(self.win, -1, "Prefix:")
     hostNameBox.Add(prefixLabel, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     hostPrefixID = wxNewId()
     self.hostPrefix = wxTextCtrl(self.win, hostPrefixID, hostPrefix, size=(150,-1))
     hostNameBox.Add(self.hostPrefix, 1, wxALIGN_CENTRE|wxALL, 5)
-    
+
     # host name sequence number
     hostSeqLabel = wxStaticText(self.win, -1, "Sequence begins at:")
     hostNameBox.Add(hostSeqLabel, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     hostSeqID = wxNewId()
     self.hostSeq = wxTextCtrl(self.win, hostSeqID, hostSeq, size=(50,-1))
     hostNameBox.Add(self.hostSeq, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     innerBox.AddSizer(hostNameBox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
-    
+
     staticBox.AddSizer(innerBox, 0, wxALIGN_CENTER)
     sizer.AddSizer(staticBox, 0, wxALIGN_CENTER|wxTOP, 15)
 
@@ -2000,80 +2002,80 @@ class CreateHnaMapDialog:
     self.addHostCheckbox = wxCheckBox(self.win, addHostCheckboxID, 'Do not create hosts')
     EVT_CHECKBOX(self.win, addHostCheckboxID, self.OnDisableHostCreation)
     sizer.Add(self.addHostCheckbox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP, 5)
-    
+
     # ******************
-    #      Node Creation    
+    #      Node Creation
     # ******************
     # Add the number of nodes spinner control
     staticBoxTitle = wxStaticBox(self.win, -1, "Node Creation")
     staticBox = wxStaticBoxSizer(staticBoxTitle, wxVERTICAL)
     innerBox = wxBoxSizer(wxVERTICAL)
-    
-    numNodesLabel = wxStaticText(self.win, -1, "Specify number of nodes to create") 
+
+    numNodesLabel = wxStaticText(self.win, -1, "Specify number of nodes to create")
     innerBox.Add(numNodesLabel, flag=wxALIGN_CENTER_HORIZONTAL | wxBOTTOM, border=10)
-    
+
     numNodesSpinnerID = wxNewId()
     self.numNodesSpinner = wxSpinCtrl(self.win, numNodesSpinnerID, "1", size=wxSize(50, -1), min=0, max=500)
     innerBox.Add(self.numNodesSpinner, flag=wxALIGN_CENTER_HORIZONTAL)
-    
+
     # Add text boxes
     # Node names
     nodeNameLabel = wxStaticText(self.win, -1, "Node names:")
     innerBox.Add(nodeNameLabel, 0, wxALIGN_CENTRE|wxTOP, 5)
-    
+
     # node name prefix
     nodeNameBox = wxBoxSizer(wxHORIZONTAL)
     prefixLabel = wxStaticText(self.win, -1, "Prefix:")
     nodeNameBox.Add(prefixLabel, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     nodePrefixID = wxNewId()
     self.nodePrefix = wxTextCtrl(self.win, nodePrefixID, "NODE", size=(150,-1))
     nodeNameBox.Add(self.nodePrefix, 1, wxALIGN_CENTRE|wxALL, 5)
-    
+
     # node name sequence number
     nodeSeqLabel = wxStaticText(self.win, -1, "Sequence begins at:")
     nodeNameBox.Add(nodeSeqLabel, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     nodeSeqID = wxNewId()
     self.nodeSeq = wxTextCtrl(self.win, nodeSeqID, "-A", size=(50,-1))
     nodeNameBox.Add(self.nodeSeq, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     innerBox.AddSizer(nodeNameBox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxALL, 5)
-    
+
     staticBox.AddSizer(innerBox, 0, wxALIGN_CENTER)
     sizer.AddSizer(staticBox, 0, wxALIGN_CENTER|wxTOP, 30)
-    
+
     # Disable node creation checkbox
     addNodeCheckboxID = wxNewId()
     self.addNodeCheckbox = wxCheckBox(self.win, addNodeCheckboxID, 'Do not create nodes')
     EVT_CHECKBOX(self.win, addNodeCheckboxID, self.OnDisableNodeCreation)
     sizer.Add(self.addNodeCheckbox, 0, wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP, 5)
-    
+
     # Add a spacer
     spacer = wxStaticText(self.win, -1, " ")
     sizer.Add(spacer, 0, wxALL, 7)
-    
+
     # buttons
     box = wxBoxSizer(wxHORIZONTAL)
     btn = wxButton(self.win, wxID_OK, " OK ")
     btn.SetDefault()
     box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
     box.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     btn = wxButton(self.win, wxID_HELP, "Help")
     box.Add(btn, 0, wxALIGN_RIGHT|wxALL, 5)
-    EVT_BUTTON(self.win, wxID_HELP, self.OnHelp)    
+    EVT_BUTTON(self.win, wxID_HELP, self.OnHelp)
     sizer.AddSizer(box, 0, wxALIGN_CENTER|wxALL, 5)
-    
+
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
-    
+
     val = self.win.ShowModal()
-    if val == wxID_OK:  
+    if val == wxID_OK:
       # If user clicks 'OK', set the following variable values in the parent window:
       self.parent.societyName = self.societyNameText.GetValue()
       self.parent.numHostsToCreate = self.numHostsSpinner.GetValue()
@@ -2082,14 +2084,14 @@ class CreateHnaMapDialog:
       self.parent.numNodesToCreate = self.numNodesSpinner.GetValue()
       self.parent.nodeNamePrefix = self.nodePrefix.GetValue()
       self.parent.nodeNameSeqStart = self.nodeSeq.GetValue()
-  
+
   def splitName(self, name):
     # Separates a name that consists of a prefix and a sequence number and
     # returns each as a tuple
     for i in range(len(name)):
       if name[i:].isdigit():
         return name[:i], name[i:]
-  
+
   def OnDisableHostCreation(self, event):
     if self.addHostCheckbox.IsChecked():
       self.numHostsSpinner.SetValue(0)
@@ -2101,7 +2103,7 @@ class CreateHnaMapDialog:
       self.numHostsSpinner.Enable(true)
       self.hostPrefix.Enable(true)
       self.hostSeq.Enable(true)
-  
+
   def OnDisableNodeCreation(self, event):
     if self.addNodeCheckbox.IsChecked():
       self.numNodesSpinner.SetValue(0)
@@ -2113,10 +2115,10 @@ class CreateHnaMapDialog:
       self.numNodesSpinner.Enable(true)
       self.nodePrefix.Enable(true)
       self.nodeSeq.Enable(true)
-  
+
   def OnHelp(self, event):
     text = '''Create a new or edit an existing HNA society by adding hosts
-and/or nodes.  To create hosts, choose the number of hosts to 
+and/or nodes.  To create hosts, choose the number of hosts to
 create, then choose the naming scheme by selecting a prefix
 and a starting sequence number to be appended to the prefix.
 To create nodes, do likewise.  To create hosts only, check the
@@ -2126,7 +2128,7 @@ only, check the "Do not create hosts" checkbox.
 If only nodes are created and there are no existing hosts, a
 single host will be automatically created and all nodes will be
 allocated to that host.'''
-    helpDialog = wxMessageDialog(self.win, text, style = wxCAPTION | wxOK | 
+    helpDialog = wxMessageDialog(self.win, text, style = wxCAPTION | wxOK |
          wxTHICK_FRAME | wxICON_INFORMATION)
     helpDialog.ShowModal()
 
@@ -2134,8 +2136,8 @@ allocated to that host.'''
 
 class FacetDisplayDialog:
 
-  def __init__(self, parent, log, ID = -1, title = 'View/Edit Facets', 
-                    pos=wxDefaultPosition, size=(300,300), 
+  def __init__(self, parent, log, ID = -1, title = 'View/Edit Facets',
+                    pos=wxDefaultPosition, size=(300,300),
                     style=wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME):
     self.parent = parent
     self.log = log
@@ -2144,9 +2146,9 @@ class FacetDisplayDialog:
     self.EDIT = 0
     self.DELETE = 1
     self.ADD = 2
-    
+
     self.win = wxDialog(self.parent, -1, title, pos, size, style)
-    
+
     # Create a wxListCtrl
     tID= wxNewId()
     self.list = wxListCtrl(self.win, tID, wxDefaultPosition, (300,-1), wxLC_REPORT | wxLC_EDIT_LABELS)
@@ -2159,40 +2161,40 @@ class FacetDisplayDialog:
       for text in facet.each_facet_pair():
         self.list.InsertStringItem(index, text)  # add text of the facet to the list
         index += 1
-    
+
     charSize = self.list.GetCharHeight()
     numLines = self.list.GetItemCount()
     if numLines < 4:
       numLines = 4  # establish a minimum size of 4 lines
     desiredHeight = charSize * numLines
-    self.list.SetSize((300, desiredHeight))    
-    
+    self.list.SetSize((300, desiredHeight))
+
     sizer = wxBoxSizer(wxVERTICAL)  # the overall sizer for the whole panel
-    
+
     btnBox = wxBoxSizer(wxHORIZONTAL)
     btn = wxButton(self.win, wxID_OK, "  OK  ")
     btn.SetDefault()
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     btn = wxButton(self.win, wxID_CANCEL, " Cancel ")
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     sizer.Add(self.list, 1, wxEXPAND | wxALIGN_TOP | wxALIGN_CENTER) # add the wxListCtrl at the top
     sizer.Add(btnBox, 0, wxALIGN_CENTER|wxALL, 5)  # add buttons at the bottom
-    
+
     EVT_LIST_ITEM_SELECTED(self.win, tID, self.OnItemSelected)
     EVT_LIST_ITEM_DESELECTED(self.win, tID, self.OnItemDeselected)
     EVT_LIST_COL_RIGHT_CLICK(self.win, tID, self.OnColRightClick)
-    EVT_LIST_END_LABEL_EDIT(self.win, tID, self.OnEndLabelEdit) 
-    EVT_LIST_ITEM_RIGHT_CLICK(self.win, tID, self.OnItemRightClick) 
-    
+    EVT_LIST_END_LABEL_EDIT(self.win, tID, self.OnEndLabelEdit)
+    EVT_LIST_ITEM_RIGHT_CLICK(self.win, tID, self.OnItemRightClick)
+
     self.win.SetSizer(sizer)
     self.win.SetAutoLayout(true)
     sizer.Fit(self.win)
     self.win.CenterOnParent()
-    
+
     val = self.win.ShowModal()
-    
+
     if val == wxID_OK:
       # Make all the changes to the underlying society obj.
       # Format of 'change' list is:
@@ -2223,33 +2225,33 @@ class FacetDisplayDialog:
         facetType = entityType + '-all'
         updateFacetCurrentlyDisplayed = True  # indicates some facets are already displayed
         self.parent.showFacet(facetType, entityType, updateFacetCurrentlyDisplayed)
-    
+
     self.changesToMake = []  # empty it out
     self.win.Destroy()
-  
+
   #--------------------------------------------------------------------
-  
+
   def OnItemSelected(self, event):
     self.selectedItemList.append(str(event.GetLabel()))
-  
+
   def OnItemDeselected(self, event):
     self.selectedItemList.remove(str(event.GetLabel()))
-  
+
   def OnColRightClick(self, event):
     pt = event.GetPoint();
     self.processRightClick(pt, "add")
     event.Skip()
-  
+
   def OnItemRightClick(self, event):
     pt = event.GetPoint();
     self.processRightClick(pt)
     event.Skip()
-  
+
   def processRightClick(self, point, action=None):
     menu = self.SetMenu(action)
     self.list.PopupMenu(menu, point)
     menu.Destroy()
-  
+
   def OnEndLabelEdit(self, event):
     listItemInfo = event.GetItem()
     oldLabel = self.list.GetItemText(listItemInfo.m_itemId)
@@ -2258,7 +2260,7 @@ class FacetDisplayDialog:
       #~ self.log.WriteText("Old label: " + oldLabel + "  New label: " + newLabel + "\n")
       change = [self.EDIT, self.parent.entityObj, oldLabel, newLabel]
       self.changesToMake.append(change)
-  
+
   def OnDeleteFacet(self, event):
     itemsToDelete = self.selectedItemList[:] # make a copy, because selectedItemList will chg
     for item in itemsToDelete:
@@ -2267,9 +2269,9 @@ class FacetDisplayDialog:
       self.changesToMake.append(change)
       # Then delete it from the list
       self.list.DeleteItem(self.list.FindItem(-1, item))
-  
+
   #------------------------------------------------------------------------------------------------
-  
+
   def OnAddFacet(self, event):
     self.newFacets = None
     selectedObjList = []  # AddDeleteFacetDialog constructor requires a List arg for this
@@ -2281,18 +2283,18 @@ class FacetDisplayDialog:
         change = [self.ADD, self.parent.entityObj, str(facet)]
         self.changesToMake.append(change)
         self.list.InsertStringItem(self.list.GetItemCount(), facet)
-  
+
   #------------------------------------------------------------------------------------------------
-  
+
   def OnCopyFacet(self, event):
     self.parent.facetClipboard = self.selectedItemList
-  
+
   #--------------------------------------------------------------------
-  
+
   def SetMenu(self, action=None):
-    
+
     menu = wxMenu()
-    
+
     addFacetMenuId = wxNewId()
     item = wxMenuItem(menu, addFacetMenuId, "Add Facet")
     menu.AppendItem(item)
@@ -2321,7 +2323,7 @@ class AddDeleteFacetDialog:
     label = "Add Facets"
     if action == 'delete':
       label = "Delete Facets"
-    
+
     daddy = None
     if isinstance(self.parent, FacetDisplayDialog):
       daddy = self.parent.win
@@ -2330,12 +2332,12 @@ class AddDeleteFacetDialog:
       daddy = self.parent
       self.laydownPanel = self.parent  # if this dialog is invoked from the currentViewer right-click menu
     self.dlg = wxDialog(daddy, -1, label, size=wxSize(350, 200))
-    
+
     # Ensure selected entity objects are of the same type (e.g., all Hosts or all Nodes or all Agents, etc.)
     itemsAreSameType = self.laydownPanel.currentViewer.verifyMultiSelectTypes(self.entityList)
     if itemsAreSameType:
       self.entityType = self.entityList[0].getType()
-      # Populate the facet type drop down box with actual facet types from 
+      # Populate the facet type drop down box with actual facet types from
       # the society in use, augmented by a few standard types.
       stdFacetList = []
       if self.entityType == 'host' and action == 'add':
@@ -2348,21 +2350,21 @@ class AddDeleteFacetDialog:
       for stdFacet in stdFacetList:
         if stdFacet not in facetList:
           facetList.append(stdFacet)
-      
+
       sizer = wxBoxSizer(wxVERTICAL)
-      
+
       msg = '''Build facets for the current entity by selecting (or entering)
 a facet type on the left and a facet value on the right.  Click
-Add or Delete after building each facet, then OK to make 
+Add or Delete after building each facet, then OK to make
 the change, or Cancel to discard.'''
       label = wxStaticText(self.dlg, -1, msg)
       sizer.Add(label, 0, wxALIGN_CENTRE|wxALL, 5)
-      
+
       typeSizer = wxBoxSizer(wxVERTICAL)
-      
+
       typeLabel = wxStaticText(self.dlg, -1, "Facet Type:")
       typeSizer.Add(typeLabel, 0, wxALIGN_CENTER | wxALL, 5)
-      
+
       typeComboId = wxNewId()
       defaultValue = ''
       if len(facetList) > 0:
@@ -2372,12 +2374,12 @@ the change, or Cancel to discard.'''
       EVT_COMBOBOX(self.dlg, typeComboId, self.OnComboBoxSelection)
       EVT_TEXT_ENTER(self.dlg, typeComboId, self.OnComboBoxTextEntry)
       typeSizer.Add(self.typeCombo, 0, wxALIGN_CENTRE | wxALL, 5)
-      
+
       valueSizer = wxBoxSizer(wxVERTICAL)
-      
+
       valueLabel = wxStaticText(self.dlg, -1, "Facet Value:")
       valueSizer.Add(valueLabel, 0, wxALIGN_CENTER | wxALL, 5)
-      
+
       valueComboId = wxNewId()
       valueList = self.getValueList()
       defaultItem = ""
@@ -2386,12 +2388,12 @@ the change, or Cancel to discard.'''
       self.valueCombo = wxComboBox(self.dlg, valueComboId, defaultItem, wxDefaultPosition, wxSize(150, -1),
                         valueList, wxCB_DROPDOWN)
       valueSizer.Add(self.valueCombo, 0, wxALIGN_CENTER | wxALL, 5)
-      
+
       comboSizer = wxBoxSizer(wxHORIZONTAL)
       comboSizer.Add(typeSizer, 0, wxALIGN_CENTER | wxALL, 5)
       comboSizer.Add(valueSizer, 0, wxALIGN_CENTER | wxALL, 5)
       sizer.Add(comboSizer, 0, wxALIGN_CENTER)
-      
+
       rbID = wxNewId()
       if self.entityType == 'society':
         pluralEntityType = 'societies'
@@ -2408,7 +2410,7 @@ the change, or Cancel to discard.'''
       if isinstance(self.parent, FacetDisplayDialog) or self.entityType == "society":
         self.rb.Enable(False)
       sizer.Add(self.rb, 0, wxALIGN_CENTER | wxALL, 5)
-      
+
       addBtnId = wxNewId()
       btnLabel = 'Add'
       if action == 'delete':
@@ -2417,34 +2419,34 @@ the change, or Cancel to discard.'''
       addButton.SetDefault()
       EVT_BUTTON(self.dlg, addBtnId, self.OnAdd)
       sizer.Add(addButton, 0, wxALIGN_CENTER | wxALL, 5)
-      
+
       facetListPaneId = wxNewId()
       self.facetListPane = wxTextCtrl(self.dlg, facetListPaneId, size=(250, 100), style=wxTE_MULTILINE)
       sizer.Add(self.facetListPane, 1, wxALIGN_CENTER | wxALL, 5)
-      
+
       btnBox = wxBoxSizer(wxHORIZONTAL)
       btn = wxButton(self.dlg, wxID_OK, "  OK  ")
       btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-      
+
       btn = wxButton(self.dlg, wxID_CANCEL, " Cancel ")
       btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-      
+
       sizer.Add(btnBox, 0, wxALIGN_CENTER|wxALL, 5)  # add buttons at the bottom
-      
+
       self.dlg.SetSizer(sizer)
       self.dlg.SetAutoLayout(true)
       sizer.Fit(self.dlg)
       self.dlg.CenterOnParent()
-      
+
       val = self.dlg.ShowModal()
-      
+
       if val == wxID_OK:
         # Get the raw facet data
         newFacetRawString = str(self.facetListPane.GetValue()).rstrip()
         checkedRadioBtn = self.rb.GetSelection()
         # convert the facet string into a List
         newFacetList = newFacetRawString.split('\n')
-        
+
         # Validate input data and send error msg if invalid
         invalidFacet = self.validateFacets(newFacetList)
         if invalidFacet:
@@ -2454,7 +2456,7 @@ the change, or Cancel to discard.'''
                     "be duplicates."
           errorDlg = CougaarMessageDialog(self.dlg, "error", msg)
           errorDlg.display()
-        
+
         else:
           self.parent.newFacets = newFacetList  # feedback to the calling obj
           if isinstance(self.parent, AgentLaydownPanel):
@@ -2468,16 +2470,16 @@ the change, or Cancel to discard.'''
             facetType = self.entityType + '-all'
             updateDisplayedFacet = True
             self.laydownPanel.showFacet(facetType, self.entityType, updateDisplayedFacet)
-      
+
       self.dlg.Destroy()
-  
+
   def getValueList(self, facetType=None):
     if facetType is None:
       facetType = self.typeCombo.GetValue()
-    
-    # Read the facet values for the specified facet type directly from the current society. 
+
+    # Read the facet values for the specified facet type directly from the current society.
     valList = self.society.getAllFacetValues(facetType, self.entityType)
-    
+
     # Now combine the existing facet values with some standard values that are commonly used
     # even though they may not appear in the current society.
     stdList = []
@@ -2490,28 +2492,28 @@ the change, or Cancel to discard.'''
         stdList =  ['nameserver']
       elif facetType == "role" and self.action == 'add':
         stdList =   ['CertificateAuthority', 'Management', 'NameServer', 'RootCertificateAuthority']
-    
+
     elif self.entityType == "agent" and self.action == 'add':
       if facetType.startswith("is") or facetType.startswith("has"):
         return ['T', 'F']
       elif facetType.endswith('org_id') or facetType.endswith('org'):
         return self.society.get_agent_list(namesOnly=True)
-    
+
     # Combine the two lists into one, eliminating dupes
     for val in stdList:
       if val not in valList:
         valList.append(val)
     return valList
-  
+
   def OnComboBoxSelection(self, event):
     facetType = self.typeCombo.GetStringSelection()
     self.updateValueComboBox(facetType)
     event.Skip()
-  
+
   def OnComboBoxTextEntry(self, event):
     self.updateValueComboBox()
     event.Skip()
-  
+
   def updateValueComboBox(self, facetType=None):
     valueList = self.getValueList(facetType)
     # Delete old list of choices
@@ -2524,7 +2526,7 @@ the change, or Cancel to discard.'''
     if len(valueList) > 0:
       defaultValue = valueList[0]
     self.valueCombo.SetValue(defaultValue)  # set value in textbox of ComboBox
-  
+
   def OnAdd(self, event):
     facetType = self.typeCombo.GetValue().strip()
     facetValue = self.valueCombo.GetValue().strip()
@@ -2535,7 +2537,7 @@ the change, or Cancel to discard.'''
       return
     newFacet = facetType + "=" + facetValue + "\n"
     self.facetListPane.AppendText(newFacet)
-    
+
   def executeChange(self, entity, facetList):
     if self.action == 'add':
       entity.add_facets(facetList)
@@ -2562,18 +2564,18 @@ class FacetDistroDialog:
     self.inclNodes = inclNodes
     self.dlg = wxDialog(self.parent, -1, 'Distribute by Facet', size=wxSize(350, 200),
                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
-    
+
     sizer = wxBoxSizer(wxVERTICAL)
-    
+
     self.entityType = 'agent'
     if self.inclNodes:
       self.entityType = 'node'
-    
+
     # Add intro label
     msg = 'Select method for specifying ' + self.entityType + 's to be distributed:'
     label = wxStaticText(self.dlg, -1, msg)
     sizer.Add(label, 0, wxALL, 5)
-    
+
     # Add radio button for distro selected entities
     msg = 'Distribute selected ' + self.entityType + 's'
     distroSelectedRadioId = wxNewId()
@@ -2597,15 +2599,15 @@ class FacetDistroDialog:
     self.distroByFacet = True  # default
     EVT_RADIOBUTTON(self.dlg, distroByFacetRadioId, self.OnDistroCriteriaRadioSelect)
     sizer.Add(self.distroByFacetRadio, 0, wxALL, 5)
-    
+
     # Add the "distro from" facet selection panel
     self.facetPanel = FacetSelectionPanel(self.dlg, self.fromSociety, self.entityType)
     sizer.Add(self.facetPanel, 1, wxGROW)
-    
+
     # Add the "Distro to" section
     distroToLabel = wxStaticText(self.dlg, -1, "\nTo the following entity:")
     sizer.Add(distroToLabel, 0, wxALL, 5)
-    
+
     # Add the Distro To radio buttons
     # First row
     radio1Box = wxBoxSizer(wxHORIZONTAL)
@@ -2623,13 +2625,13 @@ class FacetDistroDialog:
       hostList.append(host.name)
     if len(hostList) > 0:
       defaultValue = hostList[0]
-    self.hostNameCombo = wxComboBox(self.dlg, hostNameComboId, defaultValue, wxDefaultPosition, 
+    self.hostNameCombo = wxComboBox(self.dlg, hostNameComboId, defaultValue, wxDefaultPosition,
                       wxSize(150, -1), hostList, wxCB_DROPDOWN)
     self.hostNameCombo.SetInsertionPoint(0)
     radio1Box.Add(self.hostNameRadio, 0, wxALIGN_CENTER)
     radio1Box.Add(self.hostNameCombo, 0, wxALIGN_CENTER)
     EVT_RADIOBUTTON(self.dlg, hostNameRadioId, self.OnDistroRadioSelect)
-    
+
     # Second row
     radio2Box = wxBoxSizer(wxHORIZONTAL)
     nodeNameRadioId = wxNewId()
@@ -2647,14 +2649,14 @@ class FacetDistroDialog:
       nodeList.append(node.name)
     if len(nodeList) > 0:
       defaultValue = nodeList[0]
-    self.nodeNameCombo = wxComboBox(self.dlg, nodeNameComboId, defaultValue, wxDefaultPosition, 
+    self.nodeNameCombo = wxComboBox(self.dlg, nodeNameComboId, defaultValue, wxDefaultPosition,
                       wxSize(150, -1), nodeList, wxCB_DROPDOWN)
     self.nodeNameCombo.SetInsertionPoint(0)
     self.nodeNameCombo.Enable(False)
     radio2Box.Add(self.nodeNameRadio, 0, wxALIGN_CENTER)
     radio2Box.Add(self.nodeNameCombo, 0, wxALIGN_CENTER)
     EVT_RADIOBUTTON(self.dlg, nodeNameRadioId, self.OnDistroRadioSelect)
-    
+
     # Third row
     hostFacetRadioId = wxNewId()
     self.hostFacetRadio = None
@@ -2674,69 +2676,69 @@ class FacetDistroDialog:
     EVT_RADIOBUTTON(self.dlg, nodeFacetRadioId, self.OnDistroRadioSelect)
     if self.inclNodes:
       self.nodeFacetRadio.Enable(False)
-    
+
     # Put all the radio buttons in a List to streamline later processing
     self.radioList = []
     self.radioList.append(self.hostNameRadio)
     self.radioList.append(self.nodeNameRadio)
     self.radioList.append(self.hostFacetRadio)
     self.radioList.append(self.nodeFacetRadio)
-    
+
     distroRadioSizer = wxBoxSizer(wxVERTICAL)
     distroRadioSizer.Add(radio1Box, 0, wxALL, 5)
     distroRadioSizer.Add(radio2Box, 0, wxALL, 5)
     distroRadioSizer.Add(self.hostFacetRadio, 0, wxALL, 5)
     distroRadioSizer.Add(self.nodeFacetRadio, 0, wxALL, 5)
     sizer.Add(distroRadioSizer, 0, wxALIGN_CENTER | wxBOTTOM, 10)
-    
+
     # Add the "distro to" facet selection panel
     self.facetPanel2 = FacetSelectionPanel(self.dlg, self.toSociety, 'host', False)
     sizer.Add(self.facetPanel2, 1, wxGROW)
-    
+
     # Add OK and CANCEL buttons
     btnBox = wxBoxSizer(wxHORIZONTAL)
     btn = wxButton(self.dlg, wxID_OK, "  OK  ")
     btn.SetDefault()
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     btn = wxButton(self.dlg, wxID_CANCEL, " Cancel ")
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     sizer.Add(btnBox, 0, wxALIGN_CENTER|wxALL, 5)  # add buttons at the bottom
-    
+
     self.dlg.SetSizer(sizer)
     self.dlg.SetAutoLayout(true)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
-    
+
     val = self.dlg.ShowModal()
-    
+
     if val == wxID_OK:
       entityType = 'agent'  # the type of entity to move (either 'agent' or 'node')
       if self.inclNodes:
         entityType = 'node'
-      
+
       entitiesToMove = []  # list of agent or node objects to be distributed
-      
+
       if self.distroByFacet:
         # Get list of facets to match against
         self.facetList = str(self.facetPanel.facetListPane.GetValue()).strip().split('\n')
-        
+
         # Check for presence of facets to search for; display error msg if none
         if len(self.facetList) == 0 or (len(self.facetList) == 1 and len(self.facetList[0]) == 0):
           msg = 'Please add at least one facet for determining which entities should move.'
           CougaarMessageDialog(self.dlg, "error", msg).display()
           return
-        
+
         # AND or OR multiple facets for determining entities to move?
         self.booleanOperation = str(self.facetPanel.rb.GetStringSelection()).strip()
-        
+
         # Search agent/node to move for matching facets
         for entity in self.fromSociety.each_entity(entityType):
           if self.hasFacetMatch(entity):
             entitiesToMove.append(entity)
             #~ print entity.name + ' is a match'  #  debug
-            
+
       else:  # distro selected entities
         selectedItems = self.parent.frame.agentViewer.GetSelections()
         for item in selectedItems:
@@ -2745,30 +2747,30 @@ class FacetDistroDialog:
           # You can't use this ref to the entity obj for distribution, because
           # it's from the agentSociety, not the tempAgentSociety.  Any ref to the entity
           # being moved must come from self.fromSociety.
-          
+
           if not isinstance(entityObj, Node) and not isinstance(entityObj, Agent):
             msg = '''
 Only Nodes and Agents can be distributed via this method.
 Please select a Node or Agent, or distribute by facet.'''
             CougaarMessageDialog(self.dlg, "error", msg).display()
             return
-          
+
           itemName = self.parent.frame.agentViewer.GetItemText(item).getItemName()
           if entityType == 'node':
             entitiesToMove.append(self.fromSociety.get_node(itemName))
           else:  # entityType == 'agent'
             entitiesToMove.append(self.fromSociety.get_agent(itemName))
-        
+
         itemsAreSameType = self.parent.frame.agentViewer.verifyMultiSelectTypes(entitiesToMove)
         if not itemsAreSameType:
           return
-      
+
       # Determine which radio button (of the lower group) is selected
       selectedRadio = None
       for radio in self.radioList:
         if radio.GetValue():
           selectedRadio = radio
-          
+
       # Now determine which entity to distro the selected entities to (if user selected that option from the radio buttons)
       if selectedRadio is self.hostFacetRadio or selectedRadio is self.nodeFacetRadio:
         # Get list of facets to match against for determining destination entity
@@ -2778,10 +2780,10 @@ Please select a Node or Agent, or distribute by facet.'''
           msg = 'Please add at least one facet for determining a destination.'
           CougaarMessageDialog(self.dlg, "error", msg).display()
           return
-      
+
       # AND or OR multiple facets for determining dest entities?
       self.destBooleanOperation = str(self.facetPanel2.rb.GetStringSelection()).strip()
-      
+
       # Get destination hosts/nodes for nodes/agents being distributed
       if len(entitiesToMove) > 0:  # if there were any matches (i.e., anything to move)
         destEntityList = []
@@ -2798,7 +2800,7 @@ Please select a Node or Agent, or distribute by facet.'''
           for destEntity in self.toSociety.each_entity(destEntityType):
             if self.hasFacetMatch(destEntity, True):
               destEntityList.append(destEntity)
-        
+
         if len(destEntityList) == 1:  # if there's only one dest entity, it's pretty straightforward
           for entity in entitiesToMove:
             self.allocateEntity(entity, destEntityList[0])
@@ -2825,16 +2827,16 @@ Please select a Node or Agent, or distribute by facet.'''
           msg = 'No destination entities matched your facet criteria.'
           CougaarMessageDialog(self.dlg, 'info', msg).display()
           return
-        
+
       else:
         msg = 'No ' + entityType + 's matched your facet criteria.'
         CougaarMessageDialog(self.dlg, "info", msg).display()
         return
-    
+
     self.dlg.Destroy()
-    
+
   # --------------------------------------------------------------------
-  
+
   def OnDistroCriteriaRadioSelect(self, event):
     selectedRadio = event.GetEventObject()
     if selectedRadio is self.distroSelectedRadio:
@@ -2846,9 +2848,9 @@ Please select a Node or Agent, or distribute by facet.'''
       self.facetPanel.Enable(True)
       self.facetPanel.rb.Disable()
       self.distroByFacet = True
-  
+
   # --------------------------------------------------------------------
-  
+
   def OnDistroRadioSelect(self, event):
     selectedRadio = event.GetEventObject()
     for radio in self.radioList:
@@ -2873,7 +2875,7 @@ Please select a Node or Agent, or distribute by facet.'''
       if selectedRadio is self.nodeFacetRadio:
         destEntityType = 'node'
         self.facetPanel2.entityType = 'node'
-      # Populate the 'distro to' facet type and value combo boxes 
+      # Populate the 'distro to' facet type and value combo boxes
       # Do the facet type combo box first
       defaultValue = ''
       facetTypeList = self.toSociety.getAllFacetKeys(destEntityType)
@@ -2885,9 +2887,9 @@ Please select a Node or Agent, or distribute by facet.'''
       self.facetPanel2.typeCombo.SetValue(defaultValue)
       # Now do the facet value combo box
       self.facetPanel2.updateValueComboBox(self.toSociety, defaultValue)
-    
+
   # --------------------------------------------------------------------
-  
+
   def hasFacetMatch(self, entity, useDestFacetList=False):
     # Search agent for matching facets
     hasFacetMatch = False
@@ -2909,9 +2911,9 @@ Please select a Node or Agent, or distribute by facet.'''
     if hasFacetMatch:
       return True
     return False
-  
+
   # --------------------------------------------------------------------
-  
+
   # Move entities to their new parent.  Entities may be nodes or agents.
   #
   def allocateEntity(self, entity, destEntity):
@@ -2921,19 +2923,19 @@ Please select a Node or Agent, or distribute by facet.'''
       if not node:  # if no node was found, create one and add it to the society model
         node = destEntity.add_node(destEntity.name + "_NODE_0")
       node.add_entity(entity)  # add agent to the society model
-    else: 
+    else:
       # if we're trying to put an agent onto a node or a node onto a host:
       destEntity.add_entity(entity)  # add it to society model
-    
+
     # Finally, delete moved entity from its previous parent...
     if entity.has_changed_parent():   # should always be True here
       entity.delete_from_prev_parent()  # delete object from the underlying society model
-  
+
 
 #*******************************************************************
 
 class ShowFacetSelectionDialog:
-  
+
   def __init__(self, parent, society, entityType):
     self.parent = parent
     self.society = society
@@ -2941,45 +2943,45 @@ class ShowFacetSelectionDialog:
     self.facetList = None
     self.dlg = wxDialog(self.parent, -1, 'Select Facets to Show', size=wxSize(350, 200),
                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
-    
+
     sizer = wxBoxSizer(wxVERTICAL)
-    
+
     # Add intro label
     msg = 'Select ' + self.entityType + ' facets to show:'
     label = wxStaticText(self.dlg, -1, msg)
     sizer.Add(label, 0, wxALL, 5)
-    
+
     # Add the "distro from" facet selection panel
     self.facetPanel = FacetSelectionPanel(self.dlg, self.society, self.entityType, addWildcard=True)
     sizer.Add(self.facetPanel, 1, wxGROW)
-    
+
     # Add OK and CANCEL buttons
     btnBox = wxBoxSizer(wxHORIZONTAL)
     btn = wxButton(self.dlg, wxID_OK, "  OK  ")
     btn.SetDefault()
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     btn = wxButton(self.dlg, wxID_CANCEL, " Cancel ")
     btnBox.Add(btn, 0, wxALIGN_CENTRE|wxALL, 5)
-    
+
     sizer.Add(btnBox, 0, wxALIGN_CENTER|wxALL, 5)  # add buttons at the bottom
-    
+
     self.dlg.SetSizer(sizer)
     self.dlg.SetAutoLayout(true)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
-    
+
     val = self.dlg.ShowModal()
-    
+
     if val == wxID_OK:
       self.facetList = str(self.facetPanel.facetListPane.GetValue()).strip().split('\n')
-      
+
       # Check for presence of facets to search for; display error msg if none
       if len(self.facetList) == 0 or (len(self.facetList) == 1 and len(self.facetList[0]) == 0):
         msg = 'Please add at least one facet for determining which entities should move.'
         CougaarMessageDialog(self.dlg, "error", msg).display()
         return
-      
+
       # Doesn't make sense to specify 'AnyValue' as a value for a facet type and to also specify that facet
       # type with a specific value, so we'll check for that and filter out the more specific specification.
       # Also, filter out dupes.
@@ -3002,30 +3004,30 @@ class ShowFacetSelectionDialog:
         else:
           # key's not present, so add it
           errorCheckDict[facetType] = facetValue
-        
+
       # Trash facetTypes that were dupes or were specific values when a prev 'AnyValue' was specified
       for facet in facetsToRemove:
         self.facetList.remove(facet)
-        
+
       # Now remove the facetTypes that have both a specific value and an 'AnyValue'
       facetsToRemove = []  # clear it out for reuse
       for facet in self.facetList:
         for facetType in facetTypesToRemove:
           if facet.startswith(facetType) and not facet.endswith('AnyValue'):
             facetsToRemove.append(facet)  # keep the 'AnyValue' version and trash the others
-      
+
       # Now do the final flush of items that are too specific
       for facet in facetsToRemove:
         self.facetList.remove(facet)
-      
+
       # AND or OR multiple facets for determining entities to move?
       self.booleanOperation = str(self.facetPanel.rb.GetStringSelection()).strip()
-    
+
     else:
       self.facetList = None
-    
+
     self.dlg.Destroy()
-  
+
 
 #*******************************************************************
 
@@ -3037,15 +3039,15 @@ class FacetSelectionPanel(wxPanel):
     self.society = society
     self.entityType = entityType
     self.addWildcard = addWildcard
-    
+
     sizer = wxBoxSizer(wxVERTICAL)
-    
+
     # Add facet type combo box
     typeSizer = wxBoxSizer(wxVERTICAL)
-    
-    typeLabel = wxStaticText(self, -1, "Facet Type:") 
+
+    typeLabel = wxStaticText(self, -1, "Facet Type:")
     typeSizer.Add(typeLabel, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     typeComboId = wxNewId()
     defaultValue = ''
     facetList = self.society.getAllFacetKeys(self.entityType)
@@ -3057,13 +3059,13 @@ class FacetSelectionPanel(wxPanel):
     EVT_COMBOBOX(self, typeComboId, self.OnComboBoxSelection)
     EVT_TEXT_ENTER(self, typeComboId, self.OnComboBoxTextEntry)
     typeSizer.Add(self.typeCombo, 0, wxALIGN_CENTRE | wxALL, 5)
-    
+
     # Add facet value combo box
     valueSizer = wxBoxSizer(wxVERTICAL)
-    
+
     valueLabel = wxStaticText(self, -1, "Facet Value:")
     valueSizer.Add(valueLabel, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     valueComboId = wxNewId()
     valueList = self.getValueList(self.society, self.typeCombo.GetValue())
     defaultItem = ""
@@ -3073,14 +3075,14 @@ class FacetSelectionPanel(wxPanel):
                       valueList, wxCB_DROPDOWN)
     self.valueCombo.SetInsertionPoint(0)
     valueSizer.Add(self.valueCombo, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     comboSizer = wxBoxSizer(wxHORIZONTAL)
     comboSizer.Add(typeSizer, 0, wxALIGN_CENTER | wxALL, 5)
     comboSizer.Add(valueSizer, 0, wxALIGN_CENTER | wxALL, 5)
     sizer.Add(comboSizer, 0, wxALIGN_CENTER)
-    
+
     addSizer = wxBoxSizer(wxHORIZONTAL)
-    
+
     # Add 'AND/OR' radio box
     rbID = wxNewId()
     rbLabel = "Combine multiple facets using:"
@@ -3088,30 +3090,30 @@ class FacetSelectionPanel(wxPanel):
     self.rb = wxRadioBox(self, rbID, rbLabel, wxDefaultPosition, (-1, -1), buttonTitles, len(buttonTitles), wxRA_SPECIFY_ROWS)
     self.rb.Enable(False)
     addSizer.Add(self.rb, 0, wxALL, 5)
-    
+
     # Add 'ADD' button
     addBtnId = wxNewId()
     self.addButton = wxButton(self, addBtnId, 'Add')
     EVT_BUTTON(self, addBtnId, self.OnAdd)
     addSizer.Add(self.addButton, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     sizer.Add(addSizer, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     # Add text area for holding selected facets
     facetListPaneId = wxNewId()
     self.facetListPane = wxTextCtrl(self, facetListPaneId, size=(250, 50), style=wxTE_MULTILINE)
     sizer.Add(self.facetListPane, 1, wxALIGN_CENTER | wxALL, 5)
     EVT_TEXT(self, facetListPaneId, self.OnTextChange)
-    
+
     if not enableControls:
       self.Disable()
-    
+
     self.SetSizer(sizer)
     self.SetAutoLayout(true)
     sizer.Fit(self)
 
   # --------------------------------------------------------------------
-  
+
   def updateValueComboBox(self, society, facetType=None):
     valueList = self.getValueList(society, facetType)
     # Delete old list of choices
@@ -3124,33 +3126,33 @@ class FacetSelectionPanel(wxPanel):
     if len(valueList) > 0:
       defaultValue = valueList[0]
     self.valueCombo.SetValue(defaultValue)  # set value in textbox of ComboBox
-  
+
   # --------------------------------------------------------------------
-  
+
   def getValueList(self, society, facetType):
     if facetType is None:
       facetType = self.typeCombo.GetValue()
-    # Read the facet values for the specified facet type directly from the current society. 
+    # Read the facet values for the specified facet type directly from the current society.
     valueList = society.getAllFacetValues(facetType, self.entityType)
     if self.addWildcard and len(valueList) > 0:
       valueList.insert(0, 'AnyValue')
     return valueList
-  
+
   # --------------------------------------------------------------------
-  
+
   def OnComboBoxSelection(self, event):
     facetType = self.typeCombo.GetStringSelection()
     self.updateValueComboBox(self.society, facetType)
     event.Skip()
-  
+
   # --------------------------------------------------------------------
-  
+
   def OnComboBoxTextEntry(self, event):
     self.updateValueComboBox(self.society)
     event.Skip()
-  
+
   # --------------------------------------------------------------------
-  
+
   def OnAdd(self, event):
     facetType = self.typeCombo.GetValue()
     facetValue = self.valueCombo.GetValue()
@@ -3163,21 +3165,21 @@ class FacetSelectionPanel(wxPanel):
     self.facetListPane.AppendText(newFacet)
     if self.facetListPane.GetNumberOfLines() > 2:
       self.rb.Enable(True)
-  
+
   # --------------------------------------------------------------------
-  
+
   def OnTextChange(self, event):
-    # We only want the AND/OR radio box enabled if there are two or more 
+    # We only want the AND/OR radio box enabled if there are two or more
     # facets in the facetListPane.
     if self.hasMultipleLinesOfText():
       self.rb.Enable(True)
     else:
       self.rb.Disable()
-  
+
   # --------------------------------------------------------------------
-  
+
   def hasMultipleLinesOfText(self):
-    # This kabuki dance is req'd because a newline char (and, hence, a line) exists 
+    # This kabuki dance is req'd because a newline char (and, hence, a line) exists
     # even in an empty multi-line wxTextControl.  Also, if you delete a line of text
     # using the Delete or Backspace key but don't specifically delete the newline
     # char, it remains, adding a line with no text.  This method counts the number
@@ -3194,60 +3196,60 @@ class FacetSelectionPanel(wxPanel):
       if numLines < 2:  # test for 2 lines again
         return False
       return True
-  
+
 #*******************************************************************
 
 class SummaryDialog:
-  
+
   def __init__(self, parent, society):
-    self.dlg = wxDialog(parent, -1, 'Society Summary', 
+    self.dlg = wxDialog(parent, -1, 'Society Summary',
                   style = wxCAPTION | wxSYSTEM_MENU | wxTHICK_FRAME)
-    
+
     sizer = wxBoxSizer(wxVERTICAL)
-    
+
     label = wxStaticText(self.dlg, -1, 'Society name: %s' % society.name)
     sizer.Add(label, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     counterSizer = wxBoxSizer(wxVERTICAL)
-    
+
     msg = 'Hosts:   %d\nNodes:  %d\nAgents: %d' % (society.countHosts(), society.countNodes(), society.countAgents())
     label = wxStaticText(self.dlg, -1, msg)
     counterSizer.Add(label, 0, wxALL, 5)
     sizer.Add(counterSizer, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     hostNodeSizer = wxBoxSizer(wxVERTICAL)
-    
+
     nameLen = society.get_longest_hostname()
     spacer = ' ' * (nameLen)
     msg = 'Hosts:' + spacer + 'Number of Nodes:'
     label = wxStaticText(self.dlg, -1, msg)
     hostNodeSizer.Add(label, 1, wxALL, 5)
-    
+
     msg = ''
     for host in society.each_host():
-      # Adjust spacing to account for hostnames of different lengths while 
+      # Adjust spacing to account for hostnames of different lengths while
       # keeping node numbers aligned.  Works a little, but not real well.
       spacer = (nameLen + 16 - len(host.name)) * ' '
       msg = msg + host.name + spacer + str(len(host.nodelist)) + '\n'
     label = wxStaticText(self.dlg, -1, msg)
     hostNodeSizer.Add(label, 0, wxALL, 5)
-    
+
     sizer.Add(hostNodeSizer, 0, wxALIGN_CENTER | wxALL, 5)
-    
+
     # Add CLOSE button
     btn = wxButton(self.dlg, wxID_OK, "Close")
     btn.SetDefault()
-    
+
     sizer.Add(btn, 0, wxALIGN_CENTER|wxALL, 5)  # add buttons at the bottom
-    
+
     self.dlg.SetSizer(sizer)
     self.dlg.SetAutoLayout(true)
     sizer.Fit(self.dlg)
     self.dlg.CenterOnParent()
-    
+
     self.dlg.ShowModal()
     self.dlg.Destroy()
-  
+
 #*******************************************************************
 
 def runApp( frame, nb, log ):
@@ -3265,7 +3267,7 @@ overview = """\
 <P>
 <H2>The CSMARTer Agent Laydown Editor ...</H2>
 <P>
-Enter some useful text is here. 
+Enter some useful text is here.
 </body></html>
 """
 

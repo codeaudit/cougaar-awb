@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: AWB.py,v 1.1 2004-08-25 21:14:18 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.2 2004-09-29 14:11:59 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -34,7 +34,7 @@ from societyEditor import SocietyEditorPanel
 from insertion_dialog import CougaarMessageDialog
 from insertion_dialog import FindItemDialog
 from societyFactoryServer import SocietyFactoryServer
-from agentController import AgentViewer
+from agentController import AgentControllerViewer
 from ACMEPy.node import Node
 import images
 
@@ -123,7 +123,7 @@ class AWB(wxFrame):
       self.agentSociety = None # for holding a society that's just an agent list
       self.mappedSociety = None # for holding a newly HNA-mapped society
       self.societyViewer = None # wxTreeCtrl for displaying the society in Society Editor
-      self.agentViewer = None  # wxTreeCtrl for displaying initial agent list in Agent Laydown tab
+      self.agentControllerViewer = None  # wxTreeCtrl for displaying initial agent list in Agent Laydown tab
       self.laydownViewer = None  # wxTreeCtrl for displaying host-node-agent laydown
       self.societyOpen = false  # for the Society Editor
       self.agentSocietyOpen = false  # for the Agent List in Agent Laydown tab
@@ -389,8 +389,8 @@ class AWB(wxFrame):
         self.nb.AddPage(self.agentLaydown, 'Agent Laydown')
 
         # Notebook page 4:  Society Controller
-        self.agentViewer = AgentViewer(self.nb, self, self.log)
-        self.nb.AddPage(self.agentViewer, 'Agent Viewer')
+        self.agentControllerViewer = AgentControllerViewer(self.nb, self, self.log)
+        self.nb.AddPage(self.agentControllerViewer, 'Agent Viewer')
 
         self.Show(true)
 
@@ -933,8 +933,8 @@ class AWB(wxFrame):
           print "Controller File"
 
       else:  # societyId == "agentSociety"
-        if self.agentViewer is not None:
-          self.agentViewer.DeleteAllItems()  # delete the tree
+        if self.agentControllerViewer is not None:
+          self.agentControllerViewer.DeleteAllItems()  # delete the tree
         if self.agentSociety is not None:  # shouldn't ever be None...but it sometimes is!
           # Delete the society object in memory
           self.agentSociety.close()

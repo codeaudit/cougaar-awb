@@ -107,4 +107,6 @@ class Society:
 	for agent in self.hosts[host].nodes[node].agents.keys():
 	  print "\t\t\t", theNode.agents[agent]
 	  for component in agent.components:
-	    print "\t\t\t\t", component
+	    theComponent = agent.components[component]
+	    print "\t\t\t\t", theComponent
+

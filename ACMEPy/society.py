@@ -246,6 +246,7 @@ class Society:
   
   def rename(self, newName):
     self.name = newName
+    return self.name
   
   def to_xml(self):
     xml = "<?xml version='1.0'?>\n"
@@ -269,6 +270,12 @@ class Society:
       script = script + host.to_python()   
     return script
 
+  def to_ruby(self):
+    script = "society = Cougaar::Model::Society.new(\"" + self.name + "\")\n"
+    for host in self.hostlist:
+      script = script + host.to_ruby()
+    return script
+  
   def prettyPrint(self):
     print self
     for host in self.hostlist:

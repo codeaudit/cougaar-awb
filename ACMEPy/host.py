@@ -72,8 +72,10 @@ class Host:
           self.nodelist.append(node) 
         node.parent = self
         node.society = self.parent
+        node.nodeAgent.society = self.parent
         return node
       else:
+        print "Unable to add duplicate Node."
         return None
     if isinstance(node, types.StringType):
       newNode = Node(node)
@@ -118,8 +120,11 @@ class Host:
         return True
     return False
   
+  ##
+  # Iteratively returns each facet on this Host instance as a Dictionary
+  #
   def each_facet(self):
-    for facet in self.facets: # only for testing iterators
+    for facet in self.facets: 
       yield facet
 
   def remove_facet(self, component_classname):
@@ -147,6 +152,9 @@ class Host:
   def get_facet(self, index):
     return self.facets[index]
 
+  ##
+  # Returns a list containing all the values for the specified key
+  #
   def get_facet_values(self, key):
     valList = []
     for facet in self.facets:
@@ -160,14 +168,28 @@ class Host:
   def countNodes(self):
     return len(self.nodelist)
   
+  ##
+  # Renames this host if the new name is not already taken by another host.
+  # Returns the host's name; will be the old name if the newName was  
+  # already taken, or the newName if the rename was successful.
+  #
+  # newName:: [String] the new name for this host
+  #
   def rename(self, newName):
-    oldName = self.name
-    self.name = newName
-    if oldName == self.parent.nameserver_host:
-      self.parent.set_nameserver(newName + self.parent.nameserver_suffix)
-      for node in self.parent.each_node():
-        node.updateNameServerParam(self.parent.get_nameserver())
+    if not self.parent.has_host(newName):
+      # name is not taken, so it's OK
+      oldName = self.name
+      self.name = newName
+      if oldName == self.parent.nameserver_host:
+        self.parent.set_nameserver(newName + self.parent.nameserver_suffix)
+        for node in self.parent.each_node():
+          node.updateNameServerParam(self.parent.get_nameserver())
+    return self.name
   
+  def each_node(self):
+    for node in self.nodelist: 
+      yield node
+
   def clone(self):
     host = Host(self.name, self.rule)
     for node in self.nodelist:
@@ -179,7 +201,7 @@ class Host:
       host.add_facet(new_facet)
       new_facet.parent = host
     return host
-    
+  
   def set_parent(self, society):
     self.parent = society
     for node in self.nodelist:
@@ -193,7 +215,7 @@ class Host:
       xml = xml + node.to_xml()
     xml = xml +  "  </host>\n"
     return xml
-
+  
   def to_python(self):
     script = "host = Host('"+self.name+"')\n"
     script = script + "society.add_host(host)\n"
@@ -202,10 +224,14 @@ class Host:
     for node in self.nodelist:
       script = script + node.to_python()   
     return script
-    
-    
-  def each_node(self):
-    for node in self.nodelist: # for testing iterators
-      yield node
-
-
+  
+  def to_ruby(self):
+    script = "host = Host.new(\"" + self.name + "\")\n"
+    for facet in self.facets:
+      for keyvalue in facet.each_facet_pair():
+        script = script + "host.add_facet(\"" + keyvalue + "\")\n"
+    for node in self.nodelist:
+      script = script + node.to_ruby()
+    script = script + "society.add_host(host)\n"
+    return script
+  

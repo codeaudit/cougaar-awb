@@ -134,8 +134,11 @@ class Node:
   def countAgents(self):
     return len(self.agentlist)
   
+  ##
+  # Iteratively returns each facet on this Node instance as a Dictionary
+  #
   def each_facet(self):
-    for facet in self.facets: # only for testing iterators
+    for facet in self.facets: 
       yield facet
 
   def remove_facet(self, component_classname):
@@ -290,9 +293,19 @@ class Node:
         vmParam.value = nameServerParam + nameServer
         break
   
+  ##
+  # Renames this node if the new name is not already taken by another node.
+  # Returns the node's name; will be the old name if the newName was 
+  # already taken, or the newName if the rename was successful.
+  #
+  # newName:: [String] the new name for this node
+  #
   def rename(self, newName):
-    self.name = newName
-    self.nodeAgent.rename(newName)
+    if not self.society.has_node(newName):
+      # name is not taken, so it's OK
+      self.name = newName
+      self.nodeAgent.rename(newName)
+    return self.name
   
   def clone(self):
     node = Node(self.name)
@@ -323,6 +336,13 @@ class Node:
       dupe_params.append(each_param.clone())
     return dupe_params
   
+  def each_agent(self, inclNodeAgent=False):
+    for agent in self.agentlist: # only for testing iterators
+      if inclNodeAgent: 
+        yield agent
+      elif agent != self.nodeAgent:
+        yield agent
+  
   def to_xml(self):
     xml = "  <node name='"+ self.name + "'>\n"
     if self.klass is not None:
@@ -342,7 +362,7 @@ class Node:
           xml = xml + component.to_xml()
       else:
         xml = xml + agent.to_xml()
-
+    
     xml = xml +  "  </node>\n"
     return xml
 
@@ -358,12 +378,23 @@ class Node:
     for agent in self.agentlist:
       script = script + agent.to_python()  
     return script
-
-  def each_agent(self, inclNodeAgent=False):
-    for agent in self.agentlist: # only for testing iterators
-      if inclNodeAgent: 
-        yield agent
-      elif agent != self.nodeAgent:
-        yield agent
-
-
+  
+  def to_ruby(self):
+    script = "node = Node.new(\"" + self.name + "\")\n"
+    if self.klass is not None:
+      script = script + "node.classname = \"" + self.klass + "\"\n"
+    for p in self.vm_parameters:
+      script = script + "node.add_parameter(\"" + p.value + "\")\n"
+    for p in self.prog_parameters:
+      script = script + "node.add_prog_parameter(\"" + p.value + "\")\n"
+    for p in self.env_parameters:
+      script = script + "node.add_env_parameter(\"" + p.value + "\")\n"
+    for facet in self.facets:
+      for keyvalue in facet.each_facet_pair():
+        script = script + "node.add_facet(\"" + keyvalue + "\")\n"
+    for c in self.nodeAgent.each_component():
+      script = script + c.to_ruby()
+    for a in self.each_agent(False):  # exclude node agent
+      script = script + a.to_ruby()
+    script = script + "host.add_node(node)\n"
+    return script

@@ -104,6 +104,7 @@ class Component:
   
   def rename(self, newName):
     self.name = newName
+    return self.name
   
   def clone(self):
     component = Component(self.name, self.klass, self.priority, self.insertionpoint, self.rule)
@@ -125,4 +126,20 @@ class Component:
     script = script + "agent.add_component(component)\n"
     for a in self.arguments:
       script = script + a.to_python()
+    return script
+  
+  def to_ruby(self):
+    script = "component = Component.new(\"" + self.name + "\")\n"
+    script = script + "component.class = \"" + self.klass + "\"\n"
+    script = script + "component.priority = \"" + self.priority + "\"\n"
+    script = script + "component.insertionpoint = \"" + self.insertionpoint + "\"\n"
+    for a in self.arguments:
+      script = script + a.to_ruby()
+    node = self.parent.parent
+    if self.parent == node.nodeAgent:
+      # it's a component of a node
+      script = script + "node.add_component(component)\n"
+    else:
+      #it's a component of an agent
+      script = script + "agent.add_component(component)\n"
     return script

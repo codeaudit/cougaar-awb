@@ -39,7 +39,7 @@ class Agent:
     return "Agent:"+self.name+":RULE:"+self.rule
     
   def add_entity(self, entity):  
-    if type(entity) == types.ListType:  # will be a list of facet objects
+    if type(entity) == types.ListType:  # will be a list of Facet objects
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Component):
@@ -53,6 +53,9 @@ class Agent:
   def remove_entity(self):
     self.parent.remove_agent(self)
   
+  ##
+  # Iteratively returns each facet on this Agent instance as a Dictionary
+  #
   def each_facet(self):
     for facet in self.facets: 
       yield facet
@@ -148,8 +151,19 @@ class Agent:
   def host(self):
     return self.parent.parent
 
+  ##
+  # Renames this agent if the new name is not already taken by another agent.
+  # Returns the agent's name; will be the old name if the
+  # newName was already taken, or the newName if the rename was successful
+  #
+  # newName:: [String] the new name for this agent
+  #
   def rename(self, newName):
-    self.name = newName
+    agentNameCheck = self.society.get_agent(newName)
+    if agentNameCheck is None:
+      # name is not taken, so it's OK
+      self.name = newName
+    return self.name
   
   def isNodeAgent(self):
     if self == self.parent.nodeAgent:
@@ -196,4 +210,17 @@ class Agent:
     for c in self.components:
       script = script + c.to_python()
     return script
-
+  
+  def to_ruby(self):
+    script = "agent = Agent.new(\"" + self.name + "\")\n"
+    if self.klass is not None:
+      script = script + "agent.classname = \"" + self.klass + "\"\n"
+    if self.uic is not None:
+      script = script + "agent.uic = \"" + self.uic + "\"\n"
+    for facet in self.facets:
+      for keyvalue in facet.each_facet_pair():
+        script = script + "agent.add_facet(\"" + keyvalue + "\")\n"
+    for c in self.components:
+      script = script + c.to_ruby()
+    script = script + "node.add_agent(agent)\n"
+    return script

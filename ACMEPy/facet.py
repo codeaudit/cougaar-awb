@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore/M. Barger/P. Gardella)
 #
-# RCS-ID:       $Id: facet.py,v 1.3 2003-05-30 17:46:49 pgardella Exp $
+# RCS-ID:       $Id: facet.py,v 1.4 2003-06-19 17:35:02 pgardella Exp $
 #
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
@@ -57,10 +57,19 @@ class Facet:
     else:
       raise Exception, "Attempting to set unknown Facet attribute: " + attribute.lower()
 
-  # This may not be necessary
+  # #
+  # Adds a key/value pair to the Dictionary 'facets'
+  #
+  # key:: [Object] to be used as the key
+  # value:: [Object] to be used as the value
+  #
   def add_facet_element(self, key, value):
     self.facets[key] = value
   
+  ##
+  # Iteratively returns each key/value pair in this Facet instance as a 
+  # String in "key=value" format.
+  #
   def each_facet_pair(self):
     for key in self.facets.keys():
       yield (key + "=" + self.facets[key])
@@ -85,10 +94,13 @@ class Facet:
     for key in self.facets.keys():
       newDict[key] = self.facets[key]
     return Facet(newDict)
-    
+  
+  ##
+  # Returns a Dictionary obj containing a single key/value pair
+  #
+  # aString:: [String] in "key=value" format
+  #
   def to_dictionary(self, aString):
-    #Format of aString must be "key=value"
-    #returns a Dictionary object containing a single key/value pair
     dicList = aString.split("=")
     #strip off single quotes, if any
     if dicList[1].startswith("'"):
@@ -115,8 +127,8 @@ class Facet:
       script = "facet = Facet(facetDict)\n"
       script = script + self.parent.name + ".add_facet(facet)\n"
     return script
-  
-  
+
+
 def unitTest():
   facetDict = {}
   facetDict["a"] = "b"

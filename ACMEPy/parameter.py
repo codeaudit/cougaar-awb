@@ -21,7 +21,7 @@
 #
 from __future__ import generators
 import types
-from agent import Agent
+#~ from agent import Agent
 
 
 class Parameter:

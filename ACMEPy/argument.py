@@ -47,6 +47,7 @@ class Argument:
   
   def rename(self, newName):
     self.name = newName
+    return self.name
   
   def clone(self):
     return Argument(self.name, self.rule)
@@ -60,3 +61,6 @@ class Argument:
     script = "argument = Argument('"+self.name+"','"+self.rule+"')\n"
     script = script + "component.add_argument(argument)\n"
     return script
+  
+  def to_ruby(self):
+    return "component.add_argument(\"" + self.name + "\")\n"

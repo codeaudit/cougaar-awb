@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE rdf:RDF [
+         <!ENTITY rdf 'http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+	 <!ENTITY rdfs 'http://www.w3.org/2000/01/rdf-schema#'>
+	 <!ENTITY daml 'http://www.daml.org/2001/03/daml+oil#'>
+	 <!ENTITY xsd 'http://www.w3.org/2001/XMLSchema#'>
+]>
+
+<rdf:RDF
+  xmlns:rdf ="&rdf;"
+  xmlns:rdfs="&rdfs;"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns="http://www.daml.org/2002/08/nasdaq/nasdaq-ont#"
+>
+
+<owl:Ontology rdf:about="">
+  <owl:versionInfo>$Id: cougaar-ont.xml,v 1.1 2003-02-13 21:42:44 dmoore Exp $</owl:versionInfo>
+  <rdfs:comment>Cougaar society configuration ontology</rdfs:comment>
+  <rdfs:seeAlso>http://www.cougaar.org</rdfs:seeAlso>
+</owl:Ontology>
+
+<owl:Class rdf:ID="Society">
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#contains"/>
+      <owl:allValuesFrom rdf:resource="#Host"/>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Host">
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#contains"/>
+      <owl:allValuesFrom rdf:resource="#Node"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Node">
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#vmParameter"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#progParameter"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#envParameter"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#contains"/>
+      <owl:allValuesFrom>
+        <owl:Class>
+          <owl:unionOf rdf:parseType="Collection">
+            <owl:Class rdf:about="#Agent"/>
+            <owl:Class rdf:about="#Component"/>
+          </owl:unionOf>
+        </owl:Class>
+      </owl:allValuesFrom>
+    </owl:Restriction>
+  </owl:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Agent">
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#contains"/>
+      <owl:allValuesFrom rdf:resource="#Component"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Component">
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#name"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#class"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#priority"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#priority"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#order"/>
+      <owl:allValuesFrom rdf:resource="&xsd;float"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#order"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#argument"/>
+      <owl:allValuesFrom rdf:resource="#Argument"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Argument">
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#order"/>
+      <owl:allValuesFrom rdf:resource="&xsd;float"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#order"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+  <owl:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#value"/>
+      <owl:allValuesFrom rdf:resource="&xsd;string"/>
+    </owl:Restriction>
+  </owl:subClassOf>
+  <rdfs:subClassOf>
+    <owl:Restriction>
+      <owl:onProperty rdf:resource="#value"/>
+      <owl:cardinality>1</owl:cardinality>
+    </owl:Restriction>
+  </rdfs:subClassOf>
+</owl:Class>
+
+<owl:DatatypeProperty rdf:ID="parameter"/>
+<owl:DatatypeProperty rdf:ID="vmParameter">
+  <rdfs:label>virtual machine parameter</rdfs:label>
+  <rdfs:subPropertyOf rdf:resource="#parameter"/>
+</owl:DatatypeProperty>
+<owl:DatatypeProperty rdf:ID="progParameter">
+  <rdfs:label>program parameter</rdfs:label>
+  <rdfs:subPropertyOf rdf:resource="#parameter"/>
+</owl:DatatypeProperty>
+<owl:DatatypeProperty rdf:ID="envParameter">
+  <rdfs:label>environment parameter</rdfs:label>
+  <rdfs:subPropertyOf rdf:resource="#parameter"/>
+</owl:DatatypeProperty>
+
+<owl:ObjectProperty rdf:ID="argument"/>
+<owl:DatatypeProperty rdf:ID="class"/>
+<owl:ObjectProperty rdf:ID="contains">
+  <rdfs:comment>TransitiveProperty would violate Restrictions for inferred statements</rdfs:comment>
+</owl:ObjectProperty>
+<owl:DatatypeProperty rdf:ID="name"/>
+<owl:DatatypeProperty rdf:ID="order"/>
+<owl:DatatypeProperty rdf:ID="priority"/>
+<owl:DatatypeProperty rdf:ID="value"/>
+
+</rdf:RDF>

@@ -1,0 +1,13 @@
+description: Add blah blah to all agents
+rule:
+for agent in society.each_agent():
+  hascomp = False
+  for component in agent.components:
+    if str(component.klass) == "org.cougaar.foo.foo": hascomp = True
+  if hascomp is not True:
+    name = str(agent.name)+"|org.cougaar.foo.foo"
+    c = Component(name, klass="org.cougaar.foo.foo", priority = "COMPONENT", order=451.0, insertionpoint="Node.AgentManager.Agent.PluginManager.Plugin")
+    agent.add_component(c)
+    c.add_argument(Argument("Parameter1", "1.0"))
+
+

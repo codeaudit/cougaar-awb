@@ -89,7 +89,7 @@ class AgentCanvas(ogl.ShapeCanvas):
 
     def addShape(self, shape, x, y, pen, brush, text, textColour):
         FontParameters = wx.Font(10, wx.DEFAULT,wx.NORMAL, wx.NORMAL)
-
+        print "SHAPE==>", shape
         shape.SetDraggable(True, True)
         shape.SetCanvas(self)
         shape.SetX(x)
@@ -99,8 +99,8 @@ class AgentCanvas(ogl.ShapeCanvas):
         if textColour:    shape.SetTextColour(textColour)
         if text:
             shape.AddText(text)
-            shape.SetClientData(text)
-            shape.SetFormatMode(FORMAT_CENTRE_VERT)
+#            shape.SetClientData(text)
+            shape.SetFormatMode(ogl.FORMAT_CENTRE_VERT)
             shape.SetRegionName(text)
             # shape.SetShadowMode(SHADOW_RIGHT)
             self.diagram.AddShape(shape)

@@ -25,6 +25,7 @@ from node import Node
 from agent import Agent
 from component import Component
 from argument import Argument
+from facet import Facet
 from types import *
 import types
 
@@ -39,6 +40,7 @@ class Society:
     self.cougaar_port  = DEFAULT_PORT
     self.controller = None
     self.hostlist = []
+    self.facets = []
     self.rule = str(rule)
     self.nameserver_host = "localhost"
     self.nameserver_suffix = ":8888:5555"
@@ -87,6 +89,58 @@ class Society:
       return self.add_host(host, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
+  
+  def add_facet(self, facet, rule='BASE'):
+    #facet arg could be either a Facet instance or a facet value string
+    if isinstance(facet, Facet):
+      facet.parent = self
+      facet.rule = rule
+      self.facets.append(facet)
+    else:
+      fac = Facet(facet, rule)
+      fac.parent = self
+      self.facets.append(fac)
+
+  def remove_facet(self, keyValueString):
+    for facet in self.facets:
+      if facet.contains_entry(keyValueString):
+        facet.remove_entry(keyValueString)
+        break
+  
+  def remove_all_facets(self):
+    for facet in self.facets:
+      del facet
+    self.facets = []
+  
+  def replace_facet(self, oldEntry, newEntry):
+    for facet in self.facets:
+      if facet.contains_entry(oldEntry):
+        facet.replace_entry(oldEntry, newEntry)
+        break
+  
+  def delete_facet(self, facet):
+    self.facets.remove(facet)
+    del facet
+  
+  ##
+  # Iteratively returns each facet on this Host instance as a Dictionary
+  #
+  def each_facet(self):
+    for facet in self.facets: 
+      yield facet
+  
+  def get_facet(self, index):
+    return self.facets[index]
+  
+  ##
+  # Returns a list containing all the values for the specified key
+  #
+  def get_facet_values(self, key):
+    valList = []
+    for facet in self.facets:
+      if facet.has_key(key):
+        valList.append(facet.get(key))
+    return valList
   
   def get_nameserver(self):
     return self.nameserver_host + self.nameserver_suffix
@@ -416,5 +470,6 @@ class Society:
   # agents because that would also kill them from the original society from which we
   # got them, hence the "saveAgents" parameter.
   def close(self, saveAgents=False):
+    self.remove_all_facets()
     for host in self.each_host():
       self.delete_host(host, saveAgents)

@@ -143,9 +143,18 @@ class Host:
     for facet in self.facets: 
       yield facet
 
-  def remove_facet(self, component_classname):
-    print "Host::remove_facet() not implemented"
+  def remove_facet(self, keyValueString):
+    for facet in self.facets:
+      if facet.contains_entry(keyValueString):
+        facet.remove_entry(keyValueString)
+        break
 
+  def replace_facet(self, oldEntry, newEntry):
+    for facet in self.facets:
+      if facet.contains_entry(oldEntry):
+        facet.replace_entry(oldEntry, newEntry)
+        break
+  
   def remove_all_facets(self):
     for facet in self.facets:
       del facet
@@ -155,13 +164,14 @@ class Host:
     self.facets.remove(facet)
     del facet
 
-  def add_facet(self, facet):
+  def add_facet(self, facet, rule='BASE'):
     #facet arg could be either a Facet instance or a facet value string
     if isinstance(facet, Facet):
       facet.parent = self
+      facet.rule = rule
       self.facets.append(facet)
     else:
-      fac = Facet(facet)
+      fac = Facet(facet, rule)
       fac.parent = self
       self.facets.append(fac)
 

@@ -154,9 +154,18 @@ class Node:
     for facet in self.facets: 
       yield facet
 
-  def remove_facet(self, component_classname):
-    print "Node::remove_facet() not implemented"
-
+  def remove_facet(self, keyValueString):
+    for facet in self.facets:
+      if facet.contains_entry(keyValueString):
+        facet.remove_entry(keyValueString)
+        break
+  
+  def replace_facet(self, oldEntry, newEntry):
+    for facet in self.facets:
+      if facet.contains_entry(oldEntry):
+        facet.replace_entry(oldEntry, newEntry)
+        break
+  
   def remove_all_facets(self):
     for facet in self.facets: 
       del facet
@@ -170,34 +179,27 @@ class Node:
     for facet in facetList:
       self.add_facet(facet)
   
-
-  def add_facet(self, facet):
+  def add_facet(self, facet, rule='BASE'):
     #facet arg could be either a Facet instance or a facet value string of format "key=value"
     if isinstance(facet, Facet):
+      facet.rule = rule
       facet.parent = self
       self.facets.append(facet)
-    elif isinstance(facet, types.DictType):
-      fac = Facet( facet )
+    else:  # it's a Dictionary or String type
+      fac = Facet(facet, rule)
       fac.parent = self
       self.facets.append(fac)
-    else:  # it's a string type
-      facetDict = {}
-      facetList = facet.split("=")
-      facetDict[facetList[0]] = facetList[1]
-      fac = Facet(facetDict)
-      fac.parent = self
-      self.facets.append(fac)
-
+  
   def get_facet(self, index):
     return self.facets[index]
-
+  
   def get_facet_values(self, key):
     valList = []
     for facet in self.facets:
       if facet.has_key(key):
         valList.append(facet.get(key))
     return valList
-
+  
   def add_component(self, component):
     self.nodeAgent.add_component(component)
   
@@ -206,7 +208,7 @@ class Node:
   
   def get_component(self, index):
     return self.nodeAgent.get_component(index)
-
+  
   def override_parameter(self, param, value):
     # assumes that "param" is a string like "-D..."
     #  below only matches on "param"
@@ -332,6 +334,10 @@ class Node:
       node.add_parameters(self.clone_parameters('vm'))
       node.add_prog_parameters(self.clone_parameters('prog'))
       node.add_env_parameters(self.clone_parameters('env'))
+    for facet in self.facets:
+      new_facet = facet.clone()
+      node.add_facet(new_facet)
+      new_facet.parent = node
     return node
   
   def set_society(self, society):

@@ -66,6 +66,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>        
       </agent>
       <agent name='Cell01'>
         <!-- A Cell in the game-->
@@ -83,6 +87,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component>  
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
 
       <agent name='Cell02'>
@@ -100,7 +108,11 @@
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
-        </component> 
+        </component>
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell03'>
         <!-- A Cell in the game-->
@@ -117,7 +129,11 @@
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>          
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
-        </component> 
+        </component>
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>        
       </agent>
       <agent name='Cell04'>
         <!-- A Cell in the game-->
@@ -126,6 +142,10 @@
           class='com.bbn.awb.GOL.CellularAutomatonPlugin'
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+        </component>
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
         </component>
         <component 
           name='org.cougaar.core.servlet.SimpleServletComponent'
@@ -152,6 +172,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell06'>
         <!-- A Cell in the game-->
@@ -169,6 +193,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell07'>
         <!-- A Cell in the game-->
@@ -177,6 +205,10 @@
           class='com.bbn.awb.GOL.CellularAutomatonPlugin'
           priority='COMPONENT'
           insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+        </component>
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
         </component>
         <component 
           name='org.cougaar.core.servlet.SimpleServletComponent'
@@ -203,7 +235,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component>  
-        
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell09'>
         <!-- A Cell in the game-->
@@ -221,6 +256,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell10'>
         <!-- A Cell in the game-->
@@ -238,6 +277,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell11'>
         <!-- A Cell in the game-->
@@ -255,6 +298,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell12'>
         <!-- A Cell in the game-->
@@ -272,6 +319,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell13'>
         <!-- A Cell in the game-->
@@ -289,6 +340,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell14'>
         <!-- A Cell in the game-->
@@ -306,6 +361,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>
         </component>  
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='Cell15'>
         <!-- A Cell in the game-->
@@ -323,6 +382,10 @@
           <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
           <argument>/state</argument>          
         </component> 
+        <component class="org.cougaar.core.servlet.SimpleServletComponent">
+          <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+          <argument>/tasks</argument>
+        </component>
       </agent>
       <agent name='GameManager'>
         <!-- 

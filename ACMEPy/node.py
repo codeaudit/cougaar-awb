@@ -62,12 +62,11 @@ class Node:
       isDupe = False
       # Check if we've already got a node by that name; but if this
       # is a reordering, dupes are ok, so we leave isDupe set to false
-      if not reorder:
-        if self.society is not None:
-          for existingAgent in self.society.each_agent():
-            if agent.name == existingAgent.name:
-              isDupe = True
-              break
+      if not reorder and self.society is not None:
+        for existingAgent in self.society.each_agent():
+          if agent.name == existingAgent.name:
+            isDupe = True
+            break
       if not isDupe:
         # We don't have it, so add it
         if orderAfterObj is not None:
@@ -88,22 +87,22 @@ class Node:
       newAgent = Agent(agent)
       return self.add_agent(newAgent)
 
-  def delete_entity(self, saveAgents=False):
-    '''Deletes itself from node list of parent host.'''
-    self.parent.delete_node(self, saveAgents)
-  
   def add_entity(self, entity, orderAfterObj=None):
     if type(entity) == types.ListType:  # parameters or facets
       self.add_parameters(entity)
     elif isinstance(entity, Component):
       self.add_component(entity)
     elif isinstance(entity, Agent):
-      if entity.parent.name == self.name:  # it's a reordering
-        self.add_agent(entity, orderAfterObj, True)
+      if entity.society.name == self.society.name:  # it's a reordering w/in same society
+        return self.add_agent(entity, orderAfterObj, True)
       else:
-        self.add_agent(entity, orderAfterObj)
+        return self.add_agent(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Node attribute"
+  
+  def delete_entity(self, saveAgents=False):
+    '''Deletes itself from node list of parent host.'''
+    self.parent.delete_node(self, saveAgents)
   
   def remove_entity(self):
     self.parent.remove_node(self)
@@ -297,16 +296,21 @@ class Node:
   
   def clone(self):
     node = Node(self.name)
-    node.parent = self.parent
     node.klass = self.klass
     node.rule = self.rule
     for agent in self.agentlist:
       if agent != self.nodeAgent:
-        node.add_agent(agent.clone())
+        newAgent = agent.clone()
+        node.add_agent(newAgent)
     node.add_parameters(self.clone_parameters('vm'))
     node.add_prog_parameters(self.clone_parameters('prog'))
     node.add_env_parameters(self.clone_parameters('env'))
     return node
+  
+  def set_society(self, society):
+    self.society = society
+    for agent in self.agentlist:
+      agent.set_society(society)
   
   def clone_parameters(self, type):
     dupe_params = []

@@ -169,6 +169,9 @@ class Agent:
       new_facet.parent = agent
     return agent
     
+  def set_society(self, society):
+    self.society = society
+  
   def to_xml(self):
     xml = "   <agent name='"+ self.name + "'"
     if self.klass is not None:

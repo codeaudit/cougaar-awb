@@ -42,10 +42,10 @@ class Host:
       for each_thing in entity:
         self.add_facet(each_thing)
     elif isinstance(entity, Node):
-      if entity.parent.name == self.name:  # it's a reordering
-        self.add_node(entity, orderAfterObj, True)
+      if entity.society.name == self.parent.name:  # it's a reordering w/in same society
+         return self.add_node(entity, orderAfterObj, True)
       else:
-        self.add_node(entity, orderAfterObj)
+        return self.add_node(entity, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Host attribute"
   
@@ -173,14 +173,18 @@ class Host:
     for node in self.nodelist:
       new_node = node.clone()
       host.add_node(new_node)
-      new_node.host = host
+      new_node.parent = host
     for facet in self.facets:
       new_facet = facet.clone()
       host.add_facet(new_facet)
       new_facet.parent = host
-    host.parent = self.parent
     return host
     
+  def set_parent(self, society):
+    self.parent = society
+    for node in self.nodelist:
+      node.set_society(society)
+  
   def to_xml(self):
     xml = "  <host name='"+ self.name + "'>\n"
     for facet in self.facets:

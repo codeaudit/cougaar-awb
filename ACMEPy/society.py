@@ -81,9 +81,9 @@ class Society:
   def add_entity(self, host, orderAfterObj=None):
     if isinstance(host, Host):
       if host.parent.name == self.name:  # it's a reordering
-        self.add_host(host, orderAfterObj, True)
+        return self.add_host(host, orderAfterObj, True)
       else:  #  we're adding a new host
-        self.add_host(host, orderAfterObj)
+        return self.add_host(host, orderAfterObj)
     else:
       raise Exception, "Attempting to add unknown Society attribute"
   
@@ -215,8 +215,8 @@ class Society:
     society = Society(self.name, self.rule)
     for host in self.hostlist:
       new_host = host.clone()
-      new_host.parent = society
       society.add_host(new_host)
+      new_host.set_parent(society)
     return society
   
   def remove_node(self, node):

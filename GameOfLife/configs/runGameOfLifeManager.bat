@@ -1,0 +1,1 @@
+%COUGAAR_INSTALL_PATH%/bin/XSLNode GameOfLifeManager.xml GameManagerNode

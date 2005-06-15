@@ -1,7 +1,8 @@
 #Set initial conditions for pulsar object 
 def setArgs(component):
   args = []
-  living = ['Cell24', 'Cell33', 'Cell34', 'Cell35', 'Cell43', 'Cell45', 'Cell53', 'Cell54', 'Cell55', 'Cell64']
+  living = ['Cell24', 'Cell33', 'Cell34', 'Cell35', 'Cell43', 'Cell45', 
+              'Cell53', 'Cell54', 'Cell55', 'Cell64']
   for i in range(0, 100):
     cell = 'Cell'+str(i)
     argString = "target="+cell+":Dead"
@@ -23,6 +24,7 @@ for node in society.each_node():
     for component in agent.each_component():
       if (component.klass == 'com.bbn.awb.GOL.GameManagerPlugin'):
         setArgs(component)
+
 
 
 

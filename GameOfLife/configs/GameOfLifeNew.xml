@@ -1,0 +1,1403 @@
+<?xml version='1.0'?>
+<society name='GameOfLife'
+  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+  xsi:schemaLocation='society.xsd'>
+    <host name='localhost'>
+        <node name='GameNode'>
+            <class>org.cougaar.bootstrap.Bootstrapper</class>
+            <prog_parameter>org.cougaar.core.node.Node</prog_parameter>
+            <vm_parameter>-Dorg.cougaar.node.name=GameNode</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.society.file=GameOfLifeNew.xml</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.name.server=localhost:8888:5555</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.core.agent.showtraffic=false</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.core.agent.quiet=true</vm_parameter>
+            <vm_parameter>-XX:ThreadStackSize=256</vm_parameter>
+            <vm_parameter>-Xms16m</vm_parameter>
+            <vm_parameter>-Xmx128m</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.core.node.InitializationComponent=XML</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.config.path=$COUGAAR_INSTALL_PATH/GameOfLife/configs\;$COUGAAR_INSTALL_PATH/configs/common</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.install.path=$COUGAAR_INSTALL_PATH</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.workspace=$COUGAAR_INSTALL_PATH/workspace</vm_parameter>
+            <vm_parameter>-Dorg.cougaar.system.path=$COUGAAR_INSTALL_PATH/sys</vm_parameter>
+            <vm_parameter>-Djava.class.path=$COUGAAR_INSTALL_PATH/lib/bootstrap.jar</vm_parameter>
+            <vm_parameter>-Xbootclasspath/p:$COUGAAR_INSTALL_PATH/lib/javaiopatch.jar</vm_parameter>
+            <agent name='Cell00'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell01'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell02'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell03'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell04'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell05'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell06'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell07'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell08'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell09'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell10'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell11'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell12'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell13'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell14'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell15'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.CellStatusServlet</argument>
+                    <argument>/state</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='GameManager'>
+                <component name='com.bbn.awb.GOL.GameManagerPlugin' class='com.bbn.awb.GOL.GameManagerPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>target=Cell0:Dead</argument>
+                    <argument>target=Cell1:Dead</argument>
+                    <argument>target=Cell2:Dead</argument>
+                    <argument>target=Cell3:Dead</argument>
+                    <argument>target=Cell4:Dead</argument>
+                    <argument>target=Cell5:Dead</argument>
+                    <argument>target=Cell6:Dead</argument>
+                    <argument>target=Cell7:Dead</argument>
+                    <argument>target=Cell8:Dead</argument>
+                    <argument>target=Cell9:Dead</argument>
+                    <argument>target=Cell10:Dead</argument>
+                    <argument>target=Cell11:Dead</argument>
+                    <argument>target=Cell12:Dead</argument>
+                    <argument>target=Cell13:Dead</argument>
+                    <argument>target=Cell14:Dead</argument>
+                    <argument>target=Cell15:Dead</argument>
+                    <argument>target=Cell16:Dead</argument>
+                    <argument>target=Cell17:Dead</argument>
+                    <argument>target=Cell18:Dead</argument>
+                    <argument>target=Cell19:Dead</argument>
+                    <argument>target=Cell20:Dead</argument>
+                    <argument>target=Cell21:Dead</argument>
+                    <argument>target=Cell22:Dead</argument>
+                    <argument>target=Cell23:Dead</argument>
+                    <argument>target=Cell24:Alive</argument>
+                    <argument>target=Cell25:Dead</argument>
+                    <argument>target=Cell26:Dead</argument>
+                    <argument>target=Cell27:Dead</argument>
+                    <argument>target=Cell28:Dead</argument>
+                    <argument>target=Cell29:Dead</argument>
+                    <argument>target=Cell30:Dead</argument>
+                    <argument>target=Cell31:Dead</argument>
+                    <argument>target=Cell32:Dead</argument>
+                    <argument>target=Cell33:Alive</argument>
+                    <argument>target=Cell34:Alive</argument>
+                    <argument>target=Cell35:Alive</argument>
+                    <argument>target=Cell36:Dead</argument>
+                    <argument>target=Cell37:Dead</argument>
+                    <argument>target=Cell38:Dead</argument>
+                    <argument>target=Cell39:Dead</argument>
+                    <argument>target=Cell40:Dead</argument>
+                    <argument>target=Cell41:Dead</argument>
+                    <argument>target=Cell42:Dead</argument>
+                    <argument>target=Cell43:Alive</argument>
+                    <argument>target=Cell44:Dead</argument>
+                    <argument>target=Cell45:Alive</argument>
+                    <argument>target=Cell46:Dead</argument>
+                    <argument>target=Cell47:Dead</argument>
+                    <argument>target=Cell48:Dead</argument>
+                    <argument>target=Cell49:Dead</argument>
+                    <argument>target=Cell50:Dead</argument>
+                    <argument>target=Cell51:Dead</argument>
+                    <argument>target=Cell52:Dead</argument>
+                    <argument>target=Cell53:Alive</argument>
+                    <argument>target=Cell54:Alive</argument>
+                    <argument>target=Cell55:Alive</argument>
+                    <argument>target=Cell56:Dead</argument>
+                    <argument>target=Cell57:Dead</argument>
+                    <argument>target=Cell58:Dead</argument>
+                    <argument>target=Cell59:Dead</argument>
+                    <argument>target=Cell60:Dead</argument>
+                    <argument>target=Cell61:Dead</argument>
+                    <argument>target=Cell62:Dead</argument>
+                    <argument>target=Cell63:Dead</argument>
+                    <argument>target=Cell64:Alive</argument>
+                    <argument>target=Cell65:Dead</argument>
+                    <argument>target=Cell66:Dead</argument>
+                    <argument>target=Cell67:Dead</argument>
+                    <argument>target=Cell68:Dead</argument>
+                    <argument>target=Cell69:Dead</argument>
+                    <argument>target=Cell70:Dead</argument>
+                    <argument>target=Cell71:Dead</argument>
+                    <argument>target=Cell72:Dead</argument>
+                    <argument>target=Cell73:Dead</argument>
+                    <argument>target=Cell74:Dead</argument>
+                    <argument>target=Cell75:Dead</argument>
+                    <argument>target=Cell76:Dead</argument>
+                    <argument>target=Cell77:Dead</argument>
+                    <argument>target=Cell78:Dead</argument>
+                    <argument>target=Cell79:Dead</argument>
+                    <argument>target=Cell80:Dead</argument>
+                    <argument>target=Cell81:Dead</argument>
+                    <argument>target=Cell82:Dead</argument>
+                    <argument>target=Cell83:Dead</argument>
+                    <argument>target=Cell84:Dead</argument>
+                    <argument>target=Cell85:Dead</argument>
+                    <argument>target=Cell86:Dead</argument>
+                    <argument>target=Cell87:Dead</argument>
+                    <argument>target=Cell88:Dead</argument>
+                    <argument>target=Cell89:Dead</argument>
+                    <argument>target=Cell90:Dead</argument>
+                    <argument>target=Cell91:Dead</argument>
+                    <argument>target=Cell92:Dead</argument>
+                    <argument>target=Cell93:Dead</argument>
+                    <argument>target=Cell94:Dead</argument>
+                    <argument>target=Cell95:Dead</argument>
+                    <argument>target=Cell96:Dead</argument>
+                    <argument>target=Cell97:Dead</argument>
+                    <argument>target=Cell98:Dead</argument>
+                    <argument>target=Cell99:Dead</argument>
+                    <argument>rows=10</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell16'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell17'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell18'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell19'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell20'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell21'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell22'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell23'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell24'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell25'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell26'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell27'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell28'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell29'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell30'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell31'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell32'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell33'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell34'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell35'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell36'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell37'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell38'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell39'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell40'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell41'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell42'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell43'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell44'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell45'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell46'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell47'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell48'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell49'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell50'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell51'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell52'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell53'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell54'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell55'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell56'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell57'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell58'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell59'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell60'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell61'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell62'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell63'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell64'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell65'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell66'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell67'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell68'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell69'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell70'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell71'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell72'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell73'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell74'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell75'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell76'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell77'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell78'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell79'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell80'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell81'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell82'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell83'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell84'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell85'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell86'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell87'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell88'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell89'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell90'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell91'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell92'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell93'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell94'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell95'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell96'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell97'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell98'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+            <agent name='Cell99'>
+                <component name='com.bbn.awb.GOL.CellularAutomatonPlugin' class='com.bbn.awb.GOL.CellularAutomatonPlugin' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>org.cougaar.planning.servlet.PlanViewServlet</argument>
+                    <argument>/tasks</argument>
+                </component>
+                <component name='org.cougaar.core.servlet.SimpleServletComponent' class='org.cougaar.core.servlet.SimpleServletComponent' priority='COMPONENT' insertionpoint='Node.AgentManager.Agent.PluginManager.Plugin'>
+                    <argument>com.bbn.awb.GOL.MessageCountServlet</argument>
+                    <argument>/count</argument>
+                </component>
+            </agent>
+        </node>
+    </host>
+</society>

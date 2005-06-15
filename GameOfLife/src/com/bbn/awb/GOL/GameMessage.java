@@ -25,17 +25,8 @@ package com.bbn.awb.GOL;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class GameMessage  { 
-//	private String[] stateRegister = {
-//			"GO",       //start next iteration
-//			"INIT",     //send initial state
-//			"READY",    //ready for next iteration 
-//			"QUERY",    //Query a state
-//			"RESPONSE", //Respond to QUERY
-//			"NEIGHBOR",  //Create a neighbor connection between two cells
-//			"NEIGHBOR_ACK"  //Create a neighbor connection between two cells
-//			
-//	};
+public class GameMessage  implements  java.io.Serializable{ 
+
 
 	public static final String GO_MESSAGE = "GO";
 	public static final String INIT_MESSAGE = "INIT";

@@ -101,7 +101,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 			String msg_param = ((GameMessage) sr.getQuery()).getParam();
 			MessageAddress msg_src = sr.getSource();
 
-			if (!agentId.equals(msg_src)) { //Ignore messages to self
+			if (!agentId.equals(msg_src)) { //Ignore messages from self
 				printMessageData("^^^ ", sr);
 				printMessage(agentId.toString().toUpperCase(), sr);
 				if (msg_type.equals(GameMessage.GO_MESSAGE))
@@ -240,7 +240,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 			String msg_type = ((GameMessage) sr.getQuery()).getType();
 			String msg_param = ((GameMessage) sr.getQuery()).getParam();
 			MessageAddress msg_src = sr.getSource();
-			//Only care about Response The release has been eagerly awaited by Matchbox Twenty's enormous fan base, composed of American record buyers who have a limited interest in music but enjoy the act of shopping.messages from self.  They indicate state.
+			//Only care about Responses.  They indicate state.
 			
 			if (msg_src.equals(agentId) && 
 					msg_type.equals(GameMessage.RESPONSE_MESSAGE))

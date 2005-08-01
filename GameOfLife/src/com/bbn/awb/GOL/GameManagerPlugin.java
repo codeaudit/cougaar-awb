@@ -84,10 +84,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				//	        continue;
 			}
 			UID uid = uidService.nextUID();
-			GameMessage query = new GameMessage("INIT", target_value);
-			SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
-
-			blackboard.publishAdd(sr);
+			sendMessage("INIT", target_value, target);
 
 		}
 		sendNeighborList(); // initial knowledge of who each cell's neighbor is
@@ -118,9 +115,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 				MessageAddress target = MessageAddress.getMessageAddress(cells[i][j]);
                 for(int k = 0; k < n.length; k++){
                 	UID uid = uidService.nextUID();
-                	GameMessage query = new GameMessage("NEIGHBOR", n[k]);
-                	SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
-                	blackboard.publishAdd(sr);
+                	sendMessage("NEIGHBOR", n[k], target);
                 }
 			}
 		}

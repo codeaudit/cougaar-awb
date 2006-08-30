@@ -4,7 +4,7 @@ import sys
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: servletProperties.py,v 1.3 2004-12-06 22:22:46 damoore Exp $
+# RCS-ID:       $Id: servletProperties.py,v 1.4 2006-08-30 20:45:57 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -27,7 +27,7 @@ import sys
 
 import wx
 import wx.lib.ogl as ogl
-from societyVisualModel import *
+#~from societyVisualModel import *
 #~ from societyController import *
 
 class ServletProperties(wx.Dialog):

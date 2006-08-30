@@ -5,7 +5,7 @@ REM Purpose:
 REM
 REM Author:       ISAT (D. Moore)
 REM
-REM RCS-ID:       $Id: AWB.bat,v 1.2 2004-12-06 22:22:46 damoore Exp $
+REM RCS-ID:       $Id: AWB.bat,v 1.3 2006-08-30 20:45:57 damoore Exp $
 REM  <copyright>
 REM  Copyright 2002 BBN Technologies, LLC
 REM  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -35,6 +35,6 @@ REM 0 is the Overview pane
 REM 1 is the Rule Editor
 REM 2 is the Society Editor
 REM 3 is the Agent Laydown
-set INITIAL_PANE="3"
+set INITIAL_PANE="2"
 
 python AWB.py %INITIAL_PANE%

@@ -3,7 +3,7 @@
 #
 # Author:       D. Moore
 #
-# RCS-ID:       $Id: agentController.py,v 1.17 2004-12-21 16:46:22 damoore Exp $
+# RCS-ID:       $Id: agentController.py,v 1.18 2006-08-30 20:45:57 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -262,7 +262,8 @@ class AgentControllerViewer(wx.Panel):
     def startNode(self):
         try:
             cip = os.environ['COUGAAR_INSTALL_PATH']
-            execstring = cip+os.sep+'bin'+os.sep+'XSLNode'
+            execstring = cip+os.sep+'bin'+os.sep+'cougaar'
+            print "EXEC STRING:", execstring, self.NODE
             args = None
             if self.logfile is not None:
                 args = (execstring, self.NODE, "> "+self.logfile)

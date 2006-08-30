@@ -24,7 +24,7 @@ import org.cougaar.core.logging.LoggingServiceWithPrefix;
 import org.cougaar.core.mts.MessageAddress;
 import org.cougaar.core.plugin.ComponentPlugin;
 import org.cougaar.core.relay.SimpleRelay;
-import org.cougaar.core.relay.SimpleRelayImpl;
+import org.cougaar.core.relay.SimpleRelaySource;
 import org.cougaar.core.service.LoggingService;
 import org.cougaar.core.service.UIDService;
 import org.cougaar.core.util.UID;
@@ -117,7 +117,7 @@ public class SimpleRelayExample extends ComponentPlugin {
       }
       UID uid = uids.nextUID();
       Object query = "ping";
-      SimpleRelay sr = new SimpleRelayImpl(
+      SimpleRelay sr = new SimpleRelaySource(
           uid, agentId, target, query);
       if (log.isShoutEnabled()) {
         log.shout("Sending "+sr);

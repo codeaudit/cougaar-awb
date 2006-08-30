@@ -16,7 +16,7 @@ import org.cougaar.core.blackboard.IncrementalSubscription;
 import org.cougaar.core.mts.MessageAddress;
 import org.cougaar.core.plugin.ComponentPlugin;
 import org.cougaar.core.relay.SimpleRelay;
-import org.cougaar.core.relay.SimpleRelayImpl;
+import org.cougaar.core.relay.SimpleRelaySource;
 import org.cougaar.core.service.AgentIdentificationService;
 import org.cougaar.core.service.UIDService;
 import org.cougaar.core.util.UID;
@@ -324,7 +324,7 @@ public class GameManagerPlugin extends ComponentPlugin {
 		}
 		UID uid = uidService.nextUID();
 		GameMessage query = new GameMessage(type, param);
-		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+		SimpleRelay sr = new SimpleRelaySource(uid, agentId, target, query);
 		blackboard.publishAdd(sr);	
 	}
 	

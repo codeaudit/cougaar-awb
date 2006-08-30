@@ -264,7 +264,7 @@ public class CellularAutomatonPlugin extends ComponentPlugin {
 		}
 		UID uid = uidService.nextUID();
 		GameMessage query = new GameMessage(type, param);
-		SimpleRelay sr = new SimpleRelayImpl(uid, agentId, target, query);
+		SimpleRelay sr = new SimpleRelaySource(uid, agentId, target, query);
 		blackboard.publishAdd(sr);	
 	}
 	

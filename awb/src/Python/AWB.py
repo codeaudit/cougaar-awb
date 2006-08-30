@@ -5,7 +5,7 @@
 #
 # Author:       ISAT (D. Moore
 #
-# RCS-ID:       $Id: AWB.py,v 1.7 2004-12-06 22:22:46 damoore Exp $
+# RCS-ID:       $Id: AWB.py,v 1.8 2006-08-30 15:04:41 damoore Exp $
 #  <copyright>
 #  Copyright 2002 BBN Technologies, LLC
 #  under sponsorship of the Defense Advanced Research Projects Agency (DARPA).
@@ -39,6 +39,11 @@ from agentController import AgentControllerViewer
 from CSModel.node import Node
 import images
 
+TODO = '''
+     agent visual aspect api (set_heat, make_connection, etc.)
+     rule api cleanup (currently have problems with orphaned elements)
+     general ui improvements
+'''
 #---------------------------------------------------------------------------
 
 class MyLog(wx.PyLog):
